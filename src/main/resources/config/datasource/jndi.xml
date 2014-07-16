@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/issueTracker" />
+<!--
+	This data source type can be used if you want to provide the connection details from a
+	container such as Tomcat. To add it, edit conf/context.xml and add the following resource.
+	You should make sure the connection details match your settings.
+-->
+<!--
+    <Resource name="jdbc/skelet"
+              auth="Container" type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="postgres" password="postgres"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/skelet"/>
+-->
+</beans>
