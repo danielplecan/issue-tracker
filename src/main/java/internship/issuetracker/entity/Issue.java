@@ -7,12 +7,18 @@
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -27,12 +33,21 @@ public class Issue implements Serializable {
     @SequenceGenerator(name = "en_issues_id_seq", sequenceName = "en_issues_id_seq", allocationSize = 1)
     private Long id;
     
+    @Basic(optional = false)
+    @Column(length = 100, name ="issue_title")
+    @NotBlank(message = "An issue must have a title.")
     private String title;
     
+    @Basic(optional = true)
+    @Column(name = "issue_content")
     private String content;
+ 
     
+    @ManyToOne
+    @JoinColumn(name = "id_owner")
+    @NotNull
+    private User owner;
     
-
     public Long getId() {
         return id;
     }
@@ -40,5 +55,30 @@ public class Issue implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
     
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
+   
 }
