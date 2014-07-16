@@ -26,6 +26,12 @@ public class Issue implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @SequenceGenerator(name = "en_issues_id_seq", sequenceName = "en_issues_id_seq", allocationSize = 1)
     private Long id;
+    
+    private String title;
+    
+    private String content;
+    
+    
 
     public Long getId() {
         return id;
