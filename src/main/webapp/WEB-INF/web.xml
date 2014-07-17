@@ -45,7 +45,7 @@
 
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/register</url-pattern>
+        <url-pattern>/dummy</url-pattern>
     </filter-mapping>
 
 </web-app>
