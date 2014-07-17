@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import internship.issuetracker.entity.IssueState;
 
 /**
  *
@@ -33,7 +34,7 @@ public class IssueService {
      * @param content - the content of post(can be null)
      * @param user  - the user who created the post
      */
-    public Issue createIssue(String title, String content, User user){
+    public Issue createIssue(String title, String content, IssueState state, User user){
         Issue issue = new Issue();
         issue.setTitle(title);
         issue.setContent(content);
