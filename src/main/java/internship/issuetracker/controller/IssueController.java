@@ -37,6 +37,11 @@ public class IssueController {
         return "issue";
     }
     
+    @RequestMapping(value = {"/create-issue"},method = RequestMethod.GET)
+    public String createIssue() {
+        return "create-issue";
+    }
+    
     public void setIssueService(IssueService issueService) {
         this.issueService = issueService;
     }
