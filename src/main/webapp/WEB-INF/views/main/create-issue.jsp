@@ -10,19 +10,18 @@
     <body>
         <div id="login-box">
             <legend>Create an Issue</legend>
-
             <form:form class="form-horizontal" modelAttribute='issue' action='create-issue' method='POST'>
                 <fieldset>
                     <div class="form-group">
                         <label for="textArea" class="col-lg-2 control-label">Title</label>
                         <div class="col-lg-10">
-                            <textarea class="form-control" rows="1" id="textArea"></textarea>
+                            <form:textarea path="title" class="form-control" id="textArea"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="textArea" class="col-lg-2 control-label">Body</label>
                         <div class="col-lg-10">
-                            <textarea class="form-control" rows="3" id="textArea"></textarea>
+                            <form:textarea path="content" class="form-control" rows="4" id="textArea"/>
                         </div>
                     </div>   
 
@@ -31,7 +30,6 @@
                             <button class="btn btn-default">Create</button>
                         </div>
                     </div>
-
                 </fieldset>
             </form:form>
         </div>
