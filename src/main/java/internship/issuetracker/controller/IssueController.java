@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,21 +24,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  * @author scalin
  */
-//@Service
 @Controller
 public class IssueController {
 
     @Autowired
-    IssueService issueService;
+    private IssueService issueService;
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
-    public String viewIssue(@PathVariable String id, Model model) {
-
-        Long issueId = Long.parseLong(id);
-        Issue result = issueService.getIssueById(issueId);
+    public String viewIssue(@PathVariable("id") Long id, Model model) {
+        Issue result = issueService.getIssueById(id);
         model.addAttribute("issue", result);
 
         return "issue";
@@ -70,14 +66,6 @@ public class IssueController {
         return "home";
     }
 
-    public void setIssueService(IssueService issueService) {
-        this.issueService = issueService;
-    }
-
-    public IssueService getIssueService() {
-        return issueService;
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
     @ResponseBody
     public String openIssue(@PathVariable("id") int id) {
@@ -92,7 +80,7 @@ public class IssueController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
-    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") int id) {
+    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") Long id) {
         System.out.println(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

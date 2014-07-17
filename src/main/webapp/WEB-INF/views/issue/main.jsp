@@ -36,20 +36,20 @@
     element.removeClass("label label-warning");
     element.removeClass("label label-danger");
     
-    if (element.text() == "OPEN"){
+    if (element.text() === "OPEN"){
         element.addClass("label label-success");
          $("#changeState").text("CLOSE");
     }
-    if (element.text() == "REOPENED"){
+    if (element.text() === "REOPENED"){
         element.addClass("label label-warning");
         $("#changeState").text("CLOSE");
     }
-    if (element.text() == "CLOSED"){
+    if (element.text() === "CLOSED"){
         element.addClass("label label-danger");
         $("#changeState").text("REOPEN");
     }
     
     $("#changeState").click(function() {
         
-    })
+    });
 </script>

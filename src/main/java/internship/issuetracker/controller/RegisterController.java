@@ -6,7 +6,6 @@
 package internship.issuetracker.controller;
 
 import internship.issuetracker.dto.UserDTO;
-import internship.issuetracker.entity.User;
 import internship.issuetracker.service.UserService;
 import internship.issuetracker.validator.UserValidator;
 import javax.validation.Valid;

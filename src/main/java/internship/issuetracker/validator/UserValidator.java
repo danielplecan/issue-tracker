@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package internship.issuetracker.validator;
 
 import internship.issuetracker.dto.UserDTO;
@@ -36,11 +30,11 @@ public class UserValidator implements Validator {
 
         //crw: consider renaming 'checkUsernameExistence' to 'usernameExists' and remove ' == true'
         //crw: if (userService.usernameExists(...)){...}
-        if(userService.checkUsernameExistence(user.getUsername()) == true) {
+        if(userService.usernameExists(user.getUsername())) {
             errors.rejectValue("username", "username.exists", "Username is already taken.");
         }
 
-        if(userService.checkEmailExistence(user.getEmail()) == true) {
+        if(userService.emailExists(user.getEmail())) {
             errors.rejectValue("email", "email.exists", "Email is already taken.");
         }
 
