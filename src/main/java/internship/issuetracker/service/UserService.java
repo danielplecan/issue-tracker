@@ -51,7 +51,7 @@ public class UserService {
 
         return resultList != null && !resultList.isEmpty();
     }
-    
+
     public String encryptPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
@@ -66,5 +66,26 @@ public class UserService {
         user.setPasswordHash(encryptPassword(userDTO.getPassword()));
 
         return user;
+    }
+
+    @Transactional
+    public boolean loginUser(String username, String password) {
+        if (password == null || username == null) {
+            return false;
+        }
+        TypedQuery<User> userQuery = entityManager.createNamedQuery(User.FIND_BY_USERNAME, User.class);
+        userQuery.setParameter("v_username", username);
+
+        List<User> resultList = userQuery.getResultList();
+
+        if(resultList == null || resultList.isEmpty()) {
+            return false;
+        }
+
+        User currentUser = resultList.get(0);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        return passwordEncoder.matches(password, currentUser.getPasswordHash());
     }
 }
