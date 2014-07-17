@@ -9,14 +9,8 @@ package internship.issuetracker.service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
-import internship.issuetracker.entity.User;
 import internship.issuetracker.entity.Issue;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import internship.issuetracker.entity.IssueState;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -24,6 +18,7 @@ import internship.issuetracker.entity.IssueState;
  */
 
 @Service
+@Transactional
 public class IssueService {
     @PersistenceContext
     private EntityManager em;
