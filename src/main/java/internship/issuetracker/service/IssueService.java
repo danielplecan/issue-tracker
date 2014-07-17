@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import internship.issuetracker.entity.IssueState;
+import java.util.List;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -43,5 +45,28 @@ public class IssueService {
     public Issue getIssueById(Long id){
         Issue result = em.find(Issue.class, id);
         return result;
+    }
+    
+    public boolean updateIssueState(long issueId, IssueState newState) {
+        Issue issue = em.find(Issue.class, issueId);
+        
+        //in case an issue with this id exists
+        if(issue != null) {
+            issue.setState(newState);
+            em.merge(issue);
+            return true;
+        }
+        
+        //in case it doesn't
+        return false;
+    }
+    
+    /**
+     * Get all issues present in the database.
+     * @return  a list containing all the issues
+     */
+    public List<Issue> getIssues() {
+        TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.FIND_ALL, Issue.class);
+        return issueQuery.getResultList();
     }
 }
