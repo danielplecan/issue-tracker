@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,9 +21,17 @@ import javax.persistence.Table;
  *
  * @author dplecan
  */
+@NamedQueries({
+    @NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT u from User u WHERE u.username = :v_username"),
+    @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u from User u WHERE u.email = :v_email")
+})
+
 @Entity
 @Table(name = "en_users")
 public class User implements Serializable {
+    public static final String FIND_BY_USERNAME = "findByUsername";
+    public static final String FIND_BY_EMAIL = "findByEmail";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @SequenceGenerator(name = "en_users_id_seq", sequenceName = "en_users_id_seq", allocationSize = 1)
