@@ -35,13 +35,17 @@ public class Issue implements Serializable {
     
     @Basic(optional = false)
     @Column(length = 100, name ="issue_title")
+    @NotNull
     @NotBlank(message = "An issue must have a title.")
     private String title;
     
     @Basic(optional = true)
     @Column(name = "issue_content")
     private String content;
- 
+    
+    @Basic(optional = false)
+    @Column(name = "issue_state")
+    private IssueState state;
     
     @ManyToOne
     @JoinColumn(name = "id_owner")
@@ -80,5 +84,13 @@ public class Issue implements Serializable {
         this.content = content;
     }
     
+    public IssueState getState() {
+        return state;
+    }
+
+    public void setState(IssueState state) {
+        this.state = state;
+    }
+ 
    
 }

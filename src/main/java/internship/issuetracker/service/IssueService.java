@@ -11,6 +11,11 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.entity.Issue;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -42,5 +47,23 @@ public class IssueService {
     public Issue getIssueById(Long id){
         Issue result = em.find(Issue.class, id);
         return result;
+    }
+     
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
+    public ResponseEntity<Issue> openIssue(@PathVariable("id") int id) {
+           System.out.println(id);
+           return new ResponseEntity<Issue>(HttpStatus.OK);
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/close")
+    public ResponseEntity<Issue> closeIssue(@PathVariable("id") int id) {
+           System.out.println(id);
+           return new ResponseEntity<Issue>(HttpStatus.OK);
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
+    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") int id) {
+           System.out.println(id);
+           return new ResponseEntity<Issue>(HttpStatus.OK);
     }
 }
