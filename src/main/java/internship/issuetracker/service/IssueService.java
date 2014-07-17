@@ -9,7 +9,6 @@ package internship.issuetracker.service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
-import internship.issuetracker.entity.User;
 import internship.issuetracker.entity.Issue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import internship.issuetracker.entity.IssueState;
+import java.util.List;
+import javax.persistence.TypedQuery;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -24,6 +26,7 @@ import internship.issuetracker.entity.IssueState;
  */
 
 @Service
+@Transactional
 public class IssueService {
     @PersistenceContext
     private EntityManager em;
@@ -43,5 +46,28 @@ public class IssueService {
     public Issue getIssueById(Long id){
         Issue result = em.find(Issue.class, id);
         return result;
+    }
+    
+    public boolean updateIssueState(long issueId, IssueState newState) {
+        Issue issue = em.find(Issue.class, issueId);
+        
+        //in case an issue with this id exists
+        if(issue != null) {
+            issue.setState(newState);
+            em.merge(issue);
+            return true;
+        }
+        
+        //in case it doesn't
+        return false;
+    }
+    
+    /**
+     * Get all issues present in the database.
+     * @return  a list containing all the issues
+     */
+    public List<Issue> getIssues() {
+        TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.FIND_ALL, Issue.class);
+        return issueQuery.getResultList();
     }
 }
