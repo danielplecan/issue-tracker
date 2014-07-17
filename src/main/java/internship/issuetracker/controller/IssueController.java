@@ -32,7 +32,7 @@ public class IssueController {
     
     @PersistenceContext
     EntityManager em;
-            
+
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String viewIssue(@PathVariable String id, Model model){
         
@@ -51,7 +51,6 @@ public class IssueController {
     
      @RequestMapping(value = {"/create-issue"},method = RequestMethod.POST)
     public String createIssue(@ModelAttribute("issue")Issue issue,BindingResult bindingResult) {
-  
         if (bindingResult.hasErrors()) {
             return "create-issue";
         }
