@@ -7,6 +7,7 @@
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -25,9 +30,16 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author atataru
  */
 
+@NamedQueries({
+    @NamedQuery(name = Issue.FIND_ALL, query = "SELECT u from Issue u")
+})
+
+
 @Entity
 @Table(name = "en_issues")
 public class Issue implements Serializable {
+    public static final String FIND_ALL = "findAllIssues";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @SequenceGenerator(name = "en_issues_id_seq", sequenceName = "en_issues_id_seq", allocationSize = 1)
@@ -46,6 +58,10 @@ public class Issue implements Serializable {
     @Basic(optional = false)
     @Column(name = "issue_state")
     private IssueState state;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "post_date", length = 100)
+    private Date date;
     
     @ManyToOne
     @JoinColumn(name = "id_owner")
