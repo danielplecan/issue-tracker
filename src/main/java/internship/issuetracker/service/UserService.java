@@ -8,20 +8,19 @@ package internship.issuetracker.service;
 
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.entity.User;
-
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author dplecan
  */
+@Service
 public class UserService {
     @PersistenceContext
     private EntityManager entityManager;

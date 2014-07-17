@@ -10,6 +10,7 @@ import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -18,6 +19,7 @@ import org.springframework.validation.Validator;
  *
  * @author dplecan
  */
+@Service
 public class UserValidator implements Validator {
 
     @Autowired
