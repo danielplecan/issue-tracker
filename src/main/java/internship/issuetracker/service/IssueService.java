@@ -39,6 +39,7 @@ public class IssueService {
         issue.setTitle(title);
         issue.setContent(content);
         issue.setOwner(user);
+        issue.setState(state);
         
         //save issue in database
         em.persist(issue);
