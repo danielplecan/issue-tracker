@@ -7,7 +7,28 @@ body {
 }
 
 #footer {
-    position:absolute;
+    position:relative;
     bottom: 0px;
     width: 100%;
+}
+.issueTitle{
+    display: inline-block;
+    font-size: 150%; 
+    width: 100%;
+}
+.issueId{
+    float:right;
+    font-size: 80%;
+    color:#999999;
+}
+.titleLink{
+    color: #333333;
+}
+.issueDateTime{
+    margin-left: 73px;
+    margin-bottom: 4px;
+}
+.changeColor:nth-child(odd)
+{
+    background:#ff0000;
 }
