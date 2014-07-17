@@ -28,7 +28,3 @@ body {
     margin-left: 73px;
     margin-bottom: 4px;
 }
-.changeColor:nth-child(odd)
-{
-    background:#ff0000;
-}
