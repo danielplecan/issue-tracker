@@ -5,6 +5,7 @@
  */
 
 $(document).ready(function(){
+     $("#submitButton").attr("disabled", "disabled");
     $("#inputRetypePassword").on('input', function() {
         var error=$("#passwordMatchError");
         if($('#inputPassword').val()!==$('#inputRetypePassword').val()){
