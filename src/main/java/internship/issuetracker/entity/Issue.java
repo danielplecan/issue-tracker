@@ -106,7 +106,6 @@ public class Issue implements Serializable {
 
     public void setState(IssueState state) {
         this.state = state;
-    }
- 
-   
+    } 
+
 }
