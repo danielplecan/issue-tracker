@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+//crw: removing methods might help you set @Transactional at class level instead of method level
 /**
  *
  * @author dplecan
@@ -52,11 +53,13 @@ public class UserService {
         return resultList != null && !resultList.isEmpty();
     }
 
+    //crw: this method may be put inside a security util
     public String encryptPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
 
+    //crw: this method may have a better place in UserDTO class
     public User getUserFromDTO(UserDTO userDTO) {
         User user = new User();
 
