@@ -7,6 +7,7 @@
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -46,6 +49,10 @@ public class Issue implements Serializable {
     @Basic(optional = false)
     @Column(name = "issue_state")
     private IssueState state;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "post_date", length = 100)
+    private Date date;
     
     @ManyToOne
     @JoinColumn(name = "id_owner")
@@ -91,5 +98,13 @@ public class Issue implements Serializable {
     public void setState(IssueState state) {
         this.state = state;
     } 
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
 }
