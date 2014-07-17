@@ -13,30 +13,32 @@
                     
                     <div class="col-lg-10 col-lg-offset-1">
                         <form:input path="name" class="form-control" id="inputName" type="text" placeholder="Name" />
+                        <form:errors path="name" class="errorValidation"></form:errors>
                     </div>
                 </div>
                 <div class="form-group">
-                    
                     <div class="col-lg-10 col-lg-offset-1">
                         <form:input path="username" class="form-control" id="inputUsername" type="text" placeholder="Username" />
+                        <form:errors path="username" class="errorValidation"></form:errors>
+                    </div>
+                </div>
+                <div class="form-group">    
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <form:input path="email" class="form-control" id="inputEmail" type="text" placeholder="Email" />
+                        <form:errors path="email" class="errorValidation"></form:errors>
                     </div>
                 </div>
                 <div class="form-group">
                     
                     <div class="col-lg-10 col-lg-offset-1">
-                        <form:input path="passwordHash" class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                        <form:input path="password" class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                        <form:errors path="password" class="errorValidation"></form:errors>
                     </div>
                 </div>
                 <div class="form-group">
                     
                     <div class="col-lg-10 col-lg-offset-1">
                         <input  class="form-control" id="inputRetypePassword" type="password" placeholder="Retype password" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    
-                    <div class="col-lg-10 col-lg-offset-1">
-                        <form:input path="email" class="form-control" id="inputEmail" type="text" placeholder="Email" />
                     </div>
                 </div>
                 <div class="form-group">
