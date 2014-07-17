@@ -107,6 +107,14 @@ public class Issue implements Serializable {
     public void setState(IssueState state) {
         this.state = state;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
  
    
 }

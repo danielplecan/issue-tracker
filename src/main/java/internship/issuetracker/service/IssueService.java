@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import internship.issuetracker.entity.IssueState;
 import java.util.List;
 import javax.persistence.TypedQuery;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -26,6 +27,7 @@ import javax.persistence.TypedQuery;
  */
 
 @Service
+@Transactional
 public class IssueService {
     @PersistenceContext
     private EntityManager em;
