@@ -29,6 +29,18 @@ public class IssueService {
      * @param user  - the user who created the post
      */
     public Issue createIssue(String title, String content, User user){
-        return new Issue();
+        Issue issue = new Issue();
+        issue.setTitle(title);
+        issue.setContent(content);
+        issue.setOwner(user);
+        
+        //save issue in database
+        em.persist(issue);
+        return issue;
+    }
+    
+    public Issue getIssueById(Long id){
+        Issue result = em.find(Issue.class, id);
+        return result;
     }
 }
