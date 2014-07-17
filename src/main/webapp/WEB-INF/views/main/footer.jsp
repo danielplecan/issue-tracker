@@ -10,7 +10,7 @@
     <hr>
     <nav class="navbar">
         <div class="navbar-inner navbar-content-center">
-            <p class="text-muted credit">Learn Bootstrap at <a href="http://getbootstrap.com/">http://getbootstrap.com/</a></p>
+            <p class="text-muted credit">@Copyright Team Awesomeness</p>
         </div>
     </nav>
 </footer>
