@@ -9,6 +9,8 @@ package internship.issuetracker.controller;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.service.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,5 +52,36 @@ public class IssueController {
         return issueService;
     }
     
+    /**
+     * 
+     * @param id
+     * @return 
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
+    public ResponseEntity<Issue> openIssue(@PathVariable("id") int id) {
+           System.out.println(id);
+           return new ResponseEntity<>(HttpStatus.OK);
+    }
     
+    /**
+     * 
+     * @param id
+     * @return 
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/close")
+    public ResponseEntity<Issue> closeIssue(@PathVariable("id") int id) {
+           System.out.println(id);
+           return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    /**
+     * 
+     * @param id
+     * @return 
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
+    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") int id) {
+           System.out.println(id);
+           return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

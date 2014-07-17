@@ -34,13 +34,7 @@ public class IssueService {
      * @param content - the content of post(can be null)
      * @param user  - the user who created the post
      */
-    public Issue createIssue(String title, String content, IssueState state, User user){
-        Issue issue = new Issue();
-        issue.setTitle(title);
-        issue.setContent(content);
-        issue.setOwner(user);
-        issue.setState(state);
-        
+    public Issue createIssue(Issue issue){
         //save issue in database
         em.persist(issue);
         return issue;
@@ -49,23 +43,5 @@ public class IssueService {
     public Issue getIssueById(Long id){
         Issue result = em.find(Issue.class, id);
         return result;
-    }
-     
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
-    public ResponseEntity<Issue> openIssue(@PathVariable("id") int id) {
-           System.out.println(id);
-           return new ResponseEntity<Issue>(HttpStatus.OK);
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/close")
-    public ResponseEntity<Issue> closeIssue(@PathVariable("id") int id) {
-           System.out.println(id);
-           return new ResponseEntity<Issue>(HttpStatus.OK);
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
-    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") int id) {
-           System.out.println(id);
-           return new ResponseEntity<Issue>(HttpStatus.OK);
     }
 }
