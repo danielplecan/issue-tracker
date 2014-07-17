@@ -5,6 +5,7 @@ import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.IssueService;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,8 @@ public class IssueController {
         //until we can actually have a current user
         User u = em.find(User.class, (long)1);
         issue.setOwner(u);
+        Date data = new Date();
+        issue.setDate(data);
         //set state open, by default
         issue.setState(IssueState.OPEN);
         issueService.createIssue(issue);
@@ -89,7 +92,7 @@ public class IssueController {
  
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
     public ResponseEntity<Issue> reopenIssue(@PathVariable("id") int id) {
-           System.out.println(id);
+           System.out.println(id); 
            return new ResponseEntity<>(HttpStatus.OK);
     }
 }
