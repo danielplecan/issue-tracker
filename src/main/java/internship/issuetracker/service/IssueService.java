@@ -38,4 +38,9 @@ public class IssueService {
         em.persist(issue);
         return issue;
     }
+    
+    public Issue getIssueById(Long id){
+        Issue result = em.find(Issue.class, id);
+        return result;
+    }
 }
