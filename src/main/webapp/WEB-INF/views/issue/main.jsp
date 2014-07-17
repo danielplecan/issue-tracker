@@ -10,17 +10,15 @@
 
 
 
-<div data-id="${issue.getId()}">
+<div>
     
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3>${issue.getTitle()}</h3>
-            <h5>Status: <span id="issueState">${issue.getState()}</span> </h5>
+            <h5>Status: <span id="issueState"  data-id="${issue.getId()}">${issue.getState()}</span> </h5>
                 
             <div style="display: block; height:30px;">
                 <button type="button" class="btn btn-primary btn-sm" id="changeState">Change state</button>
-                <label id="confirmLabel">Are you sure?</label>
-                <button type="button" class="btn btn-primary btn-xs" id="confirmButton">I am sure!</button>
             </div>
         </div>
         <div class="panel-body">
@@ -40,28 +38,18 @@
     
     if (element.text() == "OPEN"){
         element.addClass("label label-success");
+         $("#changeState").text("CLOSE");
     }
     if (element.text() == "REOPENED"){
         element.addClass("label label-warning");
+        $("#changeState").text("CLOSE");
     }
     if (element.text() == "CLOSED"){
         element.addClass("label label-danger");
+        $("#changeState").text("REOPEN");
     }
     
-    var confLabel = $("#confirmLabel");
-    var confButton = $("#confirmButton");
-    confLabel.hide();
-    confButton.hide();
-    
     $("#changeState").click(function() {
-        $(this).hide();
-        confLabel.show();
-        confButton.show();
-    })
-    
-    $("#confirmButton").click(function() {
-        $("#changeState").show();
-        confLabel.hide();
-        $(this).hide();
+        
     })
 </script>
