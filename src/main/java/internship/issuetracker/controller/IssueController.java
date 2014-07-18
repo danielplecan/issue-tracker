@@ -64,7 +64,10 @@ public class IssueController {
         //set state open, by default
         issue.setState(IssueState.OPEN);
         issueService.createIssue(issue);
-        return "home";
+        
+        String path = "redirect:issue/" + issueService.getIssues().get(issueService.getIssues().size()-1).getId();
+        //redirect to view issue
+        return path;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")

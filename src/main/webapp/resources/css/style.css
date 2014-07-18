@@ -1,5 +1,7 @@
 #content{
     margin-top: 60px;
+    height:70%;
+    margin-bottom: 100px;
 }
 
 body {
@@ -34,15 +36,12 @@ body {
 .loginButton{
     margin-top:8px;
 }
-#allIssues > div:nth-child(odd) > div {
+#allIssues > div:nth-child(even) > div {
     background: none repeat scroll 0 0 #eeeee9   !important;
 }
 .issueLength{
     font-size: 60%;
 }
 .noBorder{
-    border-width: 0 1px 1px;
-}
-#content{
-    min-height: 770px;
+    border-width: 2px;
 }

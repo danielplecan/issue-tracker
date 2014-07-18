@@ -1,37 +1,80 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-    var changeStateModule = function(button, label) {
-        $(button).click( function(){
-            console.log('click');
-            var action;
-            switch($(label).text()) {
-                case 'OPEN':
-                    action = 'open';
-                    break;
-                case 'CLOSED':
-                    action = 'close';
-                    break;
-                case 'REOPENED':
-                    action = 'reopen';
-                    break;
-                default:
-                    return;
+var openStateToggle = function(button, label) {
+    $(button).click( function(){
+        var action = 'open';
+        var issueId = $(label).attr('data-id');
+        var url = location.origin + '/issue/' + issueId + '/' + action;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                   if( data.status === 'succes') {
+                       $(label).text('OPEN');
+                       $(label).removeClass('label-danger');
+                       $(label).addClass('label-warning');
+                       $('.toggle').hide();
+                       $('#changeState-close').show();
+                   } else {
+                   }
             }
-            
-            var issueId = $(label).attr('data-id');
-            console.log("http://localhost:8080/issue-tracker/issue/" + issueId + "/" + action);
-             
-            $.ajax({
-               type: 'POST',
-               url: "http://localhost:8080/issue-tracker/issue/" + issueId + "/" + action
             });
-        });
-    };
+    });
+};
 
-    var button = $('#changeState');
+var closeStateToggle = function(button, label) {
+    $(button).click( function(){
+        var action = 'close';
+        var issueId = $(label).attr('data-id');
+        var url = location.origin + '/issue/' + issueId + '/' + action;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                   if( data.status === 'succes') {
+                       $(label).text('CLOSED');
+                       $(label).removeClass('label-succes');
+                       $(label).addClass('label-danger');
+                       $('.toggle').hide();
+                       $('#changeState-reopen').show();
+                   } else {
+                   }
+            }
+            });
+    });
+};
+
+var reopenStateToggle = function(button, label) {
+    $(button).click( function(){
+        var action = 'reopen';
+        var issueId = $(label).attr('data-id');
+        var url = location.origin + '/issue/' + issueId + '/' + action;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                   if( data.status === 'succes') {
+                       $(label).text('REOPENED');
+                       $(label).removeClass('label-danger');
+                       $(label).addClass('label-warning');
+                       $('.toggle').hide();
+                       $('#changeState-close').show();
+                   } else {
+                   }
+            }
+            });
+    });
+};
+(function (){
     var span = $('#issueState');
-    changeStateModule(button, span);
-
+    openStateToggle($('#changeState-open'), span);
+    reopenStateToggle($('#changeState-reopen'), span);
+    closeStateToggle($('#changeState-close'), span);
+})();

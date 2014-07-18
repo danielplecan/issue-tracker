@@ -28,8 +28,6 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         UserDTO user = (UserDTO) target;
 
-        //crw: consider renaming 'checkUsernameExistence' to 'usernameExists' and remove ' == true'
-        //crw: if (userService.usernameExists(...)){...}
         if(userService.usernameExists(user.getUsername())) {
             errors.rejectValue("username", "username.exists", "Username is already taken.");
         }
