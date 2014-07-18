@@ -24,17 +24,14 @@
             var issueId = $(label).attr('data-id');
             console.log("http://localhost:8080/issue-tracker/issue/" + issueId + "/" + action);
              
-//            $.ajax({
-//               type: 'POST',
-//               url: "http://localhost:8080/issue-tracker/issue/" + issueId + "/" + action,
-//               dataType: 'jsonp'
-//            });
+            $.ajax({
+               type: 'POST',
+               url: "http://localhost:8080/issue-tracker/issue/" + issueId + "/" + action
+            });
         });
     };
 
-$(document).ready(function(){
     var button = $('#changeState');
     var span = $('#issueState');
     changeStateModule(button, span);
-});
 
