@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -69,36 +71,36 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
     @ResponseBody
-    public Map<String, Object> openIssue(@PathVariable("id") int id) {
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<Issue> openIssue(@PathVariable("id") int id) {
+        ResponseEntity<Issue> response;
         if (this.issueService.updateIssueState(id, IssueState.OPEN)) {
-            response.put("status", "succes");
+            response = new ResponseEntity<>(HttpStatus.OK);
         } else {
-            response.put("status", "fail");
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return response;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/close")
     @ResponseBody
-    public Map<String, Object> closeIssue(@PathVariable("id") int id) {
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<Issue> closeIssue(@PathVariable("id") int id) {
+        ResponseEntity<Issue> response;
         if (this.issueService.updateIssueState(id, IssueState.CLOSED)) {
-            response.put("status", "succes");
+            response = new ResponseEntity<>(HttpStatus.OK);
         } else {
-            response.put("status", "fail");
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return response;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
     @ResponseBody
-    public Map<String, Object> reopenIssue(@PathVariable("id") int id) {
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") int id) {
+        ResponseEntity<Issue> response;
         if (this.issueService.updateIssueState(id, IssueState.REOPENED)) {
-            response.put("status", "succes");
+            response = new ResponseEntity<>(HttpStatus.OK);
         } else {
-            response.put("status", "fail");
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return response;
     }

@@ -43,6 +43,7 @@ public class IssueService {
         //in case an issue with this id exists
         if(issue != null) {
             issue.setState(newState);
+            issue.setDate(new Date());
             em.merge(issue);
             return true;
         }
