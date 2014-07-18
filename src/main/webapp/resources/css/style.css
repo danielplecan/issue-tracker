@@ -7,9 +7,11 @@ body {
 }
 
 #footer {
-    position:relative;
+    position:absolute;
     bottom: 0px;
     width: 100%;
+    text-align: center;
+    
 }
 .issueTitle{
     display: inline-block;

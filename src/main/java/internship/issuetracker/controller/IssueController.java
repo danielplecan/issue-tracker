@@ -5,7 +5,9 @@ import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.IssueService;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +20,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
  * @author scalin
  */
-//@Service
 @Controller
 public class IssueController {
 
     @Autowired
-    IssueService issueService;
+    private IssueService issueService;
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
-    public String viewIssue(@PathVariable String id, Model model) {
-
-        Long issueId = Long.parseLong(id);
-        Issue result = issueService.getIssueById(issueId);
+    public String viewIssue(@PathVariable("id") Long id, Model model) {
+        Issue result = issueService.getIssueById(id);
         model.addAttribute("issue", result);
 
         return "issue";
@@ -68,38 +68,39 @@ public class IssueController {
         return "home";
     }
 
-    public void setIssueService(IssueService issueService) {
-        this.issueService = issueService;
-    }
-
-    public IssueService getIssueService() {
-        return issueService;
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
-    public ResponseEntity<Issue> openIssue(@PathVariable("id") int id) {
-        System.out.println(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
+    @ResponseBody
+    public Map<String, Object> openIssue(@PathVariable("id") int id) {
+        Map<String, Object> response = new HashMap<>();
+        if (this.issueService.updateIssueState(id, IssueState.OPEN)) {
+            response.put("status", "succes");
+        } else {
+            response.put("status", "fail");
+        }
+        return response;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/close")
-    public ResponseEntity<Issue> closeIssue(@PathVariable("id") int id) {
-        System.out.println(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @ResponseBody
+    public Map<String, Object> closeIssue(@PathVariable("id") int id) {
+        Map<String, Object> response = new HashMap<>();
+        if (this.issueService.updateIssueState(id, IssueState.CLOSED)) {
+            response.put("status", "succes");
+        } else {
+            response.put("status", "fail");
+        }
+        return response;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
-    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") int id) {
-        System.out.println(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/issues", method = RequestMethod.GET)
-    public String viewAllIssues(Model model) {
-
-        List<Issue> issues = issueService.getIssues();
-        model.addAttribute("issues", issues);
-
-        return "issues";
+    @ResponseBody
+    public Map<String, Object> reopenIssue(@PathVariable("id") int id) {
+        Map<String, Object> response = new HashMap<>();
+        if (this.issueService.updateIssueState(id, IssueState.REOPENED)) {
+            response.put("status", "succes");
+        } else {
+            response.put("status", "fail");
+        }
+        return response;
     }
 }

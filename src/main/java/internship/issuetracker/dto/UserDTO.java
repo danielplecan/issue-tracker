@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package internship.issuetracker.dto;
 
+import internship.issuetracker.entity.User;
+import internship.issuetracker.util.SecurityUtil;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -26,6 +22,17 @@ public class UserDTO {
 
     @NotBlank
     private String password;
+    
+    public User getUserFromDTO() {
+        User user = new User();
+
+        user.setName(getName());
+        user.setUsername(getUsername());
+        user.setEmail(getEmail());
+        user.setPasswordHash(SecurityUtil.encryptPassword(getPassword()));
+
+        return user;
+    }
 
     public String getName() {
         return name;
