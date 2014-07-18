@@ -1,7 +1,6 @@
 var openStateToggle = function(button, label) {
     $(button).click( function(){
-        console.log('click');
-        var action = 'reopen';
+        var action = 'open';
         var issueId = $(label).attr('data-id');
         var url = 'http://localhost:8080/issue-tracker/issue/' + issueId + '/' + action;
 
@@ -12,22 +11,45 @@ var openStateToggle = function(button, label) {
             dataType: "json",
             success: function (data) {
                    if( data.status == 'succes') {
-                       $(label).text('REOPENED');
+                       $(label).text('OPEN');
                        $(label).removeClass('label-danger');
                        $(label).addClass('label-warning');
                        $('.toggle').hide();
                        $('#changeState-close').show();
                    } else {
-                       console.log('fail');
                    }
             }
             });
     });
 };
 
-var openStateToggle = function(button, label) {
+var closeStateToggle = function(button, label) {
     $(button).click( function(){
-        console.log('click');
+        var action = 'close';
+        var issueId = $(label).attr('data-id');
+        var url = 'http://localhost:8080/issue-tracker/issue/' + issueId + '/' + action;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                   if( data.status == 'succes') {
+                       $(label).text('CLOSED');
+                       $(label).removeClass('label-succes');
+                       $(label).addClass('label-danger');
+                       $('.toggle').hide();
+                       $('#changeState-reopen').show();
+                   } else {
+                   }
+            }
+            });
+    });
+};
+
+var reopenStateToggle = function(button, label) {
+    $(button).click( function(){
         var action = 'reopen';
         var issueId = $(label).attr('data-id');
         var url = 'http://localhost:8080/issue-tracker/issue/' + issueId + '/' + action;
@@ -45,14 +67,14 @@ var openStateToggle = function(button, label) {
                        $('.toggle').hide();
                        $('#changeState-close').show();
                    } else {
-                       console.log('fail');
                    }
             }
             });
     });
 };
 (function (){
-    var button = $('#changeState-reopen');
     var span = $('#issueState');
-    openStateToggle(button, span);
+    openStateToggle($('#changeState-open'), span);
+    reopenStateToggle($('#changeState-reopen'), span);
+    closeStateToggle($('#changeState-close'), span);
 })();
