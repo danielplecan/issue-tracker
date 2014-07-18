@@ -59,15 +59,12 @@ public class IssueController {
         //until we can actually have a current user
         User u = em.find(User.class, (long) 1);
         issue.setOwner(u);
-        Date data = new Date();
-        issue.setDate(data);
+        
         //set state open, by default
-        issue.setState(IssueState.OPEN);
+        
         issueService.createIssue(issue);
         
-        String path = "redirect:issue/" + issueService.getIssues().get(issueService.getIssues().size()-1).getId();
-        //redirect to view issue
-        return path;
+        return "redirect:issue/" + issue.getId();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")

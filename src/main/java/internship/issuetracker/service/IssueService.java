@@ -4,12 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import internship.issuetracker.entity.Issue;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import internship.issuetracker.entity.IssueState;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,14 +23,13 @@ public class IssueService {
     
     /**
      * Create a new issue and persist it in the database;
-     * @param title - the title of post
-     * @param content - the content of post(can be null)
-     * @param user  - the user who created the post
+     * @param issue
      */
-    public Issue createIssue(Issue issue){
+    public void createIssue(Issue issue){
         //save issue in database
+        
+        issue.setDate(new Date());
         em.persist(issue);
-        return issue;
     }
     
     public Issue getIssueById(Long id){

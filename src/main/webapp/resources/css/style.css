@@ -40,3 +40,7 @@
 .noBorder{
     border-width: 2px;
 }
+
+.disabledButton {
+    background-color: #669999;
+}

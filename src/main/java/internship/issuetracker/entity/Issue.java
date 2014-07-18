@@ -67,6 +67,10 @@ public class Issue implements Serializable {
     @JoinColumn(name = "id_owner")
     private User owner;
     
+    public Issue() {
+        state = IssueState.OPEN;
+    }
+    
     public Long getId() {
         return id;
     }

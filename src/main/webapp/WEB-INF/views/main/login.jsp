@@ -8,17 +8,17 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="well col-lg-4 col-lg-offset-4"> 
-    <form class="form-horizontal" action="j_spring_security_check" method='POST'>
+    <form class="form-horizontal" action="security_check" method='POST'>
         <fieldset>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="j_username" />
+                    <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" />
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="j_password" />
+                    <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
                 </div>
             </div>
 
@@ -30,7 +30,4 @@
         </fieldset>
     </form>
 </div>
-
-
-
 
