@@ -19,9 +19,9 @@
             <h5>Status: <span id="issueState"  data-id="${issue.getId()}">${issue.getState()}</span> </h5>
             
             <div style="display: block; height:30px;">
-                <button type="button" class="btn btn-primary btn-sm" id="changeState-open">Open</button>
-                <button type="button" class="btn btn-primary btn-sm" id="changeState-close">Close</button>
-                <button type="button" class="btn btn-primary btn-sm" id="changeState-reopen">Reopen</button>
+                <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-open">Open</button>
+                <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-close">Close</button>
+                <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-reopen">Reopen</button>
             </div>
         </div>
         <div class="panel-body">
