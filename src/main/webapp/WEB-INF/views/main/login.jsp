@@ -15,7 +15,7 @@
                     <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="j_username" />
                 </div>
             </div>
-                
+
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">
                     <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="j_password" />

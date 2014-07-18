@@ -7,11 +7,11 @@ body {
 }
 
 #footer {
-    position:absolute;
+    position:relative;
     bottom: 0px;
     width: 100%;
     text-align: center;
-    
+
 }
 .issueTitle{
     display: inline-block;
@@ -29,4 +29,10 @@ body {
 .issueDateTime{
     margin-left: 73px;
     margin-bottom: 4px;
+}
+
+
+.loginButton{
+    margin-top:8px;
+
 }
