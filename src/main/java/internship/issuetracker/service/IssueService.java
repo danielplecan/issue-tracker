@@ -1,5 +1,9 @@
 package internship.issuetracker.service;
 
+import internship.issuetracker.entity.Comment;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Service;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import java.util.Date;
@@ -7,7 +11,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.User;
