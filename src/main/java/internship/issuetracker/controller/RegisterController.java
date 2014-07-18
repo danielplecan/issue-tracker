@@ -33,7 +33,7 @@ public class RegisterController {
     }
     
     @RequestMapping(value = {"/register"}, method = RequestMethod.POST)
-    public String logIn(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult) {
+    public String login(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         
         if (bindingResult.hasErrors()) {
@@ -41,6 +41,6 @@ public class RegisterController {
         }
         
         userService.registerUser(user);
-        return "home";
+        return "redirect:login";
     }
 }
