@@ -4,6 +4,7 @@
     <script src="../resources/js/bootstrap.js" type="text/javascript"></script>
     <link href="../resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="../resources/css/style.css" rel="stylesheet" type="text/css"/>
+    
         
     <title>Issue #${issue.getId()}}</title>
 </head>
@@ -30,6 +31,7 @@
         
 </div>
 
+<script src="../resources/js/changeStateModule.js" type="text/javascript"/>
 <script>
     var element = $("#issueState");
     element.removeClass("label label-success");
