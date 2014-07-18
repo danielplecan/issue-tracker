@@ -9,16 +9,24 @@
 
     <security:http use-expressions="true">
         <security:intercept-url pattern="/resources/**" access="permitAll" />
-        <security:intercept-url pattern="/register" access="isAnonymous()" />
+        <security:intercept-url pattern="/register" access="permitAll" />
         <security:intercept-url pattern="/login" access="permitAll" />
         <security:intercept-url pattern="/**" access="isAuthenticated()" />
-        <security:form-login login-page="/login" authentication-failure-url="http://google.ro" default-target-url="/" always-use-default-target="true" />
+        <security:form-login login-page="/login" 
+                             authentication-failure-handler-ref="customAuthenticationFailureHandler" 
+                             authentication-success-handler-ref="customAuthenticationSuccessHandler"
+                             default-target-url="/" always-use-default-target="true"
+                             login-processing-url="/security_check"
+                             password-parameter="password"
+                             username-parameter="username" />
     </security:http>
 
 
     <security:authentication-manager>
-	    <security:authentication-provider ref="customAuthenticationProvider" />
+        <security:authentication-provider ref="customAuthenticationProvider" />
     </security:authentication-manager>
 
     <bean id="customAuthenticationProvider" class="internship.issuetracker.provider.CustomAuthenticationProvider" />
+    <bean id="customAuthenticationFailureHandler" class="internship.issuetracker.handler.CustomAuthenticationFailureHandler" />
+    <bean id="customAuthenticationSuccessHandler" class="internship.issuetracker.handler.CustomAuthenticationSuccessHandler" />
 </beans>

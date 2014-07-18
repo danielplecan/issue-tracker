@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package internship.issuetracker.service;
 
 import internship.issuetracker.dto.UserDTO;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserService {
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -34,44 +34,57 @@ public class UserService {
     }
 
     public boolean usernameExists(String username) {
+        User user = getUserByUsername(username);
+
+        return user == null;
+    }
+
+    public boolean emailExists(String email) {
+        User user = getUserByEmail(email);
+
+        return user == null;
+    }
+
+    public User getUserByUsername(String username) {
         TypedQuery<User> userQuery = entityManager.createNamedQuery(User.FIND_BY_USERNAME, User.class);
         userQuery.setParameter("v_username", username);
 
         List<User> resultList = userQuery.getResultList();
 
-        return resultList != null && !resultList.isEmpty();
+        if (resultList == null || resultList.isEmpty()) {
+            return null;
+        }
+
+        return resultList.get(0);
     }
 
-    public boolean emailExists(String email) {
+    public User getUserByEmail(String email) {
         TypedQuery<User> userQuery = entityManager.createNamedQuery(User.FIND_BY_EMAIL, User.class);
         userQuery.setParameter("v_email", email);
 
         List<User> resultList = userQuery.getResultList();
 
-        return resultList != null && !resultList.isEmpty();
+        if (resultList == null || resultList.isEmpty()) {
+            return null;
+        }
+
+        return resultList.get(0);
     }
 
     //crw: this method may be put inside a security util
-
     //crw: this method may have a better place in UserDTO class
-
-    public boolean loginUser(String username, String password) {
+    public User loginUser(String username, String password) {
         if (password == null || username == null) {
-            return false;
+            return null;
         }
-        TypedQuery<User> userQuery = entityManager.createNamedQuery(User.FIND_BY_USERNAME, User.class);
-        userQuery.setParameter("v_username", username);
+        
+        User currentUser = getUserByUsername(username);
 
-        List<User> resultList = userQuery.getResultList();
-
-        if(resultList == null || resultList.isEmpty()) {
-            return false;
+        if (currentUser == null) {
+            return null;
         }
-
-        User currentUser = resultList.get(0);
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-        return passwordEncoder.matches(password, currentUser.getPasswordHash());
+        return passwordEncoder.matches(password, currentUser.getPasswordHash()) ? currentUser : null;
     }
 }
