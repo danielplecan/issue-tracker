@@ -15,6 +15,7 @@
                         <label for="textArea" class="col-lg-2 control-label">Title</label>
                         <div class="col-lg-10">
                             <form:input path="title" class="form-control" id="textArea1"/>
+                            <form:errors path="title" class="text-warning" />
                         </div>
                     </div>
                     <div class="form-group">
