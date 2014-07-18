@@ -16,7 +16,7 @@
                 </div>
                 <div class="issueDateTime">
                     Posted by <span class="text-primary"> ${issue.getOwner().getName()}</span> on
-                    <span class="text-primary"> ${issue.getDate()} </span>
+                    <span class="text-primary"> ${issue.getDateFormat()} </span>
                 </div>
             </div>
         </div>

@@ -106,7 +106,7 @@ public class IssueController {
     @RequestMapping(value = "/issues", method = RequestMethod.GET)
     public String viewAllIssues(Model model) {
 
-        List<Issue> issues = issueService.getIssues();
+        List<Issue> issues = issueService.getIssuesOrderedByDate();
         model.addAttribute("issues", issues);
 
         return "issues";

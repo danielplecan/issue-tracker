@@ -59,4 +59,9 @@ public class IssueService {
         TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.FIND_ALL, Issue.class);
         return issueQuery.getResultList();
     }
+    
+    public List<Issue>getIssuesOrderedByDate(){
+        TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.ORDERED_ISSUES, Issue.class);
+        return issueQuery.getResultList();
+    }
 }
