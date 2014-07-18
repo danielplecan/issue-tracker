@@ -1,5 +1,8 @@
 var openStateToggle = function(button, label) {
     $(button).click( function(){
+        $(button).attr('disabled',true);
+        $(button).addClass('disabledButton');
+        
         var action = 'open';
         var issueId = $(label).attr('data-id');
         var url = location.origin + '/issue/' + issueId + '/' + action;
@@ -19,12 +22,18 @@ var openStateToggle = function(button, label) {
                    } else {
                    }
             }
-            });
+        });
+        
+        $(button).removeAttr('disabled'); 
+        $(button).removeClass('disabledButton');
     });
 };
 
 var closeStateToggle = function(button, label) {
     $(button).click( function(){
+        $(button).attr('disabled',true);
+        $(button).addClass('disabledButton');
+        
         var action = 'close';
         var issueId = $(label).attr('data-id');
         var url = location.origin + '/issue/' + issueId + '/' + action;
@@ -44,12 +53,17 @@ var closeStateToggle = function(button, label) {
                    } else {
                    }
             }
-            });
+        });
+        $(button).removeAttr('disabled'); 
+        $(button).removeClass('disabledButton');
     });
 };
 
 var reopenStateToggle = function(button, label) {
     $(button).click( function(){
+        $(button).attr('disabled',true);
+        $(button).addClass('disabledButton');
+        
         var action = 'reopen';
         var issueId = $(label).attr('data-id');
         var url = location.origin + '/issue/' + issueId + '/' + action;
@@ -69,7 +83,9 @@ var reopenStateToggle = function(button, label) {
                    } else {
                    }
             }
-            });
+        });
+        $(button).removeAttr('disabled'); 
+        $(button).removeClass('disabledButton');
     });
 };
 (function (){
