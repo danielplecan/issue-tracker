@@ -68,7 +68,7 @@ public class IssueController {
         return "home";
     }
 
-     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
     @ResponseBody
     public Map<String, Object> openIssue(@PathVariable("id") int id) {
         Map<String, Object> response = new HashMap<>();
@@ -102,5 +102,14 @@ public class IssueController {
             response.put("status", "fail");
         }
         return response;
+    }
+
+    @RequestMapping(value = "/issues", method = RequestMethod.GET)
+    public String viewAllIssues(Model model) {
+
+        List<Issue> issues = issueService.getIssues();
+        model.addAttribute("issues", issues);
+
+        return "issues";
     }
 }
