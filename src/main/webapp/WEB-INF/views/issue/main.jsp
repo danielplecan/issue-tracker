@@ -31,7 +31,6 @@
         
 </div>
 
-<script src="../resources/js/changeStateModule.js" type="text/javascript"/>
 <script>
     var element = $("#issueState");
     element.removeClass("label label-success");
@@ -55,3 +54,4 @@
         
     });
 </script>
+<script src="../resources/js/changeStateModule.js" type="text/javascript"/>
