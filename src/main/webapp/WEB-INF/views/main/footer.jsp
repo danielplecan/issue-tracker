@@ -14,3 +14,15 @@
         </div>
     </nav>
 </footer>
+
+<script>
+    $(document).ready(function() {
+        $("#content").css("margin-bottom", "65px");
+        var x = $(document).height() - 220;
+        $("#content").height(x);
+    });
+    $(window).resize(function() {
+        $("#content").css("margin-bottom", "65px");
+
+    });
+</script>
