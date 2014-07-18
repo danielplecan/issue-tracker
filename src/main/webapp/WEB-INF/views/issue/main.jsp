@@ -4,6 +4,7 @@
     <script src="../resources/js/bootstrap.js" type="text/javascript"></script>
     <link href="../resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="../resources/css/style.css" rel="stylesheet" type="text/css"/>
+    
         
     <title>Issue #${issue.getId()}}</title>
 </head>
@@ -53,3 +54,4 @@
         
     });
 </script>
+<script src="../resources/js/changeStateModule.js" type="text/javascript"/>
