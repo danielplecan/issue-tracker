@@ -1,13 +1,14 @@
 package internship.issuetracker.service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import org.springframework.stereotype.Service;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
+import internship.issuetracker.entity.User;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -24,11 +25,13 @@ public class IssueService {
     /**
      * Create a new issue and persist it in the database;
      * @param issue
+     * @param owner
      */
-    public void createIssue(Issue issue){
+    public void createIssue(Issue issue, User owner){
         //save issue in database
         
         issue.setDate(new Date());
+        issue.setOwner(owner);
         em.persist(issue);
     }
     

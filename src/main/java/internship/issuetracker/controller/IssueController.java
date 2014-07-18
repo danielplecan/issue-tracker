@@ -4,14 +4,18 @@ import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.IssueService;
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +34,6 @@ public class IssueController {
 
     @Autowired
     private IssueService issueService;
-
-    @PersistenceContext
-    private EntityManager em;
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String viewIssue(@PathVariable("id") Long id, Model model) {
@@ -53,16 +54,10 @@ public class IssueController {
         if (bindingResult.hasErrors()) {
             return "create-issue";
         }
-        String a = issue.getTitle();
-        System.out.println(issue.getTitle());
 
-        //until we can actually have a current user
-        User u = em.find(User.class, (long) 1);
-        issue.setOwner(u);
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        //set state open, by default
-        
-        issueService.createIssue(issue);
+        issueService.createIssue(issue, currentUser);
         
         return "redirect:issue/" + issue.getId();
     }
