@@ -2,7 +2,7 @@ var openStateToggle = function(button, label) {
     $(button).click( function(){
         var action = 'open';
         var issueId = $(label).attr('data-id');
-        var url = 'http://localhost:8080/issue-tracker/issue/' + issueId + '/' + action;
+        var url = location.origin + '/issue-tracker/issue/' + issueId + '/' + action;
 
         $.ajax({
             type: 'POST',
@@ -27,7 +27,7 @@ var closeStateToggle = function(button, label) {
     $(button).click( function(){
         var action = 'close';
         var issueId = $(label).attr('data-id');
-        var url = 'http://localhost:8080/issue-tracker/issue/' + issueId + '/' + action;
+        var url = location.origin + '/issue-tracker/issue/' + issueId + '/' + action;
 
         $.ajax({
             type: 'POST',
@@ -52,7 +52,7 @@ var reopenStateToggle = function(button, label) {
     $(button).click( function(){
         var action = 'reopen';
         var issueId = $(label).attr('data-id');
-        var url = 'http://localhost:8080/issue-tracker/issue/' + issueId + '/' + action;
+        var url = location.origin + '/issue-tracker/issue/' + issueId + '/' + action;
 
         $.ajax({
             type: 'POST',
