@@ -51,4 +51,4 @@
         $("#changeState-open").hide();
     }
 </script>
-<script src="../resources/js/changeStateModule.js" type="text/javascript"></script>
+<script src="resources/js/changeStateModule.js" type="text/javascript"></script>
