@@ -7,6 +7,8 @@
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -119,4 +121,9 @@ public class Issue implements Serializable {
         this.date = date;
     }
 
+    public String getDateFormat(){
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        java.util.Date date = new java.util.Date();
+        return dateFormat.format(date);
+    }
 }
