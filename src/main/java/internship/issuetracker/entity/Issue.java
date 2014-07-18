@@ -7,6 +7,8 @@
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -31,13 +33,16 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author atataru
  */
 @NamedQueries({
-    @NamedQuery(name = Issue.FIND_ALL, query = "SELECT u from Issue u")
+    @NamedQuery(name = Issue.FIND_ALL, query = "SELECT u from Issue u"),
+    @NamedQuery(name = Issue.ORDERED_ISSUES, query = "SELECT u from Issue u ORDER BY u.date DESC")
 })
+
 
 @Entity
 @Table(name = "en_issues")
 public class Issue implements Serializable {
     public static final String FIND_ALL = "findAllIssues";
+    public static final String ORDERED_ISSUES = "getAllIssuesOrderedByDate";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -63,6 +68,10 @@ public class Issue implements Serializable {
     @Column(name = "post_date", length = 100)
     private Date date;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_date", length = 100)
+    private Date updateDate;
+     
     @ManyToOne
     @JoinColumn(name = "id_owner")
     private User owner;
@@ -119,4 +128,16 @@ public class Issue implements Serializable {
         this.date = date;
     }
 
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    
+    public String getDateFormat(){
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return dateFormat.format(this.date);
+    }
 }

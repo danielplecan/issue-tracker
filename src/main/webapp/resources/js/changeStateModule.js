@@ -12,15 +12,17 @@ var openStateToggle = function(button, label) {
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
-                   if( data.status === 'succes') {
-                       $(label).text('OPEN');
-                       $(label).removeClass('label-danger');
-                       $(label).addClass('label-warning');
-                       $('.toggle').hide();
-                       $('#changeState-close').show();
-                   } else {
-                   }
+           statusCode: {
+                200: function() {
+                    $(label).text('OPEN');
+                    $(label).removeClass('label-danger');
+                    $(label).addClass('label-warning');
+                    $('.toggle').hide();
+                    $('#changeState-close').show();
+                },
+                404: function() {
+                    
+                }
             }
         });
         
@@ -43,15 +45,17 @@ var closeStateToggle = function(button, label) {
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
-                   if( data.status === 'succes') {
-                       $(label).text('CLOSED');
-                       $(label).removeClass('label-succes');
-                       $(label).addClass('label-danger');
-                       $('.toggle').hide();
-                       $('#changeState-reopen').show();
-                   } else {
-                   }
+            statusCode: {
+                200: function() {
+                    $(label).text('CLOSED');
+                    $(label).removeClass('label-succes');
+                    $(label).addClass('label-danger');
+                    $('.toggle').hide();
+                    $('#changeState-reopen').show();
+                },
+                404: function() {
+                    
+                }
             }
         });
         $(button).removeAttr('disabled'); 
@@ -73,15 +77,17 @@ var reopenStateToggle = function(button, label) {
             url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
-                   if( data.status === 'succes') {
-                       $(label).text('REOPENED');
-                       $(label).removeClass('label-danger');
-                       $(label).addClass('label-warning');
-                       $('.toggle').hide();
-                       $('#changeState-close').show();
-                   } else {
-                   }
+           statusCode: {
+                200: function() {
+                    $(label).text('REOPENED');
+                    $(label).removeClass('label-danger');
+                    $(label).addClass('label-warning');
+                    $('.toggle').hide();
+                    $('#changeState-close').show();
+                },
+                404: function() {
+                    
+                }
             }
         });
         $(button).removeAttr('disabled'); 

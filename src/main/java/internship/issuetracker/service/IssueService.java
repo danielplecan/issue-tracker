@@ -2,7 +2,6 @@ package internship.issuetracker.service;
 
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
-import internship.issuetracker.entity.User;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -10,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import internship.issuetracker.entity.Comment;
+import internship.issuetracker.entity.User;
 
 /**
  *
@@ -31,6 +32,7 @@ public class IssueService {
         //save issue in database
         
         issue.setDate(new Date());
+        issue.setUpdateDate(new Date());
         issue.setOwner(owner);
         em.persist(issue);
     }
@@ -46,6 +48,7 @@ public class IssueService {
         //in case an issue with this id exists
         if(issue != null) {
             issue.setState(newState);
+            issue.setDate(new Date());
             em.merge(issue);
             return true;
         }
@@ -61,5 +64,29 @@ public class IssueService {
     public List<Issue> getIssues() {
         TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.FIND_ALL, Issue.class);
         return issueQuery.getResultList();
+    }
+    
+    public List<Issue> getIssuesOrderedByDate(){
+        TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.ORDERED_ISSUES, Issue.class);
+        return issueQuery.getResultList();
+    }
+    
+    /**
+     * Method for creating a comment
+     * @param author 
+     * @param issue
+     * @param commentContent - the text of the comment
+     * @return created comment
+     */
+    public Comment createComment(User author, Issue issue, String commentContent) {
+        Comment comment = new Comment();
+        comment.setAuthor(author);
+        comment.setIssue(issue);
+        comment.setContent(commentContent);
+        comment.setDate(new Date());
+        
+        em.persist(comment);
+        
+        return comment;
     }
 }

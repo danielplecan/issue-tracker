@@ -8,22 +8,16 @@
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Issue Tracker</a>
-            <button data-target="#navbar-main" data-toggle="collapse" type="button" class="navbar-toggle">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            <a class="navbar-brand" href="/home">Issue Tracker</a>
         </div>
         <div id="navbar-main" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-
                 <li>
-                    <a href="../help/">About</a>
+                    <a href="/create-issue">Create an issue</a>
                 </li>
                 <li>
-                    <a href="create-issue">Create an issue</a>
-                </li>        
+                    <a href="/issues">View All Issues</a>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -34,7 +28,6 @@
                         <li><a href="#">My issues</a></li>
                         <li><a href="#">Assigned Issues</a></li>
                         <li class="divider"></li>
-
                         <li><a href="#">Log out</a></li>
                     </ul>
                 </li>
