@@ -68,6 +68,10 @@ public class Issue implements Serializable {
     @Column(name = "post_date", length = 100)
     private Date date;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_date", length = 100)
+    private Date updateDate;
+     
     @ManyToOne
     @JoinColumn(name = "id_owner")
     private User owner;
@@ -124,6 +128,14 @@ public class Issue implements Serializable {
         this.date = date;
     }
 
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    
     public String getDateFormat(){
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return dateFormat.format(this.date);

@@ -1,5 +1,6 @@
 package internship.issuetracker.service;
 
+import internship.issuetracker.entity.Comment;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
+import internship.issuetracker.entity.Comment;
+import internship.issuetracker.entity.User;
 
 /**
  *
@@ -29,6 +32,7 @@ public class IssueService {
         //save issue in database
         
         issue.setDate(new Date());
+        issue.setUpdateDate(new Date());
         em.persist(issue);
     }
     
@@ -61,8 +65,27 @@ public class IssueService {
         return issueQuery.getResultList();
     }
     
-    public List<Issue>getIssuesOrderedByDate(){
+    public List<Issue> getIssuesOrderedByDate(){
         TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.ORDERED_ISSUES, Issue.class);
         return issueQuery.getResultList();
+    }
+    
+    /**
+     * Method for creating a comment
+     * @param author 
+     * @param issue
+     * @param commentContent - the text of the comment
+     * @return created comment
+     */
+    public Comment createComment(User author, Issue issue, String commentContent) {
+        Comment comment = new Comment();
+        comment.setAuthor(author);
+        comment.setIssue(issue);
+        comment.setContent(commentContent);
+        comment.setDate(new Date());
+        
+        em.persist(comment);
+        
+        return comment;
     }
 }
