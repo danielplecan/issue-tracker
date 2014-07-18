@@ -35,20 +35,20 @@
 
 <script type="text/javascript">
     var currentState = $("#issueState");
-    if (currentState.text() == "OPEN"){
+    if (currentState.text() === "OPEN"){
         currentState.addClass("label label-success");
         $("#changeState-open").hide();
         $("#changeState-reopen").hide();
     }
-    if (currentState.text() == "CLOSED"){
+    if (currentState.text() === "CLOSED"){
         currentState.addClass("label label-danger");
         $("#changeState-close").hide();
         $("#changeState-open").hide();
     }
-    if (currentState.text() == "REOPENED"){
+    if (currentState.text() === "REOPENED"){
         currentState.addClass("label label-warning");
         $("#changeState-reopen").hide();
         $("#changeState-open").hide();
     }
 </script>
-<script src="resources/js/changeStateModule.js" type="text/javascript"></script>
+<script src="/resources/js/changeStateModule.js" type="text/javascript"></script>
