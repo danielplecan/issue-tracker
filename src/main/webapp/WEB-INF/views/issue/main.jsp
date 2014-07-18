@@ -31,7 +31,7 @@
         
 </div>
 
-<script>
+<script type="text/javascript">
     var element = $("#issueState");
     element.removeClass("label label-success");
     element.removeClass("label label-warning");
@@ -49,9 +49,5 @@
         element.addClass("label label-danger");
         $("#changeState").text("REOPEN");
     }
-    
-    $("#changeState").click(function() {
-        
-    });
 </script>
-<script src="../resources/js/changeStateModule.js" type="text/javascript"/>
+<script src="../resources/js/changeStateModule.js" type="text/javascript"></script>
