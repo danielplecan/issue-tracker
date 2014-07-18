@@ -29,11 +29,9 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author atataru
  */
-
 @NamedQueries({
     @NamedQuery(name = Issue.FIND_ALL, query = "SELECT u from Issue u")
 })
-
 
 @Entity
 @Table(name = "en_issues")

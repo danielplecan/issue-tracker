@@ -10,4 +10,23 @@ body {
     position:absolute;
     bottom: 0px;
     width: 100%;
+    text-align: center;
+    
+}
+.issueTitle{
+    display: inline-block;
+    font-size: 150%; 
+    width: 100%;
+}
+.issueId{
+    float:right;
+    font-size: 80%;
+    color:#999999;
+}
+.titleLink{
+    color: #333333;
+}
+.issueDateTime{
+    margin-left: 73px;
+    margin-bottom: 4px;
 }

@@ -14,18 +14,16 @@ import org.springframework.security.core.GrantedAuthority;
  * @author dplecan
  */
 public class CustomAuthenticationProvider implements AuthenticationProvider {
-    
+
     @Autowired
     private UserService userService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        
+
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
-        System.out.println(username + " " + password);
         if(userService.loginUser(username, password)) {
-            System.out.println("succccceeeees");
             Authentication confirmedAuthentication = new UsernamePasswordAuthenticationToken(username, password, new ArrayList<GrantedAuthority>());
             return confirmedAuthentication;
         } else {

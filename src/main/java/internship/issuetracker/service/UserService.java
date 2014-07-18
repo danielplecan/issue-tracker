@@ -16,24 +16,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+//crw: removing methods might help you set @Transactional at class level instead of method level
 /**
  *
  * @author dplecan
  */
 @Service
+@Transactional
 public class UserService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
     public void registerUser(UserDTO userDTO) {
-        User user = getUserFromDTO(userDTO);
+        User user = userDTO.getUserFromDTO();
 
         entityManager.persist(user);
     }
 
-    @Transactional
-    public boolean checkUsernameExistence(String username) {
+    public boolean usernameExists(String username) {
         TypedQuery<User> userQuery = entityManager.createNamedQuery(User.FIND_BY_USERNAME, User.class);
         userQuery.setParameter("v_username", username);
 
@@ -42,8 +42,7 @@ public class UserService {
         return resultList != null && !resultList.isEmpty();
     }
 
-    @Transactional
-    public boolean checkEmailExistence(String email) {
+    public boolean emailExists(String email) {
         TypedQuery<User> userQuery = entityManager.createNamedQuery(User.FIND_BY_EMAIL, User.class);
         userQuery.setParameter("v_email", email);
 
@@ -52,23 +51,10 @@ public class UserService {
         return resultList != null && !resultList.isEmpty();
     }
 
-    public String encryptPassword(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(password);
-    }
+    //crw: this method may be put inside a security util
 
-    public User getUserFromDTO(UserDTO userDTO) {
-        User user = new User();
+    //crw: this method may have a better place in UserDTO class
 
-        user.setName(userDTO.getName());
-        user.setUsername(userDTO.getUsername());
-        user.setEmail(userDTO.getEmail());
-        user.setPasswordHash(encryptPassword(userDTO.getPassword()));
-
-        return user;
-    }
-
-    @Transactional
     public boolean loginUser(String username, String password) {
         if (password == null || username == null) {
             return false;
