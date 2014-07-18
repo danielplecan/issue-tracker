@@ -7,15 +7,20 @@ package internship.issuetracker.controller;
 
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.service.UserService;
+import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.UserValidator;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class RegisterController {
@@ -32,15 +37,22 @@ public class RegisterController {
         return "register";
     }
     
-    @RequestMapping(value = {"/register"}, method = RequestMethod.POST)
-    public String login(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
+  @RequestMapping(method = RequestMethod.POST, value = "/register/createUser")
+    @ResponseBody
+    public Map<String, Object> createUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult, HttpServletResponse response) {
         
+        Map<String, Object> returnMap = new HashMap<>();
+        
+        userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "register";
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            returnMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            return returnMap;
         }
         
         userService.registerUser(user);
-        return "redirect:login";
+        response.setStatus(HttpServletResponse.SC_CREATED);
+       
+      return returnMap;
     }
 }
