@@ -5,7 +5,7 @@
     <link href="../resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="../resources/css/style.css" rel="stylesheet" type="text/css"/>
     
-        
+    
     <title>Issue #${issue.getId()}}</title>
 </head>
 
@@ -17,9 +17,11 @@
         <div class="panel-heading">
             <h3>${issue.getTitle()}</h3>
             <h5>Status: <span id="issueState"  data-id="${issue.getId()}">${issue.getState()}</span> </h5>
-                
+            
             <div style="display: block; height:30px;">
-                <button type="button" class="btn btn-primary btn-sm" id="changeState">Change state</button>
+                <button type="button" class="btn btn-primary btn-sm" id="changeState-open">Open</button>
+                <button type="button" class="btn btn-primary btn-sm" id="changeState-close">Close</button>
+                <button type="button" class="btn btn-primary btn-sm" id="changeState-reopen">Reopen</button>
             </div>
         </div>
         <div class="panel-body">
@@ -28,26 +30,25 @@
             Date: <span class="text-primary"> ${issue.getDate()}</span>
         </div>
     </div>
-        
+    
 </div>
 
 <script type="text/javascript">
-    var element = $("#issueState");
-    element.removeClass("label label-success");
-    element.removeClass("label label-warning");
-    element.removeClass("label label-danger");
-    
-    if (element.text() === "OPEN"){
-        element.addClass("label label-success");
-         $("#changeState").text("CLOSE");
+    var currentState = $("#issueState");
+    if (currentState.text() == "OPEN"){
+        currentState.addClass("label label-success");
+        $("#changeState-open").hide();
+        $("#changeState-reopen").hide();
     }
-    if (element.text() === "REOPENED"){
-        element.addClass("label label-warning");
-        $("#changeState").text("CLOSE");
+    if (currentState.text() == "CLOSED"){
+        currentState.addClass("label label-danger");
+        $("#changeState-close").hide();
+        $("#changeState-open").hide();
     }
-    if (element.text() === "CLOSED"){
-        element.addClass("label label-danger");
-        $("#changeState").text("REOPEN");
+    if (currentState.text() == "REOPENED"){
+        currentState.addClass("label label-warning");
+        $("#changeState-reopen").hide();
+        $("#changeState-open").hide();
     }
 </script>
 <script src="../resources/js/changeStateModule.js" type="text/javascript"></script>
