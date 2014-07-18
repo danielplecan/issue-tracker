@@ -17,12 +17,12 @@
 
 <script>
     $(document).ready(function() {
-        $("#content").css("margin-bottom", "65px");
-        var x = $(document).height() - 220;
-        $("#content").height(x);
+        $("#content").css("margin-bottom", "100px");
+        var documentHeight = $(document).height() - 220;
+        $("#content").height(documentHeight);
     });
     $(window).resize(function() {
-        $("#content").css("margin-bottom", "65px");
+        $("#content").css("margin-bottom", "100px");
 
     });
 </script>
