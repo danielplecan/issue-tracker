@@ -30,13 +30,13 @@ public class UserService {
     public boolean usernameExists(String username) {
         User user = getUserByUsername(username);
 
-        return user == null;
+        return user != null;
     }
 
     public boolean emailExists(String email) {
         User user = getUserByEmail(email);
 
-        return user == null;
+        return user != null;
     }
 
     public User getUserByUsername(String username) {
