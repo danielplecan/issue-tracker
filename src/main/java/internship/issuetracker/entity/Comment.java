@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
@@ -22,7 +16,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -47,11 +40,11 @@ public class Comment implements Serializable{
     @Basic(optional = false)
     @Column(name ="comment_content")
     @NotBlank(message = "An comment must not be empty.")
-    @Size(min=3, max=100, message="A comment must contain between 3 and 100 chars")
+    @Size(min = 3, max = 100, message="A comment must contain between 3 and 100 chars")
     private String content;
     
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "post_date", length = 100)
+    @Column(name = "post_date")
     private Date date;
     
     @ManyToOne
@@ -102,5 +95,4 @@ public class Comment implements Serializable{
     public void setIssue(Issue issue) {
         this.issue = issue;
     }
-    
 }

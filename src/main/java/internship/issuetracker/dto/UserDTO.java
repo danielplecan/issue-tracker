@@ -2,8 +2,6 @@ package internship.issuetracker.dto;
 
 import internship.issuetracker.entity.User;
 import internship.issuetracker.util.SecurityUtil;
-import java.beans.Transient;
-import java.io.Serializable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 

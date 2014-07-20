@@ -81,7 +81,7 @@ public class IssueService {
      * @param commentContent - the text of the comment
      * @return created comment
      */
-    public Comment createComment(User author, Issue issue, String commentContent) {
+    public Comment addComment(User author, Issue issue, String commentContent) {
         Comment comment = new Comment();
         comment.setAuthor(author);
         comment.setIssue(issue);

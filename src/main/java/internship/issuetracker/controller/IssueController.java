@@ -6,11 +6,11 @@ import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.IssueService;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,12 +49,12 @@ public class IssueController {
     }
 
     @RequestMapping(value = {"/create-issue"}, method = RequestMethod.POST)
-    public String createIssue(@Valid @ModelAttribute("issue") Issue issue, BindingResult bindingResult) {
+    public String createIssue(@Valid @ModelAttribute("issue") Issue issue, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "create-issue";
         }
 
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) request.getSession().getAttribute("user");
 
         issueService.createIssue(issue, currentUser);
 
@@ -63,7 +63,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
     @ResponseBody
-    public ResponseEntity<Issue> openIssue(@PathVariable("id") int id) {
+    public ResponseEntity<Issue> openIssue(@PathVariable("id") Long id) {
         ResponseEntity<Issue> response;
         if (this.issueService.updateIssueState(id, IssueState.OPEN)) {
             response = new ResponseEntity<>(HttpStatus.OK);
@@ -75,7 +75,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/close")
     @ResponseBody
-    public ResponseEntity<Issue> closeIssue(@PathVariable("id") int id) {
+    public ResponseEntity<Issue> closeIssue(@PathVariable("id") Long id) {
         ResponseEntity<Issue> response;
         if (this.issueService.updateIssueState(id, IssueState.CLOSED)) {
             response = new ResponseEntity<>(HttpStatus.OK);
@@ -87,7 +87,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
     @ResponseBody
-    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") int id) {
+    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") Long id) {
         ResponseEntity<Issue> response;
         if (this.issueService.updateIssueState(id, IssueState.REOPENED)) {
             response = new ResponseEntity<>(HttpStatus.OK);
@@ -106,12 +106,13 @@ public class IssueController {
         return "issues";
     }
   
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/createComment")
-    public ResponseEntity<Comment> createComment(@RequestBody String body, @PathVariable("id") Long id) {    
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
+    public ResponseEntity<Comment> addComment(@RequestBody String body, @PathVariable("id") Long id, HttpServletRequest request) {    
         Issue issue = issueService.getIssueById(id);
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        User currentUser = (User) request.getSession().getAttribute("user");
         ResponseEntity<Comment> response;
-        Comment comment = issueService.createComment(currentUser, issue, body);
+        Comment comment = issueService.addComment(currentUser, issue, body);
         if (comment != null) {
             response = new ResponseEntity<>(comment, HttpStatus.CREATED);
         } else {

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
@@ -24,7 +18,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -37,49 +30,48 @@ import org.hibernate.validator.constraints.NotBlank;
     @NamedQuery(name = Issue.ORDERED_ISSUES, query = "SELECT u from Issue u ORDER BY u.date DESC")
 })
 
-
 @Entity
 @Table(name = "en_issues")
 public class Issue implements Serializable {
+
     public static final String FIND_ALL = "findAllIssues";
     public static final String ORDERED_ISSUES = "getAllIssuesOrderedByDate";
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @SequenceGenerator(name = "en_issues_id_seq", sequenceName = "en_issues_id_seq", allocationSize = 1)
     private Long id;
-    
+
     @Basic(optional = false)
-    @Column(name ="issue_title")
-    @NotNull
+    @Column(name = "issue_title")
     @NotBlank(message = "An issue must have a title.")
-    @Size(min=3, max=50, message="The title must have between 3 and 50 characters.")
+    @Size(min = 3, max = 50, message = "The title must have between 3 and 50 characters.")
     private String title;
-    
+
     @Basic(optional = true)
     @Column(name = "issue_content")
     private String content;
-    
+
     @Basic(optional = false)
     @Column(name = "issue_state")
     private IssueState state;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "post_date", length = 100)
     private Date date;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_date", length = 100)
     private Date updateDate;
-     
+
     @ManyToOne
     @JoinColumn(name = "id_owner")
     private User owner;
-    
+
     public Issue() {
         state = IssueState.OPEN;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -95,7 +87,7 @@ public class Issue implements Serializable {
     public void setOwner(User owner) {
         this.owner = owner;
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -111,14 +103,14 @@ public class Issue implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-    
+
     public IssueState getState() {
         return state;
     }
 
     public void setState(IssueState state) {
         this.state = state;
-    } 
+    }
 
     public Date getDate() {
         return date;
@@ -135,8 +127,8 @@ public class Issue implements Serializable {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
-    
-    public String getDateFormat(){
+
+    public String getDateFormat() {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return dateFormat.format(this.date);
     }

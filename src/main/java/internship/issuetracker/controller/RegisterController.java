@@ -24,35 +24,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class RegisterController {
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private UserValidator userValidator;
-    
+
     @RequestMapping(value = {"/register"}, method = RequestMethod.GET)
     public String registerUser(Model model) {
         model.addAttribute("user", new UserDTO());
         return "register";
     }
-    
-  @RequestMapping(method = RequestMethod.POST, value = "/register/createUser")
+
+    @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ResponseBody
     public Map<String, Object> createUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult, HttpServletResponse response) {
-        
+
         Map<String, Object> returnMap = new HashMap<>();
-        
+
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             returnMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
             return returnMap;
         }
-        
+
         userService.registerUser(user);
+        
         response.setStatus(HttpServletResponse.SC_CREATED);
-       
-      return returnMap;
+
+        return returnMap;
     }
 }
