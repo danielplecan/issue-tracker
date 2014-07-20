@@ -100,8 +100,7 @@ public class IssueService {
 
         if (resultList == null || resultList.isEmpty()) {
             return null;
-        }
-        System.out.println(resultList.get(0).getAuthor().getEmail());
+        }       
         return resultList;
     }
     
