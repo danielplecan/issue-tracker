@@ -7,8 +7,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div class="well col-lg-4 col-lg-offset-4"> 
-    <form class="form-horizontal" action="security_check" method='POST'>
+<div class=" col-sm-4 col-sm-offset-4 Absolute-Center" >
+
+    <div id="logo" class="text-center">
+        <h1>Issue Tracker</h1>
+    </div>
+    <form class="well form-horizontal" action="security_check" method='POST'>
         <fieldset>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">
@@ -21,13 +25,16 @@
                     <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
                 </div>
             </div>
-
+            <br><br>
             <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-4">
-                    <button class="btn btn-primary" type="submit">Login</button>
+                <div class="col-lg-12 txt-center">
+                    <button class="btn btn-primary btn-lg" type="submit">Login</button>
+                    <br>
+
                 </div>
             </div>
         </fieldset>
     </form>
-</div>
+    <span class="col-lg-12 txt-center">If you don't have an account please <a href="/register"> Register</a></span>
 
+</div>
