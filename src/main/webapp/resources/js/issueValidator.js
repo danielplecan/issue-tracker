@@ -7,5 +7,5 @@ $(document).ready(function(){
                 $("#buttonCreateIssue").attr("disabled", "disabled");
                 $("#textArea1").on('input', function() {
                     $("#buttonCreateIssue").removeAttr("disabled");
-                    })
+                    });
             });

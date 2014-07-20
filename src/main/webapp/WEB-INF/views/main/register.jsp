@@ -3,10 +3,9 @@
     Created on : Jul 16, 2014, 5:16:32 PM
     Author     : inistor
 --%>
-<script src="resources/js/registerValidator.js" type="text/javascript"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <div class="well col-lg-4 col-lg-offset-4 Absolute-Center">
     <form:form class="form-horizontal" modelAttribute="user" action="register" method='POST'>
         <fieldset>

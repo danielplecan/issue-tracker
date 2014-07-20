@@ -1,19 +1,21 @@
 function issueTrackerService() {
     var self = {};
-    
+
     self.login = function(username, password) {
         return $.ajax({});
     };
     self.register = function() {
-        var url =location.origin + "/register/createUser";
-        var data={name:$('#inputName').val(),
-            username:$('#inputUsername').val(),
-            email:$('#inputEmail').val(),
-            password:$('#inputPassword').val()};
+        var url = location.origin + "/register";
+        var data = {
+            name: $('#inputName').val(),
+            username: $('#inputUsername').val(),
+            email: $('#inputEmail').val(),
+            password: $('#inputPassword').val()
+        };
         return $.ajax({
-            url: url, 
-            type: 'POST', 
-            dataType: 'json', 
+            url: url,
+            type: 'POST',
+            dataType: 'json',
             contentType: 'application/json',
             mimeType: 'application/json',
             data: JSON.stringify(data),
@@ -31,9 +33,12 @@ function issueTrackerService() {
             }
         });
     };
-    
+
     return self;
 }
-$(document).ready(function(){
-    $("#submitButton").on("click", issueTrackerService().register);
-});
+//$(document).ready(function() {
+//    $("#submitButton").on("click", function(event) {
+//        event.preventDefault();
+//        issueTrackerService().register();
+//    });
+//});

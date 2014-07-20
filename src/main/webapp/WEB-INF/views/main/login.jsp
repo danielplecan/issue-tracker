@@ -6,7 +6,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <div class=" col-sm-4 col-sm-offset-4 Absolute-Center" >
 
     <div id="logo" class="text-center">
@@ -25,11 +25,11 @@
                     <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
                 </div>
             </div>
-            <br><br>
+            <br /><br />
             <div class="form-group">
                 <div class="col-lg-12 txt-center">
                     <button class="btn btn-primary btn-lg" type="submit">Login</button>
-                    <br>
+                    <br />
 
                 </div>
             </div>

@@ -1,13 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
-    <title>Issue #${issue.getId()}}</title>
+    <title>Issue #${issue.id}}</title>
 </head>
 <div class="col-lg-offset-1 col-lg-10">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3><span id="issueState" data-id="${issue.getId()}">${issue.getState()}</span>${issue.getTitle()}</h3>
+            <h3><span id="issueState" data-id="${issue.id}">${issue.state}</span>${issue.title}</h3>
             <div class="issueDateTime">
-                Posted by <span class="text-primary"> ${issue.getOwner().getName()}</span> on
+                Posted by <span class="text-primary"> ${issue.owner.name}</span> on
                 <span class="text-primary"> ${issue.getDateFormat()} </span>
             </div>     
             <div >
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <h3>${issue.getContent()}</h3>   
+            <h3>${issue.content}</h3>   
         </div>
     </div>
 
@@ -25,14 +25,14 @@
         <!--
                 <div class="list-group-item">
                     <h4 class="list-group-item-heading">List group item heading</h4>
-                    <p class="list-group-item-text"><a href="">${issue.getOwner().getName()}</a> on ${issue.getDateFormat()}</p>
+                    <p class="list-group-item-text"><a href="">${issue.owner.name}</a> on ${issue.getDateFormat()}</p>
                 </div>
         -->
 
         <c:forEach items="${comments}" var="comment">
             <blockquote>
-                <p>${comment.getContent()}</p>
-                <small><a href="">${comment.getAuthor().getName()}</a> on ${comment.getDate()}</small>
+                <p>${comment.content}</p>
+                <small><a href="">${comment.author.name}</a> on ${comment.date}</small>
             </blockquote>
         </c:forEach>
 
@@ -62,7 +62,7 @@
         var valueForComment = $("#textAreaComment").val();
         console.log(valueForComment);
 
-        var action = 'createComment';
+        var action = 'add-comment';
         var issueId = $("#issueState").attr('data-id');
         var url = location.origin + '/issue/' + issueId + '/' + action;
 

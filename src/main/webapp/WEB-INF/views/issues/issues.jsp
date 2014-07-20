@@ -11,11 +11,11 @@
                             <c:when test="${issue.state == 'CLOSED'}"> <div class="label label-danger issueLength">Closed</div></c:when>
                             <c:when test="${issue.state == 'REOPENED'}"> <div class="label label-warning issueLength">Reopened</div></c:when>
                         </c:choose>
-                        <a class="titleLink" href="/issue/${issue.getId()}"> ${issue.getTitle()}</a>
+                        <a class="titleLink" href="/issue/${issue.id}"> ${issue.title}</a>
                     </div>
                 </div>
                 <div class="issueDateTime">
-                    Posted by <span class="text-primary"> ${issue.getOwner().getName()}</span> on
+                    Posted by <span class="text-primary"> ${issue.owner.name}</span> on
                     <span class="text-primary"> ${issue.getDateFormat()} </span>
                 </div>
             </div>

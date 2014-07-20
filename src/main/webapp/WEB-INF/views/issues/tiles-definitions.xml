@@ -3,9 +3,12 @@
     "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
     "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
-   <definition name="issues" extends="mainLayout">
+    <definition name="mainLayout" template="/WEB-INF/views/main/layout.jsp">
         <put-attribute name="header" value="/WEB-INF/views/main/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/issues/issues.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/main/footer.jsp" />
+    </definition>
+    
+   <definition name="issues" extends="mainLayout">
+        <put-attribute name="body" value="/WEB-INF/views/issues/issues.jsp" />
     </definition>
 </tiles-definitions>

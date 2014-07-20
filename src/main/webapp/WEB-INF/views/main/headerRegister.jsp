@@ -1,4 +1,3 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -9,22 +8,14 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
+        
         <div id="navbar-main" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-
-                <li>
-                 
-                </li>
-
+                <li></li>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right">
-               
-            </ul>
-            </li>
-
-            </ul>
-
+            <ul class="nav navbar-nav navbar-right"></ul>
+            
         </div>
     </div>
 </div>

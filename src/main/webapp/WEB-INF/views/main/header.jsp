@@ -3,8 +3,6 @@
     Created on : Jul 17, 2014, 10:17:16 AM
     Author     : iapavaloaie
 --%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -28,7 +26,7 @@
                         <li><a href="#">My issues</a></li>
                         <li><a href="#">Assigned Issues</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Log out</a></li>
+                        <li><a href="/logout">Log out</a></li>
                     </ul>
                 </li>
             </ul>
