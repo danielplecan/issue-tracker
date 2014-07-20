@@ -13,13 +13,13 @@
             <ul class="nav navbar-nav">
 
                 <li>
-                    <a href="#">About</a>
+                 
                 </li>
 
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <button class="btn btn-primary loginButton" type="submit">Login</button>
+               
             </ul>
             </li>
 

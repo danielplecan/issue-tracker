@@ -14,7 +14,7 @@
     <definition name="register" extends="mainLayout">
         <put-attribute name="header" value="/WEB-INF/views/main/headerRegister.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/main/register.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/main/footer.jsp" />
+        <put-attribute name="footer" value="" />
     </definition>
 
     <definition name="create-issue" extends="mainLayout">
@@ -26,6 +26,6 @@
     <definition name="login" extends="mainLayout">
         <put-attribute name="header" value="/WEB-INF/views/main/headerLogin.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/main/login.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/main/footer.jsp" />
+        <put-attribute name="footer" value="" />
     </definition>
 </tiles-definitions>

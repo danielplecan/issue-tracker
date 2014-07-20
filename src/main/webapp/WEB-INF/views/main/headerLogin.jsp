@@ -11,17 +11,14 @@
         </div>
         <div id="navbar-main" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-
-                <li>
-                    <a href="../help/">About</a>
-                </li>
+            
 
 
 
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <button class="btn btn-primary loginButton" type="submit">Sign up</button>
+               
             </ul>
             </li>
 
