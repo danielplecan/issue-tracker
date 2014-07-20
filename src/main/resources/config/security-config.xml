@@ -19,6 +19,7 @@
                              login-processing-url="/security_check"
                              password-parameter="password"
                              username-parameter="username" />
+        <security:logout invalidate-session="true" logout-url="/logout" logout-success-url="/login" />
     </security:http>
 
 

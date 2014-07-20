@@ -1,5 +1,6 @@
 package internship.issuetracker.handler;
 
+import internship.issuetracker.entity.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        request.getSession().setAttribute("user", (User) authentication.getPrincipal());
+        
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/");
     }
