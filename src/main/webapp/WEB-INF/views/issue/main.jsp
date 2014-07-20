@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
     <title>Issue #${issue.getId()}}</title>
 </head>
@@ -18,34 +19,22 @@
         <div class="panel-body">
             <h3>${issue.getContent()}</h3>   
         </div>
-    </div>    
+    </div>
 
     <div id="allComments" class="list-group">
-        <div class="list-group-item">
-            <h4 class="list-group-item-heading">List group item heading</h4>
-            <p class="list-group-item-text"><a href="">${issue.getOwner().getName()}</a> on ${issue.getDateFormat()}</p>
-        </div>
-        <div class="list-group-item">
-            <h4 class="list-group-item-heading">First Comment</h4>
-            <p class="list-group-item-text"><a href="">${issue.getOwner().getName()}</a> on ${issue.getDateFormat()}</p>
-        </div>
-        <div class="list-group-item">
-            <h4 class="list-group-item-heading">List group item heading</h4>
-            <p class="list-group-item-text"><a href="">${issue.getOwner().getName()}</a> on ${issue.getDateFormat()}</p>
-        </div>
-        <blockquote>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-            <small><a href="">${issue.getOwner().getName()}</a> on ${issue.getDateFormat()}</small>
-        </blockquote>
-        <blockquote>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-            <small><a href="">${issue.getOwner().getName()}</a> on ${issue.getDateFormat()}</small>
-        </blockquote>
-        <blockquote>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-            <small><a href="">${issue.getOwner().getName()}</a> on ${issue.getDateFormat()}</small>
-        </blockquote>
+        <!--
+                <div class="list-group-item">
+                    <h4 class="list-group-item-heading">List group item heading</h4>
+                    <p class="list-group-item-text"><a href="">${issue.getOwner().getName()}</a> on ${issue.getDateFormat()}</p>
+                </div>
+        -->
 
+        <c:forEach items="${comments}" var="comment">
+            <blockquote>
+                <p>${comment.getContent()}</p>
+                <small><a href="">${comment.getAuthor().getName()}</a> on ${comment.getDate()}</small>
+            </blockquote>
+        </c:forEach>
 
     </div>          
     <div id="addComment">

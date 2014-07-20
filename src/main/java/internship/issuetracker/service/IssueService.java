@@ -92,4 +92,17 @@ public class IssueService {
         
         return comment;
     }
+    public List<Comment> getCommentsByIssueId(Issue issue) {
+        TypedQuery<Comment> userQuery = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
+        userQuery.setParameter("v_issue", issue);
+
+        List<Comment> resultList = userQuery.getResultList();
+
+        if (resultList == null || resultList.isEmpty()) {
+            return null;
+        }
+        System.out.println(resultList.get(0).getAuthor().getEmail());
+        return resultList;
+    }
+    
 }

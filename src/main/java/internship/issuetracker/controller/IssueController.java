@@ -1,5 +1,6 @@
 package internship.issuetracker.controller;
 
+import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.User;
@@ -34,6 +35,9 @@ public class IssueController {
         Issue result = issueService.getIssueById(id);
         model.addAttribute("issue", result);
 
+        List<Comment> comments = issueService.getCommentsByIssueId(result);
+        model.addAttribute("comments", comments);
+
         return "issue";
     }
 
@@ -50,9 +54,9 @@ public class IssueController {
         }
 
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
+
         issueService.createIssue(issue, currentUser);
-        
+
         return "redirect:issue/" + issue.getId();
     }
 
