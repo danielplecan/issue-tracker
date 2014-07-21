@@ -42,7 +42,7 @@ public class IssueController {
 
         List<Label> labels = issueService.getLabelsByIssueId(result);
         model.addAttribute("labels", labels);
-        
+
         List<Comment> comments = issueService.getCommentsByIssueId(result);
         model.addAttribute("comments", comments);
 
@@ -124,18 +124,20 @@ public class IssueController {
 
         return "issues";
     }
-  
+
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
-    public ResponseEntity<Comment> addComment(@RequestBody String commentContent, @PathVariable("id") Long issueId, HttpServletRequest request) {    
-        Issue issue = issueService.getIssueById(issueId);
-        
+    @ResponseBody
+    public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, @PathVariable("id") Long issueId, HttpServletRequest request) {
         User currentUser = (User) request.getSession().getAttribute("user");
-        ResponseEntity<Comment> response;
-        Comment comment = issueService.addComment(currentUser, issueId, commentContent);
+        Map<String, Object> response = new HashMap<>();
+
+        comment = issueService.addComment(currentUser, issueId, comment);
+
         if (comment != null) {
-            response = new ResponseEntity<>(comment, HttpStatus.CREATED);
+            response.put("success", true);
+            response.put("comment", comment);
         } else {
-            response = new ResponseEntity<>(comment, HttpStatus.NOT_FOUND);
+            response.put("success", false);
         }
         return response;
     }

@@ -76,24 +76,24 @@ public class IssueService {
     
     /**
      * Method for creating a comment
-     * @param author 
+     *
+     * @param author
      * @param issueId
-     * @param commentContent - the text of the comment
+     * @param comment
      * @return created comment
      */
-    public Comment addComment(User author, Long issueId, String commentContent) {
+    public Comment addComment(User author, Long issueId, Comment comment) {
         Issue issue = getIssueById(issueId);
-        
-        Comment comment = new Comment();
+
         comment.setAuthor(author);
         comment.setIssue(issue);
-        comment.setContent(commentContent);
         comment.setDate(new Date());
-        
+
         em.persist(comment);
-        
+
         return comment;
     }
+    
     public List<Comment> getCommentsByIssueId(Issue issue) {
         TypedQuery<Comment> userQuery = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
         userQuery.setParameter("v_issue", issue);
