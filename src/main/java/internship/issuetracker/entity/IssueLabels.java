@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -16,9 +18,15 @@ import javax.persistence.Table;
  * @author scalin
  */
 
+@NamedQueries({
+    @NamedQuery(name = IssueLabels.FIND_BY_ISSUE_ID, query = "SELECT u from IssueLabels u WHERE u.issue = :v_issue")
+})
+
 @Entity
 @Table(name="en_issue_labels")
 public class IssueLabels implements Serializable{
+    
+    public static final String FIND_BY_ISSUE_ID = "findAllIssueLabelsByIssue";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +37,7 @@ public class IssueLabels implements Serializable{
     @JoinColumn(name = "id_issue")
     private Issue issue;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id_label")
     private Label label;
  

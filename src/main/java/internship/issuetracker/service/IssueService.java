@@ -1,8 +1,5 @@
 package internship.issuetracker.service;
 
-import internship.issuetracker.entity.Comment;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
@@ -13,7 +10,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 import internship.issuetracker.entity.Comment;
+import internship.issuetracker.entity.IssueLabels;
+import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
+import java.util.ArrayList;
 
 /**
  *
@@ -104,6 +104,24 @@ public class IssueService {
             return null;
         }       
         return resultList;
+    }
+    
+    public List<Label> getLabelsByIssueId(Issue issue) {
+        TypedQuery<IssueLabels> userQuery = em.createNamedQuery(IssueLabels.FIND_BY_ISSUE_ID, IssueLabels.class);
+        userQuery.setParameter("v_issue", issue);
+
+        List<IssueLabels> resultList = userQuery.getResultList();
+
+        if (resultList == null || resultList.isEmpty()) {
+            return null;
+        } 
+        
+        List<Label> finalList = new ArrayList<>();
+        
+        for (IssueLabels l : resultList){
+            finalList.add(l.getLabel());
+        }
+        return finalList;
     }
     
 }

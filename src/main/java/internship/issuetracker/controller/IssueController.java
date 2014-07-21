@@ -3,6 +3,7 @@ package internship.issuetracker.controller;
 import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
+import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.IssueService;
 import internship.issuetracker.util.SerializationUtil;
@@ -39,6 +40,9 @@ public class IssueController {
         Issue result = issueService.getIssueById(id);
         model.addAttribute("issue", result);
 
+        List<Label> labels = issueService.getLabelsByIssueId(result);
+        model.addAttribute("labels", labels);
+        
         List<Comment> comments = issueService.getCommentsByIssueId(result);
         model.addAttribute("comments", comments);
 
