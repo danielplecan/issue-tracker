@@ -1,6 +1,6 @@
 issueTrackerService = (function () {
     var self = {};
-
+    
     self.login = function(loginData) {
         return $.ajax({
             url: location.origin + "/login",
@@ -19,7 +19,19 @@ issueTrackerService = (function () {
             data: JSON.stringify(registerData)
         });
     };
-    
+    self.createIssue = function(title, content){        
+        var issue = {
+            'title':title,
+            'content':content
+        };
+        return $.ajax({
+            type: 'POST',
+            url: location.origin + '/create-issue',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(issue)
+            });
+    };
     self.addComment = function(issueId, commentData) {
         return $.ajax({
             url: location.origin + "/issue/" + issueId + "/add-comment",

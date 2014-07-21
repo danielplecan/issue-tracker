@@ -9,7 +9,7 @@
 
 <div id="login-box">
     <legend>Create an Issue</legend>
-    <form:form class="form-horizontal" modelAttribute='issue' action='create-issue' method='POST'>
+    <form:form class="form-horizontal" modelAttribute='issue' action='' method='POST'>
         <fieldset>
             <div id="divToChange" class="form-group">
                 <label for="textArea" class="col-lg-2 control-label">Title</label>
@@ -24,12 +24,12 @@
                     <form:textarea path="content" class="form-control" rows="4" id="textArea2"/>
                 </div>
             </div>   
-
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button class="btn btn-default" id="buttonCreateIssue">Create</button>
-                </div>
-            </div>
         </fieldset>
     </form:form>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+            <button class="btn btn-default" id="buttonCreateIssue">Create</button>
+        </div>
+    </div>
 </div>
+<script src="/resources/js/issueCreatorService.js" type="text/javascript"></script>
