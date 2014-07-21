@@ -2,7 +2,17 @@
 <div class="col-lg-offset-1 col-lg-10">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3><span id="issueState" data-id="${issue.id}">${issue.state}</span>${issue.title}</h3>
+            <h3>
+                <c:choose>
+                    <c:when test="${issue.state == 'OPEN'}"><span id="issueState" class="label label-success" data-id="${issue.id}">${issue.state}</span></c:when>
+                    <c:when test="${issue.state == 'CLOSED'}"><span id="issueState" class="label label-danger" data-id="${issue.id}">${issue.state}</span></c:when>
+                    <c:when test="${issue.state == 'REOPENED'}"><span id="issueState" class="label label-warning" data-id="${issue.id}">${issue.state}</span></c:when>
+                </c:choose>
+                
+                
+                ${issue.title}
+            
+            </h3>
              <c:forEach var="label" items="${labels}">
              <span style="margin-right:3px;" class="label label-warning"> ${label.name} </span>
             </c:forEach>
@@ -11,9 +21,23 @@
                 <span class="text-primary"> ${issue.getDateFormat()} </span>
             </div>     
             <div >
-                <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-open">Open</button>
-                <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-close">Close</button>
-                <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-reopen">Reopen</button>
+                <c:choose>
+                    <c:when test="${issue.state == 'OPEN'}">
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-open">Open</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-close">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-reopen">Reopen</button>
+                    </c:when>
+                    <c:when test="${issue.state == 'CLOSED'}">
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-open">Open</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-close">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-reopen">Reopen</button>
+                    </c:when>
+                    <c:when test="${issue.state == 'REOPENED'}">
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-open">Open</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-close">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-reopen">Reopen</button>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
         <div class="panel-body">
