@@ -10,6 +10,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JacksonAnnotation;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -40,6 +42,7 @@ public class User implements Serializable {
     @Column(name="email", nullable = false, unique = true)
     private String email;
     
+    @JsonIgnore
     @Column(name="password_hash", length = 60, nullable = false)
     private String passwordHash;
 
