@@ -40,19 +40,20 @@ public class RegisterController {
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ResponseBody
     public Map<String, Object> createUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult, HttpServletResponse response) {
-
         Map<String, Object> result = new HashMap<>();
 
         userValidator.validate(user, bindingResult);
-        response.setStatus(HttpServletResponse.SC_CREATED);
+        response.setStatus(HttpServletResponse.SC_OK);
         if (bindingResult.hasErrors()) {
-            result.put("succes",false);
+            result.put("succes", false);
             result.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
             return result;
         }
-        result.put("succes",true);
-        userService.registerUser(user);
         
+        result.put("succes", true);
+
+        userService.registerUser(user);
+
         return result;
     }
 }
