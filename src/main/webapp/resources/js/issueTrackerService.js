@@ -18,7 +18,6 @@ issueTrackerService = (function () {
             mimeType: "application/json",
             data: JSON.stringify(registerData)
         });
-    };
     
     self.addComment = function(issueId, commentData) {
         return $.ajax({

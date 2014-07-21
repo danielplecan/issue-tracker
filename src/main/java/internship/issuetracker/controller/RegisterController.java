@@ -53,7 +53,7 @@ public class RegisterController {
         result.put("succes", true);
 
         userService.registerUser(user);
-
+        
         return result;
     }
 }
