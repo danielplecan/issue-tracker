@@ -6,10 +6,14 @@
         
         <script src="/resources/js/jquery-2.1.1.min.js" type="text/javascript"></script>
         <script src="/resources/js/bootstrap.js" type="text/javascript"></script>
+        
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
+        <script src="/resources/js/registerService.js" type="text/javascript"></script>
+        <script src="/resources/js/issueService.js" type="text/javascript"></script>
+        <script src="/resources/js/issueValidator.js" type="text/javascript"></script>
+        
         <link href="/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
-        <script src="resources/js/RegisterService.js" type="text/javascript"></script>
     </head>
     <body>
         <tiles:insertAttribute name="header" />
