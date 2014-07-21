@@ -45,12 +45,12 @@ public class RegisterController {
         userValidator.validate(user, bindingResult);
         response.setStatus(HttpServletResponse.SC_OK);
         if (bindingResult.hasErrors()) {
-            result.put("succes", false);
+            result.put("success", false);
             result.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
             return result;
         }
         
-        result.put("succes", true);
+        result.put("success", true);
 
         userService.registerUser(user);
         

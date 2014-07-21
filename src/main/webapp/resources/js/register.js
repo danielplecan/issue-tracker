@@ -25,7 +25,7 @@ $(document).ready(function() {
             var registerData = createRegisterData();
             
             issueTrackerService.register(registerData).done(function(data) {
-                if (data.succes) {
+                if (data.success) {
                     window.location.replace("/login");
                 }
                 else {

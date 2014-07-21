@@ -48,7 +48,7 @@ var closeStateToggle = function(button, label) {
             statusCode: {
                 200: function() {
                     $(label).text('CLOSED');
-                    $(label).removeClass('label-succes');
+                    $(label).removeClass('label-success');
                     $(label).addClass('label-danger');
                     $('.toggle').hide();
                     $('#changeState-reopen').show();
