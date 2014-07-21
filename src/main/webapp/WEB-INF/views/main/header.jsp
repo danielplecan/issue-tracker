@@ -6,7 +6,7 @@
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/home">Issue Tracker</a>
+            <a class="navbar-brand" href="/">Issue Tracker</a>
         </div>
         <div id="navbar-main" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
