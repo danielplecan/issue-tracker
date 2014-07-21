@@ -41,19 +41,18 @@ public class RegisterController {
     @ResponseBody
     public Map<String, Object> createUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult, HttpServletResponse response) {
 
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
 
         userValidator.validate(user, bindingResult);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         if (bindingResult.hasErrors()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            returnMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
-            return returnMap;
+            result.put("succes",false);
+            result.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            return result;
         }
-
+        result.put("succes",true);
         userService.registerUser(user);
         
-        response.setStatus(HttpServletResponse.SC_CREATED);
-
-        return returnMap;
+        return result;
     }
 }
