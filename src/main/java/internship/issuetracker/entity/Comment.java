@@ -39,7 +39,7 @@ public class Comment implements Serializable{
     
     @Basic(optional = false)
     @Column(name ="comment_content")
-    @NotBlank(message = "An comment must not be empty.")
+    @NotBlank(message = "A comment must not be empty.")
     @Size(min = 3, max = 100, message="A comment must contain between 3 and 100 chars")
     private String content;
     

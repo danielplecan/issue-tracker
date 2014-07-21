@@ -107,12 +107,12 @@ public class IssueController {
     }
   
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
-    public ResponseEntity<Comment> addComment(@RequestBody String body, @PathVariable("id") Long id, HttpServletRequest request) {    
-        Issue issue = issueService.getIssueById(id);
+    public ResponseEntity<Comment> addComment(@RequestBody String commentContent, @PathVariable("id") Long issueId, HttpServletRequest request) {    
+        Issue issue = issueService.getIssueById(issueId);
         
         User currentUser = (User) request.getSession().getAttribute("user");
         ResponseEntity<Comment> response;
-        Comment comment = issueService.addComment(currentUser, issue, body);
+        Comment comment = issueService.addComment(currentUser, issueId, commentContent);
         if (comment != null) {
             response = new ResponseEntity<>(comment, HttpStatus.CREATED);
         } else {

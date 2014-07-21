@@ -77,11 +77,13 @@ public class IssueService {
     /**
      * Method for creating a comment
      * @param author 
-     * @param issue
+     * @param issueId
      * @param commentContent - the text of the comment
      * @return created comment
      */
-    public Comment addComment(User author, Issue issue, String commentContent) {
+    public Comment addComment(User author, Long issueId, String commentContent) {
+        Issue issue = getIssueById(issueId);
+        
         Comment comment = new Comment();
         comment.setAuthor(author);
         comment.setIssue(issue);
