@@ -32,6 +32,15 @@ issueTrackerService = (function () {
             data: JSON.stringify(issue)
             });
     };
+    
+    self.changeStateOfIssue = function(issueId, stateAction) {
+        return $.ajax({
+           type: "POST",
+           url: location.origin + "/issue/" + issueId + "/change-state/" + stateAction,
+           dataType: "json"
+        });
+    };
+    
     self.addComment = function(issueId, commentData) {
         return $.ajax({
             url: location.origin + "/issue/" + issueId + "/add-comment",
