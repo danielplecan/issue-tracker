@@ -8,7 +8,7 @@
         <script src="/resources/js/bootstrap.js" type="text/javascript"></script>
         
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
-        <script src="/resources/js/registerService.js" type="text/javascript"></script>
+        <script src="/resources/js/registerScript.js" type="text/javascript"></script>
         <script src="/resources/js/issueService.js" type="text/javascript"></script>
         <script src="/resources/js/issueValidator.js" type="text/javascript"></script>
         

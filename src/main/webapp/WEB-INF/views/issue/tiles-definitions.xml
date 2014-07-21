@@ -13,6 +13,6 @@
     </definition>
     
     <definition name="issues" extends="mainLayout">
-        <put-attribute name="body" value="/WEB-INF/views/issues/viewIssues.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/issue/viewIssues.jsp" />
     </definition>
 </tiles-definitions>
