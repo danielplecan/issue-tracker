@@ -24,6 +24,7 @@ issueTrackerService = (function () {
         return $.ajax({
             url: location.origin + "/issue/" + issueId + "/add-comment",
             type: "POST",
+            dataType: "json",
             contentType: "application/json",
             mimeType: "application/json",
             data: JSON.stringify(commentData)
@@ -32,12 +33,3 @@ issueTrackerService = (function () {
     
     return self;
 })();
-
-
-$(document).ready(function() {
-    $("#submitButton").on("click", function(event) {
-        event.preventDefault();
-        $(".errors").empty();
-        issueTrackerService().register();
-    });
-});
