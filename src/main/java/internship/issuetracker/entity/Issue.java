@@ -152,8 +152,6 @@ public class Issue implements Serializable {
         long minutes = interval.toDuration().getStandardMinutes() - days * 24 * 60 - hours * 60 ;
 
         long seconds = interval.toDuration().getStandardSeconds() - days * 24 * 60 *60 - hours * 60 * 60 - minutes * 60;
-        
-        System.out.println(days + " " + hours + " " + minutes + " " + seconds);
 
         if (days == 1) {
             result.append("1 day");
