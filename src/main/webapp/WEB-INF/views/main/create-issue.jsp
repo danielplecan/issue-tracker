@@ -5,7 +5,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<script src="resources/js/issueInputValidater.js" type="text/javascript"></script>
+<script src="../../../resources/js/issueValidator.js" type="text/javascript"></script>
 
 <div id="login-box">
     <legend>Create an Issue</legend>
