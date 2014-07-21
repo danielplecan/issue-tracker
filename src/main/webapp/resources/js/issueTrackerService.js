@@ -1,43 +1,39 @@
-function issueTrackerService() {
+issueTrackerService = (function () {
     var self = {};
 
-    self.login = function(username, password) {
-        return $.ajax({});
-    };
-    self.register = function() {
-        var url = location.origin + "/register";
+    self.login = function(loginData) {
         return $.ajax({
-            url: url,
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/json',
-            mimeType: 'application/json',
-            data: JSON.stringify(createUser()),
-            statusCode: {
-                201: function(data) {
-                    window.location.replace("/login");
-                },
-                400: function(data) {
-                    $.each(data.responseJSON, function() {
-                        $.each(this, function(k, v) {
-                            $("#" + k + "Error").append(v);
-                        });
-                    });
-                }
-            }
+            url: location.origin + "/login",
+            type: "POST",
+            data: loginData
         });
     };
-
+    
+    self.register = function(registerData) {
+        return $.ajax({
+            url: location.origin + "/register",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            mimeType: "application/json",
+            data: JSON.stringify(registerData)
+        });
+    };
+    
+    self.addComment = function(issueId, commentData) {
+        return $.ajax({
+            url: location.origin + "/issue/" + issueId + "/add-comment",
+            type: "POST",
+            contentType: "application/json",
+            mimeType: "application/json",
+            data: JSON.stringify(commentData)
+        });
+    };
+    
     return self;
-}
-function createUser(){
-    var serialized = $("#registerForm").serializeArray();
-    var user = {};
-    $.each(serialized, function(index, item){
-        user[item.name] = item.value;
-    });
-    return user;
-}
+})();
+
+
 $(document).ready(function() {
     $("#submitButton").on("click", function(event) {
         event.preventDefault();
