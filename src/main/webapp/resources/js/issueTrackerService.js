@@ -2,7 +2,27 @@ function issueTrackerService() {
     var self = {};
 
     self.login = function(username, password) {
-        return $.ajax({});
+         var url = location.origin + "/login";
+         var data={
+             username:$("#inputUsername").val(),
+             password:$("#inputPassword").val()
+         };
+        return $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            mimeType: 'application/json',
+            data: JSON.stringify(createUser()),
+            statusCode: {
+                201: function(data) {
+                    window.location.replace("/");
+                },
+                400: function(data) {
+                
+                }
+            }
+        });
     };
     self.register = function() {
         var url = location.origin + "/register";
@@ -13,18 +33,6 @@ function issueTrackerService() {
             contentType: 'application/json',
             mimeType: 'application/json',
             data: JSON.stringify(createUser()),
-            statusCode: {
-                201: function(data) {
-                    window.location.replace("/login");
-                },
-                400: function(data) {
-                    $.each(data.responseJSON, function() {
-                        $.each(this, function(k, v) {
-                            $("#" + k + "Error").append(v);
-                        });
-                    });
-                }
-            }
         });
     };
 
@@ -39,9 +47,9 @@ function createUser(){
     return user;
 }
 $(document).ready(function() {
-    $("#submitButton").on("click", function(event) {
+    $("#loginButton").on("click", function(event) {
         event.preventDefault();
-        $(".errors").empty();
-        issueTrackerService().register();
+       // $(".errors").empty();
+        issueTrackerService().login();
     });
 });

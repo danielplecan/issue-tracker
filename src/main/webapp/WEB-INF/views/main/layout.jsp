@@ -9,7 +9,7 @@
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
         <link href="/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
-        <script src="/resources/js/registerValidator.js" type="text/javascript"></script>
+        <script src="resources/js/RegisterService.js" type="text/javascript"></script>
     </head>
     <body>
         <tiles:insertAttribute name="header" />
