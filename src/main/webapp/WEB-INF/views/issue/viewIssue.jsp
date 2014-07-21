@@ -3,6 +3,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3><span id="issueState" data-id="${issue.id}">${issue.state}</span>${issue.title}</h3>
+             <c:forEach var="label" items="${labels}">
+                <span value="${label}" class="label label-warning"/>
+            </c:forEach>
             <div class="issueDateTime">
                 Posted by <span class="text-primary"> ${issue.owner.name}</span> on
                 <span class="text-primary"> ${issue.getDateFormat()} </span>
