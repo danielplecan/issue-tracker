@@ -5,8 +5,12 @@ import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.IssueService;
+import internship.issuetracker.util.SerializationUtil;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,17 +51,29 @@ public class IssueController {
         return "create-issue";
     }
 
-    @RequestMapping(value = {"/create-issue"}, method = RequestMethod.POST)
-    public String createIssue(@Valid @ModelAttribute("issue") Issue issue, BindingResult bindingResult, HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST, value = "/create-issue")
+    @ResponseBody
+    public Map<String, Object> createAnIssue(@RequestBody @Valid Issue issue,
+            BindingResult bindingResult, HttpServletRequest request,
+            HttpServletResponse response) {
+        Map<String, Object> responseMap = new HashMap<>();
+
         if (bindingResult.hasErrors()) {
-            return "create-issue";
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            responseMap.put("error", SerializationUtil.extractFieldErrors(bindingResult));
+            return responseMap;
         }
 
-        User currentUser = (User) request.getSession().getAttribute("user");
+        User author = (User) request.getSession().getAttribute("user");
+        issueService.createIssue(issue, author);
 
-        issueService.createIssue(issue, currentUser);
+        responseMap.put("url", request.getScheme() + "://"
+                + request.getServerName() + ":" + request.getServerPort()
+                + request.getContextPath() + "/issue/" + issue.getId());
 
-        return "redirect:issue/" + issue.getId();
+        response.setStatus(HttpServletResponse.SC_CREATED);
+
+        return responseMap;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
