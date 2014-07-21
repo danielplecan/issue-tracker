@@ -1,5 +1,5 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
 <html>
     <head>
         <title>Issue Tracker</title>
@@ -9,6 +9,7 @@
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
         <link href="/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
+        <script src="/resources/js/registerValidator.js" type="text/javascript"></script>
     </head>
     <body>
         <tiles:insertAttribute name="header" />

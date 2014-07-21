@@ -10,17 +10,17 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author dplecan
  */
 public class UserDTO {
-    @NotBlank
+    @NotBlank(message = "Name cannot be empty.")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Username cannot be empty.")
     private String username;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "Email cannot be empty.")
+    @Email(message = "Not a well-formed email adress.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password cannot be empty.")
     private String password;
     
     public User getUserFromDTO() {

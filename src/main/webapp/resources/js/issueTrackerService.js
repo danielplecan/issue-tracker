@@ -6,29 +6,23 @@ function issueTrackerService() {
     };
     self.register = function() {
         var url = location.origin + "/register";
-        var data = {
-            name: $('#inputName').val(),
-            username: $('#inputUsername').val(),
-            email: $('#inputEmail').val(),
-            password: $('#inputPassword').val()
-        };
         return $.ajax({
             url: url,
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json',
             mimeType: 'application/json',
-            data: JSON.stringify(data),
+            data: JSON.stringify(createUser()),
             statusCode: {
                 201: function(data) {
-                    console.log(data);
+                    window.location.replace("/login");
                 },
                 400: function(data) {
-                    console.log(data);
-                    $.each(data.errors, function(key, val) {
-                        console.log(key + " " + val);
+                    $.each(data.responseJSON, function() {
+                        $.each(this, function(k, v) {
+                            $("#" + k + "Error").append(v);
+                        });
                     });
-                    console.log("eeeeeeeeee");
                 }
             }
         });
@@ -36,9 +30,18 @@ function issueTrackerService() {
 
     return self;
 }
-//$(document).ready(function() {
-//    $("#submitButton").on("click", function(event) {
-//        event.preventDefault();
-//        issueTrackerService().register();
-//    });
-//});
+function createUser(){
+    var serialized = $("#registerForm").serializeArray();
+    var user = {};
+    $.each(serialized, function(index, item){
+        user[item.name] = item.value;
+    });
+    return user;
+}
+$(document).ready(function() {
+    $("#submitButton").on("click", function(event) {
+        event.preventDefault();
+        $(".errors").empty();
+        issueTrackerService().register();
+    });
+});
