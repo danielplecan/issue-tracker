@@ -16,7 +16,7 @@
                 </div>
                 <div class="issueDateTime">
                     Posted by <span class="text-primary"> ${issue.owner.name}</span> on
-                    <span class="text-primary"> ${issue.getDateFormat()} </span>
+                    <span class="text-primary"> ${issue.getTimeInterval()} </span>
                 </div>
             </div>
         </div>

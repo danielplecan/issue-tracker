@@ -20,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 /**
  *
@@ -131,5 +133,49 @@ public class Issue implements Serializable {
     public String getDateFormat() {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return dateFormat.format(this.date);
+    }
+    
+    public String getDateFormat2() {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(this.date);
+    }
+    public String getTimeInterval() {
+        DateTime oldTimeInstant = new DateTime(date);
+        DateTime newTimeInstant = new DateTime(new Date());
+        Interval interval = new Interval(oldTimeInstant, newTimeInstant);
+        StringBuilder result = new StringBuilder();
+
+        long days = interval.toDuration().getStandardDays();
+
+        long hours = interval.toDuration().getStandardHours() - days * 24;
+
+        long minutes = interval.toDuration().getStandardMinutes() - days * 24 * 60 - hours * 60 ;
+
+        long seconds = interval.toDuration().getStandardSeconds() - days * 24 * 60 *60 - hours * 60 * 60 - minutes * 60;
+        
+        System.out.println(days + " " + hours + " " + minutes + " " + seconds);
+
+        if (days == 1) {
+            result.append("1 day");
+        } else if (days > 1 && days < 14) {
+            result.append(days + " days  ");
+        } else if ( days >= 14) {
+          result.append(getDateFormat2());
+          return result.toString();
+        } else if (hours == 1) {
+            result.append(" 1 hour ");
+        } else if (hours > 1) {
+            result.append(hours + " hours ");
+        } else if (minutes == 1) {
+            result.append(" 1 minute ");
+        } else if (minutes > 1) {
+            result.append(minutes + " minutes ");
+        } else if (seconds == 1) {
+            result.append(" 1 second ");
+        } else {
+            result.append(seconds + " seconds ");
+        }
+        result.append("ago");
+        return result.toString();
     }
 }
