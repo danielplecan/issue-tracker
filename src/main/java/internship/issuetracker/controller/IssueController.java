@@ -115,6 +115,17 @@ public class IssueController {
         }
         return response;
     }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/{action}")
+    @ResponseBody
+    public Map<String, Object> changeStateOfIssue(@PathVariable("id") Long issueId, @PathVariable("action") String stateAction, HttpServletResponse response) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", issueService.changeStateOfIssue(issueId, stateAction));
+        
+        response.setStatus(HttpServletResponse.SC_OK);
+        return result;
+    }
+    
 
     @RequestMapping(value = "/issues", method = RequestMethod.GET)
     public String viewAllIssues(Model model) {

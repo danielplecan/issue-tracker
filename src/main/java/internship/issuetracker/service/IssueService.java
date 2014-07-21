@@ -19,61 +19,88 @@ import java.util.ArrayList;
  *
  * @author atataru
  */
-
 @Service
 @Transactional
 public class IssueService {
+
     @PersistenceContext
     private EntityManager em;
-    
+
     /**
      * Create a new issue and persist it in the database;
+     *
      * @param issue
      * @param owner
      */
-    public void createIssue(Issue issue, User owner){
+    public void createIssue(Issue issue, User owner) {
         //save issue in database
-        
+
         issue.setDate(new Date());
         issue.setUpdateDate(new Date());
         issue.setOwner(owner);
         em.persist(issue);
     }
-    
-    public Issue getIssueById(Long id){
+
+    public Issue getIssueById(Long id) {
         Issue result = em.find(Issue.class, id);
         return result;
     }
-    
+
     public boolean updateIssueState(long issueId, IssueState newState) {
         Issue issue = em.find(Issue.class, issueId);
-        
+
         //in case an issue with this id exists
-        if(issue != null) {
+        if (issue != null) {
             issue.setState(newState);
             issue.setDate(new Date());
             em.merge(issue);
             return true;
         }
-        
+
         //in case it doesn't
         return false;
     }
-    
+
+    public boolean changeStateOfIssue(Long issueId, String stateAction) {
+        Issue issue = em.find(Issue.class, issueId);
+
+        if (issue == null) {
+            return false;
+        }
+
+        switch (stateAction) {
+            case "close":
+                issue.setState(IssueState.CLOSED);
+                return true;
+
+            case "reopen":
+                if (issue.getState() == IssueState.CLOSED) {
+                    issue.setState(IssueState.REOPENED);
+                    return true;
+                }
+
+                return true;
+                
+            default:
+                return false;
+        }
+    }
+
     /**
      * Get all issues present in the database.
-     * @return  a list containing all the issues
+     *
+     * @return a list containing all the issues
      */
     public List<Issue> getIssues() {
         TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.FIND_ALL, Issue.class);
         return issueQuery.getResultList();
     }
-    
-    public List<Issue> getIssuesOrderedByDate(){
+
+    public List<Issue> getIssuesOrderedByDate() {
         TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.ORDERED_ISSUES, Issue.class);
         return issueQuery.getResultList();
     }
-    
+
     /**
      * Method for creating a comment
      *
@@ -93,7 +120,7 @@ public class IssueService {
 
         return comment;
     }
-    
+
     public List<Comment> getCommentsByIssueId(Issue issue) {
         TypedQuery<Comment> userQuery = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
         userQuery.setParameter("v_issue", issue);
@@ -102,10 +129,10 @@ public class IssueService {
 
         if (resultList == null || resultList.isEmpty()) {
             return null;
-        }       
+        }
         return resultList;
     }
-    
+
     public List<Label> getLabelsByIssueId(Issue issue) {
         TypedQuery<IssueLabels> userQuery = em.createNamedQuery(IssueLabels.FIND_BY_ISSUE_ID, IssueLabels.class);
         userQuery.setParameter("v_issue", issue);
@@ -114,14 +141,14 @@ public class IssueService {
 
         if (resultList == null || resultList.isEmpty()) {
             return null;
-        } 
-        
+        }
+
         List<Label> finalList = new ArrayList<>();
-        
-        for (IssueLabels l : resultList){
+
+        for (IssueLabels l : resultList) {
             finalList.add(l.getLabel());
         }
         return finalList;
     }
-    
+
 }
