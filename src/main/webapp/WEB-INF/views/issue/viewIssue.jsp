@@ -23,19 +23,16 @@
             <div >
                 <c:choose>
                     <c:when test="${issue.state == 'OPEN'}">
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-open">Open</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-close">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-reopen">Reopen</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle changeStateButton" id="changeState-close">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden changeStateButton" id="changeState-reopen">Reopen</button>
                     </c:when>
                     <c:when test="${issue.state == 'CLOSED'}">
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-open">Open</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-close">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-reopen">Reopen</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden changeStateButton" id="changeState-close">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle changeStateButton" id="changeState-reopen">Reopen</button>
                     </c:when>
                     <c:when test="${issue.state == 'REOPENED'}">
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-open">Open</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle" id="changeState-close">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden" id="changeState-reopen">Reopen</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle changeStateButton" id="changeState-close">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm toggle hidden changeStateButton" id="changeState-reopen">Reopen</button>
                     </c:when>
                 </c:choose>
             </div>
@@ -48,8 +45,8 @@
     <div id="allComments" class="list-group">
         <c:forEach items="${comments}" var="comment">
             <blockquote>
-                <p>${comment.content}</p>
-                <small><a href="">${comment.author.name}</a> on ${comment.date}</small>
+                <p><c:out value="${comment.content}"/></p>
+                <small><a href=""><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.date}"/></small>
             </blockquote>
         </c:forEach>
     </div>          
@@ -69,4 +66,4 @@
 
 </div>
 
-<script src="/resources/js/changeStateModule.js" type="text/javascript"></script>
+<!--<script src="/resources/js/changeStateModule.js" type="text/javascript"></script>-->
