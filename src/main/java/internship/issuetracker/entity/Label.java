@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
@@ -16,10 +18,16 @@ import javax.validation.constraints.Size;
  *
  * @author scalin
  */
+@NamedQueries({
+    @NamedQuery(name = Label.FIND_ALL_LABELS, query = "SELECT u from Label u")
+})
+
 
 @Entity
 @Table(name = "en_labels")
 public class Label implements Serializable{
+    
+    public static final String FIND_ALL_LABELS = "findAllLabels";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
