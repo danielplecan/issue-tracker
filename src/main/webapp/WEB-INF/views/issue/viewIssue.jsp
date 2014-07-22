@@ -38,14 +38,14 @@
             </div>
         </div>
         <div class="panel-body">
-            <h3><c:out value="${issue.content}"/></h3>   
+            <h3><div style="white-space: pre-wrap;"><c:out value="${issue.content}"/></div></h3>   
         </div>
     </div>
 
     <div id="allComments" class="list-group">
         <c:forEach items="${comments}" var="comment">
             <blockquote>
-                <p><c:out value="${comment.content}"/></p>
+                <p style="white-space: pre-wrap;"><c:out value="${comment.content}"/></p>
                 <small><a href=""><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
             </blockquote>
         </c:forEach>
@@ -68,3 +68,6 @@
 </div>
 
 <!--<script src="/resources/js/changeStateModule.js" type="text/javascript"></script>-->
+<style>
+
+</style>

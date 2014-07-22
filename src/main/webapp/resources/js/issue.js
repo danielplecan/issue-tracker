@@ -11,7 +11,7 @@ $(document).ready(function() {
         $("#submitComment").attr("disabled", "disabled");
         issueTrackerService.addComment(issueId, createCommentData()).done(function(data) {
             if (data.success) {
-                var commentContent = "<blockquote><p></p><small><a href=\"\">" +
+                var commentContent = "<blockquote><p style=\"white-space: pre-wrap;\"></p><small><a href=\"\">" +
                         data.username + "</a> on  " + data.date + "</small>" +
                         "</blockquote>";
                 $("#allComments").append(commentContent);
