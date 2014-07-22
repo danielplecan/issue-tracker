@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,34 +59,45 @@ public class IssueController {
             BindingResult bindingResult, HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         response.setStatus(HttpServletResponse.SC_OK);
-        
+
         if (bindingResult.hasErrors()) {
             responseMap.put("success", false);
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
-            return responseMap;
+        } else {
+            User author = (User) request.getSession().getAttribute("user");
+            issueService.createIssue(issue, author);
+
+            responseMap.put("success", true);
+
+            responseMap.put("url", request.getScheme() + "://"
+                    + request.getServerName() + ":" + request.getServerPort()
+                    + request.getContextPath() + "/issue/" + issue.getId());
         }
-
-        User author = (User) request.getSession().getAttribute("user");
-        issueService.createIssue(issue, author);
-
-        responseMap.put("success", true);
-
-        responseMap.put("url", request.getScheme() + "://"
-                + request.getServerName() + ":" + request.getServerPort()
-                + request.getContextPath() + "/issue/" + issue.getId());
 
         return responseMap;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/{action}")
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/close")
     @ResponseBody
-    public Map<String, Object> changeStateOfIssue(@PathVariable("id") Long issueId, @PathVariable("action") String stateAction, HttpServletResponse response) {
+    public Map<String, Object> closeIssue(@PathVariable("id") Long issueId, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
-        result.put("success", issueService.changeStateOfIssue(issueId, stateAction));
 
+        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.CLOSED));
         response.setStatus(HttpServletResponse.SC_OK);
+
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/reopen")
+    @ResponseBody
+    public Map<String, Object> reopenIssue(@PathVariable("id") Long issueId, HttpServletResponse response) {
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.REOPENED));
+        response.setStatus(HttpServletResponse.SC_OK);
+
         return result;
     }
 
@@ -104,18 +113,23 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
     @ResponseBody
     public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, @PathVariable("id") Long issueId, HttpServletRequest request) {
-        User currentUser = (User) request.getSession().getAttribute("user");
-        Map<String, Object> response = new HashMap<>();
-        comment = issueService.addComment(currentUser, issueId, comment);
 
-        if (comment != null) {
-            response.put("success", true);
-            response.put("username",currentUser.getName());
-            response.put("content", comment.getContent());
-            response.put("date",comment.getDateFormat());
+        Map<String, Object> responseMap = new HashMap<>();
+        
+        if (bindingResult.hasErrors()) {
+            responseMap.put("success", false);
+            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
-            response.put("success", false);
+            User currentUser = (User) request.getSession().getAttribute("user");
+
+            issueService.addComment(currentUser, issueId, comment);
+
+            responseMap.put("success", true);
+            responseMap.put("username", currentUser.getName());
+            responseMap.put("content", comment.getContent());
+            responseMap.put("date", comment.getDateFormat());
         }
-        return response;
+
+        return responseMap;
     }
 }
