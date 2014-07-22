@@ -37,6 +37,11 @@ public class IssueController {
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String viewIssue(@PathVariable("id") Long id, Model model) {
         Issue result = issueService.getIssueById(id);
+        if(result == null) {
+            //HERE WE SHOULD REDIRECT TO A NOT FOUND PAGE, I WILL DO THIS WHEN SUCH A PAGE WILL BE AVAILABLE
+            return "home";
+        }
+        
         model.addAttribute("issue", result);
 
         List<Label> labels = issueService.getLabelsByIssueId(result);
