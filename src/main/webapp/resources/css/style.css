@@ -50,7 +50,7 @@
 .Absolute-Center {
     margin: auto;
     position: absolute;
-    top: 0; left: 0; bottom: 50; right: 0;
+    top: 0; left: 0; bottom: 50px; right: 0;
     height: 230px;
 }
 .txt-center{
@@ -58,4 +58,24 @@
 }
 #body{
     margin-bottom: 60px;
+}
+.list-group-item-label-list{
+    position: relative;
+    display: block;
+    padding: 2px 10px;
+    margin-bottom: -1px;
+    background-color: #ffffff;
+    border: 1px solid #F5F5F5;
+    text-align: center;
+}
+.label-list-scroll {
+    overflow: auto;
+    height: 203px;
+}
+.label-title{
+    text-align: center;
+    font-size:  21px;
+}
+textarea {
+    resize: none;
 }
