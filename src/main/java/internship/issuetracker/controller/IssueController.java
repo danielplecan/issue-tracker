@@ -1,5 +1,6 @@
 package internship.issuetracker.controller;
 
+import internship.issuetracker.dto.IssueDTO;
 import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
@@ -55,7 +56,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/create-issue")
     @ResponseBody
-    public Map<String, Object> createAnIssue(@RequestBody @Valid Issue issue,
+    public Map<String, Object> createAnIssue(@RequestBody @Valid IssueDTO issueDto,
             BindingResult bindingResult, HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -67,13 +68,13 @@ public class IssueController {
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             User author = (User) request.getSession().getAttribute("user");
-            issueService.createIssue(issue, author);
+            issueService.createIssueFromIssueDTO(issueDto, author);
 
             responseMap.put("success", true);
 
             responseMap.put("url", request.getScheme() + "://"
                     + request.getServerName() + ":" + request.getServerPort()
-                    + request.getContextPath() + "/issue/" + issue.getId());
+                    + request.getContextPath() + "/issue/" + issueDto.getIssue().getId());
         }
 
         return responseMap;
