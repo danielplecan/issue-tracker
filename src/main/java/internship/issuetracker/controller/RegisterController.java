@@ -33,7 +33,6 @@ public class RegisterController {
 
     @RequestMapping(value = {"/register"}, method = RequestMethod.GET)
     public String registerUser(Model model) {
-        model.addAttribute("user", new UserDTO());
         return "register";
     }
 
