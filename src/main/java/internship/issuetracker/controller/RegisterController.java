@@ -47,12 +47,10 @@ public class RegisterController {
         if (bindingResult.hasErrors()) {
             result.put("success", false);
             result.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
-            return result;
+        } else {        
+            result.put("success", true);
+            userService.registerUser(user);
         }
-        
-        result.put("success", true);
-
-        userService.registerUser(user);
         
         return result;
     }
