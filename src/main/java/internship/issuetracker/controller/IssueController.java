@@ -61,71 +61,36 @@ public class IssueController {
             BindingResult bindingResult, HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
-
+        
+        response.setStatus(HttpServletResponse.SC_OK);
+        
         if (bindingResult.hasErrors()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            responseMap.put("error", SerializationUtil.extractFieldErrors(bindingResult));
+            responseMap.put("success", false);
+            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
             return responseMap;
         }
 
         User author = (User) request.getSession().getAttribute("user");
         issueService.createIssue(issue, author);
 
+        responseMap.put("success", true);
+
         responseMap.put("url", request.getScheme() + "://"
                 + request.getServerName() + ":" + request.getServerPort()
                 + request.getContextPath() + "/issue/" + issue.getId());
 
-        response.setStatus(HttpServletResponse.SC_CREATED);
-
         return responseMap;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/open")
-    @ResponseBody
-    public ResponseEntity<Issue> openIssue(@PathVariable("id") Long id) {
-        ResponseEntity<Issue> response;
-        if (this.issueService.updateIssueState(id, IssueState.OPEN)) {
-            response = new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return response;
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/close")
-    @ResponseBody
-    public ResponseEntity<Issue> closeIssue(@PathVariable("id") Long id) {
-        ResponseEntity<Issue> response;
-        if (this.issueService.updateIssueState(id, IssueState.CLOSED)) {
-            response = new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return response;
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/reopen")
-    @ResponseBody
-    public ResponseEntity<Issue> reopenIssue(@PathVariable("id") Long id) {
-        ResponseEntity<Issue> response;
-        if (this.issueService.updateIssueState(id, IssueState.REOPENED)) {
-            response = new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return response;
-    }
-    
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/{action}")
     @ResponseBody
     public Map<String, Object> changeStateOfIssue(@PathVariable("id") Long issueId, @PathVariable("action") String stateAction, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
         result.put("success", issueService.changeStateOfIssue(issueId, stateAction));
-        
+
         response.setStatus(HttpServletResponse.SC_OK);
         return result;
     }
-    
 
     @RequestMapping(value = "/issues", method = RequestMethod.GET)
     public String viewAllIssues(Model model) {
