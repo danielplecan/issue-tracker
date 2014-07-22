@@ -35,6 +35,18 @@ $(document).ready(function() {
         }      
         $(this).css('background-color', labelColorToSet);
     });
+
+    $("#searchByLabelName").keyup(function() {
+        var inputValue = $(this).val();
+        $("#labelSelector li").hide();
+        $("#labelSelector li").each(function(index, elem) {
+            var $elem = $(elem);
+            if ($elem.text().indexOf(inputValue) >= 0) {
+                console.log($(elem).text());
+                $elem.show();
+            }
+        })
+    });
 });
 
 

@@ -28,17 +28,18 @@
                 </fieldset>
             </form:form>
         </div>
-        <div id="label-list" class="col-lg-3 label-list-scroll">
+        <div id="label-list" class="col-lg-3">
             <div class="txt-center">
                 <span class="label-title">Labels</span>
+                <input class="form-control" id="searchByLabelName" type="text" placeholder="Label">
             </div>
-            <div class="list-group label-list txt-center" id="labelSelector">
+            <div class="list-group label-list txt-center label-list-scroll" id="labelSelector">
                 <c:forEach items="${labels}" var="label">
                     <li class="list-group-item list-item-text cursorPointer" data-id="${label.id}" data-color="${label.color}">
                         <div style="background-color:${label.color}" class="labelCircle"></div>
                         <div>${label.name}</div>
                     </li>
-                 </c:forEach>
+                </c:forEach>
             </div>
         </div>
         <div class="form-group col-lg-12">
@@ -51,39 +52,3 @@
 </div>
 
 <script src="/resources/js/createIssue.js" type="text/javascript"></script>
-<style>
-    .cursorPointer {
-        cursor: pointer;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-    .labelcircle {
-        border-radius: 7px;
-        display: inline-block;
-        float: left;
-        height: 12px;
-        margin-left: 7px;
-        margin-right: 7px;
-        margin-top: 4px;
-        width: 12px;
-        text-align: left;
-    }
-    .list-item-text{
-        background-color: #FFFFFF;
-        border: 1px solid #F5F5F5;
-        display: block;
-        margin-bottom: 1px;
-        padding: 2px 10px;
-        position: relative;
-        text-align: left;
-        border: 1px none black;
-        border-radius: 6px;
-    }
-    .list-group-item.list-item-text.cursorPointer{
-        border-radius: 7px;        
-    }
-</style>
