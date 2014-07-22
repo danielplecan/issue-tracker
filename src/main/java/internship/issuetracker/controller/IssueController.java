@@ -106,12 +106,13 @@ public class IssueController {
     public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, @PathVariable("id") Long issueId, HttpServletRequest request) {
         User currentUser = (User) request.getSession().getAttribute("user");
         Map<String, Object> response = new HashMap<>();
-
         comment = issueService.addComment(currentUser, issueId, comment);
 
         if (comment != null) {
             response.put("success", true);
-            response.put("comment", comment);
+            response.put("username",currentUser.getName());
+            response.put("content", comment.getContent());
+            response.put("date",comment.getDateFormat());
         } else {
             response.put("success", false);
         }

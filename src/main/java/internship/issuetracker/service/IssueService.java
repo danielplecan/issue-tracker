@@ -77,7 +77,7 @@ public class IssueService {
         //in case an issue with this id exists
         if (issue != null) {
             issue.setState(newState);
-            issue.setDate(new Date());
+            issue.setUpdateDate(new Date());
             em.merge(issue);
             return true;
         }
@@ -135,14 +135,15 @@ public class IssueService {
      * @return created comment
      */
     public Comment addComment(User author, Long issueId, Comment comment) {
-        Issue issue = getIssueById(issueId);
+        Issue issue = em.find(Issue.class, issueId);
+        issue.setUpdateDate(new Date());
 
         comment.setAuthor(author);
         comment.setIssue(issue);
         comment.setDate(new Date());
 
         em.persist(comment);
-
+        em.merge(issue);
         return comment;
     }
 

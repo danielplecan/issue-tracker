@@ -46,7 +46,7 @@
         <c:forEach items="${comments}" var="comment">
             <blockquote>
                 <p><c:out value="${comment.content}"/></p>
-                <small><a href=""><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.date}"/></small>
+                <small><a href=""><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
             </blockquote>
         </c:forEach>
     </div>          

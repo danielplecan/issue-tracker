@@ -17,8 +17,8 @@ $(document).ready(function() {
         issueTrackerService.addComment(issueId, createCommentData()).done(function(data) {
             if (data.success) {
                 var commentContent = "<blockquote>" +
-                                        "<p>" + data.comment.content + "</p>" +
-                                        "<small><a href=\"\">" + data.comment.author.name + "</a> on  " + data.comment.date + "</small>" +
+                                        "<p>" + data.content + "</p>" +
+                                        "<small><a href=\"\">" + data.username + "</a> on  " + data.date + "</small>" +
                                      "</blockquote>";
                 $("#allComments").append(commentContent);
 

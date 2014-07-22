@@ -1,6 +1,8 @@
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -94,5 +96,10 @@ public class Comment implements Serializable{
 
     public void setIssue(Issue issue) {
         this.issue = issue;
+    }
+
+    public String getDateFormat() {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return dateFormat.format(this.date);
     }
 }
