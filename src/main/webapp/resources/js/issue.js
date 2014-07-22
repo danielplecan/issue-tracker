@@ -26,29 +26,39 @@ $(document).ready(function() {
                 $("#submitComment").addClass("hidden");
                 $("#addCommentButton").removeClass("hidden");
             }
-            else {
-//                   $.each(data.errors, function(key, value) {
-//                        $("#" + key + "Error").append(value);
-//                    }); 
-            }
         });
     });
     
-//    var currentState = $("#issueState");
-//    if (currentState.text() === "OPEN") {
-//        currentState.addClass("label label-success");
-//        $("#changeState-open").hide();
-//        $("#changeState-reopen").hide();
-//    }
-//    if (currentState.text() === "CLOSED") {
-//        currentState.addClass("label label-danger");
-//        $("#changeState-close").hide();
-//        $("#changeState-open").hide();
-//    }
-//    if (currentState.text() === "REOPENED") {
-//        currentState.addClass("label label-warning");
-//        $("#changeState-reopen").hide();
-//        $("#changeState-open").hide();
-//    }
+    $(".changeStateButton").click(function(event) {
+        event.preventDefault();
+        var stateAction = $(this).attr("id").split("-")[1];
+        var issueId = $("#issueState").attr("data-id");
+        
+        var currentButton = $(this);
+        currentButton.attr("disabled", "disabled");
+        currentButton.addClass('disabledButton');
+        
+        issueTrackerService.changeStateOfIssue(issueId, stateAction).done(function(data) {
+            if (data.success) {
+                $('.changeStateButton').addClass("hidden");
+                
+                if(stateAction === "close") {
+                    $("#issueState").text("CLOSED");
+                    $("#issueState").removeClass("label-success label-warning");
+                    $("#issueState").addClass("label-danger");
+                    
+                    $('#changeState-reopen').removeClass("hidden");
+                } else {
+                    $("#issueState").text("REOPENED");
+                    $("#issueState").removeClass("label-danger");
+                    $("#issueState").addClass("label-warning");
+                    
+                    $("#changeState-close").removeClass("hidden");
+                }
+                currentButton.removeAttr("disabled");
+                currentButton.removeClass("disabledButton");
+            }
+        });
+    });
 });
 
