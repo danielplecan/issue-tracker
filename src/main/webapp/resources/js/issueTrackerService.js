@@ -3,7 +3,7 @@ issueTrackerService = (function () {
     
     self.login = function(loginData) {
         return $.ajax({
-            url: location.origin + "/login",
+            url: location.origin + "/security_check",
             type: "POST",
             data: loginData
         });
@@ -33,10 +33,18 @@ issueTrackerService = (function () {
             });
     };
     
-    self.changeStateOfIssue = function(issueId, stateAction) {
+    self.closeIssue = function(issueId) {
         return $.ajax({
            type: "POST",
-           url: location.origin + "/issue/" + issueId + "/change-state/" + stateAction,
+           url: location.origin + "/issue/" + issueId + "/change-state/close",
+           dataType: "json"
+        });
+    };
+    
+    self.reopenIssue = function(issueId) {
+        return $.ajax({
+           type: "POST",
+           url: location.origin + "/issue/" + issueId + "/change-state/reopen",
            dataType: "json"
         });
     };
