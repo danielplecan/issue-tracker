@@ -87,28 +87,29 @@ textarea {
     padding-right: 10px;
 }
 
- #pageContent{
-        position:relative;
-    }
-    
-    #search_widget{
-        margin: 0px auto;
-        width:100%;
-        right:0px;
-    }
-    
-    #searchBoxStructure {
-        width:100%
-    }
-    
-    #labelCol {
-        width:15%;
-    }
-    
-     #inputCol {
-        width:60%;
-    }
-    
-    td {
-        padding-left:20px;
-    }
+#pageContent{
+    position:relative;
+}
+
+#search_widget{
+    margin: 0px auto;
+    width:100%;
+    right:0px;
+}
+
+#searchBoxStructure {
+    width:100%
+}
+
+#labelCol {
+    width:15%;
+}
+
+#inputCol {
+    width:60%;
+}
+
+td {
+    padding-left:20px;
+}
+//style="white-space: pre-wrap;"
