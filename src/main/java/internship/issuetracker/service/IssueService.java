@@ -181,4 +181,9 @@ public class IssueService {
         return finalList;
     }
 
+    public List<Label> getAllLabels() {
+        TypedQuery<Label> labelQuery;
+        labelQuery = em.createNamedQuery(Label.FIND_ALL_LABELS, Label.class);
+        return labelQuery.getResultList();
+    }
 }
