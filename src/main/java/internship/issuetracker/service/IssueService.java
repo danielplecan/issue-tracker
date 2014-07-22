@@ -86,26 +86,30 @@ public class IssueService {
         return false;
     }
 
-    public boolean changeStateOfIssue(Long issueId, String stateAction) {
+    public boolean changeStateOfIssue(Long issueId, IssueState newState) {
         Issue issue = em.find(Issue.class, issueId);
 
-        if (issue == null) {
+        if (issue == null || newState == null) {
             return false;
         }
-
-        switch (stateAction) {
-            case "close":
-                issue.setState(IssueState.CLOSED);
-                return true;
-
-            case "reopen":
-                if (issue.getState() == IssueState.CLOSED) {
-                    issue.setState(IssueState.REOPENED);
+        
+        switch(newState) {
+            case CLOSED: 
+                if(issue.getState() != IssueState.CLOSED) {
+                    issue.setState(newState);
+                    em.merge(issue);
                     return true;
+                } else {
+                    return false;
                 }
-
-                return true;
-                
+            case REOPENED:
+                if(issue.getState() == IssueState.CLOSED) {
+                    issue.setState(newState);
+                    em.merge(issue);
+                    return true;
+                } else {
+                    return false;
+                }
             default:
                 return false;
         }
