@@ -31,10 +31,19 @@
             <div class="txt-center">
                 <span class="label-title">Labels</span>
             </div>
-            <div class="list-group label-list">
-                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF"><div class="labelCircle"></div>Dapibus</a>
-                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF"><div class="labelCircle"> </div>Dapibus</a>
-                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF"><div class="labelCircle"></div>Dapibus</a>
+            <div class="list-group label-list" id="labelSelector">
+                <li href="#" class="list-group-item list-item-text cursorPointer" data-id="1" data-color="black">
+                       <div style="background-color:black" class="labelCircle"></div>
+                       <div>123456789123456</div>
+                </li>
+                <li href="#" class="list-group-item list-item-text cursorPointer" data-id="1" data-color="black">
+                       <div style="background-color:red" class="labelCircle"></div>
+                       <div>123456789123456</div>
+                </li>
+                  <li href="#" class="list-group-item list-item-text cursorPointer" data-id="1" data-color="black">
+                       <div style="background-color:green" class="labelCircle"></div>
+                       <div>123456789123456</div>
+                </li>
 
             </div>
         </div>
@@ -49,14 +58,38 @@
 
 <script src="/resources/js/createIssue.js" type="text/javascript"></script>
 <style>
+.cursorPointer {
+    cursor: pointer;
+    -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}   
+    
 .labelcircle {
-    background-color: #FF0000;
     border-radius: 7px;
     display: inline-block;
     float: left;
     height: 12px;
-    margin-left: 15px;
+    margin-left: 9px;
+    margin-right: 9px;
     margin-top: 4px;
     width: 12px;
+    text-align: left;
+}
+.list-item-text{
+     background-color: #FFFFFF;
+    border: 1px solid #F5F5F5;
+    display: block;
+    margin-bottom: -1px;
+    padding: 2px 10px;
+    position: relative;
+    text-align: left;
+   
+}
+.list-group-item.list-item-text.cursorPointer{
+    border-radius: 5px;
 }
 </style>
