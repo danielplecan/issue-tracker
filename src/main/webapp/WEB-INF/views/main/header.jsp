@@ -4,9 +4,11 @@
     Author     : iapavaloaie
 --%>
 <div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
+    <div class="container"> 
+        <div class="logo"><img src="/resources/img/small.png" alt="Issue Tracker" width="50" height="50"></div>
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Issue Tracker</a>
+       
+        <a class="navbar-brand" href="/">Issue Tracker</a>
         </div>
         <div id="navbar-main" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">

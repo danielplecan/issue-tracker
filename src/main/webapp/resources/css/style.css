@@ -82,3 +82,7 @@ textarea {
 .login-register-form{
     margin-top: 100px;
 }
+.logo{
+    float:left;
+    padding-right: 10px;
+}
