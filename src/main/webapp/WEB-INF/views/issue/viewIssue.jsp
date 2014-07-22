@@ -4,23 +4,18 @@
         <div class="panel-heading">
             <h3>
                 <c:choose>
-                    <c:when test="${issue.state == 'OPEN'}"><span id="issueState" class="label label-success" data-id="${issue.id}">${issue.state}</span></c:when>
-                    <c:when test="${issue.state == 'CLOSED'}"><span id="issueState" class="label label-danger" data-id="${issue.id}">${issue.state}</span></c:when>
-                    <c:when test="${issue.state == 'REOPENED'}"><span id="issueState" class="label label-warning" data-id="${issue.id}">${issue.state}</span></c:when>
+                    <c:when test="${issue.state == 'OPEN'}"><span id="issueState" class="label label-success stateLabel" data-id="${issue.id}">${issue.state}</span></c:when>
+                    <c:when test="${issue.state == 'CLOSED'}"><span id="issueState" class="label label-danger stateLabel" data-id="${issue.id}">${issue.state}</span></c:when>
+                    <c:when test="${issue.state == 'REOPENED'}"><span id="issueState" class="label label-warning stateLabel" data-id="${issue.id}">${issue.state}</span></c:when>
                 </c:choose>
-                
-                
                 <c:out value="${issue.title}"/>
-            
             </h3>
-             <c:forEach var="label" items="${labels}">
-             <span style="margin-right:3px;" class="label label-warning"> <c:out value="${label.name}"/></span>
-            </c:forEach>
             <div class="issueDateTime">
                 Posted by <span class="text-primary"><c:out value="${issue.owner.name}"/></span> on
                 <span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span>
-            </div>     
-            <div >
+            </div>  
+                
+            <div id="buttonsContainer">
                 <c:choose>
                     <c:when test="${issue.state == 'OPEN'}">
                         <button type="button" class="btn btn-primary btn-sm toggle changeStateButton" id="changeState-close">Close</button>
@@ -39,9 +34,19 @@
         </div>
         <div class="panel-body">
             <h3><div style="white-space: pre-wrap;"><c:out value="${issue.content}"/></div></h3>   
+                <c:choose>
+                    <c:when test="${labels != null}">
+                        <div id="labelContainer">
+                            <c:forEach var="label" items="${labels}">
+                               <span style="margin-right:3px;background-color:${label.color}" class="label label-warning"> <c:out value="${label.name}"/></span>
+                            </c:forEach>
+                        </div>
+                    </c:when>
+                </c:choose>
+                
         </div>
     </div>
-
+        
     <div id="allComments" class="list-group">
         <c:forEach items="${comments}" var="comment">
             <blockquote>
@@ -50,13 +55,13 @@
             </blockquote>
         </c:forEach>
     </div>          
-
+        
     <div id="addComment">
         <button id="addCommentButton" title="" data-original-title="" type="button" class="btn btn-default" data-container="body" 
                 data-toggle="popover" data-placement="left" data-content="Add comment.">
             Add Comment
         </button>
-
+            
         <div id="innerCommentDiv" class="hidden"> 
             <textarea id="textAreaComment" rows="4" class="form-control" placeholder="Insert your comment here..."></textarea>        
         </div>
@@ -64,10 +69,10 @@
         <br />
         <button id="submitComment" class="btn btn-success hidden" type="button">Comment</button>
     </div>
-
+        
 </div>
-
+    
 <!--<script src="/resources/js/changeStateModule.js" type="text/javascript"></script>-->
 <style>
-
+    
 </style>

@@ -113,3 +113,30 @@ td {
     padding-left:20px;
 }
 //style="white-space: pre-wrap;"
+
+#buttonsContainer{
+    display:inline-block;
+    position:relative;
+}
+
+.changeStateButton {
+    position:absolute;
+    top:25px;
+    right:60px;;
+    width:75px;
+    height:30px;
+}
+
+.stateLabel {
+    display: inline-block;
+    height:30px;
+    width:100px;
+}
+
+#labelContainer {
+    padding: 10px;
+    margin-top:20px;
+    border-top-color: #E0E0E0;
+    border-top-style: solid;
+    border-top-width: 2px;
+}
