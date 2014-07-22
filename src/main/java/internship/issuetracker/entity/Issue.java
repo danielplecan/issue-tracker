@@ -139,8 +139,15 @@ public class Issue implements Serializable {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return dateFormat.format(this.date);
     }
+    public String getLastUpdateDate() {
+        return getFriendlyInterval(updateDate);
+    }
+    
     public String getTimeInterval() {
-        DateTime oldTimeInstant = new DateTime(date);
+        return  getFriendlyInterval(date);
+    }
+    private String getFriendlyInterval(Date oldDate) {
+        DateTime oldTimeInstant = new DateTime(oldDate);
         DateTime newTimeInstant = new DateTime(new Date());
         Interval interval = new Interval(oldTimeInstant, newTimeInstant);
         StringBuilder result = new StringBuilder();
@@ -154,7 +161,7 @@ public class Issue implements Serializable {
         long seconds = interval.toDuration().getStandardSeconds() - days * 24 * 60 *60 - hours * 60 * 60 - minutes * 60;
 
         if (days == 1) {
-            result.append("1 day");
+            result.append("1 day ");
         } else if (days > 1 && days < 14) {
             result.append(days + " days  ");
         } else if ( days >= 14) {
