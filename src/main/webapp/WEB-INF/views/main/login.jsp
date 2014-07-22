@@ -9,11 +9,13 @@
 
 <div class=" col-sm-4 col-sm-offset-4 Absolute-Center" >
 
-    <div id="logo" class="text-center">
-        <h1>Issue Tracker</h1>
-    </div>
-    <form class="well form-horizontal" action="security_check" method='POST'>
+
+    <form class="form-horizontal" action="security_check" method='POST'>
+
         <fieldset>
+            <div class="logo">
+                <img src="/resources/img/logo.png" alt="Issue Tracker" class="col-lg-12">
+            </div>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">
                     <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" />
