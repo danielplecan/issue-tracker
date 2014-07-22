@@ -10,4 +10,9 @@ public class HomeController {
     public String home() {
         return "home";
     }
+
+    @RequestMapping(value = "/not-found")
+    public String notFound() {
+        return "not-found";
+    }
 }
