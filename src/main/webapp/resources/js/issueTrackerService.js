@@ -19,17 +19,21 @@ issueTrackerService = (function () {
             data: JSON.stringify(registerData)
         });
     };
-    self.createIssue = function(title, content){        
+    self.createIssue = function(title, content, labelIdList){        
         var issue = {
             'title':title,
             'content':content
+        };
+        var issueDTO = {
+            'issue':issue,
+            'labelIdList':labelIdList
         };
         return $.ajax({
             type: 'POST',
             url: location.origin + '/create-issue',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            data: JSON.stringify(issue)
+            data: JSON.stringify(issueDTO)
             });
     };
     
