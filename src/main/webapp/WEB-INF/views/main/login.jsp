@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<div class=" col-sm-4 col-sm-offset-4 Absolute-Center" >
+<div class=" col-sm-4 col-sm-offset-4 Absolute-Center login-register-form" >
 
 
     <form class="form-horizontal" action="security_check" method='POST'>
@@ -38,6 +38,6 @@
             </div>
         </fieldset>
     </form>
-    <span class="col-lg-12 txt-center">If you don't have an account please <a href="/register"> Register</a></span>
+    <span class="col-lg-12 txt-center">If you don't have an account, please <a href="/register"> Register</a></span>
     <script src="/resources/js/login.js" type="text/javascript"></script>
 </div>
