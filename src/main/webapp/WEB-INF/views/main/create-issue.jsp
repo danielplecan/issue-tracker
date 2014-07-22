@@ -33,18 +33,12 @@
                 <span class="label-title">Labels</span>
             </div>
             <div class="list-group label-list txt-center" id="labelSelector">
-                <li href="#" class="list-group-item list-item-text cursorPointer" data-id="1" data-color="black">
-                    <div style="background-color:black" class="labelCircle"></div>
-                    <div>123456789123456</div>
-                </li>
-                <li href="#" class="list-group-item list-item-text cursorPointer" data-id="1" data-color="red">
-                    <div style="background-color:red" class="labelCircle"></div>
-                    <div>Demo</div>
-                </li>
-                <li href="#" class="list-group-item list-item-text cursorPointer" data-id="1" data-color="green">
-                    <div style="background-color:green" class="labelCircle"></div>
-                    <div>Test</div>
-                </li>
+                <c:forEach items="${labels}" var="label">
+                    <li class="list-group-item list-item-text cursorPointer" data-id="${label.id}" data-color="${label.color}">
+                        <div style="background-color:${label.color}" class="labelCircle"></div>
+                        <div>${label.name}</div>
+                    </li>
+                 </c:forEach>
             </div>
         </div>
         <div class="form-group col-lg-12">
