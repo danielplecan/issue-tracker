@@ -60,7 +60,8 @@
         <div id="innerCommentDiv" class="hidden"> 
             <textarea id="textAreaComment" rows="4" class="form-control" placeholder="Insert your comment here..."></textarea>        
         </div>
-
+        <span id="contentError" class="commentError text-warning"></span>
+        <br />
         <button id="submitComment" class="btn btn-success hidden" type="button">Comment</button>
     </div>
 
