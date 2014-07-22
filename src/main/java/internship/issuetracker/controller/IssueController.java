@@ -6,6 +6,7 @@ import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
+import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.service.IssueService;
 import internship.issuetracker.util.SerializationUtil;
 import java.util.HashMap;
@@ -37,11 +38,11 @@ public class IssueController {
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String viewIssue(@PathVariable("id") Long id, Model model) {
         Issue result = issueService.getIssueById(id);
-        if(result == null) {
+        if (result == null) {
             //HERE WE SHOULD REDIRECT TO A NOT FOUND PAGE, I WILL DO THIS WHEN SUCH A PAGE WILL BE AVAILABLE
             return "home";
         }
-        
+
         model.addAttribute("issue", result);
 
         List<Label> labels = issueService.getLabelsByIssueId(result);
@@ -122,7 +123,7 @@ public class IssueController {
     public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, @PathVariable("id") Long issueId, HttpServletRequest request) {
 
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         if (bindingResult.hasErrors()) {
             responseMap.put("success", false);
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
@@ -139,4 +140,11 @@ public class IssueController {
 
         return responseMap;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/issues/filter")
+    @ResponseBody
+    public List<Issue> filterIssues(@RequestBody @Valid IssueSearchCriteria searchCriteria, BindingResult bindingResult) {
+        return issueService.filterIssues(searchCriteria);
+    }
+
 }

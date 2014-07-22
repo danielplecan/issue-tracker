@@ -1,20 +1,27 @@
 package internship.issuetracker.service;
 
 import internship.issuetracker.dto.IssueDTO;
-import org.springframework.stereotype.Service;
+import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
+import internship.issuetracker.entity.IssueLabels;
 import internship.issuetracker.entity.IssueState;
+import internship.issuetracker.entity.Label;
+import internship.issuetracker.entity.User;
+import internship.issuetracker.filter.IssueSearchCriteria;
+import internship.issuetracker.filter.QueryFilter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import internship.issuetracker.entity.Comment;
-import internship.issuetracker.entity.IssueLabels;
-import internship.issuetracker.entity.Label;
-import internship.issuetracker.entity.User;
-import java.util.ArrayList;
 
 /**
  *
@@ -43,9 +50,9 @@ public class IssueService {
     }
 
     /**
-     * 
+     *
      * @param issueDto encapsulates an issue, and a list of id for existing labels
-     * @param owner 
+     * @param owner
      */
     public void createIssueFromIssueDTO(IssueDTO issueDto, User owner) {
         Issue issue = issueDto.getIssue();
@@ -54,18 +61,19 @@ public class IssueService {
         issue.setUpdateDate(currentDate);
         issue.setOwner(owner);
         em.persist(issue);
-        
+
         for (Long labelId : issueDto.getLabelIdList()) {
             Label label = em.find(Label.class, labelId);
-            if( label == null)
+            if (label == null) {
                 continue;
+            }
             IssueLabels issueLabel = new IssueLabels();
             issueLabel.setIssue(issue);
-            issueLabel.setLabel(label); 
+            issueLabel.setLabel(label);
             em.persist(issueLabel);
         }
     }
-    
+
     public Issue getIssueById(Long id) {
         Issue result = em.find(Issue.class, id);
         return result;
@@ -92,10 +100,10 @@ public class IssueService {
         if (issue == null || newState == null) {
             return false;
         }
-        
-        switch(newState) {
-            case CLOSED: 
-                if(issue.getState() != IssueState.CLOSED) {
+
+        switch (newState) {
+            case CLOSED:
+                if (issue.getState() != IssueState.CLOSED) {
                     issue.setState(newState);
                     em.merge(issue);
                     return true;
@@ -103,7 +111,7 @@ public class IssueService {
                     return false;
                 }
             case REOPENED:
-                if(issue.getState() == IssueState.CLOSED) {
+                if (issue.getState() == IssueState.CLOSED) {
                     issue.setState(newState);
                     em.merge(issue);
                     return true;
@@ -185,5 +193,27 @@ public class IssueService {
         TypedQuery<Label> labelQuery;
         labelQuery = em.createNamedQuery(Label.FIND_ALL_LABELS, Label.class);
         return labelQuery.getResultList();
+    }
+
+    public List<Issue> filterIssues(IssueSearchCriteria searchCriteria) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Issue> criteriaQuery = criteriaBuilder.createQuery(Issue.class);
+        Root<Issue> root = criteriaQuery.from(Issue.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        for (QueryFilter<Issue> filter : searchCriteria.getQueryFilters()) {
+            Predicate predicate = filter.buildPredicate(criteriaBuilder, criteriaQuery, root);
+            if (predicate != null) {
+                predicates.add(predicate);
+            }
+        }
+
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
+
+        criteriaQuery.select(root);
+        TypedQuery<Issue> query = em.createQuery(criteriaQuery);
+//        query.setMaxResults(30);
+//        query.setFirstResult(page * itemsPerPage);
+        return query.getResultList();
     }
 }
