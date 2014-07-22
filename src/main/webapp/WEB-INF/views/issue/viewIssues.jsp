@@ -7,36 +7,51 @@
                 <h3 class="panel-title">Filter issues</h3>
             </div>
             <div class="panel-body" id="panelBody">
-                
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="searchByTitle" value="ON" /> Search by title
-                    </label>  
-                    <input type="text" class="form-control" id="searchFieldTitle" placeholder="Title keyword"/>
-                </div>
-                
-                <div></div>
-                
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="searchByContent" value="ON" /> Search by content
-                    </label>
-                    <input type="text" class="form-control" id="searchFieldContent" placeholder="Content keyword"/>
-                </div>
-                
-                
-                <label for="select" class="col-lg-2 control-label">Show</label>
-                <div class="col-lg-10">
-                    <select class="form-control" id="select">
-                        <option>All</option>
-                        <option>Only opened issues</option>
-                        <option>Only closed issues</option>
-                        <option>Only reopened issues</option>
-                    </select>
-                </div>
-                <button type="button" class="btn btn-primary">Search</button>
-            </div>
-        </div>   
+                <table id="searchBoxStructure">
+                    
+                    <tr>
+                        <td id="labelCol">
+                            <label>Title:</label>  
+                        </td>
+                        <td  id="inputCol">
+                            <input type="text" class="form-control" id="searchFieldTitle" placeholder="Title keyword"/>
+                        </td>
+                    </tr>
+                    
+                    <tr>  
+                        <td>
+                            <label>Content: </label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="searchFieldContent" placeholder="Content keyword"/>
+                        </td>
+                        
+                    </tr>
+                    
+                    
+                    <tr>    
+                        <td>
+                            <label>State</label>
+                        </td>
+                        <td>
+                            
+                                <select class="form-control">
+                                    <option>All</option>
+                                    <option>Open</option>
+                                    <option>Closed</option>
+                                    <option>Reopened</option>
+                                </select>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button" class="btn btn-primary">Search</button>
+                        <td>
+                    </tr>
+                </table>
+            </div> 
+        </div>
     </aside>
     
     <div id="allIssues" >
@@ -73,58 +88,37 @@
         position:relative;
     }
     
-    #searchFieldTitle {
-        display:inline-block;
-        float:right;
-        margin-right:100px;
-        height:25px;
-        width:60%;
-    }
-    
-    #searchFieldContent {
-        display:inline-block;
-        float:right;
-        margin-right:100px;
-        height:25px;
-        width:60%
-    }
-    
     #search_widget{
         margin: 0px auto;
         width:75%;
         right:0px;
     }
     
-    #select {
-        width:30%;
+    #searchBoxStructure {
+        width:100%
+    }
+    
+    #labelCol {
+        width:15%;
+    }
+    
+     #inputCol {
+        width:50%;
+    }
+    
+    td {
+        padding-left:20px;
     }
 </style>
 
 <script>
-    $("#searchFieldTitle").hide();
-    $("#searchFieldContent").hide();
     $("#panelBody").hide();
-
-    $("#searchByTitle").click( function() {
-        if (this.checked) {
-            $("#searchFieldTitle").show();
-        }
-        else {
-            $("#searchFieldTitle").hide();
-        }
-    });
-    
-    $("#searchByContent").click( function() {
-        if (this.checked) {
-            $("#searchFieldContent").show();
-        }
-        else {
-            $("#searchFieldContent").hide();
-        }
-    });
     
     $(".panel-title").click( function() {
-         $("#panelBody").toggle("slow", function() {});
+        $(".panel-title").attr('disabled', 'disabled');
+        $("#panelBody").toggle("slow", function() {    
+            $(".panel-title").removeAttr('disabled');
+        });
     });
 
 </script>
