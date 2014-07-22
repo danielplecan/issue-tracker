@@ -5,7 +5,7 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<script src="../../../resources/js/issueValidator.js" type="text/javascript"></script>
+<script src="/resources/js/validateIssue.js" type="text/javascript"></script>
 
 <div>
     <legend class="col-lg-10 col-lg-offset-1 ">Create an Issue</legend>
@@ -32,9 +32,9 @@
                 <span class="label-title">Labels</span>
             </div>
             <div class="list-group label-list">
-                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF">Dapibus</a>
-                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF">Dapibus</a>
-                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF">Dapibus</a>
+                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF"><div class="labelCircle"></div>Dapibus</a>
+                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF"><div class="labelCircle"> </div>Dapibus</a>
+                <a href="#" class="list-group-item list-group-item-label-list" data-color="#FFFFFF"><div class="labelCircle"></div>Dapibus</a>
 
             </div>
         </div>
@@ -47,4 +47,16 @@
 
 </div>
 
-<script src="/resources/js/issueCreatorService.js" type="text/javascript"></script>
+<script src="/resources/js/createIssue.js" type="text/javascript"></script>
+<style>
+.labelcircle {
+    background-color: #FF0000;
+    border-radius: 7px;
+    display: inline-block;
+    float: left;
+    height: 12px;
+    margin-left: 15px;
+    margin-top: 4px;
+    width: 12px;
+}
+</style>

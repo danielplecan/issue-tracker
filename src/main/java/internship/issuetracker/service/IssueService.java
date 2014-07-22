@@ -1,5 +1,6 @@
 package internship.issuetracker.service;
 
+import internship.issuetracker.dto.IssueDTO;
 import org.springframework.stereotype.Service;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
@@ -41,6 +42,30 @@ public class IssueService {
         em.persist(issue);
     }
 
+    /**
+     * 
+     * @param issueDto encapsulates an issue, and a list of id for existing labels
+     * @param owner 
+     */
+    public void createIssueFromIssueDTO(IssueDTO issueDto, User owner) {
+        Issue issue = issueDto.getIssue();
+        Date currentDate = new Date();
+        issue.setDate(currentDate);
+        issue.setUpdateDate(currentDate);
+        issue.setOwner(owner);
+        em.persist(issue);
+        
+        for (Long labelId : issueDto.getLabelIdList()) {
+            Label label = em.find(Label.class, labelId);
+            if( label == null)
+                continue;
+            IssueLabels issueLabel = new IssueLabels();
+            issueLabel.setIssue(issue);
+            issueLabel.setLabel(label); 
+            em.persist(issueLabel);
+        }
+    }
+    
     public Issue getIssueById(Long id) {
         Issue result = em.find(Issue.class, id);
         return result;

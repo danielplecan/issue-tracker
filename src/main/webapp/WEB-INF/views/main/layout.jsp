@@ -10,7 +10,7 @@
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
         <script src="/resources/js/register.js" type="text/javascript"></script>
         <script src="/resources/js/issue.js" type="text/javascript"></script>
-        <script src="/resources/js/issueValidator.js" type="text/javascript"></script>
+        <script src="/resources/js/validateIssue.js" type="text/javascript"></script>
         
         <link href="/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>

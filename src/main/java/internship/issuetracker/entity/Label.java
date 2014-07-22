@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,9 +28,15 @@ public class Label implements Serializable{
     
     @Basic(optional = false)
     @Column(name = "label_name")
+    @Size( min = 1, max = 15 )
     private String name;
     
-     public Long getId() {
+    @Basic(optional = false)
+    @Column(name = "label_color")
+    @Pattern(regexp ="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",  message = "Not a valid color")
+    private String color;
+    
+    public Long getId() {
         return id;
     }
 
@@ -43,6 +51,12 @@ public class Label implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }
