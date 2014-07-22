@@ -8,20 +8,23 @@ function getContrastYIQ(hexcolor){
 
 $(document).ready(function() {
     $('#buttonCreateIssue').click(function() {
+        var labelIdList = [];
+        $('#labelSelector').find('.selectedLabel').each(function(){
+            labelIdList.push($(this).attr('data-id'));
+        });
+        
         var currentButton = $(this);
         currentButton.attr('disabled', 'disabled');
-        issueTrackerService.createIssue($('#textArea1').val(), $('#textArea2').val()).done(function(data) {
+        issueTrackerService.createIssue($('#textArea1').val(), $('#textArea2').val(), labelIdList).done(function(data) {
             if (data.success) {
                 window.location.replace(data.url);
             }
-
             currentButton.removeAttr('disabled');
         });
     });
     
     $('#labelSelector').delegate('.list-item-text', 'click', function(){
         var labelColorToSet;
-        var circleColorToSet;
         $(this).toggleClass('selectedLabel');
         if($(this).hasClass('selectedLabel')) {
             labelColorToSet =  $(this).attr('data-color');
