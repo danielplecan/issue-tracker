@@ -51,6 +51,7 @@ public class IssueController {
     @RequestMapping(value = {"/create-issue"}, method = RequestMethod.GET)
     public String createIssue(Model model) {
         model.addAttribute("issue", new Issue());
+        model.addAttribute("labels", issueService.getAllLabels());
         return "create-issue";
     }
 
