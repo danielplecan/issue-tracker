@@ -10,15 +10,15 @@
                 </c:choose>
                 
                 
-                ${issue.title}
+                <c:out value="${issue.title}"/>
             
             </h3>
              <c:forEach var="label" items="${labels}">
-             <span style="margin-right:3px;" class="label label-warning"> ${label.name} </span>
+             <span style="margin-right:3px;" class="label label-warning"> <c:out value="${label.name}"/></span>
             </c:forEach>
             <div class="issueDateTime">
-                Posted by <span class="text-primary"> ${issue.owner.name}</span> on
-                <span class="text-primary"> ${issue.getDateFormat()} </span>
+                Posted by <span class="text-primary"><c:out value="${issue.owner.name}"/></span> on
+                <span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span>
             </div>     
             <div >
                 <c:choose>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <h3>${issue.content}</h3>   
+            <h3><c:out value="${issue.content}"/></h3>   
         </div>
     </div>
 
