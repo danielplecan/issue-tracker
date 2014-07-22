@@ -59,7 +59,7 @@
                 <div class="panel panel-default col-lg-offset-1 col-lg-10 noBorder">
                     <div>
                         <div class="issueTitle ">
-                            <span class="issueId"><c:out value="#${issue.getid}"/></span>
+                            <span class="issueId"><c:out value="#${issue.id}"/></span>
                             <c:choose>
                                 <c:when test="${issue.state == 'OPEN'}"> <div class="label label-success issueLength">Open</div></c:when>
                                 <c:when test="${issue.state == 'CLOSED'}"> <div class="label label-danger issueLength">Closed</div></c:when>
