@@ -26,6 +26,9 @@
                             <input type="text" class="form-control" id="searchFieldContent" placeholder="Content keyword"/>
                         </td>
                         
+                        <td>
+                            <button type="button" class="btn btn-primary">Search</button>
+                        <td>
                     </tr>
                     
                     
@@ -35,19 +38,15 @@
                         </td>
                         <td>
                             
-                                <select class="form-control">
-                                    <option>All</option>
-                                    <option>Open</option>
-                                    <option>Closed</option>
-                                    <option>Reopened</option>
-                                </select>
+                            <select class="form-control">
+                                <option>All</option>
+                                <option>Open</option>
+                                <option>Closed</option>
+                                <option>Reopened</option>
+                            </select>
                             
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <button type="button" class="btn btn-primary">Search</button>
-                        <td>
+                        
                     </tr>
                 </table>
             </div> 
@@ -81,38 +80,9 @@
     
     
 </div>
-
-
-<style>    
-    #pageContent{
-        position:relative;
-    }
-    
-    #search_widget{
-        margin: 0px auto;
-        width:75%;
-        right:0px;
-    }
-    
-    #searchBoxStructure {
-        width:100%
-    }
-    
-    #labelCol {
-        width:15%;
-    }
-    
-     #inputCol {
-        width:50%;
-    }
-    
-    td {
-        padding-left:20px;
-    }
-</style>
-
 <script>
     $("#panelBody").hide();
+    $("#search_widget").width($(".issueTitle").width()+30);
     
     $(".panel-title").click( function() {
         $(".panel-title").attr('disabled', 'disabled');
@@ -120,5 +90,4 @@
             $(".panel-title").removeAttr('disabled');
         });
     });
-
 </script>
