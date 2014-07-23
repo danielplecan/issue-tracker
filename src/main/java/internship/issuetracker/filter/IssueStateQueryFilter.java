@@ -16,7 +16,7 @@ public class IssueStateQueryFilter implements QueryFilter<Issue>{
     private final IssueState state;
     
     public IssueStateQueryFilter(String state) {
-        switch(state) {
+        switch(state.toLowerCase()) {
             case "open":
                 this.state = IssueState.OPEN;
                 break;
