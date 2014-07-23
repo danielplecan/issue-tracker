@@ -142,6 +142,11 @@ td {
     top: -102px;
 }
 
+.stateLabelIssues {
+    position: relative;
+    top: -2px;
+}
+
 #labelContainer {
     padding: 10px;
     margin-top:-10px;
@@ -222,7 +227,13 @@ td {
 .profile-panel{
     padding-bottom:20px;
 }
+/*.issueDateTime{
+    float:right;
+}*/
 
+.issueDateTimeUpdate{
+    float:right;
+}
 .panel > .panel-body + .table, .panel > .panel-body + .table-responsive {
     border-style: hidden;
 }

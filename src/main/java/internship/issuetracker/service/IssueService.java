@@ -7,6 +7,7 @@ import internship.issuetracker.entity.IssueLabels;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
+import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.filter.QueryFilter;
 import java.util.ArrayList;
@@ -195,9 +196,10 @@ public class IssueService {
         return labelQuery.getResultList();
     }
 
-    public List<Issue> filterIssues(IssueSearchCriteria searchCriteria) {
+    public FilterResult filterIssues(IssueSearchCriteria searchCriteria) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Issue> criteriaQuery = criteriaBuilder.createQuery(Issue.class);
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
         Root<Issue> root = criteriaQuery.from(Issue.class);
 
         List<Predicate> predicates = new ArrayList<>();
@@ -207,14 +209,27 @@ public class IssueService {
                 predicates.add(predicate);
             }
         }
-
-        criteriaQuery.where(predicates.toArray(new Predicate[0]));
-
+        
+        Predicate[] predicatesArray = predicates.toArray(new Predicate[0]);
+        criteriaQuery.where(predicatesArray);
         criteriaQuery.select(root);
-        TypedQuery<Issue> query = em.createQuery(criteriaQuery);
-//        query.setMaxResults(30);
-//        query.setFirstResult(page * itemsPerPage);
-        return query.getResultList();
+        
+        countQuery.select(criteriaBuilder.count(countQuery.from(Issue.class)));
+        countQuery.where(predicatesArray);
+        
+        TypedQuery<Issue> resultQuery = em.createQuery(criteriaQuery);
+        resultQuery.setMaxResults(searchCriteria.getNumberOfItemsPerPage());
+        resultQuery.setFirstResult(searchCriteria.getPageNumber() * searchCriteria.getNumberOfItemsPerPage());
+        
+        TypedQuery<Long> countResultQuery = em.createQuery(countQuery);
+        
+        Long totalResultCount = countResultQuery.getSingleResult();
+        FilterResult filterResult = new FilterResult();
+        filterResult.setIssues(resultQuery.getResultList());
+        filterResult.setTotalResultCount(totalResultCount);
+        filterResult.setNumberOfPages(totalResultCount / searchCriteria.getNumberOfItemsPerPage());
+        
+        return filterResult;
     }
     
     public Label createLabel(Label label) {
