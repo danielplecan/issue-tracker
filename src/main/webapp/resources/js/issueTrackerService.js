@@ -64,5 +64,18 @@ issueTrackerService = (function () {
         });
     };
     
+    self.createLabel = function(labelName, labelColor){        
+        var newLabel = {
+            name:labelName,
+            color:labelColor
+        };
+        return $.ajax({
+            type: 'POST',
+            url: location.origin + '/create-label',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(newLabel)
+            });
+    };
     return self;
 })();
