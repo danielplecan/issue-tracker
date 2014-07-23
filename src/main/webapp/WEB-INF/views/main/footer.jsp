@@ -6,9 +6,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <footer id="footer" >
     <hr>
-    <nav class="navbar">
+    <nav>
         <div class="navbar-inner navbar-content-center">
-            <p class="text-muted credit">@Copyright Team Awesomeness</p>
+            <p class="text-muted credit">@Copyright CoffeeBreakTeam</p>
         </div>
     </nav>
 </footer>

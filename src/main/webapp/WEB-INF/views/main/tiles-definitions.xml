@@ -34,4 +34,16 @@
         <put-attribute name="body" value="/WEB-INF/views/main/not-found.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/main/footer.jsp" />
     </definition>
+
+    <definition name="userProfile" extends="mainLayout">
+        <put-attribute name="header" value="/WEB-INF/views/main/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/main/profile.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/main/footer.jsp" />
+    </definition>
+
+    <definition name="settings" extends="mainLayout">
+        <put-attribute name="header" value="/WEB-INF/views/main/header.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/main/settings.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/main/footer.jsp" />
+    </definition>
 </tiles-definitions>
