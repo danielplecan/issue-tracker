@@ -11,7 +11,8 @@ function getContrastYIQ(hexcolor) {
 $(document).ready(function() {
 
     //pressing the button for creating an issue
-    $('#buttonCreateIssue').click(function() {
+    $('#buttonCreateIssue').click(function(event) {
+        event.preventDefault();
         var labelIdList = [];
         $('#labelSelector').find('.selectedLabel').each(function() {
             labelIdList.push($(this).attr('data-id'));
