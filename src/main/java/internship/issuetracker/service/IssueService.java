@@ -216,4 +216,15 @@ public class IssueService {
 //        query.setFirstResult(page * itemsPerPage);
         return query.getResultList();
     }
+    
+    public Label createLabel(Label label) {
+        TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
+        labelQuery.setParameter("label_name", label.getName());
+        
+        if (labelQuery.getResultList().isEmpty()) {
+            em.persist(label);
+            return label;
+        }
+        return null;
+    }
 }
