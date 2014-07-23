@@ -39,8 +39,7 @@ public class IssueController {
     public String viewIssue(@PathVariable("id") Long id, Model model) {
         Issue result = issueService.getIssueById(id);
         if (result == null) {
-            //HERE WE SHOULD REDIRECT TO A NOT FOUND PAGE, I WILL DO THIS WHEN SUCH A PAGE WILL BE AVAILABLE
-            return "home";
+            return "not-found";
         }
 
         model.addAttribute("issue", result);
@@ -146,5 +145,30 @@ public class IssueController {
     public List<Issue> filterIssues(@RequestBody @Valid IssueSearchCriteria searchCriteria, BindingResult bindingResult) {
         return issueService.filterIssues(searchCriteria);
     }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/create-label")
+    @ResponseBody
+    public Map<String, Object> createLabel(@RequestBody @Valid Label label,
+            BindingResult bindingResult, HttpServletResponse response) {
+        Map<String, Object> responseMap = new HashMap<>();
 
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        if (bindingResult.hasErrors()) {
+            responseMap.put("success", false);
+            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+        } else {
+            
+            Label returnedLabel  = issueService.createLabel(label);
+            if(returnedLabel != null) {
+                responseMap.put("success", true);
+                responseMap.put("label", label);
+            } else {
+                responseMap.put("success", false);
+                bindingResult.rejectValue("name", "labelNameExist", "A label with this name already exists.");
+                responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            }
+        }
+        return responseMap;
+    }
 }
