@@ -15,4 +15,9 @@ public class HomeController {
     public String notFound() {
         return "not-found";
     }
+    @RequestMapping(value = "/about")
+    public String about() {
+        return "about";
+    }
+
 }

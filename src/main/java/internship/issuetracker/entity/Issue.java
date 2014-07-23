@@ -29,7 +29,7 @@ import org.joda.time.Interval;
  */
 @NamedQueries({
     @NamedQuery(name = Issue.FIND_ALL, query = "SELECT u from Issue u"),
-    @NamedQuery(name = Issue.ORDERED_ISSUES, query = "SELECT u from Issue u ORDER BY u.date DESC")
+    @NamedQuery(name = Issue.ORDERED_ISSUES, query = "SELECT u from Issue u ORDER BY u.updateDate DESC")
 })
 
 @Entity
@@ -46,12 +46,12 @@ public class Issue implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "issue_title")
-    @NotBlank(message = "An issue must have a title.")
     @Size(min = 3, max = 50, message = "The title must have between 3 and 50 characters.")
     private String title;
 
     @Basic(optional = true)
     @Column(name = "issue_content")
+    @Size(max = 500, message = "The content must have a maximum of 500 characters.")
     private String content;
 
     @Basic(optional = false)

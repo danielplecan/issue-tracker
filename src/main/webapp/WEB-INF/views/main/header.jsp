@@ -3,15 +3,23 @@
     <div class="container"> 
         <div class="logo"><img src="/resources/img/small.png" alt="Issue Tracker" width="50" height="50"></div>
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="/">Issue Tracker</a>
         </div>
         <div id="navbar-main" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/create-issue">Create an issue</a>
+                    <a href="/about">About</a>
                 </li>
                 <li>
                     <a href="/issues">View All Issues</a>
+                </li>
+                <li>
+                    <a href="/create-issue">Create an issue</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -29,9 +37,9 @@
             </ul>
         </div>
     </div>
-                    <span id="username"><sec:authentication property="principal.username" /></span>
+    <span id="username"><sec:authentication property="principal.username" /></span>
 </div>
-
+</div>
 <script>
     var username = $("#username").text();
     $("#username").hide();

@@ -11,6 +11,7 @@ import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.service.IssueService;
 import internship.issuetracker.util.SerializationUtil;
+import internship.issuetracker.validator.LabelValidator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,9 @@ public class IssueController {
 
     @Autowired
     private IssueService issueService;
+    
+    @Autowired
+    private LabelValidator labelValidator;
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String viewIssue(@PathVariable("id") Long id, Model model) {
@@ -153,29 +157,22 @@ public class IssueController {
         return issueService.filterIssues(searchCriteria);
     }
     
-    @RequestMapping(method = RequestMethod.POST, value = "/create-label")
+      @RequestMapping(method = RequestMethod.POST, value = "/create-label")
     @ResponseBody
     public Map<String, Object> createLabel(@RequestBody @Valid Label label,
             BindingResult bindingResult, HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
 
         response.setStatus(HttpServletResponse.SC_OK);
-
+        labelValidator.validate(label, bindingResult);
         if (bindingResult.hasErrors()) {
             responseMap.put("success", false);
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             
-            Label returnedLabel  = issueService.createLabel(label);
-            if(returnedLabel != null) {
+                Label returnedLabel  = issueService.createLabel(label);
                 responseMap.put("success", true);
-                responseMap.put("label", label);
-            } else {
-                responseMap.put("success", false);
-                bindingResult.rejectValue("name", "labelNameExist", "A label with this name already exists.");
-                Object put;
-                put = responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
-            }
+                responseMap.put("label", returnedLabel);
         }
         return responseMap;
     }

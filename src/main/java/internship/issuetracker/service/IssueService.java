@@ -106,6 +106,7 @@ public class IssueService {
             case CLOSED:
                 if (issue.getState() != IssueState.CLOSED) {
                     issue.setState(newState);
+                    issue.setUpdateDate(new Date());
                     em.merge(issue);
                     return true;
                 } else {
@@ -114,6 +115,7 @@ public class IssueService {
             case REOPENED:
                 if (issue.getState() == IssueState.CLOSED) {
                     issue.setState(newState);
+                    issue.setUpdateDate(new Date());
                     em.merge(issue);
                     return true;
                 } else {
@@ -234,14 +236,14 @@ public class IssueService {
         return filterResult;
     }
     
-    public Label createLabel(Label label) {
-        TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
-        labelQuery.setParameter("label_name", label.getName());
-        
-        if (labelQuery.getResultList().isEmpty()) {
+     public Label createLabel(Label label) {
             em.persist(label);
             return label;
-        }
-        return null;
+    }
+    
+    public boolean labelExists(String labelName) {
+        TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
+        labelQuery.setParameter("label_name", labelName);
+        return !labelQuery.getResultList().isEmpty();
     }
 }

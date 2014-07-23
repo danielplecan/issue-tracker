@@ -5,12 +5,10 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<script src="/resources/js/validateIssue.js" type="text/javascript"></script>
-
 <div>
-    <legend class="col-lg-10 col-lg-offset-1 ">Create an Issue</legend>
-    <div class="well col-lg-10 col-lg-offset-1">
-        <div class="col-lg-9  ">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="col-lg-9 ">
+            <legend >Create an Issue</legend>
             <form:form class="form-horizontal" modelAttribute='issue' action='' method='POST'>
                 <fieldset>
                     <div id="divToChange" class="form-group">
@@ -25,20 +23,27 @@
                             <form:errors path="content" class="text-warning" />
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="txt-center">
+                            <div id="issueErrorSpan" class="commentError text-warning commentContent"></div>
+                            <button class="btn btn-default" id="buttonCreateIssue">Create</button>
+                        </div>
+                    </div>
                 </fieldset>
             </form:form>
         </div>
         <div id="label-list" class="col-lg-3">
-            <div class="txt-center">
-                <span class="label-title">Labels</span>
+            <div class="txt-center ">
+                <legend  class="label-title">Labels</legend>
+
                 <div id="createLabelContainer">
                     <input class="form-control2" id="searchByLabelName" type="text" placeholder="Label">
-                    <buton id="showCreateLabel" class="label-add-new label label-default">+</buton>
+                    <buton id="showCreateLabel" class="label-add-new label label-default cursorPointer">+</buton>
                 </div>
                 <div id="createLabelH" class="hidden">
                     <div id="currentColor">                      
                         <input id="newLabel" class="form-control3" type="text" name="color"  maxlength="7" disabled="">
-                        <buton id="submitNewLabel" class="label-add-new label label-default">Create</buton>
+                        <buton id="submitNewLabel" class="label-add-new label label-default ">Create</buton>
                     </div>  
                     <div id="colorWidget">
                         <div class="label-line txt-center">
@@ -72,11 +77,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="form-group col-lg-12">
-            <div class="txt-center">
-                <button class="btn btn-default" id="buttonCreateIssue">Create</button>
-            </div>
-        </div>
+
     </div>
 
 </div>
