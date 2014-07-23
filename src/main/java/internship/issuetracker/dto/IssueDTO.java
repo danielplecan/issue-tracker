@@ -9,11 +9,13 @@ package internship.issuetracker.dto;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.Label;
 import java.util.List;
+import javax.validation.Valid;
 /**
  *
  * @author atataru
  */
 public class IssueDTO {
+    @Valid
     private Issue issue;
     
     private List<Long> labelIdList;

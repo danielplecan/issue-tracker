@@ -17,13 +17,18 @@ $(document).ready(function() {
             labelIdList.push($(this).attr('data-id'));
         });
 
-        var currentButton = $(this);
-        currentButton.attr('disabled', 'disabled');
         issueTrackerService.createIssue($('#textArea1').val(), $('#textArea2').val(), labelIdList).done(function(data) {
             if (data.success) {
                 window.location.replace(data.url);
             }
-            currentButton.removeAttr('disabled');
+            else {
+                var createIssueErrors = "";
+                $.each(data.errors, function(key, value) {
+                    createIssueErrors += value;
+                    createIssueErrors += "\n";
+                });
+                $("#issueErrorSpan").text(createIssueErrors);
+            }
         });
     });
 
