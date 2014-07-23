@@ -1,5 +1,6 @@
 package internship.issuetracker.controller;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.IDDV;
 import internship.issuetracker.dto.IssueDTO;
 import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
@@ -113,8 +114,13 @@ public class IssueController {
     public String viewAllIssues(Model model) {
 
         List<Issue> issues = issueService.getIssuesOrderedByDate();
+        Map<Long,List<Label>> labelsForIssue =  new HashMap<>();
+        for(Issue is : issues){
+            List<Label> labels = issueService.getLabelsByIssueId(is);
+            labelsForIssue.put(is.getId(),labels);
+        }
         model.addAttribute("issues", issues);
-
+        model.addAttribute("labels",labelsForIssue);
         return "issues";
     }
 

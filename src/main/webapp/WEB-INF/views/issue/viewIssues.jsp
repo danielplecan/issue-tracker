@@ -68,6 +68,11 @@
                             <a class="titleLink" href="/issue/${issue.id}"><c:out value="${issue.title}"/></a>
                         </div>
                     </div>
+                    <div labels>
+                        <c:forEach items="${labels[issue.id]}" var="label">
+                            <span class="label label-primary"><c:out value="${label.name}"/></span>
+                        </c:forEach>  
+                    </div>
                     <div class = "dates">
                         <div class="issueDateTimeUpdate">
                             <i>Posted by</i> <span class="text-primary"><c:out value="${issue.owner.name}"/></span><i> on</i>
