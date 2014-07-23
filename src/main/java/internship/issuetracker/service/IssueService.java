@@ -219,7 +219,7 @@ public class IssueService {
         
         TypedQuery<Issue> resultQuery = em.createQuery(criteriaQuery);
         resultQuery.setMaxResults(searchCriteria.getNumberOfItemsPerPage());
-        resultQuery.setFirstResult(searchCriteria.getPageNumber() * searchCriteria.getNumberOfItemsPerPage());
+        resultQuery.setFirstResult((searchCriteria.getPageNumber() - 1) * searchCriteria.getNumberOfItemsPerPage());
         
         TypedQuery<Long> countResultQuery = em.createQuery(countQuery);
         
@@ -227,7 +227,7 @@ public class IssueService {
         FilterResult filterResult = new FilterResult();
         filterResult.setIssues(resultQuery.getResultList());
         filterResult.setTotalResultCount(totalResultCount);
-        filterResult.setNumberOfPages(totalResultCount / searchCriteria.getNumberOfItemsPerPage());
+        filterResult.setNumberOfPages(totalResultCount / searchCriteria.getNumberOfItemsPerPage() + 1);
         filterResult.setCurrentPage(searchCriteria.getPageNumber().longValue());
         filterResult.setNumberOfItemsPerPage(searchCriteria.getNumberOfItemsPerPage().longValue());
         
