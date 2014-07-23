@@ -133,6 +133,7 @@ td {
 #buttonsContainer{
     display:inline-block;
     position:relative;
+    float: right;
 }
 
 .changeStateButton {
@@ -195,9 +196,7 @@ td {
 }
 
 #issueContent{
-    border-top: 2px #E0E0E0 solid;
-    border-left: 2px #E0E0E0 solid;
-    border-bottom: 2px #E0E0E0 solid;
+    border-left: 4px #E0E0E0 solid;
     padding: 15px;
     margin-top:-20px;
 }
@@ -231,9 +230,6 @@ td {
     float:right;
 }*/
 
-.issueDateTimeUpdate{
-    float:right;
-}
 .panel > .panel-body + .table, .panel > .panel-body + .table-responsive {
     border-style: hidden;
 }
@@ -249,4 +245,17 @@ td {
 
 .issueDateTimeUpdate{
     float:right;
+}
+
+.label-success {
+  background-color: #80E680;
+  color: green;
+}
+.label-danger{
+  background-color: #FF8080;
+  color: #7A0000;
+}
+.label-warning{
+  background-color: #FFB280;
+  color: #CC5200;
 }

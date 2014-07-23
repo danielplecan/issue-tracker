@@ -17,7 +17,7 @@
                 <br>
                 <i>Posted by </i><span class="text-primary"><c:out value="${issue.owner.name}"/></span> <i>on</i>
                 <span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span><i>, last updated</i> 
-                <span class="text-primary"> <c:out value="${issue.getLastUpdateDate()}"/> </span>
+                <span class="text-primary"> <c:out value="${issue.getLastUpdateDate()}"/> </span><i> ago</i>
             </div>  
 
             <div id="buttonsContainer">
@@ -36,17 +36,21 @@
                     </c:when>
                 </c:choose>
             </div>
-        </div>       
-        <div class="panel-body">            
-            <h4><div clsss="" id="issueContent"><c:out value="${issue.content}"/></div></h4>   
-                <c:choose>
-                    <c:when test="${labels != null}">
-                    <div id="labelContainer">
-                        <c:forEach var="label" items="${labels}">
-                            <span style="margin-right:3px;background-color:${label.color}" class="label label-warning"> <c:out value="${label.name}"/></span>
-                        </c:forEach>
-                    </div>
+        </div>      
+        <div class="panel-body contentLine">  
+            <c:choose>
+                <c:when test="${not empty issue.content}">
+                    <h4><div clsss="" id="issueContent"><c:out value="${issue.content}"/></div></h4>   
                 </c:when>
+            </c:choose>
+                        <c:choose>
+                            <c:when test="${labels != null}">
+                            <div id="labelContainer">
+                                <c:forEach var="label" items="${labels}">
+                                    <span style="margin-right:3px;background-color:${label.color}" class="label label-warning"> <c:out value="${label.name}"/></span>
+                                </c:forEach>
+                            </div>
+                        </c:when>
             </c:choose>
 
         </div>
