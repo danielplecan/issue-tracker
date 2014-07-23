@@ -11,6 +11,8 @@ public class FilterResult {
     private List<Issue> issues;
     private Long numberOfPages;
     private Long totalResultCount;
+    private Long currentPage;
+    private Long numberOfItemsPerPage;
 
     public List<Issue> getIssues() {
         return issues;
@@ -34,5 +36,21 @@ public class FilterResult {
 
     public void setTotalResultCount(Long totalResultCount) {
         this.totalResultCount = totalResultCount;
+    }
+
+    public Long getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Long currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Long getNumberOfItemsPerPage() {
+        return numberOfItemsPerPage;
+    }
+
+    public void setNumberOfItemsPerPage(Long numberOfItemsPerPage) {
+        this.numberOfItemsPerPage = numberOfItemsPerPage;
     }
 }

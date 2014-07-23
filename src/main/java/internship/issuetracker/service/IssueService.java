@@ -228,6 +228,8 @@ public class IssueService {
         filterResult.setIssues(resultQuery.getResultList());
         filterResult.setTotalResultCount(totalResultCount);
         filterResult.setNumberOfPages(totalResultCount / searchCriteria.getNumberOfItemsPerPage());
+        filterResult.setCurrentPage(searchCriteria.getPageNumber().longValue());
+        filterResult.setNumberOfItemsPerPage(searchCriteria.getNumberOfItemsPerPage().longValue());
         
         return filterResult;
     }
