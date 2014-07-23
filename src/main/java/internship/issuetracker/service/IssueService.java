@@ -5,6 +5,7 @@ import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueLabels;
 import internship.issuetracker.entity.IssueState;
+import internship.issuetracker.entity.Issue_;
 import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
@@ -215,6 +216,7 @@ public class IssueService {
         Predicate[] predicatesArray = predicates.toArray(new Predicate[0]);
         criteriaQuery.where(predicatesArray);
         criteriaQuery.select(root);
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Issue_.updateDate)));
         
         countQuery.select(criteriaBuilder.count(countQuery.from(Issue.class)));
         countQuery.where(predicatesArray);
