@@ -19,7 +19,8 @@ import javax.validation.constraints.Size;
  * @author scalin
  */
 @NamedQueries({
-    @NamedQuery(name = Label.FIND_ALL_LABELS, query = "SELECT u from Label u")
+    @NamedQuery(name = Label.FIND_ALL_LABELS, query = "SELECT u from Label u"),
+    @NamedQuery(name = Label.FIND_LABEL_BY_NAME, query = "SELECT u from Label u WHERE u.name = :label_name")
 })
 
 
@@ -28,6 +29,7 @@ import javax.validation.constraints.Size;
 public class Label implements Serializable{
     
     public static final String FIND_ALL_LABELS = "findAllLabels";
+    public static final String FIND_LABEL_BY_NAME = "findLabelByName";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
