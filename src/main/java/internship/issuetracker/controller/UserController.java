@@ -21,7 +21,7 @@ public class UserController {
     @RequestMapping(value = "/profile/{username}")
     public String profile(@PathVariable("username") String username, Model model) {
         User target = userService.getUserByUsername(username);
-        if (username != null){
+        if (target != null){
             model.addAttribute("user", target);
             return "userProfile";
         }
