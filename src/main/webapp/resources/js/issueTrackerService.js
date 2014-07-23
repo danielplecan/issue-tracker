@@ -77,5 +77,15 @@ issueTrackerService = (function () {
             data: JSON.stringify(newLabel)
             });
     };
+    
+    self.getFilteredIssues = function(filterData) {
+        return $.ajax({
+            type: 'POST',
+            url: location.origin + '/issues/filter',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(filterData)
+        });
+    };
     return self;
 })();
