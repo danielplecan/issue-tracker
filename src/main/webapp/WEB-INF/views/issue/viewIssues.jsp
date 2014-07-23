@@ -79,7 +79,7 @@
                             <span class="text-primary"><c:out value="${issue.getDateFormat()}"/> </span>
                         </div>   
                         <div class="issueDateTime">
-                            <i>Last update </i>
+                            <i>Last updated </i>
                             <span class="text-primary"><c:out value="${issue.getLastUpdateDate()}"/> </span>
                             <i> ago</i>
                         </div>
