@@ -167,7 +167,8 @@ public class IssueController {
             } else {
                 responseMap.put("success", false);
                 bindingResult.rejectValue("name", "labelNameExist", "A label with this name already exists.");
-                responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+                Object put;
+                put = responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
             }
         }
         return responseMap;
