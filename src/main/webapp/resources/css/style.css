@@ -324,7 +324,7 @@ td {
     width:100%;
     display: flex;
     margin-left: 8px;
-    margin-botom:5px;
+    margin-bottom:5px;
 }
 #createLabelH{
     border-radius: 3px;
@@ -338,4 +338,12 @@ td {
 }
 .label-selected{
     border: 2px solid black;
+}
+
+#createLabelErrorField {
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */ 
 }
