@@ -248,14 +248,94 @@ td {
 }
 
 .label-success {
-  background-color: #80E680;
-  color: green;
+    background-color: #80E680;
+    color: green;
 }
 .label-danger{
-  background-color: #FF8080;
-  color: #7A0000;
+    background-color: #FF8080;
+    color: #7A0000;
 }
 .label-warning{
-  background-color: #FFB280;
-  color: #CC5200;
+    background-color: #FFB280;
+    color: #CC5200;
+}
+
+// creating labels (Ionut & Augustin)
+.label-add-new{
+    vertical-align: central;
+    margin-top: -3px;
+    cursor: pointer;
+}
+.label-add-new:hover{
+    vertical-align: central;
+    margin-top: -3px;
+    cursor: pointer;
+    background-color: #28B62C;
+} 
+#createLabelContainer{
+    display: inline-block;
+    margin-bottom: 5px; 
+}
+.form-control2{
+    width: 80%;
+    height: 36px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.form-control3{
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #E7E7E7;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555555;
+    font-size: 13px;
+    height: 23px;
+    line-height: 1.42857;
+    padding: 1px 10px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 64%;
+}
+.color-chooser-color{
+    border-radius:2px;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    margin:0.4px;
+}
+.color-chooser-color:hover{
+    width: 24px;
+    height: 24px;      
+    margin: 0.9px;
+    border: 1px solid black;
+}
+.label-line{
+    width:100%;
+    display: flex;
+    margin-left: 8px;
+    margin-botom:5px;
+}
+#createLabelH{
+    border-radius: 3px;
+    border: 1.5px #e7e7e7 solid;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+    padding-top: 3px;       
+}
+#currentColor{
+    margin-bottom: 5px;
+}
+.label-selected{
+    border: 2px solid black;
 }
