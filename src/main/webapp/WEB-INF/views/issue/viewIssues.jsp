@@ -17,7 +17,7 @@
                             <input type="text" class="form-control" id="searchFieldTitle" placeholder="Title keyword"/>
                         </td>
                     </tr>
-                    
+                        
                     <tr>  
                         <td>
                             <label>Content: </label>
@@ -25,13 +25,13 @@
                         <td>
                             <input type="text" class="form-control" id="searchFieldContent" placeholder="Content keyword"/>
                         </td>
-                        
+                            
                         <td>
                             <button type="button" class="btn btn-primary">Search</button>
                         <td>
                     </tr>
-                    
-                    
+                        
+                        
                     <tr>    
                         <td>
                             <label>State</label>
@@ -44,15 +44,15 @@
                                 <option>Closed</option>
                                 <option>Reopened</option>
                             </select>
-                            
+                                
                         </td>
-                        
+                            
                     </tr>
                 </table>
             </div> 
         </div>
     </aside>
-    
+        
     <div id="allIssues" >
         <c:forEach items="${issues}" var="issue">
             <div class="firstRow" data-id="${issue.id}">
@@ -76,9 +76,17 @@
             </div>
         </c:forEach>
     </div>
-    
-    
-    
+    <div class="col-lg-offset-4 col-lg-4">
+        <ul class="pager" style="display: inline-block">
+            <li class="firstButton first disabled"><a >«</a></li>
+            <li class="prevButton first disabled"><a  >Prev</a></li>
+        </ul>
+        <label class="pageLabel"></label>
+        <ul class="pager" style="display: inline-block">
+            <li class="nextButton last"><a >Next</a></li>
+            <li class="lastButton last"><a >»</a></li>
+        </ul>
+    </div>
 </div>
 <script>
     $("#panelBody").hide();
@@ -91,3 +99,4 @@
         });
     });
 </script>
+<script src="/resources/js/pagination.js" type="text/javascript"></script>

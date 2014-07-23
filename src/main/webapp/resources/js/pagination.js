@@ -1,4 +1,4 @@
-var pagination = function() {
+var pager = function() {
     var  pageLabel;
     var pageNumber;
     var numberOfPages;
@@ -6,23 +6,23 @@ var pagination = function() {
     var enableFirst= function(flag){
         $(".first").each( function() {
             if(!flag)
-                $(this).attr("disabled","disabled");
+                $(this).addClass("disabled","disabled");
             else
-                $(this).removeAttr("disabled");
+                $(this).removeClass("disabled");
         }); 
     };
     var enableLast= function(flag){
         $(".last").each( function() {
             if(!flag)
-                $(this).attr("disabled","disabled");
+                $(this).addClass("disabled");
             else
-                $(this).removeAttr("disabled");
+                $(this).removeClass("disabled");
         }); 
     };
     var changeCurrentPage = function() {
-        var paginationButtonContainer = $('.pagination');
+        var paginationButtonContainer = $('.pager');
         enableFirst(pageNumber > 1);
-        pageLabel.children().text("page "+ pageNumber +" of "+ numberOfPages);
+        pageLabel.text("page "+ pageNumber +" of "+ numberOfPages);
         enableLast(pageNumber < numberOfPages);
     };
 
@@ -32,42 +32,42 @@ var pagination = function() {
                 return;
             ++pageNumber;
             changeCurrentPage();
-            issueTrackerService.getIssues(pageNumber, 15);
+          //  issueTrackerService.getIssues(pageNumber, 15);
         },
         prevPage: function() {
             if(pageNumber<=1)
                 return;
             --pageNumber;
             changeCurrentPage();
-            issueTrackerService.getIssues(pageNumber, 15);
+         //   issueTrackerService.getIssues(pageNumber, 15);
         },
         firstPage: function() {
             if(pageNumber<=1)
                 return;
             pageNumber=1;
             changeCurrentPage();
-            issueTrackerService.getIssues(1, 15);
+          //  issueTrackerService.getIssues(1, 15);
         },
         lastPage: function() {
             if(pageNumber>=numberOfPages)
                 return;
             pageNumber=numberOfPages;
             changeCurrentPage();
-            issueTrackerService.getIssues(pageNumber, 15);
+           // issueTrackerService.getIssues(pageNumber, 15);
         },
         initializePagination: function(nrOfIssues) {
             pageNumber=1;
             numberOfPages = Math.round(nrOfIssues / 15);
-            pageLabel=$(".pagination").find(".pageLabel");
+            pageLabel=$(".pageLabel");
             changeCurrentPage(1);
         }
     };
 };
 $(document).ready(function() {
-    var pagObject = pagination();
+    var pagObject = pager();
     pagObject.initializePagination(300);
 
-    var paginationButtonContainer = $('.pagination');
+    var paginationButtonContainer = $('.pager');
     paginationButtonContainer.find(".nextButton").click(pagObject.nextPage);
     paginationButtonContainer.find(".prevButton").click(pagObject.prevPage);
     paginationButtonContainer.find(".lastButton").click(pagObject.lastPage);
