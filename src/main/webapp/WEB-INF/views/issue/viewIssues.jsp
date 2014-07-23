@@ -80,7 +80,7 @@
                         </div>   
                         <div class="issueDateTime">
                             <i>Last update </i>
-                            <span class="text-primary"><c:out value="${issue.getTimeInterval()}"/> </span>
+                            <span class="text-primary"><c:out value="${issue.getLastUpdateDate()}"/> </span>
                             <i> ago</i>
                         </div>
                     </div>

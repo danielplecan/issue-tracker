@@ -106,6 +106,7 @@ public class IssueService {
             case CLOSED:
                 if (issue.getState() != IssueState.CLOSED) {
                     issue.setState(newState);
+                    issue.setUpdateDate(new Date());
                     em.merge(issue);
                     return true;
                 } else {
@@ -114,6 +115,7 @@ public class IssueService {
             case REOPENED:
                 if (issue.getState() == IssueState.CLOSED) {
                     issue.setState(newState);
+                    issue.setUpdateDate(new Date());
                     em.merge(issue);
                     return true;
                 } else {
