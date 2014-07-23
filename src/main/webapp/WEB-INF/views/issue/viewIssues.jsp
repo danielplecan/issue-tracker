@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div id="pageContent">
-    
+
     <aside id="search_widget">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -8,7 +8,7 @@
             </div>
             <div class="panel-body" id="panelBody">
                 <table id="searchBoxStructure">
-                    
+
                     <tr>
                         <td id="labelCol">
                             <label>Title:</label>  
@@ -17,7 +17,7 @@
                             <input type="text" name="title" class="form-control" id="searchFieldTitle" placeholder="Title keyword"/>
                         </td>
                     </tr>
-                        
+
                     <tr>  
                         <td>
                             <label>Content: </label>
@@ -25,34 +25,34 @@
                         <td>
                             <input type="text" name="content" class="form-control" id="searchFieldContent" placeholder="Content keyword"/>
                         </td>
-                            
+
                         <td>
                             <button type="button" class="btn btn-primary">Search</button>
                         <td>
                     </tr>
-                        
-                        
+
+
                     <tr>    
                         <td>
                             <label>State</label>
                         </td>
                         <td>
-                            
+
                             <select class="form-control">
                                 <option>All</option>
                                 <option>Open</option>
                                 <option>Closed</option>
                                 <option>Reopened</option>
                             </select>
-                                
+
                         </td>
-                            
+
                     </tr>
                 </table>
             </div> 
         </div>
     </aside>
-        
+
     <div id="allIssues" >
         <c:forEach items="${issues}" var="issue">
             <div class="firstRow" data-id="${issue.id}">
@@ -68,7 +68,7 @@
                             <a class="titleLink" href="/issue/${issue.id}"><c:out value="${issue.title}"/></a>
                         </div>
                     </div>
-                    <div labels>
+                    <div>
                         <c:forEach items="${labels[issue.id]}" var="label">
                             <span class="label label-primary"><c:out value="${label.name}"/></span>
                         </c:forEach>  
@@ -91,24 +91,25 @@
     <div class="col-lg-offset-4 col-lg-4">
         <ul class="pager" style="display: inline-block">
             <li class="firstButton first disabled"><a >«</a></li>
-            <li class="prevButton first disabled"><a  >Prev</a></li>
+            <li class="prevButton first disabled"><a>Prev</a></li>
         </ul>
         <label class="pageLabel"></label>
         <ul class="pager" style="display: inline-block">
-            <li class="nextButton last"><a >Next</a></li>
-            <li class="lastButton last"><a >»</a></li>
+            <li class="nextButton last"><a>Next</a></li>
+            <li class="lastButton last"><a>»</a></li>
         </ul>
     </div>
 </div>
 <script>
     $("#panelBody").hide();
-    $("#search_widget").width($(".issueTitle").width()+30);
-    
-    $(".panel-title").click( function() {
+    $("#search_widget").width($(".issueTitle").width() + 30);
+
+    $(".panel-title").click(function() {
         $(".panel-title").attr('disabled', 'disabled');
-        $("#panelBody").toggle("slow", function() {    
+        $("#panelBody").toggle("slow", function() {
             $(".panel-title").removeAttr('disabled');
         });
     });
 </script>
+<script src="/resources/js/issuesCreator.js" type="text/javascript"></script>
 <script src="/resources/js/pagination.js" type="text/javascript"></script>
