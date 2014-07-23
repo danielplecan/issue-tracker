@@ -59,6 +59,9 @@ public class IssueController {
         return "issue";
     }
 
+    //crw: createIssue and createAnIssue methods might be puzzling, so you may consider renaming them
+    //crw: one recommendation is to rename these methods with get<PageName> or setup<PageName>
+    //crw: for example, the method bellow does not create an issue, instead it prepares the create-issue page
     @RequestMapping(value = {"/create-issue"}, method = RequestMethod.GET)
     public String createIssue(Model model) {
         model.addAttribute("issue", new Issue());
@@ -84,6 +87,7 @@ public class IssueController {
 
             responseMap.put("success", true);
 
+            //crw: have a look at UriComponentsBuilder and after that you might consider replacing the code below
             responseMap.put("url", request.getScheme() + "://"
                     + request.getServerName() + ":" + request.getServerPort()
                     + request.getContextPath() + "/issue/" + issueDto.getIssue().getId());
@@ -164,6 +168,12 @@ public class IssueController {
         Map<String, Object> responseMap = new HashMap<>();
 
         response.setStatus(HttpServletResponse.SC_OK);
+
+        //crw: there is a subtle issue with this validator, because the check for label existence and its creation are
+        //crw: not run in the same transaction. therefore, you might end up with 2 entries with the same name
+        //
+        //crw: to fix this, you would have to put the validation and label creation into the same transaction
+        //crw: that is, call the validator inside issueService.createLabel method
         labelValidator.validate(label, bindingResult);
         if (bindingResult.hasErrors()) {
             responseMap.put("success", false);

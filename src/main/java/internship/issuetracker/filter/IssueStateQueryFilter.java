@@ -16,6 +16,7 @@ public class IssueStateQueryFilter implements QueryFilter<Issue>{
     private final IssueState state;
     
     public IssueStateQueryFilter(String state) {
+        //crw: the following code may be extracted into a static method of IssueState enum, say IssueState.from(String)
         switch(state.toLowerCase()) {
             case "open":
                 this.state = IssueState.OPEN;
