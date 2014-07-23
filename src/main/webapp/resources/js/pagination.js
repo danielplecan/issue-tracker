@@ -4,31 +4,29 @@ var pager = function() {
     var pageNumber;
     var numberOfPages;
 
-    var enableFirst = function(flag) {
-        $(".first").each(function() {
-            if (!flag)
-                $(this).addClass("disabled", "disabled");
-            else
-                $(this).removeClass("disabled");
-        });
+    var toggleFirstButtons = function(flag) {
+        if(!flag) {
+            $(".first").addClass("disabled");
+            
+        } else {
+            $(".first").removeClass("disabled");
+        }
     };
-    var enableLast = function(flag) {
-        $(".last").each(function() {
-            if (!flag)
-                $(this).addClass("disabled");
-            else
-                $(this).removeClass("disabled");
-        });
+    var toggleLastButtons = function(flag) {
+        if(!flag) {
+            $(".last").addClass("disabled");
+        } else {
+            $(".last").removeClass("disabled");
+        }
     };
     var changeCurrentPage = function() {
-        var paginationButtonContainer = $('.pager');
-        issueTrackerService.getIssues(createFilterData()).done(function(data) {
+        issueTrackerService.getFilteredIssues(createFilterData()).done(function(data) {
             issuesCreator().addAllIssues(data.issues);
             numberOfPages = data.numberOfPages;
-            pageNumber=data.currentPage;
-            enableFirst(pageNumber > 1);
+            pageNumber = data.currentPage;
+            toggleFirstButtons(pageNumber > 1);
             pageLabel.text("page " + pageNumber + " of " + numberOfPages);
-            enableLast(pageNumber < numberOfPages);
+            toggleLastButtons(pageNumber < numberOfPages);
         });
     };
     var createFilterData = function() {
@@ -43,7 +41,7 @@ var pager = function() {
         filter["state"] = state;
         response["filters"] = filter;
         response["pageNumber"] = pageNumber;
-        response["numberOfItemsPerPage"] = 3;
+        response["numberOfItemsPerPage"] = 5;
         return response;
     };
     return{
@@ -72,10 +70,13 @@ var pager = function() {
             changeCurrentPage();
         },
         search: function() {
-            issueTrackerService.getIssues(createFilterData());
+            pageLabel = $(".pageLabel");
+            pageNumber = 1;
+            changeCurrentPage();
         },
         initializePagination: function() {
-            pageLabel=$(".pageLabel");
+            pageLabel = $(".pageLabel");
+            pageNumber = 1;
             changeCurrentPage();
         }
     };
