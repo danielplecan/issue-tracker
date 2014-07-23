@@ -120,25 +120,21 @@ td {
 }
 
 .changeStateButton {
-    position:absolute;
-    top:25px;
-    right:60px;;
-    width:75px;
-    height:30px;
+    float: right;
+    position: relative;
+    right: 12px;
+    top: -102px;
 }
 
-.stateLabel {
+/*.stateLabel {
     display: inline-block;
     height:30px;
     width:100px;
-}
+}*/
 
 #labelContainer {
     padding: 10px;
-    margin-top:20px;
-    border-top-color: #E0E0E0;
-    border-top-style: solid;
-    border-top-width: 2px;
+    margin-top:-10px;
 }
 .cursorPointer {
     cursor: pointer;
@@ -173,4 +169,36 @@ td {
 }
 .list-group-item.list-item-text.cursorPointer{
     border-radius: 7px;
+}
+#issueContent, .commentContent{
+    white-space: pre-wrap;
+}
+#issueContent{
+    border-top: 2px #E0E0E0 solid;
+    border-left: 2px #E0E0E0 solid;
+    border-bottom: 2px #E0E0E0 solid;
+    padding: 15px;
+    margin-top:-20px;
+}
+.modal-content2{
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid #999999;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    background-clip: padding-box;
+    outline: 0;
+}
+.stateLabel{
+    position:relative;
+    top:-2px;
+}
+.profile-info{
+    text-align: center;
+}
+
+.profile-panel{
+    padding-right: 20px;
 }
