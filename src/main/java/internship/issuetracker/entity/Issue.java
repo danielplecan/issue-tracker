@@ -180,7 +180,7 @@ public class Issue implements Serializable {
         } else {
             result.append(seconds + " seconds ");
         }
-        result.append("ago");
+        //result.append("ago");
         return result.toString();
     }
 }

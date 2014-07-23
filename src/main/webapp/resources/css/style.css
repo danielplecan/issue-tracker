@@ -126,11 +126,10 @@ td {
     top: -102px;
 }
 
-/*.stateLabel {
-    display: inline-block;
-    height:30px;
-    width:100px;
-}*/
+.stateLabelIssues {
+    position: relative;
+    top: -2px;
+}
 
 #labelContainer {
     padding: 10px;
@@ -201,4 +200,12 @@ td {
 
 .profile-panel{
     padding-right: 20px;
+}
+
+/*.issueDateTime{
+    float:right;
+}*/
+
+.issueDateTimeUpdate{
+    float:right;
 }

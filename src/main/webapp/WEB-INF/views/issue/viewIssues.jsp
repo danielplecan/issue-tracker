@@ -14,7 +14,7 @@
                             <label>Title:</label>  
                         </td>
                         <td  id="inputCol">
-                            <input type="text" class="form-control" id="searchFieldTitle" placeholder="Title keyword"/>
+                            <input type="text" name="title" class="form-control" id="searchFieldTitle" placeholder="Title keyword"/>
                         </td>
                     </tr>
                         
@@ -23,7 +23,7 @@
                             <label>Content: </label>
                         </td>
                         <td>
-                            <input type="text" class="form-control" id="searchFieldContent" placeholder="Content keyword"/>
+                            <input type="text" name="content" class="form-control" id="searchFieldContent" placeholder="Content keyword"/>
                         </td>
                             
                         <td>
@@ -59,18 +59,25 @@
                 <div class="panel panel-default col-lg-offset-1 col-lg-10 noBorder">
                     <div>
                         <div class="issueTitle ">
-                            <span class="issueId"><c:out value="#${issue.id}"/></span>
+                            <!--<span class="issueId"><c:out value="#${issue.id}"/></span>-->
                             <c:choose>
-                                <c:when test="${issue.state == 'OPEN'}"> <div class="label label-success issueLength">Open</div></c:when>
-                                <c:when test="${issue.state == 'CLOSED'}"> <div class="label label-danger issueLength">Closed</div></c:when>
-                                <c:when test="${issue.state == 'REOPENED'}"> <div class="label label-warning issueLength">Reopened</div></c:when>
+                                <c:when test="${issue.state == 'OPEN'}"> <div class="label label-success issueLength stateLabelIssues">Open</div></c:when>
+                                <c:when test="${issue.state == 'CLOSED'}"> <div class="label label-danger issueLength stateLabelIssues">Closed</div></c:when>
+                                <c:when test="${issue.state == 'REOPENED'}"> <div class="label label-warning issueLength stateLabelIssues">Reopened</div></c:when>
                             </c:choose>
                             <a class="titleLink" href="/issue/${issue.id}"><c:out value="${issue.title}"/></a>
                         </div>
                     </div>
-                    <div class="issueDateTime">
-                        Posted by <span class="text-primary"><c:out value="${issue.owner.name}"/></span> on
-                        <span class="text-primary"><c:out value="${issue.getTimeInterval()}"/> </span>
+                    <div class = "dates">
+                        <div class="issueDateTimeUpdate">
+                            <i>Posted by</i> <span class="text-primary"><c:out value="${issue.owner.name}"/></span><i> on</i>
+                            <span class="text-primary"><c:out value="${issue.getDateFormat()}"/> </span>
+                        </div>   
+                        <div class="issueDateTime">
+                            <i>Last update </i>
+                            <span class="text-primary"><c:out value="${issue.getTimeInterval()}"/> </span>
+                            <i> ago</i>
+                        </div>
                     </div>
                 </div>
             </div>
