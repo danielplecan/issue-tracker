@@ -15,9 +15,8 @@
         </tr>
     </table>
 </div>
-
 <div class="col-lg-8">
-    <ul class="nav nav-tabs profile-tab ">
+    <ul class="nav nav-tabs profile-tab">
         <li class="active"><a href="#home" data-toggle="tab">Home</a>
         </li>
         <li><a href="#assigned" data-toggle="tab">Assigned issues</a>
@@ -26,14 +25,15 @@
         </li>
     </ul>
     <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade active in" id="home">
-            <div class="progress col-lg-8">
+        <div class="tab-pane fade active in col-lg-8" id="home">
+            <br/>These are some status bars.<br/><br/>
+            <div class="progress">
             <div class="progress-bar progress-bar-success" style="width: 10%"></div>
             </div>
-            <div class="progress col-lg-8">
+            <div class="progress">
                 <div class="progress-bar progress-bar-danger" style="width: 20%"></div>
             </div>
-            <div class="progress col-lg-8">
+            <div class="progress">
                 <div class="progress-bar progress-bar-warning" style="width: 30%"></div>
             </div>
         </div>
