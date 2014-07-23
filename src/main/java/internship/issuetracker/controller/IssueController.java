@@ -6,6 +6,7 @@ import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
+import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.service.IssueService;
 import internship.issuetracker.util.SerializationUtil;
@@ -142,7 +143,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issues/filter")
     @ResponseBody
-    public List<Issue> filterIssues(@RequestBody @Valid IssueSearchCriteria searchCriteria, BindingResult bindingResult) {
+    public FilterResult filterIssues(@RequestBody @Valid IssueSearchCriteria searchCriteria, BindingResult bindingResult) {
         return issueService.filterIssues(searchCriteria);
     }
     
