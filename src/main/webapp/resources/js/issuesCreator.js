@@ -48,8 +48,8 @@ var issuesCreator = function() {
     var createIssueDateTime = function(issue) {
         var issueDateTime = $("<div></div>");
         issueDateTime.addClass("issueDateTime");
-        issueDateTime.append("<i>Last update </i>");
-        issueDateTime.append(createDateSpan(issue.timeInterval));
+        issueDateTime.append("<i>Last updated </i>");
+        issueDateTime.append(createDateSpan(issue.lastUpdateDate));
         issueDateTime.append("<i> ago</i>");
         return issueDateTime;
     };
