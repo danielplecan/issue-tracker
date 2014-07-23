@@ -242,3 +242,11 @@ td {
     width:100%;
     max-width: 330px;
 }
+
+/*.issueDateTime{
+    float:right;
+}*/
+
+.issueDateTimeUpdate{
+    float:right;
+}
