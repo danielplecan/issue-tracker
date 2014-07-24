@@ -17,19 +17,7 @@ public class IssueStateQueryFilter implements QueryFilter<Issue>{
     
     public IssueStateQueryFilter(String state) {
         //crw: the following code may be extracted into a static method of IssueState enum, say IssueState.from(String)
-        switch(state.toLowerCase()) {
-            case "open":
-                this.state = IssueState.OPEN;
-                break;
-            case "closed":
-                this.state = IssueState.CLOSED;
-                break;
-            case "reopened":
-                this.state = IssueState.REOPENED;
-                break;
-            default:
-                this.state = null;
-        }
+        this.state = IssueState.fromString(state);
     }
     
     @Override

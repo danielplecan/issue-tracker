@@ -11,5 +11,18 @@ package internship.issuetracker.entity;
  * @author atataru
  */
 public enum IssueState {
-    OPEN, CLOSED, REOPENED
+    OPEN, CLOSED, REOPENED;
+    
+    public static IssueState fromString(String issueState) {
+        switch(issueState.toLowerCase()) {
+            case "open" :
+                return OPEN;
+            case "closed" :
+                return CLOSED;
+            case "reopened" :
+                return REOPENED;
+            default:
+                return null;
+        }
+    }
 }
