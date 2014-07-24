@@ -167,7 +167,7 @@ td {
     user-select: none;
 }
 
-.labelcircle {
+.labelCircle {
     border-radius: 7px;
     display: inline-block;
     float: left;

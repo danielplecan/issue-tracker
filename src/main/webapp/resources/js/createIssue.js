@@ -50,9 +50,10 @@ $(document).ready(function() {
     //filter labels
     $("#searchByLabelName").keyup(function() {
         var inputValue = $(this).val();
+        console.log(inputValue);
         $('#newLabel').val(inputValue);
-        $("#labelSelector li").hide();
-        $("#labelSelector li").each(function(index, elem) {
+        $("#labelSelector>div").hide();
+        $("#labelSelector>div").each(function(index, elem) {
             var $elem = $(elem);
             if ($elem.text().indexOf(inputValue) >= 0) {
                 $elem.show();
@@ -91,11 +92,11 @@ $(document).ready(function() {
 
         issueTrackerService.createLabel(labelName, labelColor).done(function(data) {
             if (data.success) {
-                $('#labelSelector').append("<li class=\"list-group-item list-item-text cursorPointer\" data-id=" +
+                $('#labelSelector').append("<div class=\"list-group-item list-item-text cursorPointer\" data-id=" +
                         data.label.id + " data-color=" + data.label.color +
                         "><div style= background-color:" + data.label.color +
                         " class=\"labelCircle\"></div><div>" + data.label.name +
-                        "</div></li>");
+                        "</div></div>");
                 $("#showCreateLabel").text("+");
                 $("#createLabelH").toggleClass("hidden");
                 $('#createLabelErrorField').text("");
