@@ -13,7 +13,7 @@
                 <fieldset>
                     <div id="divToChange" class="form-group">
                         <div class="col-lg-12">
-                            <form:input path="title" class="form-control" id="textArea1" placeholder="Title" />
+                            <form:input path="title" class="form-control" id="textArea1" placeholder="Title" autofocus="true" />
                             <form:errors path="title" class="text-warning" />
                         </div>
                     </div>

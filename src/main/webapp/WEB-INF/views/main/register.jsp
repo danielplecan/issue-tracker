@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputName" type="text" placeholder="Name" name="name" />
+                    <input class="form-control" id="inputName" type="text" placeholder="Name" name="name" autofocus="true"/>
                     <span id="nameError" class="text-warning errors"></span>
                 </div>
             </div>
