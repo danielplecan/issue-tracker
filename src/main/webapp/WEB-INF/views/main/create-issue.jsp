@@ -21,12 +21,6 @@
                         <textarea class="form-control" rows="7" id="textArea2" placeholder="Content"></textarea>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="txt-center">
-                        <div id="issueErrorSpan" class="commentError text-warning commentContent"></div>
-                        <button class="btn btn-default" id="buttonCreateIssue">Create</button>
-                    </div>
-                </div>
             </fieldset>
         </form>
     </div>
@@ -74,6 +68,10 @@
                 </div>
             </c:forEach>
         </div>
+    </div>
+    <div class="col-lg-12 txt-center">
+        <div id="issueErrorSpan" class="commentError text-warning commentContent"></div>
+        <button class="btn btn-default" id="buttonCreateIssue">Create</button>
     </div>
 </div>
 <script src="/resources/js/createIssue.js" type="text/javascript"></script>
