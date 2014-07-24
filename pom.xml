@@ -6,11 +6,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>internship</groupId>
-    <artifactId>issue-tracker</artifactId>
+    <artifactId>beans-tracker</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
-    <name>Issue Tracker</name>
-    <description>Issue Tracker POM</description>
+    <name>Beans Tracker</name>
+    <description>Beans Tracker POM</description>
 
     <properties>
         <springframework.version>3.2.6.RELEASE</springframework.version>
