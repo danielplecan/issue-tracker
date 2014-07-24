@@ -58,7 +58,7 @@
     <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
     <div id="allComments" class="list-group">
         <c:forEach items="${comments}" var="comment">
-            <blockquote>
+            <blockquote data-id="${comment.id}">
                 <p class="commentContent"><c:out value="${comment.content}"/></p>
                 <small><a href=""><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
             </blockquote>

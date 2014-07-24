@@ -131,7 +131,7 @@ public class IssueController {
         model.addAttribute("labels",labelsForIssue);
         return "issues";
     }
-
+    
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
     @ResponseBody
     public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, @PathVariable("id") Long issueId, HttpServletRequest request) {
@@ -143,13 +143,13 @@ public class IssueController {
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
-
+            long lastKnowCommentId = comment.getId();
+            
             issueService.addComment(currentUser, issueId, comment);
-
+            
+            List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
-            responseMap.put("username", currentUser.getName());
-            responseMap.put("content", comment.getContent());
-            responseMap.put("date", comment.getDateFormat());
+            responseMap.put("comments", listComments);
         }
 
         return responseMap;
