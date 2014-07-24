@@ -101,10 +101,13 @@ textarea {
 }
 
 .logo{
+    width:100%;
+    padding-right: 10px;
+}
+.logo-header{
     float:left;
     padding-right: 10px;
 }
-
 #pageContent{
     position:relative;
 }
@@ -355,4 +358,10 @@ td {
     position: relative;
     top: -1px;
     width:14px;
+}
+.h3createanissue{
+    font-size: 21px;
+}
+#buttonCreateIssue{
+    margin-top:40px;
 }

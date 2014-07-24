@@ -6,33 +6,34 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-
-<div class=" col-sm-4 col-sm-offset-4 Absolute-Center login-register-form" >
-    <form class="form-horizontal" action="security_check" method='POST'>
-        <fieldset>
-            <div class="logo">
-                <img src="/resources/img/logo.png" alt="Issue Tracker" class="col-lg-12 col-xs-12">
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" autofocus="true"/>
+<section id="loginSection">
+    <div class=" col-lg-4 col-lg-offset-4 Absolute-Center ">
+        <div>
+            <img src="/resources/img/logo.png" alt="Issue Tracker" class="col-lg-12 logo">
+        </div>
+        <form class="form-horizontal col-lg-12" action="security_check" method='POST'>
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" autofocus/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
+                    </div>
                 </div>
-            </div>
-            <span id="loginError" class="text-warning errors hidden txt-center col-lg-12">Login has failed. Wrong username or password.</span>
-            <br /><br />
-            <div class="form-group">
-                <div class="col-lg-12 txt-center">
-                    <button class="btn btn-primary btn-lg" id="loginButton" type="submit">Login</button>
-                    <br />
+                <span id="loginError" class="text-warning errors hidden txt-center col-lg-12">Login has failed. Wrong username or password.</span>
+                <br /><br />
+                <div class="form-group">
+                    <div class="col-lg-12 txt-center">
+                        <button class="btn btn-primary btn-lg" id="loginButton" type="submit">Login</button>
+                        <br />
+                    </div>
                 </div>
-            </div>
-        </fieldset>
-    </form>
-    <span class="col-lg-12 txt-center">If you don't have an account, please <a href="/register"> Register</a></span>
-    <script src="/resources/js/login.js" type="text/javascript"></script>
-</div>
+            </fieldset>
+        </form>
+        <span class="col-lg-12 txt-center">If you don't have an account, please <a href="/register"> Register</a></span>
+        <script src="/resources/js/login.js" type="text/javascript"></script>
+    </div>
+</section>

@@ -5,49 +5,49 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-
-<div class="col-lg-4 col-lg-offset-4 Absolute-Center login-register-form">
-    <form id="registerForm" class="form-horizontal " method='POST'>
-        <fieldset>
-            <div class="logo">
-                <img src="/resources/img/logo.png" alt="Issue Tracker" class="col-lg-12 col-md-12 col-xs-12 ">
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputName" type="text" placeholder="Name" name="name" autofocus="true"/>
-                    <span id="nameError" class="text-warning errors"></span>
+<section id="registerSection">
+    <div class="col-lg-4 col-lg-offset-4 Absolute-Center login-register-form">
+        <div>
+            <img src="/resources/img/logo.png" alt="Issue Tracker" class="col-lg-12 logo">
+        </div>
+        <form id="registerForm" class="form-horizontal col-lg-12" method='POST'>
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <input class="form-control" id="inputName" type="text" placeholder="Name" name="name" autofocus/>
+                        <span id="nameError" class="text-warning errors"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" />
-                    <span id="usernameError" class="text-warning errors"></span>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" />
+                        <span id="usernameError" class="text-warning errors"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">    
-                <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputEmail" type="email" placeholder="Email" name="email" />
-                    <span id="emailError" class="text-warning errors"></span>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <input class="form-control" id="inputEmail" type="email" placeholder="Email" name="email" />
+                        <span id="emailError" class="text-warning errors"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-1">
-                    <input  class="form-control" id="inputRetypePassword" type="password" placeholder="Retype password" />
-                    <label id="passwordMatchError" class="text-warning hidden" >Passwords don't match </label>
-                    <span id="passwordError" class="text-warning errors"></span>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <input  class="form-control" id="inputRetypePassword" type="password" placeholder="Retype password" />
+                        <label id="passwordMatchError" class="text-warning hidden" >Passwords don't match </label>
+                        <span id="passwordError" class="text-warning errors"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group text-center">
-                <div class="col-lg-12">
-                    <button class="btn btn-primary" id="submitButton">Sign up</button>
+                <div class="form-group text-center">
+                    <div class="col-lg-12">
+                        <button class="btn btn-primary" id="submitButton">Sign up</button>
+                    </div>
                 </div>
-            </div>
-        </fieldset>
-    </form>
-    <span class="col-lg-12 txt-center">If you already have an account, please <a href="/login"> Login</a></span>
-</div>
+            </fieldset>
+        </form>
+        <span class="col-lg-12 txt-center">If you already have an account, please <a href="/login"> Login</a></span>
+    </div>
