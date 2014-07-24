@@ -1,24 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package internship.issuetracker.dto;
 
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.Label;
 import java.util.List;
-import javax.validation.Valid;
+import org.codehaus.jackson.annotate.JsonUnwrapped;
+
 /**
  *
- * @author atataru
+ * @author dplecan
  */
 public class IssueDTO {
-    @Valid
+    @JsonUnwrapped
     private Issue issue;
     
-    private List<Long> labelIdList;
+    private List<Label> labels;
 
     public Issue getIssue() {
         return issue;
@@ -28,14 +23,11 @@ public class IssueDTO {
         this.issue = issue;
     }
 
-    public List<Long> getLabelIdList() {
-        return labelIdList;
+    public List<Label> getLabels() {
+        return labels;
     }
 
-    public void setLabelIdList(List<Long> labelIdList) {
-        this.labelIdList = labelIdList;
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
-    
-    
-    
 }

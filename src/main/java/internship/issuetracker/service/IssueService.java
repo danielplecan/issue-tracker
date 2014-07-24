@@ -1,6 +1,7 @@
 package internship.issuetracker.service;
 
 import internship.issuetracker.dto.IssueDTO;
+import internship.issuetracker.dto.NewIssueDTO;
 import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueLabels;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javassist.bytecode.Opcode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -42,7 +44,7 @@ public class IssueService {
      * @param owner
      * @return the id of the created issue
      */
-    public long createIssueFromIssueDTO(IssueDTO issueDto, User owner) {
+    public long createIssueFromIssueDTO(NewIssueDTO issueDto, User owner) {
         Issue issue = issueDto.getIssue();
         Date currentDate = new Date();
         issue.setDate(currentDate);
@@ -186,21 +188,14 @@ public class IssueService {
         return labelQuery.getResultList();
     }
 
-    public FilterResult filterIssues(IssueSearchCriteria searchCriteria) {
+    public FilterResult filterIssues(List<QueryFilter<Issue>> filters, Integer pageNumber, Integer itemsPerPage) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Issue> criteriaQuery = criteriaBuilder.createQuery(Issue.class);
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
         Root<Issue> root = criteriaQuery.from(Issue.class);
 
-        List<Predicate> predicates = new ArrayList<>();
-        for (QueryFilter<Issue> filter : searchCriteria.getQueryFilters()) {
-            Predicate predicate = filter.buildPredicate(criteriaBuilder, criteriaQuery, root);
-            if (predicate != null) {
-                predicates.add(predicate);
-            }
-        }
+        Predicate[] predicatesArray = buildPredicatesFromFilters(filters, criteriaBuilder, criteriaQuery, root);
         
-        Predicate[] predicatesArray = predicates.toArray(new Predicate[0]);
         criteriaQuery.where(predicatesArray);
         criteriaQuery.select(root);
         criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Issue_.updateDate)));
@@ -209,20 +204,43 @@ public class IssueService {
         countQuery.where(predicatesArray);
         
         TypedQuery<Issue> resultQuery = em.createQuery(criteriaQuery);
-        resultQuery.setMaxResults(searchCriteria.getNumberOfItemsPerPage());
-        resultQuery.setFirstResult((searchCriteria.getPageNumber() - 1) * searchCriteria.getNumberOfItemsPerPage());
+        resultQuery.setMaxResults(itemsPerPage);
+        resultQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
         
         TypedQuery<Long> countResultQuery = em.createQuery(countQuery);
         
         Long totalResultCount = countResultQuery.getSingleResult();
         FilterResult filterResult = new FilterResult();
-        filterResult.setIssues(resultQuery.getResultList());
+        filterResult.setIssues(getDTOsFromIssues(resultQuery.getResultList()));
         filterResult.setTotalResultCount(totalResultCount);
-        filterResult.setNumberOfPages((long) Math.ceil((double) totalResultCount / searchCriteria.getNumberOfItemsPerPage()));
-        filterResult.setCurrentPage(searchCriteria.getPageNumber().longValue());
-        filterResult.setNumberOfItemsPerPage(searchCriteria.getNumberOfItemsPerPage().longValue());
+        filterResult.setNumberOfPages((long) Math.ceil((double) totalResultCount / itemsPerPage));
+        filterResult.setCurrentPage(pageNumber.longValue());
+        filterResult.setNumberOfItemsPerPage(itemsPerPage.longValue());
         
         return filterResult;
+    }
+    public List<IssueDTO> getDTOsFromIssues(List<Issue> issues) {
+        List<IssueDTO> issueDTOs = new ArrayList<>();
+        for(Issue issue : issues) {
+            List<Label> labels = getLabelsByIssueId(issue);
+            IssueDTO issueDTO = new IssueDTO();
+            issueDTO.setIssue(issue);
+            issueDTO.setLabels(labels);
+            issueDTOs.add(issueDTO);
+        }
+        return issueDTOs;
+    }
+
+    private Predicate[] buildPredicatesFromFilters(List<QueryFilter<Issue>> filters, CriteriaBuilder criteriaBuilder, CriteriaQuery<Issue> criteriaQuery, Root<Issue> root) {
+        List<Predicate> predicates = new ArrayList<>();
+        for (QueryFilter<Issue> filter : filters) {
+            Predicate predicate = filter.buildPredicate(criteriaBuilder, criteriaQuery, root);
+            if (predicate != null) {
+                predicates.add(predicate);
+            }
+        }
+        Predicate[] predicatesArray = predicates.toArray(new Predicate[0]);
+        return predicatesArray;
     }
     
      public Label createLabel(Label label) {

@@ -1,6 +1,6 @@
 package internship.issuetracker.filter;
 
-import internship.issuetracker.entity.Issue;
+import internship.issuetracker.dto.IssueDTO;
 import java.util.List;
 
 /**
@@ -8,17 +8,17 @@ import java.util.List;
  * @author dplecan
  */
 public class FilterResult {
-    private List<Issue> issues;
+    private List<IssueDTO> issues;
     private Long numberOfPages;
     private Long totalResultCount;
     private Long currentPage;
     private Long numberOfItemsPerPage;
 
-    public List<Issue> getIssues() {
+    public List<IssueDTO> getIssues() {
         return issues;
     }
 
-    public void setIssues(List<Issue> issues) {
+    public void setIssues(List<IssueDTO> issues) {
         this.issues = issues;
     }
 

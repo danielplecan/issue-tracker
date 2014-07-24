@@ -1,7 +1,6 @@
 package internship.issuetracker.controller;
 
-import com.sun.org.apache.xerces.internal.impl.dv.xs.IDDV;
-import internship.issuetracker.dto.IssueDTO;
+import internship.issuetracker.dto.NewIssueDTO;
 import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
@@ -73,7 +72,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/create-issue")
     @ResponseBody
-    public Map<String, Object> setupCreateIssuePage(@RequestBody @Valid IssueDTO issueDto, 
+    public Map<String, Object> setupCreateIssuePage(@RequestBody @Valid NewIssueDTO issueDto, 
             BindingResult bindingResult, UriComponentsBuilder builder, HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -160,7 +159,7 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.POST, value = "/issues/filter")
     @ResponseBody
     public FilterResult filterIssues(@RequestBody @Valid IssueSearchCriteria searchCriteria, BindingResult bindingResult) {
-        return issueService.filterIssues(searchCriteria);
+        return issueService.filterIssues(searchCriteria.getQueryFilters(), searchCriteria.getPageNumber(), searchCriteria.getNumberOfItemsPerPage());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/create-label")

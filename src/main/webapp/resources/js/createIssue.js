@@ -92,11 +92,16 @@ $(document).ready(function() {
 
         issueTrackerService.createLabel(labelName, labelColor).done(function(data) {
             if (data.success) {
-                $('#labelSelector').append("<div class=\"list-group-item list-item-text cursorPointer\" data-id=" +
-                        data.label.id + " data-color=" + data.label.color +
-                        "><div style= background-color:" + data.label.color +
-                        " class=\"labelCircle\"></div><div>" + data.label.name +
-                        "</div></div>");
+                var div1 = $("<div class=\"list-group-item list-item-text cursorPointer\" data-id=" +
+                        data.label.id + " data-color=" +
+                        data.label.color + "></div>");
+                var div2 = $("<div style= background-color:" + data.label.color + " class=\"labelCircle\"></div>");
+                var div3 = $("<div></div>");
+                div3.text(data.label.name);
+                div1.append(div2);
+                div1.append(div3);
+                $('#labelSelector').append(div1);
+
                 $("#showCreateLabel").text("+");
                 $("#createLabelH").toggleClass("hidden");
                 $('#createLabelErrorField').text("");
