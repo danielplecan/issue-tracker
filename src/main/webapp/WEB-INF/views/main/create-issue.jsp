@@ -13,12 +13,12 @@
             <fieldset>
                 <div id="divToChange" class="form-group">
                     <div class="col-lg-12">
-                        <input path="title" class="form-control" id="textArea1" placeholder="Title" autofocus/>
+                        <input class="form-control" id="textArea1" placeholder="Title" autofocus/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <textarea type=textarea" path="content" class="form-control" rows="7" id="textArea2" placeholder="Content"></textarea>
+                        <textarea class="form-control" rows="7" id="textArea2" placeholder="Content"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -36,12 +36,12 @@
             <hr>
             <div id="createLabelContainer">
                 <input class="form-control2" id="searchByLabelName" type="text" placeholder="Label">
-                <buton id="showCreateLabel" class="label-add-new label label-default cursorPointer">+</buton>
+                <button id="showCreateLabel" class="label-add-new label label-default cursorPointer">+</button>
             </div>
             <div id="createLabelH" class="hidden">
                 <div id="currentColor">
                     <input id="newLabel" class="form-control3" type="text" name="color"  maxlength="7" disabled="">
-                    <buton id="submitNewLabel" class="label-add-new label label-default ">Create</buton>
+                    <button id="submitNewLabel" class="label-add-new label label-default ">Create</button>
                 </div>
                 <div id="colorWidget">
                     <div class="label-line txt-center">
