@@ -62,14 +62,20 @@ var issuesCreator = function() {
         dates.append(createIssueDateTime(issue));
         return dates;
     };
+    var noResultMessage = function() {
+        var noResultLabel = $("<p/>");
+        noResultLabel.addClass("text-danger col-lg-offset-5 col-lg-4");
+        noResultLabel.text("No results were found");
+        allIssuesDiv.append(noResultLabel);
+    };
     var addIssue = function(issue) {
         var outerDiv = $("<div/>");
         outerDiv.addClass("firstRow");
         outerDiv.attr("data-id", issue.id);
-        
+
         var innerDiv = $("<div/>");
         innerDiv.addClass("panel panel-default col-lg-offset-1 col-lg-10 noBorder");
-        
+
         outerDiv.append(innerDiv);
         var titleDiv = $("<div></div>");
         titleDiv.append(createIssue(issue));
@@ -81,9 +87,11 @@ var issuesCreator = function() {
         addAllIssues: function(issues) {
             allIssuesDiv = $("#allIssues");
             allIssuesDiv.empty();
-            $.each(issues, function(index,item) {
+            $.each(issues, function(index, item) {
                 addIssue(item);
             });
+            if (issues.length <= 0)
+                noResultMessage();
         }
     };
 };

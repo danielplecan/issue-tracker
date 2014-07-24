@@ -32,7 +32,7 @@ var pager = function() {
             if (pageNumber > numberOfPages)
                 pageNumber = numberOfPages;
             toggleFirstButtons(pageNumber > 1);
-            pageLabel.text("page " + pageNumber + " of " + numberOfPages);
+            pageLabel.text("page " + pageNumber + " of " + numberOfPages+" ("+data.totalResultCount+" in total)");
             toggleLastButtons(pageNumber < numberOfPages);
         });
     };
