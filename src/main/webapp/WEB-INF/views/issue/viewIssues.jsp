@@ -55,12 +55,12 @@
     </aside>
 
     <div id="allIssues" >
-        <c:forEach items="${issues}" var="issue">
+        <!--<c:forEach items="${issues}" var="issue">
             <div class="firstRow" data-id="${issue.id}">
                 <div class="panel panel-default col-lg-offset-1 col-lg-10 noBorder">
                     <div>
                         <div class="issueTitle ">
-                            <!--<span class="issueId"><c:out value="#${issue.id}"/></span>-->
+                     
                             <c:choose>
                                 <c:when test="${issue.state == 'OPEN'}"> <div class="label label-success issueLength stateLabelIssues">Open</div></c:when>
                                 <c:when test="${issue.state == 'CLOSED'}"> <div class="label label-danger issueLength stateLabelIssues">Closed</div></c:when>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-        </c:forEach>
+        </c:forEach> -->
     </div>
     <div class="col-lg-12 txt-center">
         <ul class="pager" style="display: inline-block">
