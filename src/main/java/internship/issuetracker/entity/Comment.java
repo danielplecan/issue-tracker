@@ -40,9 +40,9 @@ public class Comment implements Serializable{
     private Long id;
     
     @Basic(optional = false)
-    @Column(name ="comment_content")
+    @Column(name ="comment_content", length = 500)
     @NotBlank(message = "A comment must not be empty.")
-    @Size(min = 3, max = 100, message="A comment must contain between 3 and 100 chars")
+    @Size(min = 3, max = 500, message="A comment must contain between 3 and 500 characters")
     private String content;
     
     @Temporal(TemporalType.TIMESTAMP)
