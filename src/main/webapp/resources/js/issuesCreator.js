@@ -19,7 +19,8 @@ var issuesCreator = function() {
         return stateLabel;
     };
     var createIssueTitle = function(title, id) {
-        var titleLabel = $("<a>" + title + "</a>");
+        var titleLabel = $("<a></a>");
+        titleLabel.text(title);
         titleLabel.addClass("titleLink");
         titleLabel.attr("href", "/issue/" + id);
         return titleLabel;
@@ -32,7 +33,8 @@ var issuesCreator = function() {
         return issueTitle;
     };
     var createDateSpan = function(text) {
-        var label = $("<span>" + text + "</span>");
+        var label = $("<span></span>");
+        label.text(text);
         label.addClass("text-primary");
         return label;
     };
