@@ -2,11 +2,12 @@
 <div id="pageContent">
 
     <aside id="search_widget">
-        <div class="panel panel-primary">
+        <div class="panel-primary" style="margin-bottom:20px;">
             <div class="panel-heading">
-                <h3 class="panel-title">Filter issues</h3>
+                <h3 class="panel-title" style='display:inline-block;'>Filter issues</h3>
+                <span class="close">&#x21d3</span>
             </div>
-            <div class="panel-body" id="panelBody">
+            <div class=" panel panel-body " id="panelBody">
                 <table id="searchBoxStructure">
 
                     <tr>
@@ -88,7 +89,7 @@
             </div>
         </c:forEach>
     </div>
-    <div class="col-lg-offset-4 col-lg-4">
+    <div class="col-lg-offset-4 col-lg-8">
         <ul class="pager" style="display: inline-block">
             <li class="firstButton first disabled"><a >«</a></li>
             <li class="prevButton first disabled"><a>Prev</a></li>
@@ -102,29 +103,14 @@
 </div>
 <script>
     $("#panelBody").hide();
-    
-    function adjustSearchWidgetWidth(){
-        if ($(".issueTitle").length > 0) {
-            $("#search_widget").width($(".issueTitle").width() + 30);  
-        }
-        else {
-            $("#search_widget").hide();
-        }
-    }
-    
+
     $('body').keydown( function (e) {
         if (e.keyCode === 13){
             $('#searchBoxStructure button').trigger('click');
         }
     });
-    
-    adjustSearchWidgetWidth();
-    
-    $(window).resize( function (){
-        adjustSearchWidgetWidth();
-    });
 
-    $(".panel-title").click(function() {
+    $(".panel-heading").click(function() {
         $("#panelBody").toggle("slow", function() {
             if ($("#panelBody").is(':visible')) {
                 $("#searchFieldTitle").focus();
@@ -134,3 +120,21 @@
 </script>
 <script src="/resources/js/issuesCreator.js" type="text/javascript"></script>
 <script src="/resources/js/pagination.js" type="text/javascript"></script>
+
+<style>    
+    @media (min-width: 1200px) { 
+        #search_widget{
+            margin-left: 8.33333333%;
+            width: 83.33333333%;
+        }
+    }
+    
+    .panel-heading span {
+       display:inline-block; float:right;
+    }
+    
+    .panel-heading span:hover {
+       cursor:default;
+    }
+    
+</style>
