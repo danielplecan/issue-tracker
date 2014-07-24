@@ -388,3 +388,7 @@ td {
     -ms-user-select: none;
     user-select: none;
 }
+
+.viewIssueLastUpdated{
+    float: right;
+}

@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
         <div><h3>Welcome to our site, <sec:authentication property="principal.name" />!</h3>
-            <h4>This website is an issue tracker that makes it easier for users to clean their codes, find bugs, solve issues and what not.</h4>
+            <h4>This website is an issue tracker that makes it easier for users to clean their code, find bugs and solve issues.</h4>
         </div>
         <br/>
         <div class="panel panel-default">

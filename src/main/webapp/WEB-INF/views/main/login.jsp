@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <section id="loginSection">
-    <div class=" col-lg-4 col-lg-offset-4 Absolute-Center ">
+    <div class=" col-lg-4 col-lg-offset-4 Absolute-Center login-register-form">
         <div>
             <img src="/resources/img/logo.png" alt="Issue Tracker" class="col-lg-12 logo">
         </div>
