@@ -32,6 +32,15 @@ var issuesCreator = function() {
         issueTitle.append(createIssueTitle(issue.title, issue.id));
         return issueTitle;
     };
+    var createLabelDiv = function(labels) {
+        var labelsDiv = $("<div/>");
+        for (var label in labels) {
+            var spanLabel = $("<span/>");
+            spanLabel.addClass("label label-primary");
+            spanLabel.text(label.name);
+            labelsDiv.append(spanLabel);
+        }
+    };
     var createDateSpan = function(text) {
         var label = $("<span></span>");
         label.text(text);
@@ -62,10 +71,10 @@ var issuesCreator = function() {
         dates.append(createIssueDateTime(issue));
         return dates;
     };
-    var noResultMessage = function() {
+    var noResultMessage = function(text) {
         var noResultLabel = $("<p/>");
-        noResultLabel.addClass("text-danger col-lg-offset-5 col-lg-4");
-        noResultLabel.text("No results were found");
+        noResultLabel.addClass("col-lg-12 txt-center");
+        noResultLabel.text(text);
         allIssuesDiv.append(noResultLabel);
     };
     var addIssue = function(issue) {
@@ -84,14 +93,13 @@ var issuesCreator = function() {
         innerDiv.append(createDates(issue));
     };
     return{
-        addAllIssues: function(issues) {
+        addAllIssues: function(issues,totalResult) {
             allIssuesDiv = $("#allIssues");
             allIssuesDiv.empty();
             $.each(issues, function(index, item) {
                 addIssue(item);
             });
-            if (issues.length <= 0)
-                noResultMessage();
+            noResultMessage(totalResult <= 0 ? "No results were found" : totalResult + " in total");
         }
     };
 };

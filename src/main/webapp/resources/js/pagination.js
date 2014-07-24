@@ -26,13 +26,13 @@ var pager = function() {
     };
     var ReloadIssuesOnPage = function() {
         issueTrackerService.getFilteredIssues(filterData).done(function(data) {
-            issuesCreator().addAllIssues(data.issues);
+            issuesCreator().addAllIssues(data.issues,data.totalResultCount);
             numberOfPages = data.numberOfPages;
             pageNumber = data.currentPage;
             if (pageNumber > numberOfPages)
                 pageNumber = numberOfPages;
             toggleFirstButtons(pageNumber > 1);
-            pageLabel.text("page " + pageNumber + " of " + numberOfPages+" ("+data.totalResultCount+" in total)");
+            pageLabel.text("page " + pageNumber + " of " + numberOfPages);
             toggleLastButtons(pageNumber < numberOfPages);
         });
     };
