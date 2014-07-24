@@ -369,3 +369,22 @@ td {
 .breakLongWord{
     word-wrap:break-word;
 }
+.firstButton.first.disabled > a,.prevButton.first.disabled > a,.nextButton.last.disabled > a,.lastButton.last.disabled > a{
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.firstButton.first> a,.prevButton.first> a,.nextButton.last> a,.lastButton.last> a {
+    cursor:pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

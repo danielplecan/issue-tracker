@@ -47,7 +47,7 @@
                             <c:when test="${labels != null}">
                             <div id="labelContainer">
                                 <c:forEach var="label" items="${labels}">
-                                    <span style="margin-right:3px;background-color:${label.color}" class="label label-warning"> <c:out value="${label.name}"/></span>
+                                    <span style="margin-right:3px;background-color:${label.color}" data-color="${label.color}" class="label label-warning"> <c:out value="${label.name}"/></span>
                                 </c:forEach>
                             </div>
                         </c:when>
@@ -80,8 +80,4 @@
     </div>
 
 </div>
-
-<!--<script src="/resources/js/changeStateModule.js" type="text/javascript"></script>-->
-<style>
-
-</style>
+<script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
