@@ -5,7 +5,7 @@
         <div class="panel-primary" style="margin-bottom:20px;">
             <div class="panel-heading">
                 <h3 class="panel-title" style='display:inline-block;'>Filter issues</h3>
-                <span class="close">&#x21d3</span>
+                <span class="close" id="header-arrow">&#x21d3</span>
             </div>
             <div class=" panel panel-body " id="panelBody">
                 <table id="searchBoxStructure">
@@ -113,7 +113,11 @@
     $(".panel-heading").click(function() {
         $("#panelBody").toggle("slow", function() {
             if ($("#panelBody").is(':visible')) {
+                document.getElementById('header-arrow').innerHTML = '&#x21d1';
                 $("#searchFieldTitle").focus();
+            }
+            else {
+                document.getElementById('header-arrow').innerHTML = '&#x21d3';
             }
         });
     });
