@@ -1,7 +1,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container"> 
-        <div class="logo"><img src="/resources/img/small.png" alt="Issue Tracker" width="50" height="50"></div>
+        <div class="logo-header"><img src="/resources/img/small.png" alt="Issue Tracker" width="50" height="50"></div>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
                 <span class="icon-bar"></span>
