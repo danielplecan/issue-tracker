@@ -37,26 +37,12 @@ public class IssueService {
     private EntityManager em;
 
     /**
-     * Create a new issue and persist it in the database;
-     *
-     * @param issue
-     * @param owner
-     */
-    public void createIssue(Issue issue, User owner) {
-        //save issue in database
-
-        issue.setDate(new Date());
-        issue.setUpdateDate(new Date());
-        issue.setOwner(owner);
-        em.persist(issue);
-    }
-
-    /**
      *
      * @param issueDto encapsulates an issue, and a list of id for existing labels
      * @param owner
+     * @return the id of the created issue
      */
-    public void createIssueFromIssueDTO(IssueDTO issueDto, User owner) {
+    public long createIssueFromIssueDTO(IssueDTO issueDto, User owner) {
         Issue issue = issueDto.getIssue();
         Date currentDate = new Date();
         issue.setDate(currentDate);
@@ -74,6 +60,7 @@ public class IssueService {
             issueLabel.setLabel(label);
             em.persist(issueLabel);
         }
+        return issue.getId();
     }
 
     public Issue getIssueById(Long id) {
@@ -91,7 +78,6 @@ public class IssueService {
             em.merge(issue);
             return true;
         }
-
         //in case it doesn't
         return false;
     }
@@ -262,7 +248,8 @@ public class IssueService {
         List<Comment> commentsList;
         commentsList = commentQuery.getResultList();
         Comment comment = commentsList.isEmpty() ? null : commentsList.get(0);
-        if(comment == null){
+        
+        if(comment == null) {
             TypedQuery<Comment> commentQuery2 = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
             commentQuery2.setParameter("v_issue", this.getIssueById(issueId));
             return commentQuery2.getResultList();

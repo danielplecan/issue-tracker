@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -46,6 +47,7 @@ public class Issue implements Serializable {
     @Basic(optional = false)
     @Column(name = "issue_title", length = 50)
     @Size(min = 3, max = 50, message = "The title must have between 3 and 50 characters.")
+    @NotBlank
     private String title;
 
     @Basic(optional = true)
@@ -162,22 +164,22 @@ public class Issue implements Serializable {
         if (days == 1) {
             result.append("1 day ");
         } else if (days > 1 && days < 14) {
-            result.append(days + " days  ");
+            result.append(days).append(" days  ");
         } else if ( days >= 14) {
           result.append(getDateFormat2());
           return result.toString();
         } else if (hours == 1) {
             result.append(" 1 hour ");
         } else if (hours > 1) {
-            result.append(hours + " hours ");
+            result.append(hours).append(" hours ");
         } else if (minutes == 1) {
             result.append(" 1 minute ");
         } else if (minutes > 1) {
-            result.append(minutes + " minutes ");
+            result.append(minutes).append(" minutes ");
         } else if (seconds == 1) {
             result.append(" 1 second ");
         } else {
-            result.append(seconds + " seconds ");
+            result.append(seconds).append(" seconds ");
         }
         //result.append("ago");
         return result.toString();

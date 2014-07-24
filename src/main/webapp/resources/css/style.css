@@ -197,6 +197,7 @@ td {
 
 #issueContent, .commentContent{
     white-space: pre-wrap;
+    word-wrap:break-word;
 }
 
 #issueContent{
@@ -364,4 +365,7 @@ td {
 }
 #buttonCreateIssue{
     margin-top:40px;
+}
+.breakLongWord{
+    word-wrap:break-word;
 }
