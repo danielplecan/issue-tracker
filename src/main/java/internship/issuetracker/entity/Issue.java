@@ -47,7 +47,7 @@ public class Issue implements Serializable {
     @Basic(optional = false)
     @Column(name = "issue_title", length = 50)
     @Size(min = 3, max = 50, message = "The title must have between 3 and 50 characters.")
-    @NotBlank
+    @NotBlank(message = "The title must not be empty.")
     private String title;
 
     @Basic(optional = true)
