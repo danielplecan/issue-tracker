@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  *
@@ -37,7 +39,7 @@ public class IssueController {
 
     @Autowired
     private IssueService issueService;
-    
+
     @Autowired
     private LabelValidator labelValidator;
 
@@ -63,7 +65,7 @@ public class IssueController {
     //crw: one recommendation is to rename these methods with get<PageName> or setup<PageName>
     //crw: for example, the method bellow does not create an issue, instead it prepares the create-issue page
     @RequestMapping(value = {"/create-issue"}, method = RequestMethod.GET)
-    public String createIssue(Model model) {
+    public String getCreateIssuePage(Model model) {
         model.addAttribute("issue", new Issue());
         model.addAttribute("labels", issueService.getAllLabels());
         return "create-issue";
@@ -71,7 +73,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/create-issue")
     @ResponseBody
-    public Map<String, Object> createAnIssue(@RequestBody @Valid IssueDTO issueDto,
+    public Map<String, Object> setupCreateIssuePage(@RequestBody @Valid IssueDTO issueDto, UriComponentsBuilder builder,
             BindingResult bindingResult, HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -83,16 +85,16 @@ public class IssueController {
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             User author = (User) request.getSession().getAttribute("user");
-            issueService.createIssueFromIssueDTO(issueDto, author);
+            long newResourceId = issueService.createIssueFromIssueDTO(issueDto, author);
 
             responseMap.put("success", true);
 
-            //crw: have a look at UriComponentsBuilder and after that you might consider replacing the code below
-            responseMap.put("url", request.getScheme() + "://"
-                    + request.getServerName() + ":" + request.getServerPort()
-                    + request.getContextPath() + "/issue/" + issueDto.getIssue().getId());
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(
+                    builder.path("/issue/{id}")
+                    .buildAndExpand(newResourceId).toUri());
+            responseMap.put("url", headers.getLocation());
         }
-
         return responseMap;
     }
 
@@ -122,16 +124,16 @@ public class IssueController {
     public String viewAllIssues(Model model) {
 
         List<Issue> issues = issueService.getIssuesOrderedByDate();
-        Map<Long,List<Label>> labelsForIssue =  new HashMap<>();
-        for(Issue is : issues){
+        Map<Long, List<Label>> labelsForIssue = new HashMap<>();
+        for (Issue is : issues) {
             List<Label> labels = issueService.getLabelsByIssueId(is);
-            labelsForIssue.put(is.getId(),labels);
+            labelsForIssue.put(is.getId(), labels);
         }
         model.addAttribute("issues", issues);
-        model.addAttribute("labels",labelsForIssue);
+        model.addAttribute("labels", labelsForIssue);
         return "issues";
     }
-    
+
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
     @ResponseBody
     public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, @PathVariable("id") Long issueId, HttpServletRequest request) {
@@ -144,9 +146,9 @@ public class IssueController {
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
             long lastKnowCommentId = comment.getId();
-            
+
             issueService.addComment(currentUser, issueId, comment);
-            
+
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
             responseMap.put("comments", listComments);
@@ -160,8 +162,8 @@ public class IssueController {
     public FilterResult filterIssues(@RequestBody @Valid IssueSearchCriteria searchCriteria, BindingResult bindingResult) {
         return issueService.filterIssues(searchCriteria);
     }
-    
-      @RequestMapping(method = RequestMethod.POST, value = "/create-label")
+
+    @RequestMapping(method = RequestMethod.POST, value = "/create-label")
     @ResponseBody
     public Map<String, Object> createLabel(@RequestBody @Valid Label label,
             BindingResult bindingResult, HttpServletResponse response) {
@@ -179,10 +181,10 @@ public class IssueController {
             responseMap.put("success", false);
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
-            
-                Label returnedLabel  = issueService.createLabel(label);
-                responseMap.put("success", true);
-                responseMap.put("label", returnedLabel);
+
+            Label returnedLabel = issueService.createLabel(label);
+            responseMap.put("success", true);
+            responseMap.put("label", returnedLabel);
         }
         return responseMap;
     }
