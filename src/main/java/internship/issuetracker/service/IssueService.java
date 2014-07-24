@@ -154,6 +154,7 @@ public class IssueService {
         Issue issue = em.find(Issue.class, issueId);
         issue.setUpdateDate(new Date());
 
+        comment.setId(null);
         comment.setAuthor(author);
         comment.setIssue(issue);
         comment.setDate(new Date());
@@ -247,5 +248,32 @@ public class IssueService {
         TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
         labelQuery.setParameter("label_name", labelName);
         return !labelQuery.getResultList().isEmpty();
+    }
+    
+    public List<Comment> getMissedComments(long issueId, long commentId) {
+        if(commentId < 0){
+            TypedQuery<Comment> commentQuery2 = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
+            commentQuery2.setParameter("v_issue", this.getIssueById(issueId));
+            return commentQuery2.getResultList();
+        }
+        
+        TypedQuery<Comment> commentQuery = em.createNamedQuery(Comment.FIND_BY_ID, Comment.class);
+        commentQuery.setParameter("comment_id", commentId);
+        List<Comment> commentsList;
+        commentsList = commentQuery.getResultList();
+        Comment comment = commentsList.isEmpty() ? null : commentsList.get(0);
+        if(comment == null){
+            TypedQuery<Comment> commentQuery2 = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
+            commentQuery2.setParameter("v_issue", this.getIssueById(issueId));
+            return commentQuery2.getResultList();
+        } else if(comment.getIssue().getId() != issueId) {
+            return new ArrayList<>();
+        } else {
+            TypedQuery<Comment> commentQuery3 = em.createNamedQuery(Comment.FIND_BETWEEN_INTERVAL, Comment.class);
+            commentQuery3.setParameter("issue_id", issueId).
+                    setParameter("stDate", comment.getDate()).
+                    setParameter("edDate", new Date());
+            return commentQuery3.getResultList();
+        }
     }
 }

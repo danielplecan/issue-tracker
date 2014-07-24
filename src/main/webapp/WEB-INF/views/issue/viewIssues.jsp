@@ -102,12 +102,33 @@
 </div>
 <script>
     $("#panelBody").hide();
-    $("#search_widget").width($(".issueTitle").width() + 30);
+    
+    function adjustSearchWidgetWidth(){
+        if ($(".issueTitle").length > 0) {
+            $("#search_widget").width($(".issueTitle").width() + 30);  
+        }
+        else {
+            $("#search_widget").hide();
+        }
+    }
+    
+    $('body').keydown( function (e) {
+        if (e.keyCode === 13){
+            $('#searchBoxStructure button').trigger('click');
+        }
+    });
+    
+    adjustSearchWidgetWidth();
+    
+    $(window).resize( function (){
+        adjustSearchWidgetWidth();
+    });
 
     $(".panel-title").click(function() {
-        $(".panel-title").attr('disabled', 'disabled');
         $("#panelBody").toggle("slow", function() {
-            $(".panel-title").removeAttr('disabled');
+            if ($("#panelBody").is(':visible')) {
+                $("#searchFieldTitle").focus();
+            }
         });
     });
 </script>

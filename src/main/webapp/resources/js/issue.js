@@ -11,15 +11,19 @@ $(document).ready(function() {
         $("#submitComment").attr("disabled", "disabled");
         issueTrackerService.addComment(issueId, createCommentData()).done(function(data) {
             if (data.success) {
-                var commentContent = "<blockquote><p class=\"commentContent\"></p><small><a href=\"\">" +
-                        data.username + "</a> on  " + data.date + "</small>" +
-                        "</blockquote>";
-                $("#allComments").append(commentContent);
-                $("#allComments blockquote p").last().text(data.content);
-                $("#innerCommentDiv").addClass("hidden");
-                $("#submitComment").addClass("hidden");
-                $("#addCommentButton").removeClass("hidden");
-                $("#textAreaComment").val('');
+                var size = data.comments.length;
+                for (var i = 0; i < size; i++) {
+                    var comment = data.comments[i];
+                    var commentContent = "<blockquote data-id=" + comment.id + "><p class=\"commentContent\"></p><small><a href=\"\">" +
+                            comment.author.name + "</a> on  " + comment.dateFormat + "</small>" +
+                            "</blockquote>";
+                    $("#allComments").append(commentContent);
+                    $("#allComments blockquote p").last().text(comment.content);
+                    $("#innerCommentDiv").addClass("hidden");
+                    $("#submitComment").addClass("hidden");
+                    $("#addCommentButton").removeClass("hidden");
+                    $("#textAreaComment").val('');
+                }
             } else {
                 $.each(data.errors, function(key, value) {
                     $("#" + key + "Error").append(value);
@@ -80,7 +84,13 @@ $(document).ready(function() {
 
     function createCommentData() {
         var commentContent = $("#textAreaComment").val();
+        var lastComment = $("#allComments blockquote").last();
         var comment = {};
+        if ($("#allComments blockquote").size() === 0) {
+            comment['id'] = -10;
+        } else {
+            comment['id'] = lastComment.attr('data-id');
+        }
         comment['content'] = commentContent;
         return comment;
     }

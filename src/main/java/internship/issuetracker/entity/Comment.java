@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -26,13 +27,18 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author atataru
  */
 @NamedQueries({
-    @NamedQuery(name = Comment.FIND_BY_ISSUE_ID, query = "SELECT u from Comment u WHERE u.issue = :v_issue")
+    @NamedQuery(name = Comment.FIND_BY_ISSUE_ID, query = "SELECT u from Comment u WHERE u.issue = :v_issue"),
+    @NamedQuery(name = Comment.FIND_BY_ID, query = "SELECT u from Comment u WHERE u.id = :comment_id"),
+    @NamedQuery(name = Comment.FIND_BETWEEN_INTERVAL, 
+            query = "FROM Comment AS c WHERE (c.issue.id = :issue_id) AND (c.date > :stDate AND c.date <= :edDate) ")
 })
 @Entity
 @Table(name = "en_comments")
 public class Comment implements Serializable{
 
     public static final String FIND_BY_ISSUE_ID = "findAllCommentsByIssue";
+    public static final String FIND_BY_ID = "findCommentById";
+    public static final String FIND_BETWEEN_INTERVAL = "findCommentsBetweenInterval";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,6 +61,7 @@ public class Comment implements Serializable{
 
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "id_issue")
     private Issue issue;
 
