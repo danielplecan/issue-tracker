@@ -3,27 +3,34 @@ var pager = function() {
     var pageLabel;
     var pageNumber;
     var numberOfPages;
+    var filterData;
 
     var toggleFirstButtons = function(flag) {
-        if(!flag) {
+        if (!flag) {
             $(".first").addClass("disabled");
-            
+
         } else {
             $(".first").removeClass("disabled");
         }
     };
     var toggleLastButtons = function(flag) {
-        if(!flag) {
+        if (!flag) {
             $(".last").addClass("disabled");
         } else {
             $(".last").removeClass("disabled");
         }
     };
-    var changeCurrentPage = function() {
-        issueTrackerService.getFilteredIssues(createFilterData()).done(function(data) {
+    var updatePageNumber = function(number) {
+        filterData["pageNumber"] = number;
+        pageNumber = number;
+    };
+    var ReloadIssuesOnPage = function() {
+        issueTrackerService.getFilteredIssues(filterData).done(function(data) {
             issuesCreator().addAllIssues(data.issues);
             numberOfPages = data.numberOfPages;
             pageNumber = data.currentPage;
+            if (pageNumber > numberOfPages)
+                pageNumber = numberOfPages;
             toggleFirstButtons(pageNumber > 1);
             pageLabel.text("page " + pageNumber + " of " + numberOfPages);
             toggleLastButtons(pageNumber < numberOfPages);
@@ -33,51 +40,46 @@ var pager = function() {
         var inputs = $('table').find('input');
         var state = $('table').find('select').val();
 
-        var response = {};
+        filterData = {};
         var filter = {};
         $.each(inputs, function(index, item) {
             filter[item.name] = item.value;
         });
         filter["state"] = state;
-        response["filters"] = filter;
-        response["pageNumber"] = pageNumber;
-        response["numberOfItemsPerPage"] = 5;
-        return response;
+        filterData["filters"] = filter;
+        filterData["pageNumber"] = pageNumber;
+        filterData["numberOfItemsPerPage"] = 5;
     };
     return{
         nextPage: function() {
             if (pageNumber >= numberOfPages)
                 return;
-            ++pageNumber;
-            changeCurrentPage();
+            updatePageNumber(pageNumber + 1);
+            ReloadIssuesOnPage();
         },
         prevPage: function() {
             if (pageNumber <= 1)
                 return;
-            --pageNumber;
-            changeCurrentPage();
+            updatePageNumber(pageNumber - 1);
+            ReloadIssuesOnPage();
         },
         firstPage: function() {
             if (pageNumber <= 1)
                 return;
-            pageNumber = 1;
-            changeCurrentPage();
+            updatePageNumber(1);
+            ReloadIssuesOnPage();
         },
         lastPage: function() {
-            if (pageNumber >= numberOfPages )
+            if (pageNumber >= numberOfPages)
                 return;
-            pageNumber = numberOfPages;
-            changeCurrentPage();
-        },
-        search: function() {
-            pageLabel = $(".pageLabel");
-            pageNumber = 1;
-            changeCurrentPage();
+            updatePageNumber(numberOfPages);
+            ReloadIssuesOnPage();
         },
         initializePagination: function() {
-            pageLabel = $(".pageLabel");
             pageNumber = 1;
-            changeCurrentPage();
+            createFilterData();
+            pageLabel = $(".pageLabel");
+            ReloadIssuesOnPage();
         }
     };
 };
@@ -90,5 +92,5 @@ $(document).ready(function() {
     paginationButtonContainer.find(".prevButton").click(pagObject.prevPage);
     paginationButtonContainer.find(".lastButton").click(pagObject.lastPage);
     paginationButtonContainer.find(".firstButton").click(pagObject.firstPage);
-    $('table').find('button').click(pagObject.search);
+    $('table').find('button').click(pagObject.initializePagination);
 });
