@@ -112,13 +112,14 @@
         }
     }
     
-    $('#search_widget').keydown( function (e) {
+    $('body').keydown( function (e) {
         if (e.keyCode === 13){
             $('#searchBoxStructure button').trigger('click');
         }
     });
     
     adjustSearchWidgetWidth();
+    
     $(window).resize( function (){
         adjustSearchWidgetWidth();
     });
