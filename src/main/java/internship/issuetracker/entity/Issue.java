@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -45,12 +44,12 @@ public class Issue implements Serializable {
     private Long id;
 
     @Basic(optional = false)
-    @Column(name = "issue_title")
+    @Column(name = "issue_title", length = 50)
     @Size(min = 3, max = 50, message = "The title must have between 3 and 50 characters.")
     private String title;
 
     @Basic(optional = true)
-    @Column(name = "issue_content")
+    @Column(name = "issue_content", length = 500)
     @Size(max = 500, message = "The content must have a maximum of 500 characters.")
     private String content;
 
@@ -59,11 +58,11 @@ public class Issue implements Serializable {
     private IssueState state;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "post_date", length = 100)
+    @Column(name = "post_date")
     private Date date;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update_date", length = 100)
+    @Column(name = "update_date")
     private Date updateDate;
 
     @ManyToOne
