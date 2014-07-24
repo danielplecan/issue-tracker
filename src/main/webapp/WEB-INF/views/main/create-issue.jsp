@@ -13,7 +13,7 @@
             <fieldset>
                 <div id="divToChange" class="form-group">
                     <div class="col-lg-12">
-                        <input class="form-control" id="textArea1" placeholder="Title" autofocus/>
+                        <input class="form-control" id="textArea1" placeholder="Title" autocomplete="off" autofocus/>
                     </div>
                 </div>
                 <div class="form-group">
