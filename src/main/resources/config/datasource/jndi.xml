@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
 
-	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/issueTracker" />
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/beansTracker" />
 <!--
 	This data source type can be used if you want to provide the connection details from a
 	container such as Tomcat. To add it, edit conf/context.xml and add the following resource.

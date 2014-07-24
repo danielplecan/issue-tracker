@@ -15,7 +15,7 @@
     <!-- Defines the entity manager factory -->
     <bean id='entityManagerFactory'
           class='org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean'>
-        <property name="persistenceUnitName" value="IssueTracker" />
+        <property name="persistenceUnitName" value="BeansTracker" />
         <property name='dataSource' ref='dataSource' />
         <property name="jpaVendorAdapter">
             <bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
