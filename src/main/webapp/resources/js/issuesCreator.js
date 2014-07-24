@@ -34,12 +34,16 @@ var issuesCreator = function() {
     };
     var createLabelDiv = function(labels) {
         var labelsDiv = $("<div/>");
-        for (var label in labels) {
+        if(labels===null)
+            return labelsDiv;
+        $.each(labels, function(index,label) {
             var spanLabel = $("<span/>");
             spanLabel.addClass("label label-primary");
+            spanLabel.css("margin-left","2px");
             spanLabel.text(label.name);
             labelsDiv.append(spanLabel);
-        }
+        });
+        return labelsDiv;
     };
     var createDateSpan = function(text) {
         var label = $("<span></span>");
@@ -90,6 +94,7 @@ var issuesCreator = function() {
         titleDiv.append(createIssue(issue));
         allIssuesDiv.append(outerDiv);
         innerDiv.append(titleDiv);
+        innerDiv.append(createLabelDiv(issue.labels));
         innerDiv.append(createDates(issue));
     };
     return{
