@@ -89,7 +89,7 @@
             </div>
         </c:forEach>
     </div>
-    <div class="col-lg-offset-4 col-lg-8">
+    <div class="col-lg-12 txt-center">
         <ul class="pager" style="display: inline-block">
             <li class="firstButton first disabled"><a >«</a></li>
             <li class="prevButton first disabled"><a>Prev</a></li>
