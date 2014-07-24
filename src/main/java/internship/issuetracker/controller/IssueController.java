@@ -73,8 +73,8 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/create-issue")
     @ResponseBody
-    public Map<String, Object> setupCreateIssuePage(@RequestBody @Valid IssueDTO issueDto, UriComponentsBuilder builder,
-            BindingResult bindingResult, HttpServletRequest request,
+    public Map<String, Object> setupCreateIssuePage(@RequestBody @Valid IssueDTO issueDto, 
+            BindingResult bindingResult, UriComponentsBuilder builder, HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
 
