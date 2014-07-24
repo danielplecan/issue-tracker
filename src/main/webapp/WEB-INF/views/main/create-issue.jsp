@@ -18,8 +18,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <textarea type=textarea" path="content" class="form-control" rows="7" id="textArea2" placeholder="Content">
-                        </textarea>
+                        <textarea type=textarea" path="content" class="form-control" rows="7" id="textArea2" placeholder="Content"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
