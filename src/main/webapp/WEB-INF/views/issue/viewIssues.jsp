@@ -122,9 +122,9 @@
         });
     });
 </script>
+<script src="/resources/js/createIssue.js" type="text/javascript"></script>
 <script src="/resources/js/issuesCreator.js" type="text/javascript"></script>
 <script src="/resources/js/pagination.js" type="text/javascript"></script>
-
 <style>    
     @media (min-width: 1200px) { 
         #search_widget{

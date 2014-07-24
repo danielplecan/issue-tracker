@@ -38,8 +38,10 @@ var issuesCreator = function() {
             return labelsDiv;
         $.each(labels, function(index,label) {
             var spanLabel = $("<span/>");
-            spanLabel.addClass("label label-primary");
+            spanLabel.addClass("label");
             spanLabel.css("margin-left","2px");
+            spanLabel.css("background-color",label.color);
+            spanLabel.css("color",getContrastYIQ(label.color));
             spanLabel.text(label.name);
             labelsDiv.append(spanLabel);
         });
