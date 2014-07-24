@@ -39,7 +39,6 @@
     </div>
     <span id="username"><sec:authentication property="principal.username" /></span>
 </div>
-</div>
 <script>
     var username = $("#username").text();
     $("#username").hide();
