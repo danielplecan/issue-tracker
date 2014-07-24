@@ -51,3 +51,4 @@
         </form>
         <span class="col-lg-12 txt-center">If you already have an account, please <a href="/login"> Login</a></span>
     </div>
+    <script src="/resources/js/register.js" type="text/javascript"></script>
