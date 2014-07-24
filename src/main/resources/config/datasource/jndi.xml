@@ -6,6 +6,11 @@
                            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
 
 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/beansTracker" />
+        <bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+            <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="generateDdl" value="true" />
+            <property name="showSql" value="false" />
+        </bean>
 <!--
 	This data source type can be used if you want to provide the connection details from a
 	container such as Tomcat. To add it, edit conf/context.xml and add the following resource.
