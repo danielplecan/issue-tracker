@@ -11,6 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -34,16 +35,20 @@ public class User implements Serializable {
     private Long id;
 
     @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
 
     @Column(name = "username", nullable = false, unique = true)
+    @NotBlank
     private String username;
 
     @Column(name = "email", nullable = false, unique = true)
+    @NotBlank
     private String email;
 
     @JsonIgnore
     @Column(name = "password_hash", length = 60, nullable = false)
+    @NotBlank
     private String passwordHash;
 
     public Long getId() {
