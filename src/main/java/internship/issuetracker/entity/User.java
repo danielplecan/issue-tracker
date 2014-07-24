@@ -10,7 +10,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.codehaus.jackson.annotate.JacksonAnnotation;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -25,6 +24,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Entity
 @Table(name = "en_users")
 public class User implements Serializable {
+
     public static final String FIND_BY_USERNAME = "findByUsername";
     public static final String FIND_BY_EMAIL = "findByEmail";
 
@@ -33,17 +33,17 @@ public class User implements Serializable {
     @SequenceGenerator(name = "en_users_id_seq", sequenceName = "en_users_id_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name="name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name="username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name="email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    
+
     @JsonIgnore
-    @Column(name="password_hash", length = 60, nullable = false)
+    @Column(name = "password_hash", length = 60, nullable = false)
     private String passwordHash;
 
     public Long getId() {
