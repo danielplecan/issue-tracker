@@ -38,8 +38,8 @@ public class Label implements Serializable{
     private Long id;
     
     @Basic(optional = false)
-    @Column(name = "label_name")
-    @Size( min = 1, max = 15, message = "A label name must contain between 3 and 15 characters" )
+    @Column(name = "label_name", length = 15)
+    @Size(min = 1, max = 15, message = "A label name must contain between 3 and 15 characters" )
     private String name;
     
     @Basic(optional = false)
