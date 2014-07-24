@@ -26,22 +26,30 @@
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active in col-lg-8" id="home">
-            <br/>These are some status bars.<br/><br/>
+            <br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i>
+            <br/>These are some status bars that will measure what part of your posted issues are open, closed and reopened.<br/><br/>
+            <span>Open issues</span>
+
             <div class="progress">
-            <div class="progress-bar progress-bar-success" style="width: 10%"></div>
+                <div class="progress-bar progress-bar-success" style="width: 10%"></div>
             </div>
+            <span>Closed issues</span>
+
             <div class="progress">
-                <div class="progress-bar progress-bar-danger" style="width: 20%"></div>
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
             </div>
+            <span>Reopened issues</span>
             <div class="progress">
+
+
                 <div class="progress-bar progress-bar-warning" style="width: 30%"></div>
             </div>
         </div>
         <div class="tab-pane fade" id="assigned">
-            <p>assigned</p>
+            <p><br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i><br/>Here there will be all the issues that were assigned to you</p>
         </div>
         <div class="tab-pane fade" id="posted">
-            <p>posted</p>
+            <p><br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i><br/>Here there will be all the issues that you posted</p>
         </div>
     </div>
 </div>
