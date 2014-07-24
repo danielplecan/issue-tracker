@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -39,11 +40,13 @@ public class Label implements Serializable{
     
     @Basic(optional = false)
     @Column(name = "label_name", length = 15)
+    @NotBlank(message = "Label name cannot contain only whitespaces.")
     @Size(min = 1, max = 15, message = "A label name must contain between 3 and 15 characters" )
     private String name;
     
     @Basic(optional = false)
     @NotNull(message = "A label must have a color ")
+    @NotBlank(message = "A label must have a color ")
     @Column(name = "label_color")
     @Pattern(regexp ="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",  message = "Not a valid color")
     private String color;
