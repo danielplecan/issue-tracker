@@ -22,6 +22,10 @@
                     </div>
                 </div>
             </fieldset>
+            <div class="col-lg-12 txt-center">
+                <div id="issueErrorSpan" class="commentError text-warning commentContent"></div>
+                <button class="btn btn-default" id="buttonCreateIssue">Create</button>
+            </div>
         </form>
     </div>
     <div id="label-list" class="col-lg-3">
@@ -68,10 +72,6 @@
                 </div>
             </c:forEach>
         </div>
-    </div>
-    <div class="col-lg-12 txt-center">
-        <div id="issueErrorSpan" class="commentError text-warning commentContent"></div>
-        <button class="btn btn-default" id="buttonCreateIssue">Create</button>
     </div>
 </div>
 <script src="/resources/js/createIssue.js" type="text/javascript"></script>
