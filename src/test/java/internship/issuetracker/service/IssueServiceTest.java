@@ -250,6 +250,7 @@ public class IssueServiceTest {
         String labelColor = "#FFFF00";
 
         Label label = createlabel(labelColor, labelName);
+        issueService.createLabel(label);
 
         assertEquals(true, issueService.labelExists(labelName));
     }
