@@ -173,24 +173,62 @@ public class UserServiceTest {
     /**
      * Test of loginUser method, of class UserService.
      */
-    //not ready yet!!
-//    @Test
-//    public void testLoginUserNullUsername() {
-//        System.out.println("loginUserNullUsername");
-//        String username = null;
-//        String password = "123456";
-//        
-//        UserDTO userDTO = new UserDTO();
-//        userDTO.setName("user6");
-//        userDTO.setEmail("user6@email.com");
-//        userDTO.setUsername("username6");
-//        userDTO.setPassword("123456");
-//        
-//        userService.registerUser(userDTO);
-//        User expResult = userService.getUserByUsername(userDTO.getUsername());
-//        
-//        User result = userService.loginUser(username, password);
-//        assertEquals(expResult, result);
-//    }
-//    
+    @Test
+    public void testLoginUserNullUsername() {
+        System.out.println("loginUserNullUsername");
+        String username = null;
+        String password = "123456";
+ 
+        User expResult = null;
+        
+        User result = userService.loginUser(username, password);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of loginUser method, of class UserService.
+     */
+    @Test
+    public void testLoginUserNullPassword() {
+        System.out.println("loginUserNullPassword");
+        String username = "user1";
+        String password = null;
+ 
+        User expResult = null;
+        
+        User result = userService.loginUser(username, password);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of loginUser method, of class UserService.
+     */
+    @Test
+    public void testLoginUser() {
+        System.out.println("loginUser");
+ 
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName("user6");
+        userDTO.setEmail("user6@email.com");
+        userDTO.setUsername("username6");
+        userDTO.setPassword("123456");
+        userService.registerUser(userDTO);
+        
+        User expResult = userService.getUserByUsername(userDTO.getUsername());
+        
+        User result = userService.loginUser(userDTO.getUsername(), userDTO.getPassword());
+        
+        String [] actuals = new String [3];
+        String [] expecteds = new String [3];
+        
+        expecteds[0]=expResult.getName();
+        expecteds[1]=expResult.getUsername();
+        expecteds[2]=expResult.getEmail();
+        
+        actuals[0]=result.getName();
+        actuals[1]=result.getUsername();
+        actuals[2]=result.getEmail();
+        
+        assertArrayEquals(expecteds, actuals);
+    }
 }
