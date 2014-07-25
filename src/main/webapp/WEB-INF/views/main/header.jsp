@@ -1,5 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
             <div class="logo-header"><img src="/resources/img/small.png" alt="Issue Tracker" width="50" height="50"></div>
@@ -16,7 +16,6 @@
                 <li><a href="/issues">View All Issues</a></li>
                 <li><a href="/create-issue">Create an issue</a></li>
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a id="themes" href="#" data-toggle="dropdown" class="dropdown-toggle"><sec:authentication property="principal.name" /><span class="caret"></span></a>
@@ -38,4 +37,3 @@
     $("#username").hide();
     $("#profile-link").attr('href', '/profile/' + username);
 </script>
-
