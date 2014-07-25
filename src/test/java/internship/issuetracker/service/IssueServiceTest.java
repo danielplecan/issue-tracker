@@ -1,6 +1,5 @@
 package internship.issuetracker.service;
 
-import internship.issuetracker.dto.IssueDTO;
 import internship.issuetracker.dto.NewIssueDTO;
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.entity.Comment;
@@ -8,16 +7,9 @@ import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
-import internship.issuetracker.filter.FilterResult;
-import internship.issuetracker.filter.QueryFilter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
