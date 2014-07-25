@@ -54,41 +54,9 @@
         </div>
     </aside>
 
-    <div id="allIssues" >
-        <!--<c:forEach items="${issues}" var="issue">
-            <div class="firstRow" data-id="${issue.id}">
-                <div class="panel panel-default col-lg-offset-1 col-lg-10 noBorder">
-                    <div>
-                        <div class="issueTitle ">
-                     
-                            <c:choose>
-                                <c:when test="${issue.state == 'OPEN'}"> <div class="label label-success issueLength stateLabelIssues">Open</div></c:when>
-                                <c:when test="${issue.state == 'CLOSED'}"> <div class="label label-danger issueLength stateLabelIssues">Closed</div></c:when>
-                                <c:when test="${issue.state == 'REOPENED'}"> <div class="label label-warning issueLength stateLabelIssues">Reopened</div></c:when>
-                            </c:choose>
-                            <a class="titleLink" href="/issue/${issue.id}"><c:out value="${issue.title}"/></a>
-                        </div>
-                    </div>
-                    <div>
-                        <c:forEach items="${labels[issue.id]}" var="label">
-                            <span class="label label-primary"><c:out value="${label.name}"/></span>
-                        </c:forEach>  
-                    </div>
-                    <div class = "dates">
-                        <div class="issueDateTimeUpdate">
-                            <i>Posted by</i> <span class="text-primary"><c:out value="${issue.owner.name}"/></span><i> on</i>
-                            <span class="text-primary"><c:out value="${issue.getDateFormat()}"/> </span>
-                        </div>   
-                        <div class="issueDateTime">
-                            <i>Last updated </i>
-                            <span class="text-primary"><c:out value="${issue.getLastUpdateDate()}"/> </span>
-                            <i> ago</i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </c:forEach> -->
+    <div id="allIssues"> 
     </div>
+    
     <div class="col-lg-12 txt-center">
         <ul class="pager" style="display: inline-block">
             <li class="firstButton first disabled"><a >«</a></li>
