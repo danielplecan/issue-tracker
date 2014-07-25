@@ -48,7 +48,7 @@ var pager = function() {
         filter["state"] = state;
         filterData["filters"] = filter;
         filterData["pageNumber"] = pageNumber;
-        filterData["numberOfItemsPerPage"] = 10;
+        filterData["numberOfItemsPerPage"] = 6;
     };
     return{
         nextPage: function() {
