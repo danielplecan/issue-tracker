@@ -10,6 +10,8 @@ import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.QueryFilter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -33,113 +35,155 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
     "classpath:config/application-context.xml"
 })
 public class IssueServiceTest {
-    
+
     @Autowired
     private UserService userService;
 
-    @Test
-    public void test_X() {
+    @Autowired
+    private IssueService issueService;
+
+    /**
+     * Helper method for creating a user
+     *
+     * @author AUGUSTIN
+     * @param username
+     * @param name
+     * @param email
+     * @param password
+     * @return
+     */
+    private User createUser(String username, String name, String email, String password) {
         UserDTO userDTO = new UserDTO();
-        userDTO.setEmail("a@a");
-        userDTO.setName("zaname");
-        userDTO.setPassword("ohohohoh");
-        userDTO.setUsername("zaUserName");
-        
+        userDTO.setEmail(email);
+        userDTO.setName(name);
+        userDTO.setPassword(password);
+        userDTO.setUsername(username);
+
         userService.registerUser(userDTO);
-        
-        User user = userService.getUserByEmail("a@a");
-        Assert.assertEquals(userDTO.getUsername(), user.getUsername());
+
+        User user = userService.getUserByEmail(email);
+        return user;
     }
 
     /**
-     * Test of createIssueFromIssueDTO method, of class IssueService.
+     * Helper method for creating a NewIssueDTO with no id
+     *
+     * @author AUGUSTIN
+     * @param title
+     * @param content
+     * @param state
+     * @param idList
+     * @return
+     */
+    private NewIssueDTO createIssueDTO(String title, String content, IssueState state, List<Long> idList) {
+        Issue simpleIssue = new Issue();
+        simpleIssue.setContent(content);
+        simpleIssue.setDate(new Date());
+        simpleIssue.setTitle(title);
+        simpleIssue.setState(state);
+
+        NewIssueDTO issueDto = new NewIssueDTO();
+        issueDto.setIssue(simpleIssue);
+        issueDto.setLabelIdList(idList);
+        return issueDto;
+    }
+
+    /**
+     * Helper method for creating a comment with no id
+     *
+     * @param content
+     * @return
+     */
+    private Comment createSimpleComment(String content) {
+        Comment comment = new Comment();
+        comment.setContent(content);
+        return comment;
+    }
+
+    private Label createlabel(String color, String name) {
+        Label label = new Label();
+        label.setColor(color);
+        label.setName(name);
+        return label;
+    }
+
+    /**
+     * @author AUGUSTIN IssueService.
      */
     @Test
     public void testCreateIssueFromIssueDTO() {
-        System.out.println("createIssueFromIssueDTO");
-        NewIssueDTO issueDto = null;
-        User owner = null;
-        IssueService instance = new IssueService();
-        long expResult = 0L;
-        long result = instance.createIssueFromIssueDTO(issueDto, owner);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String content = "content";
+
+        NewIssueDTO issueDto = createIssueDTO("title", content, IssueState.OPEN, new ArrayList<Long>());
+        User user = createUser("nicu", "name", "n@mail", "12345");
+
+        issueService.createIssueFromIssueDTO(issueDto, user);
+
+        Issue issue = issueService.getIssueById(issueDto.getIssue().getId());
+
+        assertEquals(issue.getContent(), content);
     }
 
     /**
-     * Test of getIssueById method, of class IssueService.
+     * @author AUGUSTIN
      */
     @Test
     public void testGetIssueById() {
-        System.out.println("getIssueById");
-        Long id = null;
-        IssueService instance = new IssueService();
-        Issue expResult = null;
-        Issue result = instance.getIssueById(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String content = "content2";
+        String title = "title2";
+        IssueState state = IssueState.REOPENED;
+
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>());
+        User user = createUser("nicu2", "name", "n@mail2", "12345");
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        Issue issue = issueService.getIssueById(issueId);
+
+        assertArrayEquals(new Object[]{title, content, state},
+                new Object[]{issue.getTitle(), issue.getContent(), issue.getState()});
     }
 
     /**
-     * Test of updateIssueState method, of class IssueService.
+     * @author AUGUSTIN
      */
     @Test
     public void testUpdateIssueState() {
-        System.out.println("updateIssueState");
-        long issueId = 0L;
-        IssueState newState = null;
-        IssueService instance = new IssueService();
-        boolean expResult = false;
-        boolean result = instance.updateIssueState(issueId, newState);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String content = "content3";
+        String title = "title3";
+        IssueState state = IssueState.CLOSED;
+
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>());
+        User user = createUser("nicu3", "name", "n@mail3", "12345");
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        issueService.updateIssueState(issueId, IssueState.REOPENED);
+
+        Issue issue = issueService.getIssueById(issueId);
+
+        assertEquals(IssueState.REOPENED, issue.getState());
     }
 
     /**
-     * Test of changeStateOfIssue method, of class IssueService.
+     * @author AUGUSTIN IssueService.
      */
     @Test
     public void testChangeStateOfIssue() {
-        System.out.println("changeStateOfIssue");
-        Long issueId = null;
-        IssueState newState = null;
-        IssueService instance = new IssueService();
-        boolean expResult = false;
-        boolean result = instance.changeStateOfIssue(issueId, newState);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        String content = "content4";
+        String title = "title4";
+        IssueState state = IssueState.OPEN;
 
-    /**
-     * Test of getIssues method, of class IssueService.
-     */
-    @Test
-    public void testGetIssues() {
-        System.out.println("getIssues");
-        IssueService instance = new IssueService();
-        List<Issue> expResult = null;
-        List<Issue> result = instance.getIssues();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>());
+        User user = createUser("nicu4", "name", "n@mail4", "12345");
 
-    /**
-     * Test of getIssuesOrderedByDate method, of class IssueService.
-     */
-    @Test
-    public void testGetIssuesOrderedByDate() {
-        System.out.println("getIssuesOrderedByDate");
-        IssueService instance = new IssueService();
-        List<Issue> expResult = null;
-        List<Issue> result = instance.getIssuesOrderedByDate();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        issueService.updateIssueState(issueId, IssueState.CLOSED);
+
+        Issue issue = issueService.getIssueById(issueId);
+
+        assertEquals(IssueState.CLOSED, issue.getState());
     }
 
     /**
@@ -147,16 +191,19 @@ public class IssueServiceTest {
      */
     @Test
     public void testAddComment() {
-        System.out.println("addComment");
-        User author = null;
-        Long issueId = null;
-        Comment comment = null;
-        IssueService instance = new IssueService();
-        Comment expResult = null;
-        Comment result = instance.addComment(author, issueId, comment);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String content = "content5";
+        String title = "title5";
+        IssueState state = IssueState.OPEN;
+
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>());
+        User user = createUser("nicu5", "name", "n@mail5", "12345");
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        Comment comment = issueService.addComment(user, issueId, createSimpleComment("comment 1"));
+
+        assertEquals("comment 1", comment.getContent());
+
     }
 
     /**
@@ -164,75 +211,21 @@ public class IssueServiceTest {
      */
     @Test
     public void testGetCommentsByIssueId() {
-        System.out.println("getCommentsByIssueId");
-        Issue issue = null;
-        IssueService instance = new IssueService();
-        List<Comment> expResult = null;
-        List<Comment> result = instance.getCommentsByIssueId(issue);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        String content = "content6";
+        String title = "title56";
+        IssueState state = IssueState.OPEN;
 
-    /**
-     * Test of getLabelsByIssueId method, of class IssueService.
-     */
-    @Test
-    public void testGetLabelsByIssueId() {
-        System.out.println("getLabelsByIssueId");
-        Issue issue = null;
-        IssueService instance = new IssueService();
-        List<Label> expResult = null;
-        List<Label> result = instance.getLabelsByIssueId(issue);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>());
+        User user = createUser("nicu6", "name", "n@mail6", "12345");
 
-    /**
-     * Test of getAllLabels method, of class IssueService.
-     */
-    @Test
-    public void testGetAllLabels() {
-        System.out.println("getAllLabels");
-        IssueService instance = new IssueService();
-        List<Label> expResult = null;
-        List<Label> result = instance.getAllLabels();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
 
-    /**
-     * Test of filterIssues method, of class IssueService.
-     */
-    @Test
-    public void testFilterIssues() {
-        System.out.println("filterIssues");
-        List<QueryFilter<Issue>> filters = null;
-        Integer pageNumber = null;
-        Integer itemsPerPage = null;
-        IssueService instance = new IssueService();
-        FilterResult expResult = null;
-        FilterResult result = instance.filterIssues(filters, pageNumber, itemsPerPage);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        issueService.addComment(user, issueId, createSimpleComment("comment 1"));
+        issueService.addComment(user, issueId, createSimpleComment("comment 2"));
+        issueService.addComment(user, issueId, createSimpleComment("comment 3"));
+        List<Comment> commentList = issueService.getCommentsByIssueId(issueService.getIssueById(issueId));
 
-    /**
-     * Test of getDTOsFromIssues method, of class IssueService.
-     */
-    @Test
-    public void testGetDTOsFromIssues() {
-        System.out.println("getDTOsFromIssues");
-        List<Issue> issues = null;
-        IssueService instance = new IssueService();
-        List<IssueDTO> expResult = null;
-        List<IssueDTO> result = instance.getDTOsFromIssues(issues);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(commentList.size(), 3);
     }
 
     /**
@@ -240,14 +233,12 @@ public class IssueServiceTest {
      */
     @Test
     public void testCreateLabel() {
-        System.out.println("createLabel");
-        Label label = null;
-        IssueService instance = new IssueService();
-        Label expResult = null;
-        Label result = instance.createLabel(label);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String labelName = "yupi";
+        String labelColor = "#FF3300";
+
+        Label label = createlabel(labelColor, labelName);
+
+        assertNotNull(label);
     }
 
     /**
@@ -255,29 +246,12 @@ public class IssueServiceTest {
      */
     @Test
     public void testLabelExists() {
-        System.out.println("labelExists");
-        String labelName = "";
-        IssueService instance = new IssueService();
-        boolean expResult = false;
-        boolean result = instance.labelExists(labelName);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        String labelName = "flash";
+        String labelColor = "#FFFF00";
 
-    /**
-     * Test of getMissedComments method, of class IssueService.
-     */
-    @Test
-    public void testGetMissedComments() {
-        System.out.println("getMissedComments");
-        long issueId = 0L;
-        long commentId = 0L;
-        IssueService instance = new IssueService();
-        List<Comment> expResult = null;
-        List<Comment> result = instance.getMissedComments(issueId, commentId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Label label = createlabel(labelColor, labelName);
+        issueService.createLabel(label);
+
+        assertEquals(true, issueService.labelExists(labelName));
     }
 }
