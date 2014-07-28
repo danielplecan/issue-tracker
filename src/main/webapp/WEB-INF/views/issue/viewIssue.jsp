@@ -11,7 +11,6 @@
                     <c:choose>
                         <c:when test="${issue.state == 'OPEN'}"><span id="issueState" class="label label-success stateLabel" data-id="${issue.id}">${issue.state}</span></c:when>
                         <c:when test="${issue.state == 'CLOSED'}"><span id="issueState" class="label label-danger stateLabel" data-id="${issue.id}">${issue.state}</span></c:when>
-                        <c:when test="${issue.state == 'REOPENED'}"><span id="issueState" class="label label-warning stateLabel" data-id="${issue.id}">${issue.state}</span></c:when>
                     </c:choose>
                 </div>
                 <br>
@@ -19,22 +18,6 @@
                     <i>on</i><span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
                 <span class="viewIssueLastUpdated"><i>Last updated</i> <span class="text-primary"><c:out value="${issue.getLastUpdateDate()}"/></span> <i>ago</i>
                 </span>
-            </div>
-            <div id="buttonsContainer">
-                <c:choose>
-                    <c:when test="${issue.state == 'OPEN'}">
-                        <button type="button" class="btn btn-primary btn-sm toggle changeStateButton" id="changeState-close">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden changeStateButton" id="changeState-reopen">Reopen</button>
-                    </c:when>
-                    <c:when test="${issue.state == 'CLOSED'}">
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden changeStateButton" id="changeState-close">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle changeStateButton" id="changeState-reopen">Reopen</button>
-                    </c:when>
-                    <c:when test="${issue.state == 'REOPENED'}">
-                        <button type="button" class="btn btn-primary btn-sm toggle changeStateButton" id="changeState-close">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm toggle hidden changeStateButton" id="changeState-reopen">Reopen</button>
-                    </c:when>
-                </c:choose>
             </div>
         </div>      
         <div class="panel-body contentLine">  
@@ -57,24 +40,41 @@
     <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
     <div id="allComments" class="list-group">
         <c:forEach items="${comments}" var="comment">
-            <blockquote data-id="${comment.id}">
-                <p class="commentContent"><c:out value="${comment.content}"/></p>
-                <small><a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
-            </blockquote>
+            <div class="fullCommentBody">
+                <div class="commentStateChanged">
+                </div>
+                <blockquote data-id="${comment.id}">
+                    <p class="commentContent"><c:out value="${comment.content}"/></p>
+                    <small><a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
+                </blockquote>
+            </div>
         </c:forEach>
     </div>
     <div id="addComment">
-        <button id="addCommentButton" title="" data-original-title="" type="button" class="btn btn-default" data-container="body" 
-                data-toggle="popover" data-placement="left" data-content="Add comment.">
-            Add Comment
-        </button>
-
-        <div id="innerCommentDiv" class="hidden"> 
+        <div id="innerCommentDiv"> 
             <textarea id="textAreaComment" rows="4" class="form-control" placeholder="Insert your comment here..."></textarea>        
         </div>
         <span id="contentError" class="commentError text-warning"></span>
         <br />
-        <button id="submitComment" class="btn btn-success hidden" type="button">Comment</button>
+        <div class = "centerButtonPanel">
+            <c:choose>
+                <c:when test="${issue.state == 'OPEN'}">
+                    <button type="button" class="btn btn-primary toggle changeStateButton" id="changeState-close">Close issue</button>
+                    <button type="button" class="btn btn-primary toggle hidden changeStateButton" id="changeState-open">Open issue</button>
+                </c:when>
+                <c:when test="${issue.state == 'CLOSED'}">
+                    <button type="button" class="btn btn-primary toggle hidden changeStateButton" id="changeState-close">Close issue</button>
+                    <button type="button" class="btn btn-primary toggle changeStateButton" id="changeState-open">Open issue</button>
+                </c:when>
+            </c:choose>
+            <button id="submitComment" class="btn btn-success" type="button">Comment</button>
+        </div>
     </div>
 </div>
 <script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
+<style>
+    .centerButtonPanel {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>

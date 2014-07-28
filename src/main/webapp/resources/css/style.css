@@ -137,10 +137,7 @@ td {
 }
 
 .changeStateButton {
-    float: right;
-    position: relative;
-    right: 12px;
-    top: -102px;
+    width: 90px;
 }
 
 .stateLabelIssues {
