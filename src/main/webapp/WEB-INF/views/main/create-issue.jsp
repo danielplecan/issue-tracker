@@ -43,22 +43,13 @@
                 </div>
                 <div id="colorWidget">
                     <div class="label-line txt-center">
-                        <div class="color-chooser-color" data-color="#800000" style="background-color:#800000"></div>
-                        <div class="color-chooser-color" data-color="#660033" style="background-color:#660033"></div>
-                        <div class="color-chooser-color" data-color="#0033CC" style="background-color:#0033CC"></div>
-                        <div class="color-chooser-color" data-color="#006600" style="background-color:#006600"></div>
-                        <div class="color-chooser-color" data-color="#FFFF00" style="background-color:#FFFF00"></div>
-                        <div class="color-chooser-color" data-color="#FFD1B2" style="background-color:#FFD1B2"></div>
+                        <div class="color-chooser-color" data-color="#28b62c" style="background-color:#28b62c"></div>
+                        <div class="color-chooser-color" data-color="#999999" style="background-color:#999999"></div>
+                        <div class="color-chooser-color" data-color="#158cba" style="background-color:#158cba"></div>
+                        <div class="color-chooser-color" data-color="#ff851b" style="background-color:#ff851b"></div>
+                        <div class="color-chooser-color" data-color="#ff4136" style="background-color:#ff4136"></div>
+                        <div class="color-chooser-color" data-color="#75caeb" style="background-color:#75caeb"></div>
                         <div class="color-chooser-color" data-color="#303030" style="background-color:#303030"></div>
-                    </div>
-                    <div class="label-line txt-center">
-                        <div class="color-chooser-color" data-color="#853385" style="background-color:#853385"></div>
-                        <div class="color-chooser-color" data-color="#5200A3" style="background-color:#5200A3"></div>
-                        <div class="color-chooser-color" data-color="#99B2FF" style="background-color:#99B2FF"></div>
-                        <div class="color-chooser-color" data-color="#003300" style="background-color:#003300"></div>
-                        <div class="color-chooser-color" data-color="#FFFFCC" style="background-color:#FFFFCC"></div>
-                        <div class="color-chooser-color" data-color="#FFB2B2" style="background-color:#FFB2B2"></div>
-                        <div class="color-chooser-color" data-color="#A3C2C2" style="background-color:#A3C2C2"></div>
                     </div>
                 </div>
                 <span id="createLabelErrorField"></span>
