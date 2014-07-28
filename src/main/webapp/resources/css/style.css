@@ -135,7 +135,7 @@ td {
     position:relative;
     float: right;
 }
-
+//augustin
 .changeStateButton {
     width: 90px;
 }
@@ -383,7 +383,8 @@ td {
 }
 
 
-//View All Issues
+//View All Issues (ionut)
+
 .viewIssueLastUpdated{
     float: right;
 }
@@ -436,4 +437,14 @@ td {
 }
 #allIssues > div:nth-child(even)  {
     background: none repeat scroll 0 0 #e7e7e7 !important;
+}
+
+/*andreea;*/
+
+.openColor{
+    color:#53F01A;
+}
+
+.closedColor{
+    color:#FA2A2A;
 }

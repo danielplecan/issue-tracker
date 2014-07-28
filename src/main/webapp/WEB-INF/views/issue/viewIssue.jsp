@@ -41,12 +41,37 @@
     <div id="allComments" class="list-group">
         <c:forEach items="${comments}" var="comment">
             <div class="fullCommentBody">
+                <!--if the user didn't change the state, don't use anything, ONLY THE BLOCKQUOTE!-->
+
+                <!-- IF THE USER COMMENTS SOMETHING:-->
+
+                <!-- if the state has been changed to open:-->
                 <div class="commentStateChanged">
+                    <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span> and said:</span>
                 </div>
+
+                <!--if the state was changed to closed:-->
+                <div class="commentStateChanged">
+                    <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor">closed</span> and said:</span>
+                </div>
+
+                <!-- THE COMMENT: -->
                 <blockquote data-id="${comment.id}">
                     <p class="commentContent"><c:out value="${comment.content}"/></p>
                     <small><a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
                 </blockquote>
+
+                <!-- when the user didn't comment anything when he changed the state:-->
+                <!-- TO OPEN:-->
+                <div class="commentStateChanged">
+                    <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span>.</span>
+                </div>
+                <!--TO CLOSED: -->
+                <div class="commentStateChanged">
+                    <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor">closed</span>.</span>
+                </div>
+
+
             </div>
         </c:forEach>
     </div>
