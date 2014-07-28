@@ -1,3 +1,4 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");
 #content{   
     margin-bottom:100px;
 }
@@ -34,10 +35,6 @@
 
 .loginButton{
     margin-top:8px;
-}
-
-#allIssues > div:nth-child(even) > div {
-    background: none repeat scroll 0 0 #eeeee9   !important;
 }
 
 .issueLength{
@@ -388,6 +385,58 @@ td {
     user-select: none;
 }
 
+
+//View All Issues
 .viewIssueLastUpdated{
     float: right;
+}
+.theIssue{
+    padding-left:10px;
+    padding-right:10px;
+    /*border-width:3px;
+    border-style: solid;*/
+
+}
+.theIssueTitle{
+    margin-bottom: 5px;
+}
+.theIssueTitleLink{
+    color:#333333;
+    font-size: 150%;
+    padding-left: 3px;
+}
+.theIssueContentPreview{
+    padding-top: 5px;
+    padding-bottom:6px;
+    padding-left: 2px;
+    border-left: 4px #E0E0E0 solid;
+    padding: 15px;
+}
+.theIssueDetails{
+    padding-top: 6px;
+}
+.theIssueShowContent{
+    float:right;
+    cursor:pointer;
+    font-size: 25px;
+    color:#c2c2c2;
+    margin-top:6px;
+}
+.theIssueLabel{
+    display:inline-flex;
+    padding:5px;
+    margin-top:3px;
+    margin-right:3px;
+}
+.theIssueRightDetails{
+    float: right;
+}
+.theIssueLeftDetails{
+    float: left;
+}
+.theIssueState{
+    font-size: 14px;
+}
+#allIssues > div:nth-child(even)  {
+    background: none repeat scroll 0 0 #e7e7e7 !important;
 }
