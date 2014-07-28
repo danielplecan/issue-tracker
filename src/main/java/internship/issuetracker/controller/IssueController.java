@@ -9,6 +9,7 @@ import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.service.IssueService;
+import internship.issuetracker.service.UserService;
 import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.LabelValidator;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,6 +41,9 @@ public class IssueController {
     @Autowired
     private IssueService issueService;
 
+    @Autowired
+    private UserService userService;
+    
     @Autowired
     private LabelValidator labelValidator;
 
@@ -185,6 +190,25 @@ public class IssueController {
             responseMap.put("success", true);
             responseMap.put("label", returnedLabel);
         }
+        return responseMap;
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-assignee")
+    @ResponseBody
+    public Map<String, Object> addAssignee(@RequestParam String assignedTo,
+            @PathVariable("id") Long issueId, HttpServletRequest request) {
+        System.out.println("assignedTo = " + assignedTo);
+        Map<String, Object> responseMap = new HashMap<>();
+
+//        if (bindingResult.hasErrors()) {
+//            responseMap.put("success", false);
+////            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+//        } else {
+            User assignee = userService.getUserByUsername(assignedTo);
+            assignee.setEmail(assignedTo);
+            issueService.updateAssignee(issueId, assignee);
+            responseMap.put("success", true);
+            responseMap.put("assignedTo", assignee.getUsername());
         return responseMap;
     }
 }
