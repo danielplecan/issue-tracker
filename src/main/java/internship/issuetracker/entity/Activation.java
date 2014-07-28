@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package internship.issuetracker.entity;
+
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.validator.constraints.NotBlank;
+
+@Entity
+public class Activation implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "en_activation_id_seq", sequenceName = "en_activation_id_seq", allocationSize = 1)
+    private Long id;
+    
+    @JsonIgnore
+    @Column(name = "Activation_hash", length = 60, nullable = false)
+    @NotBlank
+    private String activationHash;
+    
+    @OneToOne
+    @JoinColumn(name = "id_user")
+    @NotBlank
+    private User user;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getActivatiionHash() {
+        return activationHash;
+    }
+
+    public void setActivatiionHash(String activatiionHash) {
+        this.activationHash = activatiionHash;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}

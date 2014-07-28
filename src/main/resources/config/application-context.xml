@@ -23,6 +23,30 @@
     <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
+    
+  
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">false</prop>
+				<prop key="mail.smtp.host">smtprelay.endava.net</prop>
+				<prop key="mail.smtp.port">25</prop>
+			</props>
+		</property>
+		<property name="username" value="Endava\grad_svc_user" />
+		<property name="password" value="F2vAjawraS" />
+	</bean>
+	<!-- configure Velocity Engine for emails -->
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
 
     <tx:annotation-driven transaction-manager="txManager" />
 

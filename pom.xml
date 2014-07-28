@@ -207,7 +207,12 @@
             <version>${spring.security.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.5</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>
