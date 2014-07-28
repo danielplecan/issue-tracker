@@ -15,7 +15,7 @@
                             <label>Title:</label>  
                         </td>
                         <td  id="inputCol">
-                            <input type="text" name="title" class="form-control" id="searchFieldTitle" placeholder="Title keyword"/>
+                            <input type="text" name="title" class="form-control" id="searchFieldTitle" placeholder="Title keyword" autocomplete="off"/>
                         </td>
                     </tr>
 
