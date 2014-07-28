@@ -46,10 +46,12 @@ public class Comment implements Serializable{
     private Long id;
     
     @Basic(optional = false)
-    @Column(name ="comment_content", length = 500)
-    @NotBlank(message = "A comment must not be empty.")
-    @Size(min = 3, max = 500, message="A comment must contain between 3 and 500 characters")
+    @Column(name = "comment_content", length = 500)
     private String content;
+    
+    @Basic(optional = true)
+    @Column(name = "comment_state_changed")
+    private IssueState changeState = null; 
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "post_date")
@@ -104,6 +106,15 @@ public class Comment implements Serializable{
     public void setIssue(Issue issue) {
         this.issue = issue;
     }
+
+    public IssueState getChangeState() {
+        return changeState;
+    }
+
+    public void setChangeState(IssueState changeState) {
+        this.changeState = changeState;
+    }
+    
 
     public String getDateFormat() {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");

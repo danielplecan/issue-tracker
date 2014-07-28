@@ -11,6 +11,7 @@ import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.service.IssueService;
 import internship.issuetracker.service.UserService;
 import internship.issuetracker.util.SerializationUtil;
+import internship.issuetracker.validator.CommentValidator;
 import internship.issuetracker.validator.LabelValidator;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +44,7 @@ public class IssueController {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private LabelValidator labelValidator;
 
@@ -77,7 +78,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/create-issue")
     @ResponseBody
-    public Map<String, Object> setupCreateIssuePage(@RequestBody @Valid NewIssueDTO issueDto, 
+    public Map<String, Object> setupCreateIssuePage(@RequestBody @Valid NewIssueDTO issueDto,
             BindingResult bindingResult, UriComponentsBuilder builder, HttpServletRequest request,
             HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -113,12 +114,12 @@ public class IssueController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/reopen")
+    @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/open")
     @ResponseBody
     public Map<String, Object> reopenIssue(@PathVariable("id") Long issueId, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
 
-        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.REOPENED));
+        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.OPEN));
         response.setStatus(HttpServletResponse.SC_OK);
 
         return result;
@@ -144,6 +145,8 @@ public class IssueController {
 
         Map<String, Object> responseMap = new HashMap<>();
 
+        CommentValidator validator = new CommentValidator();
+        validator.validate(comment, bindingResult);
         if (bindingResult.hasErrors()) {
             responseMap.put("success", false);
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
@@ -192,7 +195,7 @@ public class IssueController {
         }
         return responseMap;
     }
-    
+
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-assignee")
     @ResponseBody
     public Map<String, Object> addAssignee(@RequestParam String assignedTo,
@@ -204,11 +207,11 @@ public class IssueController {
 //            responseMap.put("success", false);
 ////            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
 //        } else {
-            User assignee = userService.getUserByUsername(assignedTo);
-            assignee.setEmail(assignedTo);
-            issueService.updateAssignee(issueId, assignee);
-            responseMap.put("success", true);
-            responseMap.put("assignedTo", assignee.getUsername());
+        User assignee = userService.getUserByUsername(assignedTo);
+        assignee.setEmail(assignedTo);
+        issueService.updateAssignee(issueId, assignee);
+        responseMap.put("success", true);
+        responseMap.put("assignedTo", assignee.getUsername());
         return responseMap;
     }
 }

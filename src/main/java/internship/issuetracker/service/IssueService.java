@@ -37,7 +37,8 @@ public class IssueService {
 
     /**
      *
-     * @param issueDto encapsulates an issue, and a list of id for existing labels
+     * @param issueDto encapsulates an issue, and a list of id for existing
+     * labels
      * @param owner
      * @return the id of the created issue
      */
@@ -81,7 +82,7 @@ public class IssueService {
         return false;
     }
 
-     public boolean updateAssignee(long issueId, User assignee) {
+    public boolean updateAssignee(long issueId, User assignee) {
         Issue issue = em.find(Issue.class, issueId);
 
         //in case an issue with this id exists
@@ -94,7 +95,7 @@ public class IssueService {
         //in case it doesn't
         return false;
     }
-    
+
     public boolean changeStateOfIssue(Long issueId, IssueState newState) {
         Issue issue = em.find(Issue.class, issueId);
 
@@ -112,8 +113,8 @@ public class IssueService {
                 } else {
                     return false;
                 }
-            case REOPENED:
-                if (issue.getState() == IssueState.CLOSED) {
+            case OPEN:
+                if (issue.getState() != IssueState.OPEN) {
                     issue.setState(newState);
                     issue.setUpdateDate(new Date());
                     em.merge(issue);
@@ -152,6 +153,9 @@ public class IssueService {
     public Comment addComment(User author, Long issueId, Comment comment) {
         Issue issue = em.find(Issue.class, issueId);
         issue.setUpdateDate(new Date());
+        if (comment.getChangeState() != null) {
+            this.changeStateOfIssue(issue.getId(), comment.getChangeState());
+        }
 
         comment.setId(null);
         comment.setAuthor(author);
@@ -206,20 +210,20 @@ public class IssueService {
         Root<Issue> root = criteriaQuery.from(Issue.class);
 
         Predicate[] predicatesArray = buildPredicatesFromFilters(filters, criteriaBuilder, criteriaQuery, root);
-        
+
         criteriaQuery.where(predicatesArray);
         criteriaQuery.select(root);
         criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Issue_.updateDate)));
-        
+
         countQuery.select(criteriaBuilder.count(countQuery.from(Issue.class)));
         countQuery.where(predicatesArray);
-        
+
         TypedQuery<Issue> resultQuery = em.createQuery(criteriaQuery);
         resultQuery.setMaxResults(itemsPerPage);
         resultQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-        
+
         TypedQuery<Long> countResultQuery = em.createQuery(countQuery);
-        
+
         Long totalResultCount = countResultQuery.getSingleResult();
         FilterResult filterResult = new FilterResult();
         filterResult.setIssues(getDTOsFromIssues(resultQuery.getResultList()));
@@ -227,12 +231,13 @@ public class IssueService {
         filterResult.setNumberOfPages((long) Math.ceil((double) totalResultCount / itemsPerPage));
         filterResult.setCurrentPage(pageNumber.longValue());
         filterResult.setNumberOfItemsPerPage(itemsPerPage.longValue());
-        
+
         return filterResult;
     }
+
     public List<IssueDTO> getDTOsFromIssues(List<Issue> issues) {
         List<IssueDTO> issueDTOs = new ArrayList<>();
-        for(Issue issue : issues) {
+        for (Issue issue : issues) {
             List<Label> labels = getLabelsByIssueId(issue);
             IssueDTO issueDTO = new IssueDTO();
             issueDTO.setIssue(issue);
@@ -253,36 +258,36 @@ public class IssueService {
         Predicate[] predicatesArray = predicates.toArray(new Predicate[0]);
         return predicatesArray;
     }
-    
-     public Label createLabel(Label label) {
-            em.persist(label);
-            return label;
+
+    public Label createLabel(Label label) {
+        em.persist(label);
+        return label;
     }
-    
+
     public boolean labelExists(String labelName) {
         TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
         labelQuery.setParameter("label_name", labelName);
         return !labelQuery.getResultList().isEmpty();
     }
-    
+
     public List<Comment> getMissedComments(long issueId, long commentId) {
-        if(commentId < 0){
+        if (commentId < 0) {
             TypedQuery<Comment> commentQuery2 = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
             commentQuery2.setParameter("v_issue", this.getIssueById(issueId));
             return commentQuery2.getResultList();
         }
-        
+
         TypedQuery<Comment> commentQuery = em.createNamedQuery(Comment.FIND_BY_ID, Comment.class);
         commentQuery.setParameter("comment_id", commentId);
         List<Comment> commentsList;
         commentsList = commentQuery.getResultList();
         Comment comment = commentsList.isEmpty() ? null : commentsList.get(0);
-        
-        if(comment == null) {
+
+        if (comment == null) {
             TypedQuery<Comment> commentQuery2 = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
             commentQuery2.setParameter("v_issue", this.getIssueById(issueId));
             return commentQuery2.getResultList();
-        } else if(comment.getIssue().getId() != issueId) {
+        } else if (comment.getIssue().getId() != issueId) {
             return new ArrayList<>();
         } else {
             TypedQuery<Comment> commentQuery3 = em.createNamedQuery(Comment.FIND_BETWEEN_INTERVAL, Comment.class);

@@ -174,7 +174,7 @@ public class IssueServiceFilteringTest {
         issue3.setContent("content3");
         issue3.setDate(new Date(1236L));
         issue3.setUpdateDate(new Date(6321L));
-        issue3.setState(IssueState.REOPENED);
+        issue3.setState(IssueState.OPEN);
         
         Issue issue4 = new Issue();
         issue4.setTitle("title4");

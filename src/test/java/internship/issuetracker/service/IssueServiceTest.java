@@ -123,7 +123,7 @@ public class IssueServiceTest {
     public void testGetIssueById() {
         String content = "content2";
         String title = "title2";
-        IssueState state = IssueState.REOPENED;
+        IssueState state = IssueState.OPEN;
 
         NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>());
         User user = createUser("nicu2", "name", "n@mail2", "12345");
@@ -150,11 +150,11 @@ public class IssueServiceTest {
 
         Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
 
-        issueService.updateIssueState(issueId, IssueState.REOPENED);
+        issueService.updateIssueState(issueId, IssueState.CLOSED);
 
         Issue issue = issueService.getIssueById(issueId);
 
-        assertEquals(IssueState.REOPENED, issue.getState());
+        assertEquals(IssueState.CLOSED, issue.getState());
     }
 
     /**
