@@ -10,13 +10,10 @@ import internship.issuetracker.entity.Issue_;
 import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
-import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.filter.QueryFilter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javassist.bytecode.Opcode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -84,6 +81,20 @@ public class IssueService {
         return false;
     }
 
+     public boolean updateAssignee(long issueId, User assignee) {
+        Issue issue = em.find(Issue.class, issueId);
+
+        //in case an issue with this id exists
+        if (issue != null) {
+            issue.setAssignee(assignee);
+            issue.setUpdateDate(new Date());
+            em.merge(issue);
+            return true;
+        }
+        //in case it doesn't
+        return false;
+    }
+    
     public boolean changeStateOfIssue(Long issueId, IssueState newState) {
         Issue issue = em.find(Issue.class, issueId);
 
