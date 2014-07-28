@@ -15,7 +15,7 @@
                     </c:choose>
                 </div>
                 <br>
-                <span><i>Posted by </i><span class="text-primary"><a href="/profile/<c:out value="${issue.owner.name}"/>"><c:out value="${issue.owner.name}"/></span></a> 
+                <span><i>Posted by </i><span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>"><c:out value="${issue.owner.name}"/></span></a> 
                     <i>on</i><span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
                 <span class="viewIssueLastUpdated"><i>Last updated</i> <span class="text-primary"><c:out value="${issue.getLastUpdateDate()}"/></span> <i>ago</i>
                 </span>
@@ -59,7 +59,7 @@
         <c:forEach items="${comments}" var="comment">
             <blockquote data-id="${comment.id}">
                 <p class="commentContent"><c:out value="${comment.content}"/></p>
-                <small><a href="/profile/<c:out value="${comment.author.name}"/>"><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
+                <small><a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
             </blockquote>
         </c:forEach>
     </div>
