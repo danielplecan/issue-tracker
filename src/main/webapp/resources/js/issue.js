@@ -82,6 +82,17 @@ $(document).ready(function() {
         });
     });
 
+    $("#assignButton").click(function(event){
+        event.preventDefault();
+        var issueId = $("#issueState").attr('data-id');
+        var username = $("#assignTo").val();
+        issueTrackerService.assignTo(issueId, username).done(function(data) {
+            if (data.success) {
+                console.log(data.assignedTo);
+            }
+        });
+    });
+
     function createCommentData() {
         var commentContent = $("#textAreaComment").val();
         var lastComment = $("#allComments blockquote").last();

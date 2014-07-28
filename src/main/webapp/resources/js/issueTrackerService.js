@@ -64,6 +64,21 @@ issueTrackerService = (function () {
         });
     };
     
+    self.assignTo = function(issueId, assignee){
+        var assigneeData = {};
+        assigneeData = {
+            'assignedTo': assignee
+        };
+        return $.ajax({
+            url: location.origin + "/issue/" + issueId + "/add-assignee",
+            type: "POST",
+            dataType: "json",
+//            contentType: "application/json",
+//            mimeType: "application/json",
+            data: assigneeData
+        });
+    };
+    
     self.createLabel = function(labelName, labelColor){        
         var newLabel = {
             name:labelName,

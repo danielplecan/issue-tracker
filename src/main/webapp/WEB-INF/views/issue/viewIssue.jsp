@@ -35,6 +35,12 @@
                     </div>
                 </c:when>
             </c:choose>
+            <div class="col-lg-12">
+                <input class="form-control" id="assignTo" placeholder="Assign to" />
+                <button id="assignButton" type="button" class="btn btn-default" data-container="body" data-placement="left" title="Assign">
+                    Assign
+                </button>  
+            </div>
         </div>
     </div>
     <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
