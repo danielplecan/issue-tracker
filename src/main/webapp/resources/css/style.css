@@ -16,20 +16,6 @@
     padding-top: 6px;
 }
 
-.issueId{
-    float:right;
-    font-size: 80%;
-}
-
-.titleLink{
-    padding-left: 0.5em;
-}
-
-.issueDateTime{
-    margin-top: 5px;
-    margin-bottom: 4px;
-}
-
 .loginButton{
     margin-top:8px;
 }
