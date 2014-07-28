@@ -32,7 +32,7 @@ var issuesCreator = function() {
         issueContentDiv.addClass("theIssueContent");
 
         var issueContentPreview = $("<div/>");
-        issueContentPreview.addClass("theIssueContentPreview hidden");
+        issueContentPreview.addClass("theIssueContentPreview breakLongWord hidden");
         issueContentPreview.attr("data-contentId", issue.id);
         issueContentPreview.text(issue.content);
 

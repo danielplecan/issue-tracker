@@ -1,6 +1,8 @@
 package internship.issuetracker.filter;
 
 import internship.issuetracker.entity.Issue;
+import internship.issuetracker.order.OrderFactory;
+import internship.issuetracker.order.QueryOrder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,8 @@ import java.util.Map;
 public class IssueSearchCriteria {
 
     private Map<String, Object> filters;
+
+    private Map<String, Object> orders;
 
     private Integer pageNumber = 0;
 
@@ -41,6 +45,20 @@ public class IssueSearchCriteria {
         return queryFilters;
     }
 
+    public QueryOrder<Issue> getQueryOrder() {
+
+        for (String key : getOrders().keySet()) {
+            Object orderValue = getOrders().get(key);
+            if (orderValue instanceof String) {
+                QueryOrder<Issue> order = OrderFactory.<Issue>createFilter(key, (String) orderValue);
+                if (order != null) {
+                    return order;
+                }
+            }
+        }
+        return null;
+    }
+
     public Map<String, Object> getFilters() {
         return filters;
     }
@@ -63,5 +81,19 @@ public class IssueSearchCriteria {
 
     public void setNumberOfItemsPerPage(Integer numberOfItemsPerPage) {
         this.numberOfItemsPerPage = numberOfItemsPerPage;
+    }
+
+    /**
+     * @return the orders
+     */
+    public Map<String, Object> getOrders() {
+        return orders;
+    }
+
+    /**
+     * @param orders the orders to set
+     */
+    public void setOrders(Map<String, Object> orders) {
+        this.orders = orders;
     }
 }

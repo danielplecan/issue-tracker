@@ -167,7 +167,7 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.POST, value = "/issues/filter")
     @ResponseBody
     public FilterResult filterIssues(@RequestBody @Valid IssueSearchCriteria searchCriteria, BindingResult bindingResult) {
-        return issueService.filterIssues(searchCriteria.getQueryFilters(), searchCriteria.getPageNumber(), searchCriteria.getNumberOfItemsPerPage());
+        return issueService.filterIssues(searchCriteria.getQueryFilters(), searchCriteria.getQueryOrder(), searchCriteria.getPageNumber(), searchCriteria.getNumberOfItemsPerPage());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/create-label")

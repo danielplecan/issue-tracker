@@ -26,7 +26,7 @@ var pager = function() {
     };
     var ReloadIssuesOnPage = function() {
         issueTrackerService.getFilteredIssues(filterData).done(function(data) {
-            issuesCreator().addAllIssues(data.issues,data.totalResultCount);
+            issuesCreator().addAllIssues(data.issues, data.totalResultCount);
             numberOfPages = data.numberOfPages;
             pageNumber = data.currentPage;
             if (pageNumber > numberOfPages)
@@ -37,18 +37,40 @@ var pager = function() {
         });
     };
     var createFilterData = function() {
-        var inputs = $('table').find('input');
-        var state = $('table').find('select').val();
+//        var inputs = $('panelBody').find('input');
+        var state = $('#stateSelect').val();
 
         filterData = {};
         var filter = {};
-        $.each(inputs, function(index, item) {
-            filter[item.name] = item.value;
-        });
+//        $.each(inputs, function(index, item) {
+//            filter[item.name] = item.value;
+//            console.log(item.name);
+//        });
+
+        filter["content"] = $("#searchFieldContent").val();
+        filter["title"] = $("#searchFieldTitle").val();
+
+        var order = {};
+        var ascDescOnOff = $("#orderByAscDesc").prop('checked');
+        var ascDesc = "DESC";
+        if (ascDescOnOff == false) {
+            ascDesc = "DESC";
+        }
+        else {
+            ascDesc = "ASC";
+        }
+        if ($("#orderBySelect").val() == "UpdateDate")
+            order["updateDate"] = ascDesc;
+        else if ($("#orderBySelect").val() == "Title")
+            order["title"] = ascDesc;
+
         filter["state"] = state;
         filterData["filters"] = filter;
         filterData["pageNumber"] = pageNumber;
         filterData["numberOfItemsPerPage"] = 6;
+        filterData["orders"] = order;
+
+
     };
     return{
         nextPage: function() {
@@ -92,5 +114,5 @@ $(document).ready(function() {
     paginationButtonContainer.find(".prevButton").click(pagObject.prevPage);
     paginationButtonContainer.find(".lastButton").click(pagObject.lastPage);
     paginationButtonContainer.find(".firstButton").click(pagObject.firstPage);
-    $('table').find('button').click(pagObject.initializePagination);
+    $('#searchButtonFilter').click(pagObject.initializePagination);
 });

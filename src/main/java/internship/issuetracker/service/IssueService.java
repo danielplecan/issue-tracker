@@ -11,6 +11,7 @@ import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.QueryFilter;
+import internship.issuetracker.order.QueryOrder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -203,7 +204,7 @@ public class IssueService {
         return labelQuery.getResultList();
     }
 
-    public FilterResult filterIssues(List<QueryFilter<Issue>> filters, Integer pageNumber, Integer itemsPerPage) {
+    public FilterResult filterIssues(List<QueryFilter<Issue>> filters, QueryOrder order, Integer pageNumber, Integer itemsPerPage) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Issue> criteriaQuery = criteriaBuilder.createQuery(Issue.class);
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
@@ -213,7 +214,7 @@ public class IssueService {
 
         criteriaQuery.where(predicatesArray);
         criteriaQuery.select(root);
-        criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Issue_.updateDate)));
+        criteriaQuery.orderBy(order.buildOrder(criteriaBuilder, criteriaQuery, root));
 
         countQuery.select(criteriaBuilder.count(countQuery.from(Issue.class)));
         countQuery.where(predicatesArray);
