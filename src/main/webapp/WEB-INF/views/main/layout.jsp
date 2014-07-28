@@ -9,6 +9,7 @@
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
         <script src="/resources/js/issue.js" type="text/javascript"></script>
         <link href="/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="/resources/css/styleColor1.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
