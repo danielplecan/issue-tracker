@@ -71,10 +71,22 @@ public class Issue implements Serializable {
     @JoinColumn(name = "id_owner")
     private User owner;
 
+    @ManyToOne
+    @JoinColumn(name = "assigned_to")
+    private User assignee;
+    
     public Issue() {
         state = IssueState.OPEN;
     }
 
+    public User getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(User user) {
+        this.assignee = user;
+    }
+    
     public Long getId() {
         return id;
     }
