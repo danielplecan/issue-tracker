@@ -78,6 +78,19 @@ issueTrackerService = (function() {
             data: assigneeData
         });
     };
+    
+    self.getUsersAssignee = function(issueId, assignee){
+        var assigneeData = {};
+        assigneeData = {
+            'assignedTo': assignee
+        };
+        return $.ajax({
+            url: location.origin + "/issue/" + issueId + "/getUsers-assignee",
+            type: "GET",
+            dataType: "json",
+            data: assigneeData
+        });
+    }
     self.createLabel = function(labelName, labelColor) {
         var newLabel = {
             name: labelName,

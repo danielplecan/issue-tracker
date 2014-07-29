@@ -255,4 +255,16 @@ public class IssueController {
         responseMap.put("assignedTo", assignee.getUsername());
         return responseMap;
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/issue/{id}/getUsers-assignee")
+    @ResponseBody
+    public Map<String, Object> getUsersAssignee(@RequestParam(value = "assignedTo") String assignedTo,
+            @PathVariable("id") Long issueId, HttpServletRequest request) {
+        Map<String, Object> responseMap = new HashMap<>();
+        
+        List<User> assignees = userService.filterUserByUsername(assignedTo);
+        responseMap.put("success", true);
+        responseMap.put("assignees", assignees);
+        return responseMap;
+    }
 }

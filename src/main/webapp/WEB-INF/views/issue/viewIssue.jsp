@@ -1,5 +1,8 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
+<script src="/resources/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="/resources/js/typeahead.bundle.js" type="text/javascript"></script>
 <div class="col-lg-offset-1 col-lg-10">
     <div class="panel panel-default  modal-content2">
         <div class="panel-heading">
@@ -35,9 +38,9 @@
                     </div>
                 </c:when>
             </c:choose>
-            <div class="col-lg-12">
-                <input class="form-control" id="assignTo" placeholder="Assign to" />
-                <button id="assignButton" type="button" class="btn btn-default" data-container="body" data-placement="left" title="Assign">
+            <div class="col-lg-12" id="scrollable-dropdown-menu">
+                <input class="form-control typeahead" id="assignTo" placeholder="Assign to" />
+                <button id="assignButton" type="button" class="btn btn-default" data-container="body" title="Assign">
                     Assign
                 </button>  
             </div>
@@ -117,7 +120,7 @@
         </div>
     </div>
 </div>
-<script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
+
 <style>
     .centerButtonPanel {
         margin-left: auto;
