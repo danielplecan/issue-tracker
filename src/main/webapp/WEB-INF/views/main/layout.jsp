@@ -23,14 +23,4 @@
         
         <tiles:insertAttribute name="footer" />
     </body>
-    <script>
-        $.ajax({
-            type: 'POST',
-            url: location.origin + '/initialThemeConfig',
-            dataType: "json",
-            success:function(data) {
-                //change theme
-            }
-        });
-    </script>
 </html>
