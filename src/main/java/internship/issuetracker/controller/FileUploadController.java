@@ -40,8 +40,8 @@ public class FileUploadController {
         } catch (IOException | FileUploadException exception) {
             responseMap.put("success", false);
             responseMap.put("error", exception.getMessage());
-        } finally {
-            return responseMap;
         }
+        
+        return responseMap;
     }
 }
