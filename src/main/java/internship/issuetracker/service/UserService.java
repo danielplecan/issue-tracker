@@ -69,6 +69,7 @@ public class UserService {
         return resultList.get(0);
     }
 
+    
     public User loginUser(String username, String password) {
         if (password == null || username == null) {
             return null;
@@ -82,6 +83,11 @@ public class UserService {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(password, currentUser.getPasswordHash()) ? currentUser : null;
+    }
+
+    public void activateUserAccount(User user) {
+        user.setActive(true);
+        entityManager.merge(user);
     }
     
     public List<User> filterUserByUsername(String username){

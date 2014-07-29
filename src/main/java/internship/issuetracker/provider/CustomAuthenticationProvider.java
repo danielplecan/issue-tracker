@@ -4,6 +4,7 @@ import internship.issuetracker.entity.User;
 import internship.issuetracker.service.UserService;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,11 +26,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
         
         User authenticatedUser;
-        if((authenticatedUser = userService.loginUser(username, password)) != null) {
+        if((authenticatedUser = userService.loginUser(username, password)) != null ) {
+            if(!authenticatedUser.isActive())
+            throw new AuthenticationCredentialsNotFoundException("not activated");
             Authentication confirmedAuthentication = new UsernamePasswordAuthenticationToken(authenticatedUser, password, new ArrayList<GrantedAuthority>());
             return confirmedAuthentication;
         } else {
-            return null;
+            throw new AuthenticationCredentialsNotFoundException("wrong credentials.");
         }
     }
 
