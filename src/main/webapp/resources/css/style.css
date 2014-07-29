@@ -350,17 +350,26 @@ td {
 .theIssueState{
     font-size: 14px;
 }
-
 .commentStateChanged{
     padding-top: 20px;
 }
 .commentContent{
     margin-top: 15px;
 }
-
 .list-item-text{
     margin: 0;
     padding: 2px 10px;
     position: relative;
     text-align: left;
+}
+.labelInput{
+    max-width: 300px;
+}
+.labelColorManageColors{
+    width: 35px;
+    height: 35px;
+}
+.labelColorManageColors:hover{
+    width: 33px;
+    height: 33px;
 }

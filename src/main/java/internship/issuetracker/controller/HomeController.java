@@ -19,5 +19,10 @@ public class HomeController {
     public String about() {
         return "about";
     }
+    
+    @RequestMapping(value = "/manage-labels")
+    public String manageLabels() {
+        return "manageLabels";
+    }
 
 }

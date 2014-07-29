@@ -24,6 +24,8 @@ public class UserSettingsService {
     @Autowired
     private UserService userService;
     
+    
+    
     public void createSettingsforUser(String username) {
         User targetUser = userService.getUserByUsername(username);
         
@@ -31,6 +33,7 @@ public class UserSettingsService {
             UserSettings userSettings = new UserSettings();
             userSettings.setUser(targetUser);
             userSettings.setNotifications(Boolean.FALSE);
+            userSettings.setTheme(1l);
             em.persist(userSettings);
         }
     }
@@ -74,6 +77,23 @@ public class UserSettingsService {
             UserSettings currentUserSettings = em.find(UserSettings.class, resultList.get(0).getId());
             return currentUserSettings.isOn();
         }
+    }
+    
+    public boolean changeUserThemePreference(String username, Long theme) {
+        User currentUser = userService.getUserByUsername(username);
+        TypedQuery<UserSettings> settingsQuerry = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        settingsQuerry.setParameter("v_user", currentUser);
+        
+        List<UserSettings> resultList = settingsQuerry.getResultList();
+        if (resultList.isEmpty()) {
+            return false;
+        }
+        
+        UserSettings currentUserSettings = em.find(UserSettings.class, resultList.get(0).getId()) ;
+        currentUserSettings.setTheme(theme);
+            
+        em.merge(currentUserSettings);
+        return true;
     }
 
     public UserService getUserService() {
