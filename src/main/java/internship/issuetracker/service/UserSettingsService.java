@@ -5,7 +5,7 @@ import internship.issuetracker.entity.User;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,15 +39,19 @@ public class UserSettingsService {
     }
     
     public boolean toggleNotifications(String username) {
+        User targetUser = userService.getUserByUsername(username);
+        Query query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        query.setParameter("v_user", targetUser);
         
-        User currentUser = userService.getUserByUsername(username);
+        List<UserSettings> results = query.getResultList();
         
-        if (currentUser.getSettings() == null) {
-            createSettingsforUser(currentUser.getUsername());
+        if (results.isEmpty()) {
+            createSettingsforUser(targetUser.getUsername());
             return false;
         }
+             
         
-        UserSettings currentUserSettings = currentUser.getSettings() ;
+        UserSettings currentUserSettings = results.get(0);
         currentUserSettings.setNotifications(!currentUserSettings.isOn());
         
         em.merge(currentUserSettings);
@@ -55,19 +59,43 @@ public class UserSettingsService {
     }
     
     public boolean getCurrentNotificationStatus(String username) {
-        User currentUser = userService.getUserByUsername(username);
-        return currentUser.getSettings().isNotifications();
+        User targetUser = userService.getUserByUsername(username);
+        Query query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        query.setParameter("v_user", targetUser);
+        
+        List<UserSettings> results = query.getResultList();
+        
+        if (results.isEmpty()) {
+            return false;
+        }
+       
+        return results.get(0).isNotifications();
     }
     
     public Long getCurrentThemePreference(String username) {
-        User currentUser = userService.getUserByUsername(username);
-        return currentUser.getSettings().getTheme();
+         User targetUser = userService.getUserByUsername(username);
+        Query query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        query.setParameter("v_user", targetUser);
+        
+        List<UserSettings> results = query.getResultList();
+        
+        if (results.isEmpty()) {
+            return null;
+        }
+        return results.get(0).getTheme();
     }
     
     public boolean changeUserThemePreference(String username, Long theme) {
-        User currentUser = userService.getUserByUsername(username);
+         User targetUser = userService.getUserByUsername(username);
+        Query query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        query.setParameter("v_user", targetUser);
         
-        UserSettings currentUserSettings = currentUser.getSettings();
+        List<UserSettings> results = query.getResultList();
+        
+        if (results.isEmpty()) {
+            return false;
+        }
+        UserSettings currentUserSettings = results.get(0);
         currentUserSettings.setTheme(theme);
             
         em.merge(currentUserSettings);

@@ -52,8 +52,6 @@ public class User implements Serializable {
     @NotBlank
     private String passwordHash;
     
-    @OneToOne(mappedBy="user")
-    private UserSettings settings;
 
     public Long getId() {
         return id;
@@ -93,14 +91,6 @@ public class User implements Serializable {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-    }
-
-    public UserSettings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(UserSettings settings) {
-        this.settings = settings;
     }
     
 }
