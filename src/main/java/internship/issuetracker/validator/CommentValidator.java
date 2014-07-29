@@ -23,16 +23,17 @@ public class CommentValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         Comment comment = (Comment) o;
-        if(comment.getChangeState() != null) {
-            return;
-        } 
-        if(comment.getContent() == null) {
-            errors.rejectValue("content", "commentSize", "A simple comment must not be blank.");
-            return;
-        }
         int contentSize = comment.getContent().length();
-        if( contentSize <3 || contentSize > 500) {
-            errors.rejectValue("content", "commentSize", "A comment must contain between 3 and 500 characters.");
+        if (comment.getChangeState() == null) {
+            if (contentSize < 3 || contentSize > 500) {
+                errors.rejectValue("content", "commentSize", "A comment must contain between 3 and 500 characters.");
+            }
+        } else {
+            if (contentSize > 0 && contentSize <3) {
+                errors.rejectValue("content", "commentSize", "A comment must contain between 3 and 500 characters.");
+            } else if (contentSize > 500) {
+                errors.rejectValue("content", "commentSize", "A comment must contain between 3 and 500 characters.");
+            }
         }
     }
 

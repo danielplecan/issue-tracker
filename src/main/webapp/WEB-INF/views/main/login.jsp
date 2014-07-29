@@ -23,7 +23,8 @@
                         <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
                     </div>
                 </div>
-                <span id="loginError" class="text-warning errors hidden txt-center col-lg-12">Login has failed. Wrong username or password.</span>
+                <span id="loginErrorCredential" class="text-warning errors hidden txt-center col-lg-12">Login has failed. Wrong username or password.</span>
+                <span id="loginErrorActivation" class="text-warning errors hidden txt-center col-lg-12">The account is not active.</span>
                 <br /><br />
                 <div class="form-group">
                     <div class="col-lg-12 txt-center">

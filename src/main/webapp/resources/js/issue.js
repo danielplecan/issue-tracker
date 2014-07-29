@@ -72,6 +72,54 @@ $(document).ready(function() {
 
 
 //helper methods
+    var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substrRegex;
+            matches = [];
+            substrRegex = new RegExp(q, 'i');
+
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                    matches.push({value: str});
+                }
+            });
+
+            cb(matches);
+        };
+    };
+    
+    var users = [];
+    $("#assignTo").keyup(function() {
+        var username = $("#assignTo").val();
+        var issueId = $("#issueState").attr('data-id');
+        issueTrackerService.getUsersAssignee(issueId, username)
+                .done(function(data) {
+                    if (data.success) {
+                        var size = data.assignees.length;
+                        while (users.length > 0) {
+                            users.pop();
+                        }
+                        for (var i = 0; i < size; i++) {
+                            users.push(data.assignees[i].username);
+                        }
+                    } else {
+                        $.each(data.errors, function(key, value) {
+                            $("#" + key + "Error").append(value);
+                        });
+                    }
+                });
+    })
+
+    $('#scrollable-dropdown-menu .typeahead').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    },
+    {
+        name: 'users',
+        displayKey: 'value',
+        source: substringMatcher(users)
+    });
 
     $("#assignButton").click(function(event) {
         event.preventDefault();
@@ -83,6 +131,7 @@ $(document).ready(function() {
             }
         });
     });
+
 
     function createCommentData() {
         var commentContent = $("#textAreaComment").val();

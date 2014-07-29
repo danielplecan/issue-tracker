@@ -41,6 +41,7 @@
                     <input id="newLabel" class="form-control3" type="text" name="color"  maxlength="7" disabled="">
                     <button id="submitNewLabel" class="label-add-new label label-default ">Create</button>
                 </div>
+                <%--<%@ include file="/resources/css/theme/dark/labelColor.jsp"%>--%>
                 <div id="colorWidget">
                     <div class="label-line txt-center">
                         <div class="color-chooser-color" data-color="#FF8F8F" style="background-color:#FF8F8F"></div>
@@ -52,6 +53,7 @@
                         <div class="color-chooser-color" data-color="#B6BDCC" style="background-color:#B6BDCC"></div>
                     </div>
                 </div>
+
                 <span id="createLabelErrorField"></span>
             </div>
         </div>

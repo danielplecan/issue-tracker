@@ -115,7 +115,7 @@ td {
     float: right;
 }
 
-//augustin
+/*augustin*/
 .changeStateButton {
     width: 90px;
 }
@@ -217,7 +217,7 @@ td {
     float:right;
 }
 
-// creating labels (Ionut & Augustin)
+/*creating labels (Ionut & Augustin)*/
 .label-add-new{
     vertical-align: central;
     margin-top: -3px;
@@ -302,7 +302,7 @@ td {
     user-select: none;
 }
 
-//View All Issues (ionut)
+/*View All Issues (ionut)*/
 
 .viewIssueLastUpdated{
     float: right;
@@ -349,4 +349,65 @@ td {
 }
 .theIssueState{
     font-size: 14px;
+}
+.commentStateChanged{
+    padding-top: 20px;
+}
+.commentContent{
+    margin-top: 15px;
+}
+.list-item-text{
+    margin: 0;
+    padding: 2px 10px;
+    position: relative;
+    text-align: left;
+}
+.labelInput{
+    max-width: 300px;
+}
+.labelColorManageColors{
+    width: 35px;
+    height: 35px;
+}
+.labelColorManageColors:hover{
+    width: 33px;
+    height: 33px;
+}
+
+.tt-dropdown-menu {
+    text-align: left;
+    width: 422px;
+    margin-top: 12px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.typeahead {
+    width: 396px;
+    padding: 8px 12px;
+    line-height: 30px;
+    border: 2px solid #ccc;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    outline: none;
+    background-color: #fff;
+}
+
+.typeahead:focus {
+    border: 2px solid #0097cf;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
 }

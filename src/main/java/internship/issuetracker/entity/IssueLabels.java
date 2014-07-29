@@ -18,7 +18,8 @@ import javax.persistence.Table;
  */
 
 @NamedQueries({
-    @NamedQuery(name = IssueLabels.FIND_BY_ISSUE_ID, query = "SELECT u from IssueLabels u WHERE u.issue = :v_issue")
+    @NamedQuery(name = IssueLabels.FIND_BY_ISSUE_ID, query = "SELECT u from IssueLabels u WHERE u.issue = :v_issue"),
+    @NamedQuery(name = IssueLabels.REMOVE_BY_LABEL_ID, query = "delete from IssueLabels where label.id = :label_id")
 })
 
 @Entity
@@ -26,6 +27,8 @@ import javax.persistence.Table;
 public class IssueLabels implements Serializable{
     
     public static final String FIND_BY_ISSUE_ID = "findAllIssueLabelsByIssue";
+    
+    public static final String REMOVE_BY_LABEL_ID = "removeIssueLabelsByIssueId";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

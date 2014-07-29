@@ -12,6 +12,7 @@ import internship.issuetracker.service.IssueService;
 import internship.issuetracker.service.UserService;
 import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.CommentValidator;
+import internship.issuetracker.validator.LabelForEditValidator;
 import internship.issuetracker.validator.LabelValidator;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,9 @@ public class IssueController {
 
     @Autowired
     private LabelValidator labelValidator;
+    
+    @Autowired 
+    private LabelForEditValidator labelForEditValidator;
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String viewIssue(@PathVariable("id") Long id, Model model) {
@@ -136,6 +140,7 @@ public class IssueController {
         }
         model.addAttribute("issues", issues);
         model.addAttribute("labels", labelsForIssue);
+        model.addAttribute("allLabels", issueService.getAllLabels());
         return "issues";
     }
 
@@ -196,6 +201,43 @@ public class IssueController {
         return responseMap;
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/label/{id}/remove")
+    @ResponseBody
+    public Map<String, Object> removeLabel(@PathVariable("id") Long labelId, HttpServletResponse response) {
+        Map<String, Object> responseMap = new HashMap<>();
+
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        if (issueService.removeLabel(labelId)) {
+            responseMap.put("success", true);
+        } else {
+            responseMap.put("success", false);
+        }
+        return responseMap;
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/label/{id}/edit")
+    @ResponseBody
+    public Map<String, Object> editLabel(@RequestBody @Valid Label label,
+            BindingResult bindingResult, @PathVariable("id") Long labelId, 
+            HttpServletResponse response) {
+        
+        Map<String, Object> responseMap = new HashMap<>();
+        response.setStatus(HttpServletResponse.SC_OK);
+        
+        label.setId(labelId);
+        labelForEditValidator.validate(label, bindingResult);
+        if (bindingResult.hasErrors()) {
+            responseMap.put("success", false);
+            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+        } else {
+            issueService.updateLabel(label);
+            responseMap.put("success", true);
+            responseMap.put("label", label);
+        }
+        return responseMap;
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-assignee")
     @ResponseBody
     public Map<String, Object> addAssignee(@RequestParam String assignedTo,
@@ -212,6 +254,18 @@ public class IssueController {
         issueService.updateAssignee(issueId, assignee);
         responseMap.put("success", true);
         responseMap.put("assignedTo", assignee.getUsername());
+        return responseMap;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/issue/{id}/getUsers-assignee")
+    @ResponseBody
+    public Map<String, Object> getUsersAssignee(@RequestParam(value = "assignedTo") String assignedTo,
+            @PathVariable("id") Long issueId, HttpServletRequest request) {
+        Map<String, Object> responseMap = new HashMap<>();
+        
+        List<User> assignees = userService.filterUserByUsername(assignedTo);
+        responseMap.put("success", true);
+        responseMap.put("assignees", assignees);
         return responseMap;
     }
 }

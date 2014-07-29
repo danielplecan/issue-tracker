@@ -2,10 +2,14 @@ package internship.issuetracker.service;
 
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.entity.User;
+import internship.issuetracker.entity.User_;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,6 +69,7 @@ public class UserService {
         return resultList.get(0);
     }
 
+    
     public User loginUser(String username, String password) {
         if (password == null || username == null) {
             return null;
@@ -78,5 +83,23 @@ public class UserService {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(password, currentUser.getPasswordHash()) ? currentUser : null;
+    }
+
+    public void activateUserAccount(User user) {
+        user.setActive(true);
+        entityManager.merge(user);
+    }
+    
+    public List<User> filterUserByUsername(String username){
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
+
+        criteriaQuery.where(criteriaBuilder.like(criteriaBuilder.lower(root.get(User_.name)), username.toLowerCase() + "%"));
+        criteriaQuery.select(root);
+
+        TypedQuery<User> resultQuery = entityManager.createQuery(criteriaQuery);
+
+        return resultQuery.getResultList();
     }
 }

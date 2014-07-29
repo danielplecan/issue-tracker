@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -50,6 +51,17 @@ public class User implements Serializable {
     @Column(name = "password_hash", length = 60, nullable = false)
     @NotBlank
     private String passwordHash;
+    
+    @Column(name = "active", nullable = false)
+    private boolean active;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public Long getId() {
         return id;
@@ -90,4 +102,5 @@ public class User implements Serializable {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+    
 }

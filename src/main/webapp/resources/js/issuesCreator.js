@@ -124,7 +124,7 @@ var issuesCreator = function() {
     };
     var noResultMessage = function(text) {
         var noResultLabel = $("<p/>");
-        noResultLabel.addClass("col-lg-12 txt-center");
+        noResultLabel.addClass("col-xs-12 txt-center");
         noResultLabel.text(text);
         allIssuesDiv.append(noResultLabel);
     };

@@ -6,7 +6,11 @@
 package internship.issuetracker.controller;
 
 import internship.issuetracker.dto.UserDTO;
+import internship.issuetracker.entity.User;
+import internship.issuetracker.service.ActivationService;
+import internship.issuetracker.service.MailService;
 import internship.issuetracker.service.UserService;
+import internship.issuetracker.service.UserSettingsService;
 import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.UserValidator;
 import java.util.HashMap;
@@ -17,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +35,15 @@ public class RegisterController {
 
     @Autowired
     private UserValidator userValidator;
+	
+    @Autowired
+    private ActivationService activationService;
+    
+    @Autowired
+    private MailService mailService;    
+
+    @Autowired
+    private UserSettingsService userSettingsService;
 
     @RequestMapping(value = {"/register"}, method = RequestMethod.GET)
     public String registerUser(Model model) {
@@ -49,8 +63,23 @@ public class RegisterController {
         } else {        
             result.put("success", true);
             userService.registerUser(user);
+            String activationHash = activationService.createActivation(userService.getUserByUsername(user.getUsername()));
+            mailService.sendEmail(user.getEmail(), "Activation hash", "Your account activation link is http://localhost:8080/activation/" + activationHash);
+            userSettingsService.createSettingsforUser(user.getUsername());
         }
         
         return result;
+    }
+    
+    @RequestMapping(value = "/activation/{hash}", method = RequestMethod.GET)
+    public String verifieActivation(@PathVariable("hash") String hash, Model model) {
+        User user = activationService.getUserByActivationHash(hash);
+        if (user != null) {
+            userService.activateUserAccount(user);
+            model.addAttribute("success", "true");
+        } else {
+            model.addAttribute("success", "false");
+        }
+        return "activation";
     }
 }
