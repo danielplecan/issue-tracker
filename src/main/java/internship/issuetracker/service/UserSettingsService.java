@@ -41,55 +41,33 @@ public class UserSettingsService {
     public boolean toggleNotifications(String username) {
         
         User currentUser = userService.getUserByUsername(username);
-        TypedQuery<UserSettings> settingsQuerry = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
-        settingsQuerry.setParameter("v_user", currentUser);
-
-        List<UserSettings> resultList = settingsQuerry.getResultList();
         
-        if (resultList.isEmpty()) {
-            UserSettings userSettings = new UserSettings();
-            userSettings.setUser(currentUser);
-            userSettings.setNotifications(Boolean.FALSE);
-            em.persist(userSettings);
+        if (currentUser.getSettings() == null) {
+            createSettingsforUser(currentUser.getUsername());
             return false;
         }
-        else {
-            UserSettings currentUserSettings = em.find(UserSettings.class, resultList.get(0).getId()) ;
-            currentUserSettings.setNotifications(!currentUserSettings.isOn());
-            
-            em.merge(currentUserSettings);
-            return currentUserSettings.isOn();
-        }
         
+        UserSettings currentUserSettings = currentUser.getSettings() ;
+        currentUserSettings.setNotifications(!currentUserSettings.isOn());
+        
+        em.merge(currentUserSettings);
+        return currentUserSettings.isOn();
     }
     
     public boolean getCurrentNotificationStatus(String username) {
         User currentUser = userService.getUserByUsername(username);
-        TypedQuery<UserSettings> settingsQuerry = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
-        settingsQuerry.setParameter("v_user", currentUser);
-
-        List<UserSettings> resultList = settingsQuerry.getResultList();
-        
-        if (resultList.isEmpty()) {
-            return false;
-        }
-        else {
-            UserSettings currentUserSettings = em.find(UserSettings.class, resultList.get(0).getId());
-            return currentUserSettings.isOn();
-        }
+        return currentUser.getSettings().isNotifications();
+    }
+    
+    public Long getCurrentThemePreference(String username) {
+        User currentUser = userService.getUserByUsername(username);
+        return currentUser.getSettings().getTheme();
     }
     
     public boolean changeUserThemePreference(String username, Long theme) {
         User currentUser = userService.getUserByUsername(username);
-        TypedQuery<UserSettings> settingsQuerry = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
-        settingsQuerry.setParameter("v_user", currentUser);
         
-        List<UserSettings> resultList = settingsQuerry.getResultList();
-        if (resultList.isEmpty()) {
-            return false;
-        }
-        
-        UserSettings currentUserSettings = em.find(UserSettings.class, resultList.get(0).getId()) ;
+        UserSettings currentUserSettings = currentUser.getSettings();
         currentUserSettings.setTheme(theme);
             
         em.merge(currentUserSettings);

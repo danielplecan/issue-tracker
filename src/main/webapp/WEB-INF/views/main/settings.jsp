@@ -5,12 +5,12 @@
 </choose>
 <div class="checkbox">
     <label>
-        <input type="checkbox" id="toggleNotifications" class="omg"> Receive notifications 
+        <input type="checkbox" id="toggleNotifications" class="toggleBox"> Receive notifications 
     </label>
 </div>
 
 </div>
-
+${initialTheme}</br>
 Change theme:<br/>
 <select class="form-control" id="themeSelect">
     <option value="1">light (default)</option>
@@ -21,7 +21,9 @@ Change theme:<br/>
 </select>
 
 <script>
-    $(".omg").attr("checked", ${initialNotificationCheckbox});
+    $(".toggleBox").attr("checked", ${initialNotificationCheckbox});
+    var themeSelector = '#themeSelect option:eq(' + (${initialTheme} - 1) + ')';
+    $(themeSelector).prop('selected', true);
 
     $("#toggleNotifications").click(function() {
 
@@ -51,9 +53,12 @@ Change theme:<br/>
             type: 'POST',
             url: location.origin + '/settings/changeTheme/' + currentThemeSelection,
             dataType: "json",
+            success:function(data) {
+                //change theme
             }
         });
-        
     });
+    
+    
     
 </script>

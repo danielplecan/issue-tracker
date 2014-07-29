@@ -43,6 +43,7 @@ public class UserController {
         
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("initialNotificationCheckbox", userSettingsService.getCurrentNotificationStatus(user.getUsername()));
+        model.addAttribute("initialTheme", userSettingsService.getCurrentThemePreference(user.getUsername()));
         
         return "settings";
     }
