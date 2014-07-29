@@ -46,7 +46,7 @@ public class Comment implements Serializable{
     private Long id;
     
     @Basic(optional = false)
-    @Column(name = "comment_content", length = 500)
+    @Column(name = "comment_content")
     private String content;
     
     @Basic(optional = true)

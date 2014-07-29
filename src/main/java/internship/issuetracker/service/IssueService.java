@@ -6,7 +6,6 @@ import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueLabels;
 import internship.issuetracker.entity.IssueState;
-import internship.issuetracker.entity.Issue_;
 import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
@@ -17,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -265,10 +265,45 @@ public class IssueService {
         return label;
     }
 
+    public Label getLabelByName(String labelName) {
+        TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
+        labelQuery.setParameter("label_name", labelName);
+        List<Label> labelList = labelQuery.getResultList();
+        return labelList.isEmpty() ? null : labelList.get(0);
+    }
+
+    public Label getLabelById(Long labelId) {
+        return em.find(Label.class, labelId);
+    }
+
     public boolean labelExists(String labelName) {
         TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
         labelQuery.setParameter("label_name", labelName);
         return !labelQuery.getResultList().isEmpty();
+    }
+
+    public void removeIssueLabels(Long labelId) {   
+        Query issueLabelQuery = em.createNamedQuery(IssueLabels.REMOVE_BY_LABEL_ID);
+        issueLabelQuery.setParameter("label_id", labelId);
+        issueLabelQuery.executeUpdate();
+
+    }
+    public boolean removeLabel(Long labelId) {
+        Label label = em.find(Label.class, labelId);
+        if (label == null) {
+            return false;
+        }
+
+        removeIssueLabels(label.getId());
+        em.remove(label);
+        return true;
+    }
+
+    public Label updateLabel(Label label) {
+        Label labelToUpdate = em.find(Label.class, label.getId());
+        labelToUpdate.setName(label.getName());
+        labelToUpdate.setColor(label.getColor());
+        return em.merge(labelToUpdate);
     }
 
     public List<Comment> getMissedComments(long issueId, long commentId) {
