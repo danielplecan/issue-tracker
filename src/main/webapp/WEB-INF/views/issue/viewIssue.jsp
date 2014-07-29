@@ -14,9 +14,9 @@
                     </c:choose>
                 </div>
                 <br>
-                <span><i>Posted by </i><span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>"><c:out value="${issue.owner.name}"/></span></a> 
-                    <i>on</i><span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
-                <span class="viewIssueLastUpdated"><i>Last updated</i> <span class="text-primary"><c:out value="${issue.getLastUpdateDate()}"/></span> <i>ago</i>
+                <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></span></a> 
+                    &nbsp;<i>on</i>&nbsp;<span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
+                <span class="viewIssueLastUpdated">&nbsp<i>Last updated</i>&nbsp<span class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
                 </span>
             </div>
         </div>      

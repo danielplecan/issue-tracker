@@ -74,7 +74,7 @@ public class Issue implements Serializable {
     @ManyToOne
     @JoinColumn(name = "assigned_to")
     private User assignee;
-    
+
     public Issue() {
         state = IssueState.OPEN;
     }
@@ -86,7 +86,7 @@ public class Issue implements Serializable {
     public void setAssignee(User user) {
         this.assignee = user;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -147,18 +147,20 @@ public class Issue implements Serializable {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return dateFormat.format(this.date);
     }
-    
+
     public String getDateFormat2() {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return dateFormat.format(this.date);
     }
+
     public String getLastUpdateDate() {
         return getFriendlyInterval(updateDate);
     }
-    
+
     public String getTimeInterval() {
-        return  getFriendlyInterval(date);
+        return getFriendlyInterval(date);
     }
+
     private String getFriendlyInterval(Date oldDate) {
         DateTime oldTimeInstant = new DateTime(oldDate);
         DateTime newTimeInstant = new DateTime(new Date());
@@ -169,17 +171,19 @@ public class Issue implements Serializable {
 
         long hours = interval.toDuration().getStandardHours() - days * 24;
 
-        long minutes = interval.toDuration().getStandardMinutes() - days * 24 * 60 - hours * 60 ;
+        long minutes = interval.toDuration().getStandardMinutes() - days * 24 * 60 - hours * 60;
 
-        long seconds = interval.toDuration().getStandardSeconds() - days * 24 * 60 *60 - hours * 60 * 60 - minutes * 60;
+        long seconds = interval.toDuration().getStandardSeconds() - days * 24 * 60 * 60 - hours * 60 * 60 - minutes * 60;
+
+        boolean agoFlag = true;
 
         if (days == 1) {
-            result.append("1 day ");
+            result.append(" 1 day ");
         } else if (days > 1 && days < 14) {
             result.append(days).append(" days  ");
-        } else if ( days >= 14) {
-          result.append(getDateFormat2());
-          return result.toString();
+        } else if (days >= 14) {
+            result.append(getDateFormat2());
+            return result.toString();
         } else if (hours == 1) {
             result.append(" 1 hour ");
         } else if (hours > 1) {
@@ -190,10 +194,16 @@ public class Issue implements Serializable {
             result.append(minutes).append(" minutes ");
         } else if (seconds == 1) {
             result.append(" 1 second ");
+        } else if (seconds < 1) {
+            result.append(" just now ");
+            agoFlag = false;
         } else {
             result.append(seconds).append(" seconds ");
         }
-        //result.append("ago");
+
+        if (agoFlag) {
+            result.append("ago");
+        }
         return result.toString();
     }
 }
