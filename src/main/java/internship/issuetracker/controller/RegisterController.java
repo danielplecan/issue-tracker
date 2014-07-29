@@ -7,6 +7,7 @@ package internship.issuetracker.controller;
 
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.service.UserService;
+import internship.issuetracker.service.UserSettingsService;
 import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.UserValidator;
 import java.util.HashMap;
@@ -30,6 +31,9 @@ public class RegisterController {
 
     @Autowired
     private UserValidator userValidator;
+    
+    @Autowired
+    private UserSettingsService userSettingsService;
 
     @RequestMapping(value = {"/register"}, method = RequestMethod.GET)
     public String registerUser(Model model) {
@@ -49,6 +53,7 @@ public class RegisterController {
         } else {        
             result.put("success", true);
             userService.registerUser(user);
+            userSettingsService.createSettingsforUser(user.getUsername());
         }
         
         return result;

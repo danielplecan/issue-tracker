@@ -24,8 +24,8 @@
                         <li><a href="#">My issues</a></li>
                         <li><a href="#">Assigned Issues</a></li>
                         <li class="divider"></li>
-                        <li><a href="/settings">Settings</a></li>
-                        <li><a href="/logout">Log out</a></li>
+                        <li><a href="/settings"><span class="glyphicon glyphicon-wrench"></span>  Settings</a></li>
+                        <li><a href="/logout"><span class="glyphicon glyphicon-off"></span>  Log out</a></li>
                     </ul>
                 </li>
             </ul>

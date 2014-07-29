@@ -40,7 +40,8 @@ public class UserSettings implements Serializable{
     @Column(name="notifications")
     Boolean notifications;
 
-    
+    @Column(name="theme")
+    Long theme;
     
     public User getUser() {
         return user;
@@ -74,5 +75,11 @@ public class UserSettings implements Serializable{
         this.id = id;
     }
     
-    
+    public Long getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Long theme) {
+        this.theme = theme;
+    }   
 }

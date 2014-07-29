@@ -43,6 +43,7 @@ public class UserController {
         
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("initialNotificationCheckbox", userSettingsService.getCurrentNotificationStatus(user.getUsername()));
+        model.addAttribute("initialTheme", userSettingsService.getCurrentThemePreference(user.getUsername()));
         
         return "settings";
     }
@@ -57,6 +58,18 @@ public class UserController {
         
         responseMap.put("success", true);
         responseMap.put("value", userSettingsService.toggleNotifications(currentUser.getUsername()));
+        return responseMap;
+    }
+    
+    @RequestMapping(value="/settings/changeTheme/{theme}", method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> changeTheme(@PathVariable Long theme) {
+        
+        Map<String, Object> responseMap = new HashMap<>();    
+        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        responseMap.put("success", userSettingsService.changeUserThemePreference(currentUser.getUsername(), theme));
+        responseMap.put("theme", theme);
         return responseMap;
     }
 }
