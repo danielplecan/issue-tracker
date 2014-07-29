@@ -1,6 +1,5 @@
 package internship.issuetracker.service;
 
-import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.UserSettings;
 import internship.issuetracker.entity.User;
 import java.util.List;
@@ -24,6 +23,17 @@ public class UserSettingsService {
     
     @Autowired
     private UserService userService;
+    
+    public void createSettingsforUser(String username) {
+        User targetUser = userService.getUserByUsername(username);
+        
+        if (targetUser != null) {
+            UserSettings userSettings = new UserSettings();
+            userSettings.setUser(targetUser);
+            userSettings.setNotifications(Boolean.FALSE);
+            em.persist(userSettings);
+        }
+    }
     
     public boolean toggleNotifications(String username) {
         
