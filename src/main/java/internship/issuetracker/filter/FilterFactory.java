@@ -24,6 +24,7 @@ public class FilterFactory {
         filtersMap.put("content", IssueContentQueryFilter.class);
         filtersMap.put("state", IssueStateQueryFilter.class);
         filtersMap.put("assignee", IssueAssigneeQueryFilter.class);
+        filtersMap.put("labels", IssueLabelQueryFilter.class);
     }
     
     public static <T> QueryFilter<T> createFilter(String filterName, String filterValue) {

@@ -140,6 +140,7 @@ public class IssueController {
         }
         model.addAttribute("issues", issues);
         model.addAttribute("labels", labelsForIssue);
+        model.addAttribute("allLabels", issueService.getAllLabels());
         return "issues";
     }
 
