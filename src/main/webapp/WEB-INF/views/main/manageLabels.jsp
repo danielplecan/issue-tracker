@@ -1,50 +1,43 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div id="widgetContainer">
-    <div class="panel panel-default panel-body">
-        <div class="navbar-left">
-            <form class="navbar-form navbar-left">
+
+<div class="panel panel-default col-lg-10 col-lg-offset-1">
+    <div class="manageLabelsTopPanel">
+        <div class="manageLabelsNav">
+            <form class="navbar-form navbar-left manageLabelsNavLeft">
                 <input type="text" class="form-control" placeholder="Search labels..">
                 <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
             </form>
+            <button type="button" class="btn btn-default manageLabelsNavRight" id="editLabel"><span class="glyphicon glyphicon-plus"></span>  Create new label</button>
         </div>
-        <div class="navbar-right">
-            <button type="button" class="btn btn-default" id="editLabel"><span class="glyphicon glyphicon-plus"></span>  Create new label</button>
-        </div>
-    </div>
-    <div class="panel panel-default panel-body">
         <div class="editLabelPane">
-            <div class="navbar-left">
-                <form class="navbar-form navbar-left ">
-                    <input type="text" class="form-control flLeft" placeholder="label">
-                    <button class="color-chooser-color labelColorManageColors col-lg-1" style="background-color:#FF8F8F;"></button>            <div class="theColorsList">
-                        <span class="color-chooser-color" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
-                        <span class="color-chooser-color" data-color="#FFC69E" style="background-color:#FFC69E"></span>
-                        <span class="color-chooser-color" data-color="#FFF4C4" style="background-color:#FFF4C4"></span>
-                        <span class="color-chooser-color" data-color="#E6FAFF" style="background-color:#E6FAFF"></span>
-                        <span class="color-chooser-color" data-color="#D8FFC4" style="background-color:#D8FFC4"></span>
-                        <span class="color-chooser-color" data-color="#E6E6E6" style="background-color:#E6E6E6"></span>
-                        <span class="color-chooser-color" data-color="#B6BDCC" style="background-color:#B6BDCC"></span>
-                    </div>
-                </form>
-            </div>
-            <div class="navbar-right">
+            <form class="navbar-form manageLabelsNavLeft">
+                <input type="text" class="form-control flLeft" placeholder="label">
+                <button class="color-chooser-color labelColorManageColors col-lg-1" style="background-color:#FF8F8F;"></button>
+                <div class="theColorsList">
+                    <span class="color-chooser-color" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
+                    <span class="color-chooser-color" data-color="#FFC69E" style="background-color:#FFC69E"></span>
+                    <span class="color-chooser-color" data-color="#FFF4C4" style="background-color:#FFF4C4"></span>
+                    <span class="color-chooser-color" data-color="#E6FAFF" style="background-color:#E6FAFF"></span>
+                    <span class="color-chooser-color" data-color="#D8FFC4" style="background-color:#D8FFC4"></span>
+                    <span class="color-chooser-color" data-color="#E6E6E6" style="background-color:#E6E6E6"></span>
+                    <span class="color-chooser-color" data-color="#B6BDCC" style="background-color:#B6BDCC"></span>
+                </div>
+            </form>
+            <div class="manageLabelsNavRight">
                 <button type="button" class="btn btn-success btn-sm manageButton btn-save-edit-label"><span class="glyphicon glyphicon-ok-circle"></span> Save</button>
                 <button type="button" class="btn btn-danger btn-sm manageButton btn-cancel-edit-label"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
             </div>
         </div>
     </div>
 
-
-
-
-    <ul style="list-style: none">
-        <li>
-            <div class="panel panel-default panel-body">
+    <ul class="list-group">
+        <li  class="list-group-item">
+            <div class="labelPanel">
                 <div class="showLabelPane">
                     <div class="navbar-left">
                         <form class="navbar-form navbar-left">
-                            <span class="">label</span>  
+                            <span>label</span>
                         </form>
                     </div>
                     <div class="navbar-right">
@@ -56,7 +49,8 @@
                     <div class="navbar-left">
                         <form class="navbar-form navbar-left ">
                             <input type="text" class="form-control flLeft" placeholder="label">
-                            <button class="color-chooser-color labelColorManageColors col-lg-1" style="background-color:#FF8F8F;"></button>            <div class="theColorsList">
+                            <button class="color-chooser-color labelColorManageColors col-lg-1" style="background-color:#FF8F8F;"></button>
+                            <div class="theColorsList">
                                 <span class="color-chooser-color" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
                                 <span class="color-chooser-color" data-color="#FFC69E" style="background-color:#FFC69E"></span>
                                 <span class="color-chooser-color" data-color="#FFF4C4" style="background-color:#FFF4C4"></span>
@@ -72,7 +66,7 @@
                         <button type="button" class="btn btn-danger btn-sm manageButton btn-cancel-edit-label"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
                     </div>
                 </div>
-            </div>   
+            </div>
         </li>
     </ul>
 </div>
@@ -108,6 +102,37 @@
     .flLeft{
         float:left;
     }
+    .labelPanel{
+        min-height: 83px;
+        background-color: #222222;
+        margin:  15px;
+    }
+    .manageLabelsNav{
+        /*padding: 15px;*/
+        margin-top: 6px;
+        margin-bottom: 6px;
+        min-height: 50px;
+    }
+    .manageLabelsNavLeft{
+        margin: 6px 0px;
+    }
+    .manageLabelsNavRight{
+        right: 0;
+        float: right;
+        margin: 6px 0px;
+    }
+    .editLabelPane{
+
+    }
+    #editLabel{
+        margin-top: 7px;
+    }
+    .manageLabelsTopPanel{
+        height: 100px;
+        min-height: 50px;
+    }
+
+
 
 </style>
 
