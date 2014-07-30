@@ -64,7 +64,7 @@ public class RegisterController {
             result.put("success", true);
             userService.registerUser(user);
             String activationHash = activationService.createActivation(userService.getUserByUsername(user.getUsername()));
-            mailService.sendEmail(user.getEmail(), "Activation hash", "Your account activation link is http://localhost:8080/activation/" + activationHash);
+            mailService.sendEmail(user.getEmail(), "Activation hash", "<a href=http://localhost:8080/activation/" + activationHash+">Activate your account</a>");
             userSettingsService.createSettingsforUser(user.getUsername());
         }
         
