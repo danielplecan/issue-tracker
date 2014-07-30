@@ -9,7 +9,9 @@ import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.service.IssueService;
+import internship.issuetracker.service.MailService;
 import internship.issuetracker.service.UserService;
+import internship.issuetracker.service.UserSettingsService;
 import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.CommentValidator;
 import internship.issuetracker.validator.LabelForEditValidator;
@@ -19,9 +21,12 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -51,6 +57,12 @@ public class IssueController {
     
     @Autowired 
     private LabelForEditValidator labelForEditValidator;
+    
+    @Autowired
+    private UserSettingsService userSettingsService;
+    
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String viewIssue(@PathVariable("id") Long id, Model model) {
@@ -114,6 +126,8 @@ public class IssueController {
 
         result.put("success", issueService.changeStateOfIssue(issueId, IssueState.CLOSED));
         response.setStatus(HttpServletResponse.SC_OK);
+        
+       
 
         return result;
     }
@@ -146,7 +160,7 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
     @ResponseBody
-    public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, @PathVariable("id") Long issueId, HttpServletRequest request) {
+    public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, UriComponentsBuilder builder, @PathVariable("id") Long issueId, HttpServletRequest request) {
 
         Map<String, Object> responseMap = new HashMap<>();
 
@@ -160,6 +174,18 @@ public class IssueController {
             long lastKnowCommentId = comment.getId();
 
             issueService.addComment(currentUser, issueId, comment);
+            
+            Issue issue = issueService.getIssueById(issueId);
+            User issueOwner = issue.getOwner();
+            
+            if (userSettingsService.getCurrentNotificationStatus(issueOwner.getUsername())) {
+                String emailContent;
+                emailContent = "<p>Your issue with the title " + issue.getTitle() + " has been changed to " + comment.getChangeState() + "  </p>";
+                emailContent += "<a href=\"http://localhost:8080/issue/" +  issueId + "\"> Click here to view your issue</a>";
+                
+                        
+                mailService.sendEmail(issueOwner.getEmail(), "Issue tracker notification", emailContent);
+            }
 
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
