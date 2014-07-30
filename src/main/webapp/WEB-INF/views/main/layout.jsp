@@ -14,6 +14,13 @@
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
         <link id="theme-style-color" href="/resources/css/theme/2/styleColor.css" rel="stylesheet" type="text/css"/>
+        
+        
+        <script src="/resources/js/jquery.ui.widget.js" type="text/javascript"></script>
+        <script src="/resources/js/jquery.iframe-transport.js" type="text/javascript"></script>
+        <script src="/resources/js/jquery.fileupload.js" type="text/javascript"></script>
+        <script src="/resources/js/jquery.fileupload-process.js" type="text/javascript"></script>
+        <script src="/resources/js/jquery.fileupload-validate.js" type="text/javascript"></script>
     </head>
     <body>
         <tiles:insertAttribute name="header" />
