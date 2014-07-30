@@ -40,7 +40,8 @@
             </c:choose>
             <div class="col-lg-12" id="scrollable-dropdown-menu">
                 <input class="form-control typeahead" id="assignTo" placeholder="Assign to" />
-                <button id="assignButton" type="button" class="btn btn-default" data-container="body" title="Assign">
+                <span id = "assigneeSpan" class="help-block"></span>
+                <button id="assignButton" type="button" class="btn btn-default" data-container="body" title="Assign" style="visibility: hidden;">
                     Assign
                 </button>  
             </div>

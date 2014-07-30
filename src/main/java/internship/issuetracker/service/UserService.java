@@ -95,7 +95,7 @@ public class UserService {
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
         Root<User> root = criteriaQuery.from(User.class);
 
-        criteriaQuery.where(criteriaBuilder.like(criteriaBuilder.lower(root.get(User_.name)), username.toLowerCase() + "%"));
+        criteriaQuery.where(criteriaBuilder.like(criteriaBuilder.lower(root.get(User_.username)), username.toLowerCase() + "%"));
         criteriaQuery.select(root);
 
         TypedQuery<User> resultQuery = entityManager.createQuery(criteriaQuery);

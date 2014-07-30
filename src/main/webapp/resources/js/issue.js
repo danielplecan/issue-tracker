@@ -72,35 +72,21 @@ $(document).ready(function() {
 
 
 //helper methods
-    var substringMatcher = function(strs) {
-        return function findMatches(q, cb) {
-            var matches, substrRegex;
-            matches = [];
-            substrRegex = new RegExp(q, 'i');
-
-            $.each(strs, function(i, str) {
-                if (substrRegex.test(str)) {
-                    matches.push({value: str});
-                }
-            });
-
-            cb(matches);
-        };
-    };
-    
+    $("#assignTo").text("");
     var users = [];
     $("#assignTo").keyup(function() {
+        while (users.length > 0) {
+            users.pop();
+            //console.log(users.pop());
+        }
         var username = $("#assignTo").val();
         var issueId = $("#issueState").attr('data-id');
         issueTrackerService.getUsersAssignee(issueId, username)
                 .done(function(data) {
                     if (data.success) {
                         var size = data.assignees.length;
-                        while (users.length > 0) {
-                            users.pop();
-                        }
                         for (var i = 0; i < size; i++) {
-                            users.push(data.assignees[i].username);
+                            users.push(data.assignees[i]);
                         }
                     } else {
                         $.each(data.errors, function(key, value) {
@@ -110,6 +96,22 @@ $(document).ready(function() {
                 });
     })
 
+    var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substrRegex;
+            matches = [];
+            substrRegex = new RegExp("^" + q, 'i');
+            $.each(strs, function(i, str) {
+                console.log(str.username);
+                if (substrRegex.test(str.username)) {
+                    matches.push(str);
+                }
+            });
+
+            cb(matches);
+        };
+    };
+
     $('#scrollable-dropdown-menu .typeahead').typeahead({
         hint: true,
         highlight: true,
@@ -117,8 +119,17 @@ $(document).ready(function() {
     },
     {
         name: 'users',
-        displayKey: 'value',
+        displayKey: 'username',
         source: substringMatcher(users)
+    });
+
+    $('#assignTo').bind('typeahead:selected', function(obj, datum, name) {
+        console.log("selected");
+        console.log(datum);
+        $('#assigneeSpan').text(datum.username);
+        $('#assigneeSpan').data('id', datum.id);
+        $('#scrollable-dropdown-menu').append(assigneeSpan);
+        $('#assignButton').css('visibility', 'visible');
     });
 
     $("#assignButton").click(function(event) {
