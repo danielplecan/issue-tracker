@@ -266,20 +266,20 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-assignee")
     @ResponseBody
-    public Map<String, Object> addAssignee(@RequestParam String assignedTo,
-            @PathVariable("id") Long issueId, HttpServletRequest request) {
-        System.out.println("assignedTo = " + assignedTo);
+    public Map<String, Object> addAssignee(@RequestBody User assignedTo,
+            BindingResult bindingResult, @PathVariable("id") Long issueId, 
+            HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
 
-//        if (bindingResult.hasErrors()) {
-//            responseMap.put("success", false);
-////            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
-//        } else {
-        User assignee = userService.getUserByUsername(assignedTo);
-        assignee.setEmail(assignedTo);
-        issueService.updateAssignee(issueId, assignee);
-        responseMap.put("success", true);
-        responseMap.put("assignedTo", assignee.getUsername());
+        if (bindingResult.hasErrors()) {
+            responseMap.put("success", false);
+//            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+        } else {
+//            User assignee = userService.getUserById(assignedTo.getId());
+            issueService.updateAssignee(issueId, assignedTo);
+            responseMap.put("success", true);
+            responseMap.put("assignedTo", assignedTo);
+        }
         return responseMap;
     }
     
