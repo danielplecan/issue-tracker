@@ -427,7 +427,7 @@ td {
 }
 .labelsFilterList{
     height:145px    ;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .firstColButton{
     width:60px;

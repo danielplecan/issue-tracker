@@ -15,7 +15,7 @@ Change theme:<br/>
 <select class="form-control" id="themeSelect">
     <option value="1">light (default)</option>
     <option value="2">dark</option>
-    <option value="3">roz</option>
+    <option value="3">Flatly</option>
     <option value="4">idk</option>
     <option value="5">classy</option>
 </select>

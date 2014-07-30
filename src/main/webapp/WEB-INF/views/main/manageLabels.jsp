@@ -29,7 +29,7 @@
                 <button type="button" class="btn btn-danger btn-sm manageButton btn-cancel-edit-label"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
             </div>
             <br/>
-            <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent">Error message</div>
+            <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent"></div>
         </div>
     </div>
     <ul class="list-group">
@@ -68,7 +68,7 @@
                             <button type="button" class="btn btn-success btn-sm manageButton btn-save-edit-label"><span class="glyphicon glyphicon-ok-circle"></span> Save</button>
                             <button type="button" class="btn btn-danger btn-sm manageButton btn-cancel-edit-label"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
                         </div>
-                        <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent">Error message</div>
+                        <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent"></div>
                     </div>
                 </div>
             </li>
@@ -146,7 +146,6 @@
         margin: 0;
         height: 30px;
         vertical-align: central;
-        
     }
     .theLabelListLabel{
         display:inline-flex;
@@ -158,6 +157,9 @@
     .theLabelListText{
         margin: 0;
         vertical-align: central;
+        font-size: 13pt;
+        color: black;
+        font-weight: lighter;
     }
     .errorMessageManageLabels{
         left: 0;
@@ -168,7 +170,7 @@
         height: 30px;
         border-bottom: none;
     }
-
+    .list-group-item:last-child,
     .topPanelThing{
         margin-bottom: 40px;
     }
