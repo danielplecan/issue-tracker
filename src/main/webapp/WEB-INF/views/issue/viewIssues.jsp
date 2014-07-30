@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-lg-3 labelFilterDetails">Order</label>
+                        <label class="col-lg-3 labelFilterDetails"></label>
                         <div class="col-lg-8 labelFilterList">
                             <button id="sortAsc" class="btn btn-default btn-sm typeOfSort firstColButton">Asc </button>
                             <button id="sortDesc" class="btn btn-default btn-sm typeOfSort secondColButton">Desc <span class="glyphicon glyphicon-ok"></span></button>
@@ -57,7 +57,7 @@
                     <div class="labelsOuterDiv">
                         <ul class="list-group col-lg-8 labelsFilterList" >
                             <c:forEach items="${allLabels}" var="label">
-                                <li class="list-group-item cursorPointer" data-id="${label.id}" data-color="${label.color}">                              
+                                <li class="list-group-item cursorPointer labelListElementFilter" data-id="${label.id}" data-color="${label.color}">
                                     ${label.name}
                                     <div style="background-color:${label.color}" class="labelCircle"></div>
                                 </li>

@@ -413,12 +413,7 @@ td {
 }
 
 /*/issues*/
-.panel-heading span {
-    display:inline-block; float:right;
-}
-.panel-heading span:hover {
-    cursor:default;
-}
+
 .typeOfState, .typeOfOrder, .typeOfSort{
     margin-left: 10px;
 }
@@ -431,15 +426,19 @@ td {
     margin-top: 5px;
 }
 .labelsFilterList{
-    height:206px;
+    height:145px    ;
     overflow-y: scroll;
 }
 .firstColButton{
-    width:90px;
+    width:60px;
 }
 .secondColButton{
     width:90px;
 }
 .thirdColButton{
-    width:90px;
+    width:60px;
+}
+.labelListElementFilter{
+    padding-top:5px;
+    margin-top:-5px;
 }
