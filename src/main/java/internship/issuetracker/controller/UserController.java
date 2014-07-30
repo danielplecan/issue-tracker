@@ -69,7 +69,22 @@ public class UserController {
         User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         responseMap.put("success", userSettingsService.changeUserThemePreference(currentUser.getUsername(), theme));
-        responseMap.put("theme", theme);
+        responseMap.put("currentTheme", theme);
+        return responseMap;
+    }
+    
+    @RequestMapping(value = "/getCurrentThemeSetting")
+    @ResponseBody
+    public Map<String, Object> changeTheme() {
+        Map<String, Object> responseMap = new HashMap<>();
+        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        if (currentUser != null) {
+            responseMap.put("currentTheme", userSettingsService.getCurrentThemePreference(currentUser.getUsername()));
+        }
+        else {
+            responseMap.put("currentTheme", 1);
+        }
         return responseMap;
     }
 }

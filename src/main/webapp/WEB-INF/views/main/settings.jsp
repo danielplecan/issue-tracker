@@ -54,7 +54,13 @@ Change theme:<br/>
             url: location.origin + '/settings/changeTheme/' + currentThemeSelection,
             dataType: "json",
             success:function(data) {
-                //change theme
+                var themeBootstrapRef = "/resources/css/theme/" + data.currentTheme + "/bootstrap.css";
+                var themeColorRef = "/resources/css/theme/" + data.currentTheme +"/styleColor.css";
+                
+                $("#theme-bootstrap").removeAttr("href");
+                $("#theme-bootstrap").attr("href", themeBootstrapRef);
+                $("#theme-style-color").removeAttr("href");
+                $("#theme-style-color").attr("href", themeColorRef);
             }
         });
     });
