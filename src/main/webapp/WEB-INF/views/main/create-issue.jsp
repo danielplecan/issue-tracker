@@ -61,7 +61,7 @@
             <c:forEach items="${labels}" var="label">
                 <div class="list-group-item list-item-text cursorPointer" data-id="${label.id}" data-color="${label.color}">
                     <div style="background-color:${label.color}" class="labelCircle"></div>
-                    <div>${label.name}</div>
+                    <div><c:out value="${label.name}"/></div>
                 </div>
             </c:forEach>
         </div>

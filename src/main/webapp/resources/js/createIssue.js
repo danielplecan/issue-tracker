@@ -50,7 +50,6 @@ $(document).ready(function() {
     //filter labels
     $("#searchByLabelName").keyup(function() {
         var inputValue = $(this).val();
-        console.log(inputValue);
         $('#newLabel').val(inputValue);
         $("#labelSelector>div").hide();
         $("#labelSelector>div").each(function(index, elem) {

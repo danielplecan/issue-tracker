@@ -58,7 +58,7 @@
                         <ul class="list-group col-lg-8 labelsFilterList" >
                             <c:forEach items="${allLabels}" var="label">
                                 <li class="list-group-item cursorPointer labelListElementFilter" data-id="${label.id}" data-color="${label.color}">
-                                    ${label.name}
+                                    <c:out value="${label.name}"/>
                                     <div style="background-color:${label.color}" class="labelCircle"></div>
                                 </li>
                             </c:forEach>

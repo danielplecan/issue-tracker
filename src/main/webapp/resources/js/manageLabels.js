@@ -33,7 +33,7 @@ function createLabelListElement(label) {
                             <button type=\"button\" class=\"btn btn-success btn-sm manageButton btn-save-edit-label\"><span class=\"glyphicon glyphicon-ok-circle\"><\/span> Save<\/button>\r\n\n\
                             <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-cancel-edit-label\"><span class=\"glyphicon glyphicon-remove-circle\"><\/span> Cancel<\/button>\r\n\n\
                         <\/div>\r\n\n\
-                        <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\">Error message<\/div>\r\n\n\
+                        <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>\r\n\n\
                     <\/div>\r\n\n\
                 <\/div>\r\n\n\
             <\/li>');
@@ -41,7 +41,7 @@ function createLabelListElement(label) {
     return li;
 }
 
-
+//ATTACH FUNCTIONALITY TO A TOP PANEL
 function addFunctionalityToTopPanel(topPanel) {
     var newLabelButton = $(topPanel).find('.btn-new-label').first();
     var editLabelPanel = $(topPanel).find('.editLabelPane').first();
@@ -50,27 +50,43 @@ function addFunctionalityToTopPanel(topPanel) {
     var labelNameBox = $(editLabelPanel).find('.small-input-box').first();
     var toggleColorPickerEdit = $(editLabelPanel).find('.toggle-color-picker').first();
     var colorList = $(editLabelPanel).find('.theColorsList').first();
+    var errorBox = $(editLabelPanel).find('.errorMessageManageLabels').first();
 
+    //CLEAR INPUTS WHEN HIDING THE PANEL
     function clearInput() {
+        toggleCreateLabelPanel();
+        $(errorBox).text("");
         $(labelNameBox).val("");
         $(colorList).hide();
         $(createLabelButton).attr('disabled', true);
     }
+    
+    //SHOW / HIDE create new label panel
+    function toggleCreateLabelPanel(){
+         if ($(editLabelPanel).is(":visible")) {
+            $(editLabelPanel).hide();
+        } else {
+            $(editLabelPanel).show();
+        }
+    }
 
+    //SELECT SPECIFIC COLOR
     $(colorList).delegate('.color-square', 'click', function() {
         $(toggleColorPickerEdit).css('background-color', $(this).attr('data-color'));
         $(toggleColorPickerEdit).attr('data-color', $(this).attr('data-color'));
     });
 
+    //TOGGLE COLOR PICKER
     $(toggleColorPickerEdit).click(function() {
         colorList.toggle('hidden');
     });
 
+    //DISPLAYING THE PANEL FOR CREATING A NEW LABEL
     $(newLabelButton).click(function() {
         clearInput();
-        $(editLabelPanel).toggle('hidden');
     });
 
+    //SUBMIT A NEW LABEL FOR CREATION
     $(createLabelButton).click(function() {
         var newLabelName = $(labelNameBox).val();
         var newLabelColor = $(toggleColorPickerEdit).attr('data-color');
@@ -79,33 +95,44 @@ function addFunctionalityToTopPanel(topPanel) {
                 var newLabelPanel = $(createLabelListElement(data.label));
                 $(topPanel).siblings('ul.list-group').append(newLabelPanel);
                 clearInput();
-                $(editLabelPanel).toggle('hidden');
             } else {
+                var errorText = "";
+                for (var error in data.errors) {
+                    errorText += data.errors[error] + "\n";
+                }
+                $(errorBox).text(errorText);
             }
         });
-
     });
 
+    //CANCEL CREATING A NEW LABEL
     $(cancelButton).click(function() {
         $(editLabelPanel).toggle('hidden');
         clearInput();
     });
 
+    //CHEKS FOR ERRORS IN LABEL NAME
     $(labelNameBox).on('input', function() {
         var newLabelName = $(this).val();
 
         if (newLabelName.length < 3 || newLabelName.length > 15) {
             $(createLabelButton).attr('disabled', true);
+            $(errorBox).text("A label name must contain between 3 and 15 characters.");
+
         } else {
             $(createLabelButton).attr('disabled', false);
+            $(errorBox).text("");
         }
     });
 }
 
 $(document).ready(function() {
 
+    //ADDING FUNCTIONALITY TO THE TOP PANEL OF THE WIDGET
     addFunctionalityToTopPanel($('.manageLabelsTopPanel'));
 
+
+    //DELEGATING ALL SORT OF EVENTS TO THE LI ELEMENTS
     $('#widgetContainer').delegate('ul>li>.labelPanel', 'click', function(event) {
         var listElementForDelete = $(this).parent();
         var showLabelPanel = $(this).find('.showLabelPane').first();
@@ -114,8 +141,12 @@ $(document).ready(function() {
         var smallInputBoxEdit = $(editLabelPanel).find('.small-input-box').first();
         var toggleColorPickerEdit = $(editLabelPanel).find('.toggle-color-picker').first();
         var targetClick = $(event.target);
+        var errorBox = $(editLabelPanel).find('.errorMessageManageLabels').first();
 
+
+        //CLEAR INPUTS WHEN HIDING THE PANEL
         function switchPanels() {
+            $(errorBox).text("");
             $(showLabelPanel).show();
             $(editLabelPanel).hide();
             $(editLabelPanel).find('.theColorsList').first().hide();
@@ -123,7 +154,7 @@ $(document).ready(function() {
         }
 
 
-
+        //EDIT button 
         if ($(targetClick).hasClass('btn-edit')) {
             $(smallInputBoxEdit).val($(labelNameShow).text());
             $(toggleColorPickerEdit).css('background-color', $(showLabelPanel).attr('data-color'));
@@ -132,7 +163,7 @@ $(document).ready(function() {
             $(editLabelPanel).removeClass('hidden');
             $(showLabelPanel).hide();
             $(editLabelPanel).show();
-
+            //REMOVE button
         } else if ($(targetClick).hasClass('btn-remove')) {
             var labelId = $(showLabelPanel).attr('data-id');
             issueTrackerService.removeLabel(labelId).done(function(data) {
@@ -140,6 +171,7 @@ $(document).ready(function() {
                     $(listElementForDelete).remove();
                 }
             });
+            //SAVE button
         } else if ($(targetClick).hasClass('btn-save-edit-label')) {
             var newNameForLabel = $(smallInputBoxEdit).val();
             var newColorForLabel = $(toggleColorPickerEdit).attr('data-color');
@@ -154,29 +186,39 @@ $(document).ready(function() {
                             $(labelNameShow).css('background-color', data.label.color);
                             switchPanels();
                         } else {
+                            var errorText = "";
+                            for (var error in data.errors) {
+                                errorText += data.errors[error] + "\n";
+                            }
+                            $(errorBox).text(errorText);
                         }
                     });
             $(targetClick).attr('disabled', false);
-
+            //CANCEL button
         } else if ($(targetClick).hasClass('btn-cancel-edit-label')) {
             switchPanels();
+            //TOGGLE COLOR PICKER
         } else if ($(targetClick).hasClass('toggle-color-picker')) {
             $(editLabelPanel).find('.theColorsList').toggle('hidden');
+            //SELECT SPECIFIC COLOR
         } else if ($(targetClick).hasClass('color-square')) {
             $(toggleColorPickerEdit).css('background-color', $(targetClick).attr('data-color'));
             $(toggleColorPickerEdit).attr('data-color', $(targetClick).attr('data-color'));
         }
     });
 
-
+    //FUNCTION FOR CHEKING IF THE INPUT IS RIGHT
     $('.small-input-box').on('input', function() {
         var newLabelName = $(this).val();
         var saveButton = $(this).parents('.editLabelPane').find('.btn-save-edit-label').first();
+        var errorBox = $(saveButton).parent().siblings('.errorMessageManageLabels').first();
 
         if (newLabelName.length < 3 || newLabelName.length > 15) {
             $(saveButton).attr('disabled', true);
+            $(errorBox).text("A label name must contain between 3 and 15 characters.");
         } else {
             $(saveButton).attr('disabled', false);
+            $(errorBox).text("");
         }
     });
 });
