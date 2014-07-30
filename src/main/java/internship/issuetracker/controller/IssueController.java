@@ -180,9 +180,15 @@ public class IssueController {
             
             if (userSettingsService.getCurrentNotificationStatus(issueOwner.getUsername())) {
                 String emailContent;
-                emailContent = "<p>Your issue with the title " + issue.getTitle() + " has been changed to " + comment.getChangeState() + "  </p>";
-                emailContent += "<a href=\"http://localhost:8080/issue/" +  issueId + "\"> Click here to view your issue</a>";
                 
+                if (comment.getChangeState() != null){
+                    emailContent = "<p>Your issue with the title " + issue.getTitle() + " has been changed to " + comment.getChangeState() + "  </p>";
+                    emailContent += "<a href=\"http://localhost:8080/issue/" +  issueId + "\"> Click here to view your issue</a>";
+                } 
+                else {
+                    emailContent = "<p>" + comment.getAuthor().getUsername() + " commented on your issue with the title " + issue.getTitle() + "  </p>";
+                    emailContent += "<a href=\"http://localhost:8080/issue/" +  issueId + "\"> Click here to view your issue</a>";
+                }
                         
                 mailService.sendEmail(issueOwner.getEmail(), "Issue tracker notification", emailContent);
             }
