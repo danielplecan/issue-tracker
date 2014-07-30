@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="panel panel-default col-lg-10 col-lg-offset-1" id="widgetContainer">
-    <div class="manageLabelsTopPanel">
+    <div class="manageLabelsTopPanel topPanelThing">
         <div class="manageLabelsNav">
             <form class="navbar-form navbar-left manageLabelsNavLeft">
                 <input type="text" class="form-control" placeholder="Search labels..">
@@ -13,7 +13,7 @@
         <div class="editLabelPane" style="display: none">
             <div class="navbar-form manageLabelsNavLeft">
                 <input type="text" class="form-control flLeft small-input-box" placeholder="label">
-                <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1"></button>
+                <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1" style="background-color: #FF8F8F" data-color="#FF8F8F"></button>
                 <div class="theColorsList" style="display: none;">
                     <span class="color-chooser-color color-square" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
                     <span class="color-chooser-color color-square" data-color="#FFC69E" style="background-color:#FFC69E"></span>
@@ -28,16 +28,18 @@
                 <button type="button" class="btn btn-success btn-sm manageButton btn-create-edit-label"><span class="glyphicon glyphicon-ok-circle"></span> Create</button>
                 <button type="button" class="btn btn-danger btn-sm manageButton btn-cancel-edit-label"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
             </div>
+            <br/>
+            <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent">Error message</div>
         </div>
     </div>
     <ul class="list-group">
         <c:forEach items="${labels}" var="label">
-            <li  class="list-group-item">
-                <div class="labelPanel">
+            <li class="list-group-item labelListThing">
+                <div class="labelPanel  editLabelPane">
                     <div class="showLabelPane" data-id="${label.id}" data-color="${label.color}">
                         <div class="navbar-left">
                             <form class="navbar-form navbar-left labelListEdit">
-                                <span class="labelName theLabelListLabel label theLabelListText" style="background-color: ${label.color}">${label.name}</span>
+                                <span class="labelName theLabelListLabel label theLabelListText" style="background-color: ${label.color}"><c:out value="${label.name}"/></span>
                             </form>
                         </div>
                         <div class="navbar-right">
@@ -45,6 +47,7 @@
                             <button type="button" class="btn btn-default btn-remove manageLabelsButton btn-sm"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                         </div>
                     </div>
+                            
                     <div class="editLabelPane hidden">
                         <div class="navbar-left ">
                             <div class="navbar-form navbar-left labelListEdit">
@@ -65,6 +68,7 @@
                             <button type="button" class="btn btn-success btn-sm manageButton btn-save-edit-label"><span class="glyphicon glyphicon-ok-circle"></span> Save</button>
                             <button type="button" class="btn btn-danger btn-sm manageButton btn-cancel-edit-label"><span class="glyphicon glyphicon-remove-circle"></span> Cancel</button>
                         </div>
+                        <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent">Error message</div>
                     </div>
                 </div>
             </li>
@@ -84,9 +88,9 @@
     }
     .inputLabelName{
         float:left;
-        border-radius: 5px;        
+        border-radius: 5px;
         margin: 2px;
-        height: 29px;     
+        height: 29px;
         width:150px;
     }
     .labelColorManageColors{
@@ -111,9 +115,8 @@
         float:left;
     }
     .labelPanel{
-        min-height: 30px;
         margin:  0px;
-        border-bottom: none
+        border: none;
     }
     .manageLabelsNav{
         /*padding: 15px;*/
@@ -133,8 +136,7 @@
         margin-top: 7px;
     }
     .manageLabelsTopPanel{
-        height: 100px;
-        min-height: 50px;
+        min-height: 100px;
     }
     .manageLabelsButton{
         vertical-align: central;
@@ -144,6 +146,7 @@
         margin: 0;
         height: 30px;
         vertical-align: central;
+        
     }
     .theLabelListLabel{
         display:inline-flex;
@@ -156,7 +159,19 @@
         margin: 0;
         vertical-align: central;
     }
+    .errorMessageManageLabels{
+        left: 0;
+        margin-top: 5px;
+    }
+    .labelListThing{
+        margin-bottom: 50px;
+        height: 30px;
+        border-bottom: none;
+    }
 
+    .topPanelThing{
+        margin-bottom: 40px;
+    }
 </style>
 
 <script src="/resources/js/manageLabels.js" type="text/javascript"></script>

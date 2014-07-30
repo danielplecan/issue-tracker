@@ -27,7 +27,7 @@
             <c:choose>
                 <c:when test="${not empty issue.content}">
                     <h4><div clsss="" id="issueContent"><c:out value="${issue.content}"/></div></h4>   
-                    </c:when>
+                    </c:when>    
                 </c:choose>
                 <c:choose>
                     <c:when test="${labels != null}">
@@ -38,12 +38,32 @@
                     </div>
                 </c:when>
             </c:choose>
-            <div class="col-lg-12" id="scrollable-dropdown-menu">
-                <input class="form-control typeahead" id="assignTo" placeholder="Assign to" />
-                <span id = "assigneeSpan" class="help-block"></span>
-                <button id="assignButton" type="button" class="btn btn-default" data-container="body" title="Assign" style="visibility: hidden;">
-                    Assign
+            <div>
+                <span><i>Assigned to: </i>&nbsp;
+                    <span id = "assignedName">
+                        <c:choose>
+                            <c:when test="${not empty issue.assignee.username}">
+                                <c:out value="${issue.assignee.username}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <i>none</i>
+                            </c:otherwise>
+                        </c:choose>
+                    </span>
+                </span>
+                <button id="changeAssignButton" type="button" class="btn btn-default btn-xs" data-container="body">
+                    Change assignee
                 </button>  
+                <div class="col-lg-12" id="scrollable-dropdown-menu" style="display:none;">
+                    <input class="form-control typeahead" id="assignTo" placeholder="Assign to" />
+                    <span id = "assigneeSpan" class="help-block"></span>
+                    <button id="assignButton" type="button" class="btn btn-default btn-xs" data-container="body" style="display:none;">
+                        Assign
+                    </button>  
+                    <button id="cancelAssignButton" type="button" class="btn btn-default btn-xs" data-container="body">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>

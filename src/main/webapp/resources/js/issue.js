@@ -71,10 +71,32 @@ $(document).ready(function() {
     });
 
 
-//helper methods
-    $("#assignTo").text("");
+//cosmina's autocomplete
+
+    $('#changeAssignButton').click(function() {
+        $('#assignTo').val('');
+        $('#scrollable-dropdown-menu').show();
+        $('#changeAssignButton').hide();
+        $('#assignButton').hide();
+        $('#cancelAssignButton').show();
+    });
+    
+    $('#cancelAssignButton').click(function(){
+        $('#scrollable-dropdown-menu').hide();
+        $('#changeAssignButton').show();
+        $('#assignTo').val('');
+    });
+    
     var users = [];
+    var assignee;
+
+    $("#assignTo").keydown(function() {
+        $('#assignButton').hide();
+        $('#cancelAssignButton').show();
+    });
+
     $("#assignTo").keyup(function() {
+        console.log("hahaha");
         while (users.length > 0) {
             users.pop();
             //console.log(users.pop());
@@ -124,26 +146,27 @@ $(document).ready(function() {
     });
 
     $('#assignTo').bind('typeahead:selected', function(obj, datum, name) {
-        console.log("selected");
-        console.log(datum);
-        $('#assigneeSpan').text(datum.username);
-        $('#assigneeSpan').data('id', datum.id);
-        $('#scrollable-dropdown-menu').append(assigneeSpan);
+        assignee = datum;
+        $('#assignButton').show();
+        $('#cancelAssignButton').hide();
+        $('#assigneeSpan').prop('data-id', datum.id);
         $('#assignButton').css('visibility', 'visible');
     });
 
     $("#assignButton").click(function(event) {
+        $('#scrollable-dropdown-menu').hide();
+        $('#changeAssignButton').show();
+        $('#assignTo').val('');
         event.preventDefault();
         var issueId = $("#issueState").attr('data-id');
-        var username = $("#assignTo").val();
-        issueTrackerService.assignTo(issueId, username).done(function(data) {
+        issueTrackerService.assignTo(issueId, assignee).done(function(data) {
             if (data.success) {
-                console.log(data.assignedTo);
+                $('#assignedName').text(data.assignedTo.username);
             }
         });
     });
 
-
+//comments
     function createCommentData() {
         var commentContent = $("#textAreaComment").val();
         var lastComment = $("#allComments .fullCommentBody").last();
