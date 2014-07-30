@@ -13,7 +13,7 @@
         <div class="editLabelPane" style="display: none">
             <div class="navbar-form manageLabelsNavLeft">
                 <input type="text" class="form-control flLeft small-input-box" placeholder="label">
-                <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1"></button>
+                <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1" style="background-color: #FF8F8F" data-color="#FF8F8F"></button>
                 <div class="theColorsList" style="display: none;">
                     <span class="color-chooser-color color-square" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
                     <span class="color-chooser-color color-square" data-color="#FFC69E" style="background-color:#FFC69E"></span>
@@ -39,7 +39,7 @@
                     <div class="showLabelPane" data-id="${label.id}" data-color="${label.color}">
                         <div class="navbar-left">
                             <form class="navbar-form navbar-left labelListEdit">
-                                <span class="labelName theLabelListLabel label theLabelListText" style="background-color: ${label.color}">${label.name}</span>
+                                <span class="labelName theLabelListLabel label theLabelListText" style="background-color: ${label.color}"><c:out value="${label.name}"/></span>
                             </form>
                         </div>
                         <div class="navbar-right">
