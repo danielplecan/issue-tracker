@@ -120,7 +120,7 @@ issueTrackerService = (function() {
             color: labelNewColor
         };
         return $.ajax({
-            type: 'POST',
+            type: 'PUT',
             url: location.origin + '/label/' + labelId + '/edit',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
