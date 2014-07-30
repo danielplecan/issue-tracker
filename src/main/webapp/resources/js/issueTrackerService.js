@@ -78,8 +78,8 @@ issueTrackerService = (function() {
             data: assigneeData
         });
     };
-    
-    self.getUsersAssignee = function(issueId, assignee){
+
+    self.getUsersAssignee = function(issueId, assignee) {
         var assigneeData = {};
         assigneeData = {
             'assignedTo': assignee
@@ -90,7 +90,7 @@ issueTrackerService = (function() {
             dataType: "json",
             data: assigneeData
         });
-    }
+    };
     self.createLabel = function(labelName, labelColor) {
         var newLabel = {
             name: labelName,
@@ -102,6 +102,29 @@ issueTrackerService = (function() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(newLabel)
+        });
+    };
+
+    self.removeLabel = function(labelId) {
+        return $.ajax({
+            type: 'DELETE',
+            url: location.origin + '/label/' + labelId + '/remove',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+    };
+    
+    self.editLabel = function(labelNewName, labelNewColor, labelId) {
+        var editedLabel = {
+            name: labelNewName,
+            color: labelNewColor
+        };
+        return $.ajax({
+            type: 'POST',
+            url: location.origin + '/label/' + labelId + '/edit',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(editedLabel)
         });
     };
 

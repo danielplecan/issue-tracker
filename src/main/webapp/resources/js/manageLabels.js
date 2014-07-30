@@ -1,19 +1,54 @@
 $(document).ready(function() {
-    $('#widgetContainer').delegate('ul>li', 'click', function(event) {
-        var showLabelPane = $(this).find('.showLabelPane').first();
-        var editLabelPane = $(this).find('.editLabelPane').first();
+    $('#widgetContainer').delegate('ul>li>.labelPanel', 'click', function(event) {
+        var listElementForDelete = $(this).parent();
+        var showLabelPanel = $(this).find('.showLabelPane').first();
+        var editLabelPanel = $(this).find('.editLabelPane').first();
+        var labelNameShow = $(showLabelPanel).find('.labelName').first();
+        var smallInputBoxEdit = $(editLabelPanel).find('.small-input-box').first();
+        var toggleColorPickerEdit = $(editLabelPanel).find('.toggle-color-picker').first();
+        var targetClick = $(event.target);
 
-        if ($(event.target).hasClass('btn-edit')) {
-            $(showLabelPane).hide();
-            $(editLabelPane).removeClass('hidden');
-            $(editLabelPane).show();
-        } else if ($(event.target).hasClass('btn-remove')) {
-            console.log('remove');
-        } else if ($(event.target).hasClass('btn-save-edit-label')) {
-            console.log('save');
-        } else if ($(event.target).hasClass('btn-cancel-edit-label')) {
-            $(showLabelPane).show();
-            $(editLabelPane).hide();
+        if ($(targetClick).hasClass('btn-edit')) {
+            $(smallInputBoxEdit).val($(labelNameShow).text());
+            $(toggleColorPickerEdit).css('background-color', $(showLabelPanel).attr('data-color'));
+            $(toggleColorPickerEdit).attr('data-color', $(showLabelPanel).attr('data-color'));
+            $(showLabelPanel).hide();
+            $(editLabelPanel).removeClass('hidden');
+            $(editLabelPanel).show();
+
+        } else if ($(targetClick).hasClass('btn-remove')) {
+            var labelId = $(showLabelPanel).attr('data-id');
+            issueTrackerService.removeLabel(labelId).done(function(data) {
+                if (data.success) {
+                    $(listElementForDelete).remove();
+                }
+            });
+        } else if ($(targetClick).hasClass('btn-save-edit-label')) {
+            var newNameForLabel = $(smallInputBoxEdit).val();
+            var newColorForLabel = $(toggleColorPickerEdit).attr('data-color');
+            var labelId = $(showLabelPanel).attr('data-id');
+        } else if ($(targetClick).hasClass('btn-cancel-edit-label')) {
+            $(showLabelPanel).show();
+            $(editLabelPanel).hide();
+            $(editLabelPanel).find('.theColorsList').first().hide();
+
+        } else if ($(targetClick).hasClass('toggle-color-picker')) {
+            $(editLabelPanel).find('.theColorsList').toggle('hidden');
+        } else if ($(targetClick).hasClass('color-square')) {
+            $(toggleColorPickerEdit).css('background-color', $(targetClick).attr('data-color'));
+            $(toggleColorPickerEdit).attr('data-color', $(targetClick).attr('data-color'));
+        }
+    });
+
+
+    $('.small-input-box').on('input', function() {
+        var newLabelName = $(this).val();
+        var saveButton = $(this).parents('.editLabelPane').find('.btn-save-edit-label').first();
+        
+        if(newLabelName.length < 3 || newLabelName.length > 15) {
+            $(saveButton).attr('disabled',true);
+        } else {
+            $(saveButton).attr('disabled',false);
         }
     });
 });
