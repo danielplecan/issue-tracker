@@ -1,4 +1,43 @@
+function addFunctionalityToTopPanel(topPanel){
+    var newLabelButton = $(topPanel).find('.btn-new-label').first();
+    var editLabelPanel = $(topPanel).find('.editLabelPane').first();
+    var createLabelButton = $(editLabelPanel).find('.btn-create-edit-label').first();
+    var cancelButton = $(editLabelPanel).find('.btn-cancel-edit-label').first();
+    var labelNameBox = $(editLabelPanel).find('.small-input-box').first();
+    
+    function clearInput() {
+        $(labelNameBox).val("");
+        $(createLabelButton).attr('disabled', false);
+    }
+    
+    $(newLabelButton).click(function () { 
+        $(editLabelPanel).toggle('hidden');
+    });
+    
+    $(createLabelButton).click(function() {
+        
+    });
+    
+    $(cancelButton).click(function() {
+        $(editLabelPanel).toggle('hidden');
+        clearInput();
+    });
+    
+    $(labelNameBox).on('input', function() {
+        var newLabelName = $(this).val();
+
+        if (newLabelName.length < 3 || newLabelName.length > 15) {
+            $(createLabelButton).attr('disabled', true);
+        } else {
+            $(createLabelButton).attr('disabled', false);
+        }
+    });
+}
+
 $(document).ready(function() {
+
+    addFunctionalityToTopPanel($('.manageLabelsTopPanel'));
+    
     $('#widgetContainer').delegate('ul>li>.labelPanel', 'click', function(event) {
         var listElementForDelete = $(this).parent();
         var showLabelPanel = $(this).find('.showLabelPane').first();
@@ -12,6 +51,7 @@ $(document).ready(function() {
             $(showLabelPanel).show();
             $(editLabelPanel).hide();
             $(editLabelPanel).find('.theColorsList').first().hide();
+            $(editLabelPanel).find('.btn-save-edit-label').first().attr('disabled', false);
         }
 
 
@@ -20,8 +60,9 @@ $(document).ready(function() {
             $(smallInputBoxEdit).val($(labelNameShow).text());
             $(toggleColorPickerEdit).css('background-color', $(showLabelPanel).attr('data-color'));
             $(toggleColorPickerEdit).attr('data-color', $(showLabelPanel).attr('data-color'));
-            $(showLabelPanel).hide();
+            
             $(editLabelPanel).removeClass('hidden');
+            $(showLabelPanel).hide();
             $(editLabelPanel).show();
 
         } else if ($(targetClick).hasClass('btn-remove')) {
@@ -45,14 +86,12 @@ $(document).ready(function() {
                             $(labelNameShow).css('background-color', data.label.color);
                             switchPanels();
                         } else {
-
                         }
                     });
             $(targetClick).attr('disabled', false);
 
         } else if ($(targetClick).hasClass('btn-cancel-edit-label')) {
             switchPanels();
-
         } else if ($(targetClick).hasClass('toggle-color-picker')) {
             $(editLabelPanel).find('.theColorsList').toggle('hidden');
         } else if ($(targetClick).hasClass('color-square')) {
