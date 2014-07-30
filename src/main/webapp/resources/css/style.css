@@ -442,3 +442,39 @@ td {
     padding-top:5px;
     margin-top:-5px;
 }
+
+/*/upload.jsp*/
+.actionsDiv > input {
+    display: none;
+}
+.attachmentWidth{       
+    width: 150px;
+}
+.buttontext{
+    width: 110px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size:12px;
+    display:inline-flex;
+    display: -moz-box;
+    text-overflow: ellipsis;
+    vertical-align: central;
+}
+.fileDivContent{
+    display:inline-block;
+}
+.actionsDiv{
+    margin-left:3px;
+}
+.allFilesDiv{
+    margin-left:3px;
+}
+.errorsUpload{
+    margin-left: 20px;
+}
+.newProgressBar{
+    height:8px;
+}
+.xButton:hover{
+    color:red;
+}
