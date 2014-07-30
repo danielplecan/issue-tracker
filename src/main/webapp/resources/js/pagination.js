@@ -49,7 +49,7 @@ var pager = function() {
         filter["title"] = $("#searchFieldTitle").val();
         filter["asignee"] = $("#searchFieldAsignee").val();
         filter["owner"] = $("#searchFieldAuthor").val();
-        
+
         while (labelIdList.length > 0) {
             labelIdList.pop();
         }
@@ -58,7 +58,6 @@ var pager = function() {
             console.log($(element).data("id"));
         });
 
-
         order[theOrder] = theSort;
         filter["state"] = theState;
         filter["labels"] = labelIdList;
@@ -66,7 +65,6 @@ var pager = function() {
         filterData["pageNumber"] = pageNumber;
         filterData["numberOfItemsPerPage"] = 6;
         filterData["orders"] = order;
-
 
     };
     return{
@@ -116,6 +114,45 @@ var pager = function() {
             });
             $("#sortDesc").click(function() {
                 theSort = "DESC";
+            });
+
+            $(".labelsFilterList li").click(function() {
+                var $this = $(this);
+
+                if (this.style.backgroundColor !== "") {
+                    this.style.backgroundColor = "";
+                    $this.removeClass("thisLabelIsSelected");
+                }
+                else {
+                    $this.css("background-color", $this.data("color"));
+                    $this.addClass("thisLabelIsSelected");
+                }
+            });
+
+            $(".typeOfState").click(function() {
+                $(".typeOfState").find('span').remove();
+                $(this).append('<span class="glyphicon glyphicon-ok"/>');
+            });
+
+            $(".typeOfOrder").click(function() {
+                $(".typeOfOrder").find('span').remove();
+                $(this).append('<span class="glyphicon glyphicon-ok"/>');
+            });
+            $(".typeOfSort").click(function() {
+                $(".typeOfSort").find('span').remove();
+                $(this).append('<span class="glyphicon glyphicon-ok"/>');
+            });
+
+            $(".panel-heading").click(function() {
+                $("#panelBody").toggle("slow", function() {
+                    if ($("#panelBody").is(':visible')) {
+                        document.getElementById('header-arrow').innerHTML = '&#x21d1';
+                        $("#searchFieldTitle").focus();
+                    }
+                    else {
+                        document.getElementById('header-arrow').innerHTML = '&#x21d3';
+                    }
+                });
             });
 
             pageNumber = 1;

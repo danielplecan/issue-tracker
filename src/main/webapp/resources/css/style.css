@@ -407,7 +407,39 @@ td {
 }
 
 .tt-suggestion.tt-cursor {
-  color: #fff;
-  background-color: #0097cf;
+    color: #fff;
+    background-color: #0097cf;
 
+}
+
+/*/issues*/
+.panel-heading span {
+    display:inline-block; float:right;
+}
+.panel-heading span:hover {
+    cursor:default;
+}
+.typeOfState, .typeOfOrder, .typeOfSort{
+    margin-left: 10px;
+}
+.labelFilterDetails{
+    margin-top: 10px;
+    float:left;
+    margin-left: 10px;
+}
+.labelFilterList{
+    margin-top: 5px;
+}
+.labelsFilterList{
+    height:206px;
+    overflow-y: scroll;
+}
+.firstColButton{
+    width:90px;
+}
+.secondColButton{
+    width:90px;
+}
+.thirdColButton{
+    width:90px;
 }

@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div id="pageContent">
 
-    <aside id="search_widget">
+    <aside class="col-lg-10 col-lg-offset-1">
         <div class="panel-primary" style="margin-bottom:20px;">
             <div class="panel-heading">
                 <h3 class="panel-title" style='display:inline-block;'>Filter issues</h3>
@@ -10,26 +10,21 @@
             <div class=" panel panel-body " id="panelBody">
                 <div class="filterLeft  col-lg-7">
                     <div class="form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <input class="form-control" id="searchFieldTitle" placeholder="Title" type="text">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <input class="form-control" id="searchFieldContent" placeholder="Content" type="text">
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <input class="form-control" id="searchFieldAuthor" placeholder="Author" type="text">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <input class="form-control" id="searchFieldAsignee" placeholder="Asignee" type="text">
                         </div>
                     </div>
-
 
                     <div class="form-group">
                         <label class="col-lg-3 labelFilterDetails">State</label>
@@ -45,7 +40,6 @@
                         <div class="col-lg-8 labelFilterList">                 
                             <button id="orderTitle" class="btn btn-default btn-sm typeOfOrder firstColButton">Title </button>
                             <button id="orderUpdateDate" class="btn btn-default btn-sm typeOfOrder secondColButton">UpdateDate <span class="glyphicon glyphicon-ok"></span></button>
-                            <!--<input id="orderByAscDesc" type="checkbox"> Asc-->
                         </div>
                     </div>
 
@@ -58,10 +52,10 @@
                     </div>                   
 
                 </div>
-                <div class="filterRight col-lg-5">
+                <div class="filterRight col-lg-5 ">
                     <label class="txt-center">Labels</label>
                     <div class="labelsOuterDiv">
-                        <ul class="list-group col-lg-8 labelsFilterList">
+                        <ul class="list-group col-lg-8 labelsFilterList" >
                             <c:forEach items="${allLabels}" var="label">
                                 <li class="list-group-item cursorPointer" data-id="${label.id}" data-color="${label.color}">                              
                                     ${label.name}
@@ -95,127 +89,8 @@
         </ul>
     </div>
 </div>
-<script>
-    //  $("#panelBody").hide();
 
-//    $('body').keydown(function(e) {
-//        if (e.keyCode === 13) {
-//            $('#searchBoxStructure button').trigger('click');
-//        }
-//    });
-//
-    $(".panel-heading").click(function() {
-        $("#panelBody").toggle("slow", function() {
-            if ($("#panelBody").is(':visible')) {
-                document.getElementById('header-arrow').innerHTML = '&#x21d1';
-                $("#searchFieldTitle").focus();
-            }
-            else {
-                document.getElementById('header-arrow').innerHTML = '&#x21d3';
-            }
-        });
-    });
-
-    $(".labelsFilterList li").click(function() {
-        var $this = $(this);
-
-        if (this.style.backgroundColor !== "") {
-            this.style.backgroundColor = "";
-            $this.removeClass("thisLabelIsSelected");
-        }
-        else {
-            $this.css("background-color", $this.data("color"));
-            $this.addClass("thisLabelIsSelected");
-        }
-    });
-
-    $(".typeOfState").click(function() {
-        $(".typeOfState").find('span').remove();
-        var $this = $(this);
-        var newContentItem = "";
-
-        if ($this.find('span').size() > 0) {
-            var newContentItem = $(this).text();
-        }
-        else {
-            var newContentItem = $(this).text() + '  <span class="glyphicon glyphicon-ok"/>';
-        }
-        $(this).empty();
-        $(this).append(newContentItem);
-    });
-
-    $(".typeOfOrder").click(function() {
-        $(".typeOfOrder").find('span').remove();
-        var $this = $(this);
-        var newContentItem = "";
-
-        if ($this.find('span').size() > 0) {
-            var newContentItem = $(this).text();
-        }
-        else {
-            var newContentItem = $(this).text() + '  <span class="glyphicon glyphicon-ok"/>';
-        }
-        $(this).empty();
-        $(this).append(newContentItem);
-    });
-    $(".typeOfSort").click(function() {
-        $(".typeOfSort").find('span').remove();
-        var $this = $(this);
-        var newContentItem = "";
-
-        if ($this.find('span').size() > 0) {
-            var newContentItem = $(this).text();
-        }
-        else {
-            var newContentItem = $(this).text() + '  <span class="glyphicon glyphicon-ok"/>';
-        }
-        $(this).empty();
-        $(this).append(newContentItem);
-    });
-
-</script>
 <script src="/resources/js/createIssue.js" type="text/javascript"></script>
 <script src="/resources/js/issuesCreator.js" type="text/javascript"></script>
 <script src="/resources/js/pagination.js" type="text/javascript"></script>
-<style>    
-    @media (min-width: 1200px) { 
-        #search_widget{
-            margin-left: 8.33333333%;
-            width: 83.33333333%;
-        }
-    }
 
-    .panel-heading span {
-        display:inline-block; float:right;
-    }
-
-    .panel-heading span:hover {
-        cursor:default;
-    }
-
-
-    .typeOfState, .typeOfOrder, .typeOfSort{
-        margin-left: 10px;
-    }
-    .labelFilterDetails{
-        margin-top: 10px;
-        float:left;
-        margin-left: 10px;
-    }
-    .labelFilterList{
-        margin-top: 5px;
-    }
-    .labelsFilterList{
-        height: 250px;
-        overflow-y: auto;
-    }
-    .firstColButton{
-        width:90px;
-    }
-    .secondColButton{
-        width:90px;
-    }
-    .thirdColButton{
-        width:90px;
-    }
-</style>
