@@ -10,20 +10,18 @@
             </form>
             <button type="button" class="btn btn-default manageLabelsNavRight btn-new-label" id="editLabel"><span class="glyphicon glyphicon-plus"></span>  Create new label</button>
         </div>
-        <div class="editLabelPane" style="display:none">
-            <div class="navbar-left">
-                <div class="navbar-form navbar-left ">
-                    <input type="text" class="small-input-box form-control flLeft" placeholder="label">
-                    <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1"></button>
-                    <div class="theColorsList" style="display: none">
-                        <span class="color-chooser-color color-square" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
-                        <span class="color-chooser-color color-square" data-color="#FFC69E" style="background-color:#FFC69E"></span>
-                        <span class="color-chooser-color color-square" data-color="#FFF4C4" style="background-color:#FFF4C4"></span>
-                        <span class="color-chooser-color color-square" data-color="#E6FAFF" style="background-color:#E6FAFF"></span>
-                        <span class="color-chooser-color color-square" data-color="#D8FFC4" style="background-color:#D8FFC4"></span>
-                        <span class="color-chooser-color color-square" data-color="#E6E6E6" style="background-color:#E6E6E6"></span>
-                        <span class="color-chooser-color color-square" data-color="#B6BDCC" style="background-color:#B6BDCC"></span>
-                    </div>
+        <div class="editLabelPane" style="display: none">
+            <div class="navbar-form manageLabelsNavLeft">
+                <input type="text" class="form-control flLeft small-input-box" placeholder="label">
+                <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1"></button>
+                <div class="theColorsList" style="display: none;">
+                    <span class="color-chooser-color color-square" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
+                    <span class="color-chooser-color color-square" data-color="#FFC69E" style="background-color:#FFC69E"></span>
+                    <span class="color-chooser-color color-square" data-color="#FFF4C4" style="background-color:#FFF4C4"></span>
+                    <span class="color-chooser-color color-square" data-color="#E6FAFF" style="background-color:#E6FAFF"></span>
+                    <span class="color-chooser-color color-square" data-color="#D8FFC4" style="background-color:#D8FFC4"></span>
+                    <span class="color-chooser-color color-square" data-color="#E6E6E6" style="background-color:#E6E6E6"></span>
+                    <span class="color-chooser-color color-square" data-color="#B6BDCC" style="background-color:#B6BDCC"></span>
                 </div>
             </div>
             <div class="manageLabelsNavRight">
@@ -32,26 +30,25 @@
             </div>
         </div>
     </div>
-
     <ul class="list-group">
         <c:forEach items="${labels}" var="label">
             <li  class="list-group-item">
                 <div class="labelPanel">
                     <div class="showLabelPane" data-id="${label.id}" data-color="${label.color}">
                         <div class="navbar-left">
-                            <form class="navbar-form navbar-left">
-                                <span class="labelName" style="background-color: ${label.color}">${label.name}</span>
+                            <form class="navbar-form navbar-left labelListEdit">
+                                <span class="labelName theLabelListLabel label theLabelListText" style="background-color: ${label.color}">${label.name}</span>
                             </form>
                         </div>
                         <div class="navbar-right">
-                            <button type="button" class="btn btn-default btn-edit"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
-                            <button type="button" class="btn btn-default btn-remove"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                            <button type="button" class="btn btn-default btn-edit manageLabelsButton btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
+                            <button type="button" class="btn btn-default btn-remove manageLabelsButton btn-sm"><span class="glyphicon glyphicon-remove"></span> Delete</button>
                         </div>
                     </div>
                     <div class="editLabelPane hidden">
-                        <div class="navbar-left">
-                            <div class="navbar-form navbar-left ">
-                                <input type="text" class="small-input-box form-control flLeft" placeholder="label">
+                        <div class="navbar-left ">
+                            <div class="navbar-form navbar-left labelListEdit">
+                                <input type="text" class="small-input-box form-control flLeft labelListEdit" placeholder="label">
                                 <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1"></button>
                                 <div class="theColorsList" style="display: none">
                                     <span class="color-chooser-color color-square" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
@@ -94,6 +91,13 @@
     }
     .labelColorManageColors{
         border-radius: 9px;
+        height: 30px;
+        width: 30px;
+    }
+    .labelColorManageColors:hover{
+        border-radius: 9px;
+        height: 28px;
+        width: 28px;
     }
     .theColorsList{
         float:left;
@@ -107,9 +111,9 @@
         float:left;
     }
     .labelPanel{
-        min-height: 83px;
-        background-color: #222222;
-        margin:  15px;
+        min-height: 30px;
+        margin:  0px;
+        border-bottom: none
     }
     .manageLabelsNav{
         /*padding: 15px;*/
@@ -125,9 +129,6 @@
         float: right;
         margin: 6px 0px;
     }
-    .editLabelPane{
-
-    }
     #editLabel{
         margin-top: 7px;
     }
@@ -135,8 +136,26 @@
         height: 100px;
         min-height: 50px;
     }
-
-
+    .manageLabelsButton{
+        vertical-align: central;
+    }
+    .labelListEdit{
+        padding: 0;
+        margin: 0;
+        height: 30px;
+        vertical-align: central;
+    }
+    .theLabelListLabel{
+        display:inline-flex;
+        padding:5px;
+        margin-top:3px;
+        margin-right:3px;
+        height: 30px;
+    }
+    .theLabelListText{
+        margin: 0;
+        vertical-align: central;
+    }
 
 </style>
 
