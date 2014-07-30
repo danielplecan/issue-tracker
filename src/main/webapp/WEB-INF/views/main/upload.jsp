@@ -7,7 +7,7 @@
 
 <div style="width:500px;padding:20px">
  
-    <input id="fileupload" type="file" name="file" data-url="/upload" multiple>
+    <input id="fileupload" type="file" name="file" data-url="/upload" value="" title="">
  
     <div id="dropzone">Drop files here</div>
  
