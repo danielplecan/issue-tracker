@@ -6,6 +6,7 @@ var pager = function() {
     var filterData;
     var theState = "All";
     var theOrder = "updateDate";
+    var theSort = "DESC";
     var theLabelsId = [];
 
     var toggleFirstButtons = function(flag) {
@@ -47,7 +48,7 @@ var pager = function() {
         filter["content"] = $("#searchFieldContent").val();
         filter["title"] = $("#searchFieldTitle").val();
         filter["asignee"] = $("#searchFieldAsignee").val();
-        filter["creator"] = $("#searchFieldAuthor").val();
+        filter["owner"] = $("#searchFieldAuthor").val();
 
         var ascDescOnOff = $("#orderByAscDesc").prop('checked');
         var ascDesc = "DESC";
@@ -64,9 +65,8 @@ var pager = function() {
         });
 
 
-        order[theOrder] = ascDesc;
+        order[theOrder] = theSort;
         filter["state"] = theState;
-//        filter["labels"] = theLabelsId;
         filter["labels"] = ["247"];
         filterData["filters"] = filter;
         filterData["pageNumber"] = pageNumber;
@@ -116,7 +116,12 @@ var pager = function() {
             });
             $("#orderUpdateDate").click(function() {
                 theOrder = "updateDate";
-                console.log('adwadwa');
+            });
+            $("#sortAsc").click(function() {
+                theSort = "ASC";
+            });
+            $("#sortDesc").click(function() {
+                theSort = "DESC";
             });
 
             pageNumber = 1;
