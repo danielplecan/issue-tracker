@@ -86,8 +86,8 @@ public class UserService {
     }
 
     public void activateUserAccount(User user) {
-        user.setActive(true);
-        entityManager.merge(user);
+//        user.setActive(true);
+//        entityManager.merge(user);
     }
     
     public List<User> filterUserByUsername(String username){

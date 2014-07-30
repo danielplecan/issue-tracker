@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class UserSettingsService {
     
     public boolean toggleNotifications(String username) {
         User targetUser = userService.getUserByUsername(username);
-        Query query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        TypedQuery<UserSettings> query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
         query.setParameter("v_user", targetUser);
         
         List<UserSettings> results = query.getResultList();
@@ -60,7 +61,7 @@ public class UserSettingsService {
     
     public boolean getCurrentNotificationStatus(String username) {
         User targetUser = userService.getUserByUsername(username);
-        Query query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        TypedQuery<UserSettings> query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
         query.setParameter("v_user", targetUser);
         
         List<UserSettings> results = query.getResultList();
@@ -73,8 +74,8 @@ public class UserSettingsService {
     }
     
     public Long getCurrentThemePreference(String username) {
-         User targetUser = userService.getUserByUsername(username);
-        Query query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        User targetUser = userService.getUserByUsername(username);
+        TypedQuery<UserSettings> query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
         query.setParameter("v_user", targetUser);
         
         List<UserSettings> results = query.getResultList();
@@ -86,8 +87,8 @@ public class UserSettingsService {
     }
     
     public boolean changeUserThemePreference(String username, Long theme) {
-         User targetUser = userService.getUserByUsername(username);
-        Query query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
+        User targetUser = userService.getUserByUsername(username);
+        TypedQuery<UserSettings> query = em.createNamedQuery(UserSettings.FIND_SETTINGS_BY_USER_ID, UserSettings.class);
         query.setParameter("v_user", targetUser);
         
         List<UserSettings> results = query.getResultList();
