@@ -53,7 +53,7 @@ public class User implements Serializable {
     private String passwordHash;
     
     @Column(name = "active", nullable = false)
-    private boolean active;
+    private boolean active = true;
 
     public boolean isActive() {
         return active;
