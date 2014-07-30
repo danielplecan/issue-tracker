@@ -47,7 +47,7 @@ var pager = function() {
         filter["content"] = $("#searchFieldContent").val();
         filter["title"] = $("#searchFieldTitle").val();
         filter["asignee"] = $("#searchFieldAsignee").val();
-        filter["creator"] = $("#searchFieldAuthor").val();
+        filter["owner"] = $("#searchFieldAuthor").val();
 
         var ascDescOnOff = $("#orderByAscDesc").prop('checked');
         var ascDesc = "DESC";
