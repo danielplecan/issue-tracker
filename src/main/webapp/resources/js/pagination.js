@@ -7,7 +7,7 @@ var pager = function() {
     var theState = "All";
     var theOrder = "updateDate";
     var theSort = "DESC";
-    var theLabelsId = [];
+    var labelIdList = [];
 
     var toggleFirstButtons = function(flag) {
         if (!flag) {
@@ -49,25 +49,19 @@ var pager = function() {
         filter["title"] = $("#searchFieldTitle").val();
         filter["asignee"] = $("#searchFieldAsignee").val();
         filter["owner"] = $("#searchFieldAuthor").val();
-
-        var ascDescOnOff = $("#orderByAscDesc").prop('checked');
-        var ascDesc = "DESC";
-        if (ascDescOnOff == false) {
-            ascDesc = "DESC";
+        
+        while (labelIdList.length > 0) {
+            labelIdList.pop();
         }
-        else {
-            ascDesc = "ASC";
-        }
-
         $(".thisLabelIsSelected").each(function(index, element) {
-            theLabelsId.push($(element).data("id"));
+            labelIdList.push($(element).data("id"));
             console.log($(element).data("id"));
         });
 
 
         order[theOrder] = theSort;
         filter["state"] = theState;
-        filter["labels"] = ["247"];
+        filter["labels"] = labelIdList;
         filterData["filters"] = filter;
         filterData["pageNumber"] = pageNumber;
         filterData["numberOfItemsPerPage"] = 6;

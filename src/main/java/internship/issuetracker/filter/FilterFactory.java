@@ -24,7 +24,7 @@ public class FilterFactory {
         filtersMap.put("content", IssueContentQueryFilter.class);
         filtersMap.put("state", IssueStateQueryFilter.class);
         filtersMap.put("assignee", IssueAssigneeQueryFilter.class);
-//        filtersMap.put("labels", IssueLabelQueryFilter.class);
+        filtersMap.put("labels", IssueLabelQueryFilter.class);
         filtersMap.put("owner", IssueOwnerQueryFilter.class);
     }
     

@@ -33,6 +33,11 @@ public class IssueSearchCriteria {
                         if (filter != null) {
                             queryFilters.add(filter);
                         }
+                    } else if(value instanceof Integer) {
+                        QueryFilter<Issue> filter = FilterFactory.<Issue>createFilter(key, ((Integer) value).toString());
+                        if (filter != null) {
+                            queryFilters.add(filter);
+                        }
                     }
                 }
             } else if (filterValue instanceof String) {

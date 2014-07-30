@@ -121,6 +121,7 @@
 
         if (this.style.backgroundColor !== "") {
             this.style.backgroundColor = "";
+            $this.removeClass("thisLabelIsSelected");
         }
         else {
             $this.css("background-color", $this.data("color"));
