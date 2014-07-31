@@ -282,12 +282,13 @@ public class IssueService {
         return !labelQuery.getResultList().isEmpty();
     }
 
-    public void removeIssueLabels(Long labelId) {   
+    public void removeIssueLabels(Long labelId) {
         Query issueLabelQuery = em.createNamedQuery(IssueLabels.REMOVE_BY_LABEL_ID);
         issueLabelQuery.setParameter("label_id", labelId);
         issueLabelQuery.executeUpdate();
 
     }
+
     public boolean removeLabel(Long labelId) {
         Label label = em.find(Label.class, labelId);
         if (label == null) {

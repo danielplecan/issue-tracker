@@ -33,29 +33,32 @@ $(document).ready(function() {
         });
     });
 
+    var backgroundColor = $('#labelSelector').find('.list-item-text').first().css('background-color');
+
     //selecting an existing label
     $('#labelSelector').delegate('.list-item-text', 'click', function() {
         var labelColorToSet;
         $(this).toggleClass('selectedLabel');
         if ($(this).hasClass('selectedLabel')) {
             labelColorToSet = $(this).attr('data-color');
-            $(this).css('color', getContrastYIQ(labelColorToSet));
         } else {
-            labelColorToSet = 'white';
-            $(this).css('color', '#555');
+            labelColorToSet = backgroundColor;
         }
         $(this).css('background-color', labelColorToSet);
+
     });
 
     //filter labels
     $("#searchByLabelName").keyup(function() {
         var inputValue = $(this).val();
         $('#newLabel').val(inputValue);
-        $("#labelSelector>div").hide();
+
         $("#labelSelector>div").each(function(index, elem) {
             var $elem = $(elem);
             if ($elem.text().indexOf(inputValue) >= 0) {
                 $elem.show();
+            } else {
+                $elem.hide();
             }
         });
 
@@ -87,7 +90,7 @@ $(document).ready(function() {
     //submiting a new label to the REST service
     $('#submitNewLabel').click(function() {
         var labelColor = $('.label-selected').first().attr('data-color');
-        var labelName = $('#newLabel').val();
+        var labelName = $('#newLabel').val().trim();
 
         issueTrackerService.createLabel(labelName, labelColor).done(function(data) {
             if (data.success) {

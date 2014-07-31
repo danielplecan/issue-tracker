@@ -51,6 +51,8 @@ function addFunctionalityToTopPanel(topPanel) {
     var toggleColorPickerEdit = $(editLabelPanel).find('.toggle-color-picker').first();
     var colorList = $(editLabelPanel).find('.theColorsList').first();
     var errorBox = $(editLabelPanel).find('.errorMessageManageLabels').first();
+    var searchBox = $(topPanel).find('.manageLabelsNav').first().find('input.form-control');
+    
 
     //CLEAR INPUTS WHEN HIDING THE PANEL
     function clearInput() {
@@ -88,7 +90,7 @@ function addFunctionalityToTopPanel(topPanel) {
 
     //SUBMIT A NEW LABEL FOR CREATION
     $(createLabelButton).click(function() {
-        var newLabelName = $(labelNameBox).val();
+        var newLabelName = $(labelNameBox).val().trim();
         var newLabelColor = $(toggleColorPickerEdit).attr('data-color');
         issueTrackerService.createLabel(newLabelName, newLabelColor).done(function(data) {
             if (data.success) {
@@ -124,9 +126,26 @@ function addFunctionalityToTopPanel(topPanel) {
             $(errorBox).text("");
         }
     });
+    
+        //THE INPUT IS CHANGED IN THE SEARCH BOX
+    $(searchBox).keyup(function() {
+        console.log('sas');
+        var inputValue = $(this).val();
+        
+        $(topPanel).siblings('ul.list-group').find('li').each(function(index, elem) {
+            var $elem = $(elem);
+            var elemText = $(elem).find('span.labelName');
+            
+            if (elemText.text().indexOf(inputValue) >= 0) {
+                $elem.show();
+            } else {
+                $elem.hide();
+            }
+        });
+    });
 }
 
-$(document).ready(function() {
+(function() {
 
     //ADDING FUNCTIONALITY TO THE TOP PANEL OF THE WIDGET
     addFunctionalityToTopPanel($('.manageLabelsTopPanel'));
@@ -134,7 +153,7 @@ $(document).ready(function() {
 
     //DELEGATING ALL SORT OF EVENTS TO THE LI ELEMENTS
     $('#widgetContainer').delegate('ul>li>.labelPanel', 'click', function(event) {
-        var listElementForDelete = $(this).parent();
+        var listElementContainer = $(this).parent();
         var showLabelPanel = $(this).find('.showLabelPane').first();
         var editLabelPanel = $(this).find('.editLabelPane').first();
         var labelNameShow = $(showLabelPanel).find('.labelName').first();
@@ -168,12 +187,12 @@ $(document).ready(function() {
             var labelId = $(showLabelPanel).attr('data-id');
             issueTrackerService.removeLabel(labelId).done(function(data) {
                 if (data.success) {
-                    $(listElementForDelete).remove();
+                    $(listElementContainer).remove();
                 }
             });
             //SAVE button
         } else if ($(targetClick).hasClass('btn-save-edit-label')) {
-            var newNameForLabel = $(smallInputBoxEdit).val();
+            var newNameForLabel = $(smallInputBoxEdit).val().trim();
             var newColorForLabel = $(toggleColorPickerEdit).attr('data-color');
             var labelId = $(showLabelPanel).attr('data-id');
 
@@ -185,6 +204,7 @@ $(document).ready(function() {
                             $(labelNameShow).text(data.label.name);
                             $(labelNameShow).css('background-color', data.label.color);
                             switchPanels();
+                            $(listElementContainer).appendTo($(listElementContainer).parent());
                         } else {
                             var errorText = "";
                             for (var error in data.errors) {
@@ -221,5 +241,4 @@ $(document).ready(function() {
             $(errorBox).text("");
         }
     });
-});
-
+})();
