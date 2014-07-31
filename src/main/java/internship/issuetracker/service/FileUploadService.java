@@ -4,10 +4,9 @@ import internship.issuetracker.entity.UploadedFile;
 import internship.issuetracker.exception.FileUploadException;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.springframework.security.crypto.keygen.KeyGenerators;
-import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +22,7 @@ public class FileUploadService {
     
     @Transactional
     public Long uploadFile(MultipartFile file) throws FileUploadException, IOException {
-       String generatedName = KeyGenerators.string().generateKey();
+       String generatedName = UUID.randomUUID().toString();
        saveFile(file, generatedName);
        return persistFileEntity(file, generatedName);
     }
@@ -56,5 +55,29 @@ public class FileUploadService {
         entityManager.persist(uploadedFile);
         
         return uploadedFile.getId();
+    }
+    
+    @Transactional
+    public boolean removeFile(Long fileId) {
+        UploadedFile uploadedFile = entityManager.find(UploadedFile.class, fileId);
+        if(uploadedFile == null) {
+            return false;
+        }
+        
+        File file = new File(UploadedFile.LOCATION + File.separator + uploadedFile.getTargetName());
+        file.delete();
+        
+        entityManager.remove(uploadedFile);
+        
+        return true;
+    }
+    
+    @Transactional
+    public UploadedFile getUploadedFileEntity(Long fileId) {
+        return entityManager.find(UploadedFile.class, fileId);
+    }
+    
+    public File getFile(UploadedFile uploadedFile) {
+        return new File(UploadedFile.LOCATION + File.separator + uploadedFile.getTargetName());
     }
 }
