@@ -1,4 +1,4 @@
-/*LIGHT STYLE*/
+/*cold*/
 .disabledButton {
     background-color: #669999;
 }
@@ -85,4 +85,9 @@
 
 .closedColor{
     color:#FA2A2A;
+}
+
+.panel-primary > .panel-heading,
+.panel-heading{
+    background-color:#222222;
 }

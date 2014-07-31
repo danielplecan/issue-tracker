@@ -1,5 +1,5 @@
 function createLabelListElement(label) {
-    var li = $('<li class=\"list-group-item labelListThing\">\r\n\n\
+    var li = $('<div class=" labelListThing col-lg-12">\r\n\n\
                 <div class=\"labelPanel  editLabelPane\">\r\n\n\
                     <div class=\"showLabelPane\" data-id=\"' + label.id + '\" data-color=\"' + label.color + '\">\r\n\n\
                         <div class=\"navbar-left\">\r\n\n\
@@ -36,7 +36,7 @@ function createLabelListElement(label) {
                         <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>\r\n\n\
                     <\/div>\r\n\n\
                 <\/div>\r\n\n\
-            <\/li>');
+            <\/div>');
     $(li).find('.labelName').text(label.name);
     return li;
 }
@@ -52,7 +52,7 @@ function addFunctionalityToTopPanel(topPanel) {
     var colorList = $(editLabelPanel).find('.theColorsList').first();
     var errorBox = $(editLabelPanel).find('.errorMessageManageLabels').first();
     var searchBox = $(topPanel).find('.manageLabelsNav').first().find('input.form-control');
-    
+
 
     //CLEAR INPUTS WHEN HIDING THE PANEL
     function clearInput() {
@@ -62,10 +62,10 @@ function addFunctionalityToTopPanel(topPanel) {
         $(colorList).hide();
         $(createLabelButton).attr('disabled', true);
     }
-    
+
     //SHOW / HIDE create new label panel
-    function toggleCreateLabelPanel(){
-         if ($(editLabelPanel).is(":visible")) {
+    function toggleCreateLabelPanel() {
+        if ($(editLabelPanel).is(":visible")) {
             $(editLabelPanel).hide();
         } else {
             $(editLabelPanel).show();
@@ -95,7 +95,7 @@ function addFunctionalityToTopPanel(topPanel) {
         issueTrackerService.createLabel(newLabelName, newLabelColor).done(function(data) {
             if (data.success) {
                 var newLabelPanel = $(createLabelListElement(data.label));
-                $(topPanel).siblings('ul.list-group').append(newLabelPanel);
+                $(topPanel).siblings('div.list-group').append(newLabelPanel);
                 clearInput();
             } else {
                 var errorText = "";
@@ -126,16 +126,16 @@ function addFunctionalityToTopPanel(topPanel) {
             $(errorBox).text("");
         }
     });
-    
-        //THE INPUT IS CHANGED IN THE SEARCH BOX
+
+    //THE INPUT IS CHANGED IN THE SEARCH BOX
     $(searchBox).keyup(function() {
         console.log('sas');
         var inputValue = $(this).val();
-        
-        $(topPanel).siblings('ul.list-group').find('li').each(function(index, elem) {
+
+        $(topPanel).siblings('div.list-group').find('div.labelListThing').each(function(index, elem) {
             var $elem = $(elem);
             var elemText = $(elem).find('span.labelName');
-            
+
             if (elemText.text().indexOf(inputValue) >= 0) {
                 $elem.show();
             } else {
@@ -145,86 +145,131 @@ function addFunctionalityToTopPanel(topPanel) {
     });
 }
 
-(function() {
+//DISABLING ENTER KEY PRESS IN FORM
+$(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
+    if (e.keyCode === 13)
+        return false;
+});
 
+(function() {
     //ADDING FUNCTIONALITY TO THE TOP PANEL OF THE WIDGET
     addFunctionalityToTopPanel($('.manageLabelsTopPanel'));
 
+    //DOM ELEMENT FINDERS
+    function getListElementContainer(element) {
+        return $(element).parents('.labelPanel').first().
+                parents('.labelListThing').first();
+    }
 
-    //DELEGATING ALL SORT OF EVENTS TO THE LI ELEMENTS
-    $('#widgetContainer').delegate('ul>li>.labelPanel', 'click', function(event) {
-        var listElementContainer = $(this).parent();
-        var showLabelPanel = $(this).find('.showLabelPane').first();
-        var editLabelPanel = $(this).find('.editLabelPane').first();
-        var labelNameShow = $(showLabelPanel).find('.labelName').first();
-        var smallInputBoxEdit = $(editLabelPanel).find('.small-input-box').first();
-        var toggleColorPickerEdit = $(editLabelPanel).find('.toggle-color-picker').first();
-        var targetClick = $(event.target);
-        var errorBox = $(editLabelPanel).find('.errorMessageManageLabels').first();
+    function getShowLabelPanel(element) {
+        return $(element).parents('.labelPanel').first().
+                find('.showLabelPane').first();
+    }
 
+    function getEditLabelPanel(element) {
+        return $(element).parents('.labelPanel').first().
+                find('.editLabelPane').first();
+    }
 
-        //CLEAR INPUTS WHEN HIDING THE PANEL
-        function switchPanels() {
-            $(errorBox).text("");
-            $(showLabelPanel).show();
-            $(editLabelPanel).hide();
-            $(editLabelPanel).find('.theColorsList').first().hide();
-            $(editLabelPanel).find('.btn-save-edit-label').first().attr('disabled', false);
-        }
+    function getLabelNameShow(element) {
+        return $(element).parents('.labelPanel').first().
+                find('.labelName').first();
+    }
 
+    function getSmallInputBoxEdit(element) {
+        return $(element).parents('.labelPanel').first().
+                find('.small-input-box').first();
+    }
 
-        //EDIT button 
-        if ($(targetClick).hasClass('btn-edit')) {
-            $(smallInputBoxEdit).val($(labelNameShow).text());
-            $(toggleColorPickerEdit).css('background-color', $(showLabelPanel).attr('data-color'));
-            $(toggleColorPickerEdit).attr('data-color', $(showLabelPanel).attr('data-color'));
+    function getToggleColorPickerEdit(element) {
+        return $(element).parents('.labelPanel').first().
+                find('.toggle-color-picker').first();
+    }
 
-            $(editLabelPanel).removeClass('hidden');
-            $(showLabelPanel).hide();
-            $(editLabelPanel).show();
-            //REMOVE button
-        } else if ($(targetClick).hasClass('btn-remove')) {
-            var labelId = $(showLabelPanel).attr('data-id');
-            issueTrackerService.removeLabel(labelId).done(function(data) {
-                if (data.success) {
-                    $(listElementContainer).remove();
-                }
-            });
-            //SAVE button
-        } else if ($(targetClick).hasClass('btn-save-edit-label')) {
-            var newNameForLabel = $(smallInputBoxEdit).val().trim();
-            var newColorForLabel = $(toggleColorPickerEdit).attr('data-color');
-            var labelId = $(showLabelPanel).attr('data-id');
+    function getErrorBox(element) {
+        return $(element).parents('.labelPanel').first().
+                find('.errorMessageManageLabels').first();
+    }
 
-            $(targetClick).attr('disabled', true);
-            issueTrackerService.editLabel(newNameForLabel, newColorForLabel, labelId).
-                    done(function(data) {
-                        if (data.success) {
-                            $(showLabelPanel).attr('data-color', data.label.color);
-                            $(labelNameShow).text(data.label.name);
-                            $(labelNameShow).css('background-color', data.label.color);
-                            switchPanels();
-                            $(listElementContainer).appendTo($(listElementContainer).parent());
-                        } else {
-                            var errorText = "";
-                            for (var error in data.errors) {
-                                errorText += data.errors[error] + "\n";
-                            }
-                            $(errorBox).text(errorText);
+    function switchPanels(elem) {
+        $(getErrorBox($(elem))).text("");
+        $(getShowLabelPanel($(elem))).show();
+        $(getEditLabelPanel($(elem))).hide();
+        $(getEditLabelPanel($(elem))).find('.theColorsList').first().hide();
+        $(getEditLabelPanel($(elem))).find('.btn-save-edit-label').first().attr('disabled', false);
+    }
+
+    //EDIT
+    $('#widgetContainer').delegate('.labelPanel .btn-edit', 'click', function(event) {
+        var smallInputBoxEdit = getSmallInputBoxEdit($(this));
+        var labelNameShow = getLabelNameShow($(this));
+        var toggleColorPickerEdit = getToggleColorPickerEdit($(this));
+        var showLabelPanel = getShowLabelPanel($(this));
+        var editLabelPanel = getEditLabelPanel($(this));
+
+        $(smallInputBoxEdit).val($(labelNameShow).text());
+        $(toggleColorPickerEdit).css('background-color', $(showLabelPanel).attr('data-color'));
+        $(toggleColorPickerEdit).attr('data-color', $(showLabelPanel).attr('data-color'));
+
+        $(editLabelPanel).removeClass('hidden');
+        $(showLabelPanel).hide();
+        $(editLabelPanel).show();
+    });
+
+    //REMOVE
+    $('#widgetContainer').delegate('.labelPanel .btn-remove', 'click', function(event) {
+        var labelId = $(getShowLabelPanel($(this))).attr('data-id');
+        var listElementContainer = $(getListElementContainer($(this)));
+        issueTrackerService.removeLabel(labelId).done(function(data) {
+            if (data.success) {
+                $(listElementContainer).remove();
+            }
+        });
+    });
+
+    //SAVE
+    $('#widgetContainer').delegate('.labelPanel .btn-save-edit-label', 'click', function(event) {
+        var showLabelPanel = getShowLabelPanel($(this));
+        var labelNameShow = getLabelNameShow($(this));
+        var newNameForLabel = $(getSmallInputBoxEdit($(this))).val().trim();
+        var newColorForLabel = $(getToggleColorPickerEdit($(this))).attr('data-color');
+        var labelId = $(showLabelPanel).attr('data-id');
+
+        $(this).attr('disabled', true);
+        issueTrackerService.editLabel(newNameForLabel, newColorForLabel, labelId).
+                done(function(data) {
+                    if (data.success) {
+                        $(showLabelPanel).attr('data-color', data.label.color);
+                        $(labelNameShow).text(data.label.name);
+                        $(labelNameShow).css('background-color', data.label.color);
+                        switchPanels($(event.target));
+                    } else {
+                        var errorText = "";
+                        for (var error in data.errors) {
+                            errorText += data.errors[error] + "\n";
                         }
-                    });
-            $(targetClick).attr('disabled', false);
-            //CANCEL button
-        } else if ($(targetClick).hasClass('btn-cancel-edit-label')) {
-            switchPanels();
-            //TOGGLE COLOR PICKER
-        } else if ($(targetClick).hasClass('toggle-color-picker')) {
-            $(editLabelPanel).find('.theColorsList').toggle('hidden');
-            //SELECT SPECIFIC COLOR
-        } else if ($(targetClick).hasClass('color-square')) {
-            $(toggleColorPickerEdit).css('background-color', $(targetClick).attr('data-color'));
-            $(toggleColorPickerEdit).attr('data-color', $(targetClick).attr('data-color'));
-        }
+                        $(getErrorBox($(this))).text(errorText);
+                    }
+                });
+        $(this).attr('disabled', false);
+    });
+
+    //CANCEL
+    $('#widgetContainer').delegate('.labelPanel .btn-cancel-edit-label', 'click', function(event) {
+        switchPanels($(this));
+    });
+
+    //TOGGLE COLOR PICKER
+    $('#widgetContainer').delegate('.labelPanel .toggle-color-picker', 'click', function(event) {
+        $(getEditLabelPanel($(this))).find('.theColorsList').toggle('hidden');
+    });
+
+    //PICK COLOR
+    $('#widgetContainer').delegate('.labelPanel .color-square', 'click', function(event) {
+        var toggleColorPickerEdit = getToggleColorPickerEdit($(this));
+
+        $(toggleColorPickerEdit).css('background-color', $(this).attr('data-color'));
+        $(toggleColorPickerEdit).attr('data-color', $(this).attr('data-color'));
     });
 
     //FUNCTION FOR CHEKING IF THE INPUT IS RIGHT

@@ -8,54 +8,46 @@
                 <span class="close" id="header-arrow">&#x21d3</span>
             </div>
             <div class=" panel panel-body " id="panelBody">
-                <div class="filterLeft  col-lg-7">
-                    <div class="form-group">
-                        <div class="col-lg-6">
+                <div class="filterLeft col-lg-8 formPosfilterLeft">
+                    <div class="form-group formLeft col-lg-5">
+                        <div class="clearFormGroup col-lg-12">
                             <input class="form-control" id="searchFieldTitle" placeholder="Title" type="text">
                         </div>
-                        <div class="col-lg-6">
+                        <div class="clearFormGroup col-lg-12">
                             <input class="form-control" id="searchFieldContent" placeholder="Content" type="text">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-6">
+                        <div class="clearFormGroup col-lg-12">
                             <input class="form-control" id="searchFieldAuthor" placeholder="Author" type="text">
                         </div>
-                        <div class="col-lg-6">
+                        <div class="clearFormGroup col-lg-12">
                             <input class="form-control" id="searchFieldAsignee" placeholder="Asignee" type="text">
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-lg-3 labelFilterDetails">State</label>
-                        <div class="col-lg-8 labelFilterList">                          
+                    <div class="form-group formRight col-lg-7">
+                        <span class="col-lg-4 labelFilterDetails">State</span>
+                        <div class="col-lg-8 labelFilterList" style="padding: 0px">                          
                             <button id="stateOpen" class="btn btn-default btn-sm typeOfState firstColButton">Open</button>
                             <button id="stateClosed" class="btn btn-default btn-sm typeOfState secondColButton">Closed </span></button>
                             <button id="stateAll" class="btn btn-default btn-sm typeOfState thirdColButton">All <span class="glyphicon glyphicon-ok"></button>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-lg-3 labelFilterDetails">Order By</label>
-                        <div class="col-lg-8 labelFilterList">                 
+                        <span class="col-lg-4 labelFilterDetails">Order By</span>
+                        <div class="col-lg-8 labelFilterList" style="padding:0px">                 
                             <button id="orderTitle" class="btn btn-default btn-sm typeOfOrder firstColButton">Title </button>
-                            <button id="orderUpdateDate" class="btn btn-default btn-sm typeOfOrder secondColButton">UpdateDate <span class="glyphicon glyphicon-ok"></span></button>
+                            <button id="orderUpdateDate" class="btn btn-default btn-sm typeOfOrder secondColButton">Update <span class="glyphicon glyphicon-ok"></span></button>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-lg-3 labelFilterDetails"></label>
-                        <div class="col-lg-8 labelFilterList">
+                        <div class="col-lg-8 labelFilterList" style="padding:0px">
                             <button id="sortAsc" class="btn btn-default btn-sm typeOfSort firstColButton">Asc </button>
                             <button id="sortDesc" class="btn btn-default btn-sm typeOfSort secondColButton">Desc <span class="glyphicon glyphicon-ok"></span></button>
                         </div>
-                    </div>                   
-
+                        
+                    </div>
                 </div>
-                <div class="filterRight col-lg-5 ">
+                
+                <div class="filterRight col-lg-4">
                     <label class="txt-center">Labels</label>
                     <div class="labelsOuterDiv">
-                        <ul class="list-group col-lg-8 labelsFilterList" >
+                        <ul class="list-group labelsFilterList" >
                             <c:forEach items="${allLabels}" var="label">
                                 <li class="list-group-item cursorPointer labelListElementFilter" data-id="${label.id}" data-color="${label.color}">
                                     <c:out value="${label.name}"/>
@@ -89,7 +81,29 @@
         </ul>
     </div>
 </div>
+<style>
+    .clearFormGroup{
+        clear:both;
+        padding: 0;
+    }
+    .formLeft{
+        float:left;
+        left: 0;
+        position: relative;
+        padding-right: 0px;
+    }
+    .formRight{
+        float: right;
+        right: 0;
+        position: relative;
+        padding: 0px;
+    }
+    
 
+</style>
+    
+    
+    
 <script src="/resources/js/createIssue.js" type="text/javascript"></script>
 <script src="/resources/js/issuesCreator.js" type="text/javascript"></script>
 <script src="/resources/js/pagination.js" type="text/javascript"></script>
