@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var widget = uploadWidget($("#commentFileUpload"));
     $('#textAreaComment').focus(function() {
         clearErrorMessages();
     });
@@ -266,6 +267,8 @@ $(document).ready(function() {
     function clearErrorMessages() {
         $('#contentError').text("");
     }
+    
+    
 
 });
 
