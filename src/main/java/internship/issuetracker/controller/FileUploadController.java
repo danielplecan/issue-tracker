@@ -1,12 +1,21 @@
 package internship.issuetracker.controller;
 
+import internship.issuetracker.entity.UploadedFile;
 import internship.issuetracker.exception.FileUploadException;
 import internship.issuetracker.service.FileUploadService;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,5 +52,27 @@ public class FileUploadController {
         }
         
         return responseMap;
+    }
+    
+    @RequestMapping(value = "/attachment/remove/{fileId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Map<String, Object> removeFile(@PathVariable("fileId") Long fileId) {
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("success", fileUploadService.removeFile(fileId));
+        return responseMap;
+    }
+    
+    @RequestMapping(value = "/attachment/download/{fileId}", method = RequestMethod.GET)
+    public void downloadFile(HttpServletResponse response, @PathVariable("fileId") Long fileId) throws FileNotFoundException {
+        UploadedFile uploadedFile = fileUploadService.getUploadedFileEntity(fileId);
+        File file = fileUploadService.getFile(uploadedFile);
+        
+        try(InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+            response.setContentType(uploadedFile.getMimeType());
+            response.setHeader("Content-disposition", "attachment; filename=\"" + uploadedFile.getOriginalName() + "\"");
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        } catch (IOException exception) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 }
