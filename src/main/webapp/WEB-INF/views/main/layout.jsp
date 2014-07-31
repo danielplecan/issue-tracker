@@ -17,7 +17,7 @@
         
         <!-- ${theme} -->
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css" rel="stylesheet" type="text/css"/>
-        <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
+        
         
         <sec:authorize var="loggedIn" access="isAuthenticated()" />
         <c:choose>
@@ -36,6 +36,8 @@
         <script src="/resources/js/jquery.fileupload.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload-process.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload-validate.js" type="text/javascript"></script>
+        
+        <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <tiles:insertAttribute name="header" />
