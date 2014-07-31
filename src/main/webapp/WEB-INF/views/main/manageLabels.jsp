@@ -6,7 +6,6 @@
         <div class="manageLabelsNav col-lg-12">
             <form class="navbar-form navbar-left manageLabelsNavLeft">
                 <input type="text" class="form-control" placeholder="Search labels..">
-                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
             </form>
             <button type="button" class="btn btn-default manageLabelsNavRight btn-new-label" id="editLabel"><span class="glyphicon glyphicon-plus"></span>  Create new label</button>
         </div>
@@ -32,14 +31,14 @@
             <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent"></div>
         </div>
     </div>
-    <div class="list-group">
+    <div class="list-group" >
         <c:forEach items="${labels}" var="label">
             <div class=" labelListThing col-lg-12">
-                <div class="labelPanel  editLabelPane">
+                <div class="labelPanel editLabelPane">
                     <div class="showLabelPane" data-id="${label.id}" data-color="${label.color}">
                         <div class="navbar-left">
                             <form class="navbar-form navbar-left labelListEdit">
-                                <span class="labelName theLabelListLabel label theLabelListText" style="background-color: ${label.color}"><c:out value="${label.name}"/></span>
+                                <span class="labelName theLabelListLabel label theLabelListText" style="min-width:100px; background-color: ${label.color}"><c:out value="${label.name}"/></span>
                             </form>
                         </div>
                         <div class="navbar-right">
@@ -70,8 +69,18 @@
                         </div>
                         <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent"></div>
                     </div>
+                    <div class="deleteLabelPanel">
+                        <div class="navbar-left leftWarningDeleteLabel">
+                            <span>Are you sure you want to permanently delete the label?</span>
+                        </div>
+                        <div class="navbar-right">
+                            <button type="button" class="btn btn-danger btn-sm manageButton btn-delete-edit-label"><span class="glyphicon glyphicon-remove-sign"></span> Delete</button>
+                            <button type="button" class="btn btn-default btn-sm manageButton btn-cancel-delete-label"><span class="glyphicon glyphicon-minus-sign"></span> Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
+                            
         </c:forEach>
     </div>
 </div>
@@ -99,7 +108,7 @@
         width: 30px;
     }
     .labelColorManageColors:hover{
-        border-radius: 9px;
+        border-radius:9px;
         height: 28px;
         width: 28px;
     }
@@ -115,13 +124,13 @@
         float:left;
     }
     .labelPanel{
-        margin:  0px;
-        border: none;
+        margin: 0px;
     }
     .manageLabelsNav{
         padding-top: 15px;
         margin-top: 6px;
         margin-bottom: 6px;
+        border-bottom: 1px #000;
     }
     .manageLabelsNavLeft{
         margin: 6px 0px;
@@ -138,8 +147,8 @@
         vertical-align: central;
     }
     .labelListEdit{
-        padding: 0;
-        margin: 0;
+        padding:0;
+        margin:0;
         vertical-align: central;
     }
     .theLabelListLabel{
@@ -147,6 +156,7 @@
         padding:5px;
         margin-top:3px;
         margin-right:3px;
+
     }
     .theLabelListText{
         margin: 0;
@@ -159,10 +169,20 @@
         left: 0;
         margin-top: 5px;
     }
+    .labelListThing:first-child{
+        border-top: 1px solid #F5F5F5;
+    }
     .labelListThing{
-        margin: 15px 0px;
+        padding: 15px 0px;
         clear: both;
-        
+        border-bottom: 1px solid #F5F5F5;
+    }
+    .navbar-form{
+        border-bottom: #000;
+    }
+    .manageLabelsTopPanel,
+    .topPanelThing{
+        border-bottom: #000;
     }
 </style>
 
