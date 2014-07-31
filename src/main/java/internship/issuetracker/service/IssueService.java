@@ -22,6 +22,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,9 @@ public class IssueService {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @Autowired
+    private MailService mailService;
 
     /**
      *
@@ -332,6 +336,25 @@ public class IssueService {
                     setParameter("stDate", comment.getDate()).
                     setParameter("edDate", new Date());
             return commentQuery3.getResultList();
+        }
+    }
+    
+    public void sendNotification(Comment comment, User target) {
+        if (!comment.getAuthor().getId().equals(target.getId())) {
+            if (comment.getChangeState() == null) {
+                String emailContent = "<p>Somebody commented on an issue!</p></br>";
+                emailContent +="<b>" + comment.getAuthor().getName() + "</b> commented on the issue with the title ";
+                emailContent +="<b>" + comment.getIssue().getTitle() + "</b>. You can view that issue ";
+                emailContent +="<a href=\"http://localhost:8080/issue/" +  comment.getIssue().getId() + "\"> here</a>.";
+                mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", emailContent);
+            }
+            else {
+                String emailContent = "<p>Somebody changed the state of an issue!</p></br>";
+                emailContent +="<b>" + comment.getAuthor().getName() + "</b> changed the state of the issue with the title ";
+                emailContent +="<b>" + comment.getIssue().getTitle() + "</b> to " + comment.getChangeState() + ". You can view that issue ";
+                emailContent +="<a href=\"http://localhost:8080/issue/" +  comment.getIssue().getId() + "\"> here</a>.";
+                mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", emailContent);
+            }
         }
     }
 }

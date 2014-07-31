@@ -16,17 +16,15 @@ import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.CommentValidator;
 import internship.issuetracker.validator.LabelForEditValidator;
 import internship.issuetracker.validator.LabelValidator;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -161,9 +158,9 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
     @ResponseBody
     public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, UriComponentsBuilder builder, @PathVariable("id") Long issueId, HttpServletRequest request) {
-
+        
         Map<String, Object> responseMap = new HashMap<>();
-
+        
         CommentValidator validator = new CommentValidator();
         validator.validate(comment, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -172,32 +169,28 @@ public class IssueController {
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
             long lastKnowCommentId = comment.getId();
-
+            
             issueService.addComment(currentUser, issueId, comment);
             
             Issue issue = issueService.getIssueById(issueId);
-            User issueOwner = issue.getOwner();
             
-            if (userSettingsService.getCurrentNotificationStatus(issueOwner.getUsername())) {
-                String emailContent;
-                
-                if (comment.getChangeState() != null){
-                    emailContent = "<p>Your issue with the title " + issue.getTitle() + " has been changed to " + comment.getChangeState() + "  </p>";
-                    emailContent += "<a href=\"http://localhost:8080/issue/" +  issueId + "\"> Click here to view your issue</a>";
-                } 
-                else {
-                    emailContent = "<p>" + comment.getAuthor().getUsername() + " commented on your issue with the title " + issue.getTitle() + "  </p>";
-                    emailContent += "<a href=\"http://localhost:8080/issue/" +  issueId + "\"> Click here to view your issue</a>";
-                }
-                        
-                mailService.sendEmail(issueOwner.getEmail(), "Issue tracker notification", emailContent);
+            
+            List<User> targets = new ArrayList<>();
+            targets.add(issue.getOwner());
+            if (issue.getAssignee() != null) {
+                targets.add(issue.getAssignee());
             }
-
+            for (User user: targets) {
+                if(userSettingsService.getCurrentNotificationStatus(user.getUsername())){
+                    issueService.sendNotification(comment, user);
+                }
+            }
+           
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
             responseMap.put("comments", listComments);
         }
-
+        
         return responseMap;
     }
 
