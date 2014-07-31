@@ -1,5 +1,5 @@
 function createLabelListElement(label) {
-    var li = $('<li class=\"list-group-item labelListThing\">\r\n\n\
+    var li = $('<div class=" labelListThing col-lg-12">\r\n\n\
                 <div class=\"labelPanel  editLabelPane\">\r\n\n\
                     <div class=\"showLabelPane\" data-id=\"' + label.id + '\" data-color=\"' + label.color + '\">\r\n\n\
                         <div class=\"navbar-left\">\r\n\n\
@@ -36,7 +36,7 @@ function createLabelListElement(label) {
                         <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>\r\n\n\
                     <\/div>\r\n\n\
                 <\/div>\r\n\n\
-            <\/li>');
+            <\/div>');
     $(li).find('.labelName').text(label.name);
     return li;
 }
@@ -95,7 +95,7 @@ function addFunctionalityToTopPanel(topPanel) {
         issueTrackerService.createLabel(newLabelName, newLabelColor).done(function(data) {
             if (data.success) {
                 var newLabelPanel = $(createLabelListElement(data.label));
-                $(topPanel).siblings('ul.list-group').append(newLabelPanel);
+                $(topPanel).siblings('div.list-group').append(newLabelPanel);
                 clearInput();
             } else {
                 var errorText = "";
@@ -132,7 +132,7 @@ function addFunctionalityToTopPanel(topPanel) {
         console.log('sas');
         var inputValue = $(this).val();
 
-        $(topPanel).siblings('ul.list-group').find('li').each(function(index, elem) {
+        $(topPanel).siblings('div.list-group').find('div.labelListThing').each(function(index, elem) {
             var $elem = $(elem);
             var elemText = $(elem).find('span.labelName');
 
@@ -152,14 +152,13 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
 });
 
 (function() {
-
     //ADDING FUNCTIONALITY TO THE TOP PANEL OF THE WIDGET
     addFunctionalityToTopPanel($('.manageLabelsTopPanel'));
 
     //DOM ELEMENT FINDERS
     function getListElementContainer(element) {
         return $(element).parents('.labelPanel').first().
-                parents('li').first();
+                parents('.labelListThing').first();
     }
 
     function getShowLabelPanel(element) {
@@ -201,7 +200,7 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
     }
 
     //EDIT
-    $('#widgetContainer').delegate('ul>li>.labelPanel .btn-edit', 'click', function(event) {
+    $('#widgetContainer').delegate('.labelPanel .btn-edit', 'click', function(event) {
         var smallInputBoxEdit = getSmallInputBoxEdit($(this));
         var labelNameShow = getLabelNameShow($(this));
         var toggleColorPickerEdit = getToggleColorPickerEdit($(this));
@@ -218,7 +217,7 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
     });
 
     //REMOVE
-    $('#widgetContainer').delegate('ul>li>.labelPanel .btn-remove', 'click', function(event) {
+    $('#widgetContainer').delegate('.labelPanel .btn-remove', 'click', function(event) {
         var labelId = $(getShowLabelPanel($(this))).attr('data-id');
         var listElementContainer = $(getListElementContainer($(this)));
         issueTrackerService.removeLabel(labelId).done(function(data) {
@@ -229,7 +228,7 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
     });
 
     //SAVE
-    $('#widgetContainer').delegate('ul>li>.labelPanel .btn-save-edit-label', 'click', function(event) {
+    $('#widgetContainer').delegate('.labelPanel .btn-save-edit-label', 'click', function(event) {
         var showLabelPanel = getShowLabelPanel($(this));
         var labelNameShow = getLabelNameShow($(this));
         var newNameForLabel = $(getSmallInputBoxEdit($(this))).val().trim();
@@ -256,17 +255,17 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
     });
 
     //CANCEL
-    $('#widgetContainer').delegate('ul>li>.labelPanel .btn-cancel-edit-label', 'click', function(event) {
+    $('#widgetContainer').delegate('.labelPanel .btn-cancel-edit-label', 'click', function(event) {
         switchPanels($(this));
     });
 
     //TOGGLE COLOR PICKER
-    $('#widgetContainer').delegate('ul>li>.labelPanel .toggle-color-picker', 'click', function(event) {
+    $('#widgetContainer').delegate('.labelPanel .toggle-color-picker', 'click', function(event) {
         $(getEditLabelPanel($(this))).find('.theColorsList').toggle('hidden');
     });
 
     //PICK COLOR
-    $('#widgetContainer').delegate('ul>li>.labelPanel .color-square', 'click', function(event) {
+    $('#widgetContainer').delegate('.labelPanel .color-square', 'click', function(event) {
         var toggleColorPickerEdit = getToggleColorPickerEdit($(this));
 
         $(toggleColorPickerEdit).css('background-color', $(this).attr('data-color'));
