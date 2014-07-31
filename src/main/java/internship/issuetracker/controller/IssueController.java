@@ -293,4 +293,26 @@ public class IssueController {
         responseMap.put("assignees", assignees);
         return responseMap;
     }
+    @RequestMapping(value = {"/edit-issue/{id}"}, method = RequestMethod.GET)
+    public String getEditIssuePage(@PathVariable("id") Long id, Model model) {
+        Issue resultIssue = issueService.getIssueById(id);
+        if (resultIssue == null) {
+            return "not-found";
+        }
+
+        model.addAttribute("issue", resultIssue);
+        List<Label> labels = issueService.getLabelsByIssueId(resultIssue);
+        model.addAttribute("labels", labels);
+
+        return "edit-issue";
+    }
+
+    @RequestMapping(value = {"/getAllLabels"}, method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getEditIssuePage(Model model) {
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("success", true);
+        responseMap.put("labels", issueService.getAllLabels());
+        return responseMap;
+    }
 }

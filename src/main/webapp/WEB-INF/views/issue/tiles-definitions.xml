@@ -15,4 +15,9 @@
     <definition name="issues" extends="mainLayout">
         <put-attribute name="body" value="/WEB-INF/views/issue/viewIssues.jsp" />
     </definition>
+
+    <definition name="edit-issue" extends="mainLayout">
+        <put-attribute name="body" value="/WEB-INF/views/issue/edit-issue.jsp" />
+    </definition>
+
 </tiles-definitions>
