@@ -149,6 +149,15 @@ issueTrackerService = (function() {
             data: JSON.stringify(filterData)
         });
     };
+    
+    self.removeFile = function(fileId) {
+        return $.ajax({
+           type: 'DELETE',
+           url: location.origin + '/attachment/remove/' + fileId,
+           dataType: 'json'
+        });
+    };
+    
     return self;
 })();
    
