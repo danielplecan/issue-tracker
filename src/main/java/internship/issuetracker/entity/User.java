@@ -3,6 +3,7 @@ package internship.issuetracker.entity;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @NamedQueries({
     @NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT u from User u WHERE u.username = :v_username"),
     @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u from User u WHERE u.email = :v_email"),
-    @NamedQuery(name = User.FIND_BY_USERNAME_STARTING_WITH, query = "SELECT u from User u WHERE u.username = :v_username")
+    @NamedQuery(name = User.FIND_BY_USERNAME_STARTING_WITH, query = "SELECT u from User u WHERE u.username LIKE :v_username")
 })
 
 @Entity
@@ -56,7 +57,19 @@ public class User implements Serializable {
 
     @Column(name = "active", nullable = false)
     private boolean active;
+    
+    @JsonIgnore
+    @OneToOne(mappedBy="user", fetch=FetchType.EAGER)
+    private UserSettings settings;
 
+    public UserSettings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(UserSettings settings) {
+        this.settings = settings;
+    }
+    
     public boolean isActive() {
         return active;
     }
