@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author scalin
  */
 @NamedQueries({
-    @NamedQuery(name = Label.FIND_ALL_LABELS, query = "SELECT u from Label u"),
+    @NamedQuery(name = Label.FIND_ALL_LABELS, query = "SELECT u from Label u ORDER BY u.name"),
     @NamedQuery(name = Label.FIND_LABEL_BY_NAME, query = "SELECT u from Label u WHERE u.name = :label_name")
 })
 

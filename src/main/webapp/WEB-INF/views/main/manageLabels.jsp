@@ -31,9 +31,9 @@
             <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent"></div>
         </div>
     </div>
-    <div class="list-group" >
+    <div class="list-group" id="list-all-labels">
         <c:forEach items="${labels}" var="label">
-            <div class=" labelListThing col-lg-12">
+            <div class="labelListThing col-lg-12">
                 <div class="labelPanel editLabelPane">
                     <div class="showLabelPane" data-id="${label.id}" data-color="${label.color}">
                         <div class="navbar-left">
@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent"></div>
                     </div>
-                    <div class="deleteLabelPanel">
+                    <div class="deleteLabelPanel" style="display: none">
                         <div class="navbar-left leftWarningDeleteLabel">
                             <span>Are you sure you want to permanently delete the label?</span>
                         </div>

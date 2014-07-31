@@ -34,12 +34,46 @@ function createLabelListElement(label) {
                             <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-cancel-edit-label\"><span class=\"glyphicon glyphicon-remove-circle\"><\/span> Cancel<\/button>\r\n\n\
                         <\/div>\r\n\n\
                         <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>\r\n\n\
-                    <\/div>\r\n\n\
-                <\/div>\r\n\n\
+                    <\/div>\r\n\n\ ' +
+            '<div class=\"deleteLabelPanel\" style=\"display: none\">\r\n\n\
+                        <div class=\"navbar-left leftWarningDeleteLabel\">\r\n\n\
+                            <span>Are you sure you want to permanently delete the label?<\/span>\r\n\n\
+                        <\/div>\r\n\n\
+                        <div class=\"navbar-right\">\r\n\n\
+                            <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-delete-edit-label\"><span class=\"glyphicon glyphicon-remove-sign\"><\/span> Delete<\/button>\r\n\n\
+                            <button type=\"button\" class=\"btn btn-default btn-sm manageButton btn-cancel-delete-label\"><span class=\"glyphicon glyphicon-minus-sign\"><\/span> Cancel<\/button>\r\n\n\
+                        <\/div>\r\n\n\
+                    <\/div>' +
+            '<\/div>\r\n\n\
             <\/div>');
     $(li).find('.labelName').text(label.name);
     return li;
 }
+
+var listOfLabels = function() {
+    function compareElements(element1, element2) {
+        var labelName1 = $(element1).find('.labelName').first().text();
+        var labelName2 = $(element2).find('.labelName').first().text();
+        return labelName1 < labelName2;
+    }
+    
+    return {
+        positionElement: function(element) {
+            $(element).detach();
+            var listContainer = $('#list-all-labels');
+            var elementList = $(listContainer).find('.labelListThing');
+            for(var i = 0; i < elementList.size(); i++){
+               if(compareElements(element, elementList.get(i))) {
+                   $(elementList).eq(i).before($(element));
+                   return;
+               }
+            }
+            $(listContainer).append($(element));
+        }
+    };
+};
+
+
 
 //ATTACH FUNCTIONALITY TO A TOP PANEL
 function addFunctionalityToTopPanel(topPanel) {
@@ -95,8 +129,8 @@ function addFunctionalityToTopPanel(topPanel) {
         issueTrackerService.createLabel(newLabelName, newLabelColor).done(function(data) {
             if (data.success) {
                 var newLabelPanel = $(createLabelListElement(data.label));
-                $(topPanel).siblings('div.list-group').append(newLabelPanel);
                 clearInput();
+                listOfLabels().positionElement($(newLabelPanel));
             } else {
                 var errorText = "";
                 for (var error in data.errors) {
@@ -115,12 +149,11 @@ function addFunctionalityToTopPanel(topPanel) {
 
     //CHEKS FOR ERRORS IN LABEL NAME
     $(labelNameBox).on('input', function() {
-        var newLabelName = $(this).val();
+        var newLabelName = $(this).val().trim();
 
         if (newLabelName.length < 3 || newLabelName.length > 15) {
             $(createLabelButton).attr('disabled', true);
             $(errorBox).text("A label name must contain between 3 and 15 characters.");
-
         } else {
             $(createLabelButton).attr('disabled', false);
             $(errorBox).text("");
@@ -129,8 +162,7 @@ function addFunctionalityToTopPanel(topPanel) {
 
     //THE INPUT IS CHANGED IN THE SEARCH BOX
     $(searchBox).keyup(function() {
-        console.log('sas');
-        var inputValue = $(this).val();
+        var inputValue = $(this).val().trim();
 
         $(topPanel).siblings('div.list-group').find('div.labelListThing').each(function(index, elem) {
             var $elem = $(elem);
@@ -191,12 +223,27 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
                 find('.errorMessageManageLabels').first();
     }
 
-    function switchPanels(elem) {
+    function getDeleteLabelPanel(element) {
+        return $(element).parents('.labelPanel').first().
+                find('.deleteLabelPanel').first();
+    }
+
+    function switchPanelsShowEdit(elem) {
         $(getErrorBox($(elem))).text("");
         $(getShowLabelPanel($(elem))).show();
         $(getEditLabelPanel($(elem))).hide();
         $(getEditLabelPanel($(elem))).find('.theColorsList').first().hide();
         $(getEditLabelPanel($(elem))).find('.btn-save-edit-label').first().attr('disabled', false);
+    }
+
+    function switchPanelsShowDelete(elem) {
+        $(getShowLabelPanel($(elem))).hide();
+        $(getDeleteLabelPanel($(elem))).show();
+    }
+
+    function switchPanelsHideDelete(elem) {
+        $(getDeleteLabelPanel($(elem))).hide();
+        $(getShowLabelPanel($(elem))).show();
     }
 
     //EDIT
@@ -218,13 +265,7 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
 
     //REMOVE
     $('#widgetContainer').delegate('.labelPanel .btn-remove', 'click', function(event) {
-        var labelId = $(getShowLabelPanel($(this))).attr('data-id');
-        var listElementContainer = $(getListElementContainer($(this)));
-        issueTrackerService.removeLabel(labelId).done(function(data) {
-            if (data.success) {
-                $(listElementContainer).remove();
-            }
-        });
+        switchPanelsShowDelete($(this));
     });
 
     //SAVE
@@ -242,13 +283,14 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
                         $(showLabelPanel).attr('data-color', data.label.color);
                         $(labelNameShow).text(data.label.name);
                         $(labelNameShow).css('background-color', data.label.color);
-                        switchPanels($(event.target));
+                        switchPanelsShowEdit($(event.target));
+                        listOfLabels().positionElement($(getListElementContainer($(event.target))));
                     } else {
                         var errorText = "";
                         for (var error in data.errors) {
                             errorText += data.errors[error] + "\n";
                         }
-                        $(getErrorBox($(this))).text(errorText);
+                        $(getErrorBox($(event.target))).text(errorText);
                     }
                 });
         $(this).attr('disabled', false);
@@ -256,7 +298,7 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
 
     //CANCEL
     $('#widgetContainer').delegate('.labelPanel .btn-cancel-edit-label', 'click', function(event) {
-        switchPanels($(this));
+        switchPanelsShowEdit($(this));
     });
 
     //TOGGLE COLOR PICKER
@@ -272,9 +314,24 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
         $(toggleColorPickerEdit).attr('data-color', $(this).attr('data-color'));
     });
 
+    //CONFIRM DELETE LABEL
+    $('#widgetContainer').delegate('.labelPanel .btn-delete-edit-label', 'click', function(event) {
+        var labelId = $(getShowLabelPanel($(this))).attr('data-id');
+        issueTrackerService.removeLabel(labelId).done(function(data) {
+            if (data.success) {
+                $(getListElementContainer($(event.target))).remove();
+            }
+        });
+    });
+
+    //CANCEL DELETE LABEL
+    $('#widgetContainer').delegate('.labelPanel .btn-cancel-delete-label', 'click', function(event) {
+        switchPanelsHideDelete($(this));
+    });
+
     //FUNCTION FOR CHEKING IF THE INPUT IS RIGHT
-    $('.small-input-box').on('input', function() {
-        var newLabelName = $(this).val();
+    $('#widgetContainer').delegate('.small-input-box', 'input', function() {
+        var newLabelName = $(this).val().trim();
         var saveButton = $(this).parents('.editLabelPane').find('.btn-save-edit-label').first();
         var errorBox = $(saveButton).parent().siblings('.errorMessageManageLabels').first();
 

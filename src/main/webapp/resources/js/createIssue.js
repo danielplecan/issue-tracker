@@ -8,6 +8,7 @@ function getContrastYIQ(hexcolor) {
     color = "#" + color;                  // prepend #
     return color;
 }
+
 $(document).ready(function() {
 
     //pressing the button for creating an issue
@@ -34,6 +35,7 @@ $(document).ready(function() {
     });
 
     var backgroundColor = $('#labelSelector').find('.list-item-text').first().css('background-color');
+    var textColor = $('#labelSelector').find('.list-item-text').first().css('color');
 
     //selecting an existing label
     $('#labelSelector').delegate('.list-item-text', 'click', function() {
@@ -41,11 +43,12 @@ $(document).ready(function() {
         $(this).toggleClass('selectedLabel');
         if ($(this).hasClass('selectedLabel')) {
             labelColorToSet = $(this).attr('data-color');
+            $(this).css('color', 'black');
         } else {
             labelColorToSet = backgroundColor;
+            $(this).css('color', textColor);
         }
         $(this).css('background-color', labelColorToSet);
-
     });
 
     //filter labels
