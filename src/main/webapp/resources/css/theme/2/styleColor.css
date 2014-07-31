@@ -60,7 +60,7 @@
 /*View All Issues (ionut)*/
 
 .theIssueTitleLink{
-    color:#333333;
+    color:#c2c2c2;
 }
 
 .theIssueContentPreview{
@@ -86,4 +86,12 @@
 }
 .list-item-text{
     background-color: black;
+}
+
+.list-group-item{
+    background-color:#2e3338;
+}
+#allIssues > div:nth-child(odd)  {
+    background: none repeat scroll 0 0 #272b30 !important;
+    border-color: #000;
 }

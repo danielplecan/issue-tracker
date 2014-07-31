@@ -22,7 +22,6 @@
     background-color: #80E680;
     color: green;
 }
-
 .label-danger{
     background-color: #FF8080;
     color: #7A0000;
@@ -85,4 +84,8 @@
 
 .closedColor{
     color:#FA2A2A;
+}
+/*stuff*/
+.panel-primary > .panel-heading{
+    background-color:#c2c2c2;
 }
