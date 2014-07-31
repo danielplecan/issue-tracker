@@ -80,13 +80,13 @@ $(document).ready(function() {
         $('#assignButton').hide();
         $('#cancelAssignButton').show();
     });
-    
-    $('#cancelAssignButton').click(function(){
+
+    $('#cancelAssignButton').click(function() {
         $('#scrollable-dropdown-menu').hide();
         $('#changeAssignButton').show();
         $('#assignTo').val('');
     });
-    
+
     var users = [];
     var assignee;
 
@@ -95,42 +95,35 @@ $(document).ready(function() {
         $('#cancelAssignButton').show();
     });
 
-    $("#assignTo").keyup(function() {
-        console.log("hahaha");
-        while (users.length > 0) {
-            users.pop();
-            //console.log(users.pop());
-        }
-        var username = $("#assignTo").val();
-        var issueId = $("#issueState").attr('data-id');
-        issueTrackerService.getUsersAssignee(issueId, username)
-                .done(function(data) {
-                    if (data.success) {
-                        var size = data.assignees.length;
-                        for (var i = 0; i < size; i++) {
-                            users.push(data.assignees[i]);
-                        }
-                    } else {
-                        $.each(data.errors, function(key, value) {
-                            $("#" + key + "Error").append(value);
-                        });
-                    }
-                });
-    })
+//    $("#assignTo").keyup(function() {
+//        console.log("hahaha");
+//
+//        console.log("keyup");
+//        var username = $("#assignTo").val();
+//
+//    });
 
     var substringMatcher = function(strs) {
         return function findMatches(q, cb) {
-            var matches, substrRegex;
-            matches = [];
-            substrRegex = new RegExp("^" + q, 'i');
-            $.each(strs, function(i, str) {
-                console.log(str.username);
-                if (substrRegex.test(str.username)) {
-                    matches.push(str);
-                }
-            });
+            while (users.length > 0) {
+                users.pop();
+            }
+            var issueId = $("#issueState").attr('data-id');
+            issueTrackerService.getUsersAssignee(issueId, q)
+                    .done(function(data) {
+                        if (data.success) {
+                            var size = data.assignees.length;
+                            for (var i = 0; i < size; i++) {
+                                users.push(data.assignees[i]);
+                            }
 
-            cb(matches);
+                        } else {
+                            $.each(data.errors, function(key, value) {
+                                $("#" + key + "Error").append(value);
+                            });
+                        }
+                    });
+            cb(users);
         };
     };
 
@@ -148,7 +141,7 @@ $(document).ready(function() {
     $('#assignTo').bind('typeahead:selected', function(obj, datum, name) {
         assignee = datum;
         $('#assignButton').show();
-        $('#cancelAssignButton').hide();
+        $('#cancelAssignButton').show();
         $('#assigneeSpan').prop('data-id', datum.id);
         $('#assignButton').css('visibility', 'visible');
     });

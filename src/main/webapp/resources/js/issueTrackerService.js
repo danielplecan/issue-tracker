@@ -81,6 +81,7 @@ issueTrackerService = (function() {
             'assignedTo': assignee
         };
         return $.ajax({
+            async: false,
             url: location.origin + "/issue/" + issueId + "/getUsers-assignee",
             type: "GET",
             dataType: "json",

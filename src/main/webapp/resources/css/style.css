@@ -374,9 +374,10 @@ td {
     height: 33px;
 }
 
+/*cosmina's autocomplete*/
 .tt-dropdown-menu {
     text-align: left;
-    width: 422px;
+    width: 300px;
     margin-top: 12px;
     padding: 8px 0;
     background-color: #fff;
@@ -391,7 +392,7 @@ td {
 }
 
 .typeahead {
-    width: 396px;
+    width: 300px;
     padding: 8px 12px;
     line-height: 30px;
     border: 2px solid #ccc;
@@ -406,10 +407,13 @@ td {
     border: 2px solid #0097cf;
 }
 
+.tt-suggestion{
+    padding-left: 3px;
+}
+
 .tt-suggestion.tt-cursor {
     color: #fff;
     background-color: #0097cf;
-
 }
 
 /*/issues*/
