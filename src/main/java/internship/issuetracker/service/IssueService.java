@@ -357,4 +357,11 @@ public class IssueService {
             }
         }
     }
+    
+    public List<User> findUsersIssuesOwnersByNamePrefix(String usernamePrefix){
+        TypedQuery<User> resultQuery = em.createNamedQuery(Issue.FIND_USERS_ISSUES_OWNERS, User.class);
+        resultQuery.setParameter("v_username", usernamePrefix + "%");
+        
+        return resultQuery.getResultList();
+    }
 }
