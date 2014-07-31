@@ -16,7 +16,7 @@ Change theme:<br/>
     <option value="1">Light(default)</option>
     <option value="2">Dark</option>
     <option value="3">Modern</option>
-    <option value="4">Icy</option>
+    <option value="4">Cold</option>
     <option value="5">Silvery</option>
     <option value="6">Pink</option>
 </select>

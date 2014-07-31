@@ -418,29 +418,30 @@ td {
 
 /*/issues*/
 
-.typeOfState, .typeOfOrder, .typeOfSort{
-    margin-left: 10px;
-}
 .labelFilterDetails{
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     float:left;
-    margin-left: 10px;
+    margin: 5px 0px 0px;
+    padding-right: 0px;
 }
 .labelFilterList{
-    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0px;
 }
 .labelsFilterList{
-    height:145px    ;
+    height:150px;
     overflow-y: auto;
 }
 .firstColButton{
-    width:60px;
+    width:70px;
 }
 .secondColButton{
-    width:90px;
+    width:70px;
+
 }
 .thirdColButton{
-    width:60px;
+    width:70px;
+
 }
 .labelListElementFilter{
     padding-top:5px;
