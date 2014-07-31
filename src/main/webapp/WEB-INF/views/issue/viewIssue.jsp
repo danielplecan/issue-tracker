@@ -1,8 +1,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
-<script src="/resources/js/jquery-2.1.1.min.js" type="text/javascript"></script>
-<script src="/resources/js/typeahead.bundle.js" type="text/javascript"></script>
 <div class="col-lg-offset-1 col-lg-10">
     <div class="panel panel-default  modal-content2">
         <div class="panel-heading">
@@ -124,6 +122,7 @@
         <div id="innerCommentDiv"> 
             <textarea id="textAreaComment" rows="4" class="form-control" placeholder="Insert your comment here..."></textarea>        
         </div>
+        <div id="commentFileUpload" class="well"></div>
         <span id="contentError" class="commentError text-warning"></span>
         <br />
         <div class = "centerButtonPanel">
