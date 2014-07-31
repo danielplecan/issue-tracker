@@ -5,7 +5,7 @@
     </div>
     <table class="table table-striped col-lg-4">
         <tr>
-            <td>Username: ${user.username}</td>
+            <td id="username">Username: ${user.username}</td>
         </tr>
         <tr>
             <td>Name: ${user.name}</td>
@@ -28,28 +28,34 @@
         <div class="tab-pane fade active in col-lg-8" id="home">
             <br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i>
             <br/>These are some status bars that will measure what part of your posted issues are open, closed and reopened.<br/><br/>
-            <span>Open issues</span>
-
-            <div class="progress">
-                <div class="progress-bar progress-bar-success" style="width: 10%"></div>
+            <span class="col-lg-3">Open issues</span>
+            <div id="numberOfOpenIssues" class="col-lg-9"></div>
+            <div class="col-lg-12">
+                <div class=" progress ">
+                    <div class=" progress-bar progress-bar-success" id="openIssues" ></div>
+                </div>
             </div>
-            <span>Closed issues</span>
+            <span class="col-lg-3">Closed issues</span>
 
-            <div class="progress">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+            <div id="numberOfClosedIssues" class="col-lg-9"></div>
+            <div class="col-lg-12">
+                <div class="progress ">
+                    <div class=" progress-bar progress-bar-danger" id="closedIssues"></div>
+                </div>
             </div>
-            <span>Reopened issues</span>
-            <div class="progress">
 
-
-                <div class="progress-bar progress-bar-warning" style="width: 30%"></div>
-            </div>
-        </div>
+        </div>     
         <div class="tab-pane fade" id="assigned">
             <p><br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i><br/>Here there will be all the issues that were assigned to you</p>
+            <div class="  col-lg-12 labelsFilterList"  id="allAsignedIssues"> 
+            </div>
         </div>
-        <div class="tab-pane fade" id="posted">
+        <div class="tab-pane fade col-lg-12" id="posted">
             <p><br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i><br/>Here there will be all the issues that you posted</p>
+            <div class="  col-lg-12 labelsFilterList"  id="allUserIssues"> 
+            </div>
         </div>
+
     </div>
 </div>
+<script src="/resources/js/profile.js" type="text/javascript"></script>
