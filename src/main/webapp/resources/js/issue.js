@@ -98,16 +98,8 @@ $(document).ready(function() {
         }
     });
 
-//    $("#assignTo").keyup(function() {
-//        console.log("hahaha");
-//
-//        console.log("keyup");
-//        var username = $("#assignTo").val();
-//
-//    });
-
-    var substringMatcher = function(strs) {
-        return function findMatches(q, cb) {
+    var substringMatcher = function() {
+        return function(q, cb) {
             while (users.length > 0) {
                 users.pop();
             }
@@ -120,8 +112,8 @@ $(document).ready(function() {
                                 for (var i = 0; i < size; i++) {
                                     users.push(data.assignees[i]);
                                 }
-
-                            } else {
+                            } 
+                            else {
                                 $.each(data.errors, function(key, value) {
                                     $("#" + key + "Error").append(value);
                                 });
@@ -140,7 +132,7 @@ $(document).ready(function() {
     {
         name: 'users',
         displayKey: 'username',
-        source: substringMatcher(users)
+        source: substringMatcher()
     });
 
     $('#assignTo').bind('typeahead:selected', function(obj, datum, name) {
@@ -148,7 +140,6 @@ $(document).ready(function() {
         $('#assignButton').show();
         $('#cancelAssignButton').show();
         $('#assigneeSpan').prop('data-id', datum.id);
-        $('#assignButton').css('visibility', 'visible');
     });
 
     $("#assignButton").click(function(event) {
