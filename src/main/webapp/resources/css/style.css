@@ -451,6 +451,7 @@ td {
 /*/upload.jsp*/
 .actionsDiv > input {
     display: none;
+    float: left;
 }
 .attachmentWidth{       
     width: 150px;
