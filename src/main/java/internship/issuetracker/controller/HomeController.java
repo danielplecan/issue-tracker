@@ -1,9 +1,13 @@
 package internship.issuetracker.controller;
 
 import internship.issuetracker.entity.Label;
+import internship.issuetracker.entity.User;
 import internship.issuetracker.service.IssueService;
+import internship.issuetracker.service.UserSettingsService;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +19,16 @@ public class HomeController {
     @Autowired
     private IssueService issueService;
     
+    @Autowired
+    private UserSettingsService userSettingsService;
+    
     @RequestMapping(value = {"/", ""})
-    public String home() {
+    public String home(HttpSession session) {
+        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentThemePreference = userSettingsService.getCurrentThemePreference(currentUser.getUsername());
+        
+        session.setAttribute("theme", currentThemePreference);
+        
         return "home";
     }
 

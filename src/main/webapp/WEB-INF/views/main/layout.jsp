@@ -1,4 +1,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,18 +9,27 @@
         <meta charset="utf-8">
         
         <script src="/resources/js/jquery-2.1.1.min.js" type="text/javascript"></script>
-        <script src="/resources/js/changeTheme.js" type="text/javascript"></script>
         <script src="/resources/js/bootstrap.js" type="text/javascript"></script>
         <script src="/resources/js/typeahead.bundle.js" type="text/javascript"></script>
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
         <script src="/resources/js/issue.js" type="text/javascript"></script>
         
+        
         <!-- ${theme} -->
-        <link id="theme-bootstrap" href="/resources/css/theme/2/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
-        <link id="theme-style-color" href="/resources/css/theme/2/styleColor.css" rel="stylesheet" type="text/css"/>
         
+        <sec:authorize var="loggedIn" access="isAuthenticated()" />
+        <c:choose>
+            <c:when test="${loggedIn}">
+                <link href="/resources/css/theme/${sessionScope.theme}/bootstrap.css" rel="stylesheet" type="text/css"/>
+                <link href="/resources/css/theme/${sessionScope.theme}/styleColor.css" rel="stylesheet" type="text/css"/>
+            </c:when>
+            <c:otherwise>
+                <link href="/resources/css/theme/1/bootstrap.css" rel="stylesheet" type="text/css"/>
+                <link href="/resources/css/theme/1/styleColor.css" rel="stylesheet" type="text/css"/> 
+            </c:otherwise>
+        </c:choose>
         
         <script src="/resources/js/jquery.ui.widget.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.iframe-transport.js" type="text/javascript"></script>

@@ -11,6 +11,7 @@ import internship.issuetracker.service.UserService;
 import internship.issuetracker.service.UserSettingsService;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -63,28 +64,15 @@ public class UserController {
     
     @RequestMapping(value="/settings/changeTheme/{theme}", method=RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> changeTheme(@PathVariable Long theme) {
+    public Map<String, Object> changeTheme( HttpSession session, @PathVariable Long theme) {
         
         Map<String, Object> responseMap = new HashMap<>();    
         User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
+        session.setAttribute("theme", theme);
+        
         responseMap.put("success", userSettingsService.changeUserThemePreference(currentUser.getUsername(), theme));
-        responseMap.put("currentTheme", theme);
         return responseMap;
     }
     
-    @RequestMapping(value = "/getCurrentThemeSetting")
-    @ResponseBody
-    public Map<String, Object> changeTheme() {
-        Map<String, Object> responseMap = new HashMap<>();
-        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        if (currentUser != null) {
-            responseMap.put("currentTheme", userSettingsService.getCurrentThemePreference(currentUser.getUsername()));
-        }
-        else {
-            responseMap.put("currentTheme", 1);
-        }
-        return responseMap;
-    }
 }
