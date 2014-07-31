@@ -3,14 +3,14 @@
 
 <div class="panel panel-default col-lg-10 col-lg-offset-1" id="widgetContainer">
     <div class="manageLabelsTopPanel topPanelThing">
-        <div class="manageLabelsNav">
+        <div class="manageLabelsNav col-lg-12">
             <form class="navbar-form navbar-left manageLabelsNavLeft">
                 <input type="text" class="form-control" placeholder="Search labels..">
                 <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
             </form>
             <button type="button" class="btn btn-default manageLabelsNavRight btn-new-label" id="editLabel"><span class="glyphicon glyphicon-plus"></span>  Create new label</button>
         </div>
-        <div class="editLabelPane" style="display: none">
+        <div class="editLabelPane col-lg-12" style="display: none">
             <div class="navbar-form manageLabelsNavLeft">
                 <input type="text" class="form-control flLeft small-input-box" placeholder="label">
                 <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1" style="background-color: #FF8F8F" data-color="#FF8F8F"></button>
@@ -32,9 +32,9 @@
             <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent"></div>
         </div>
     </div>
-    <ul class="list-group">
+    <div class="list-group">
         <c:forEach items="${labels}" var="label">
-            <li class="list-group-item labelListThing">
+            <div class=" labelListThing col-lg-12">
                 <div class="labelPanel  editLabelPane">
                     <div class="showLabelPane" data-id="${label.id}" data-color="${label.color}">
                         <div class="navbar-left">
@@ -71,9 +71,9 @@
                         <div class="col-lg-12 errorMessageManageLabels commentError text-warning commentContent"></div>
                     </div>
                 </div>
-            </li>
+            </div>
         </c:forEach>
-    </ul>
+    </div>
 </div>
 
 <style>
@@ -119,10 +119,9 @@
         border: none;
     }
     .manageLabelsNav{
-        /*padding: 15px;*/
+        padding-top: 15px;
         margin-top: 6px;
         margin-bottom: 6px;
-        min-height: 50px;
     }
     .manageLabelsNavLeft{
         margin: 6px 0px;
@@ -135,16 +134,12 @@
     #editLabel{
         margin-top: 7px;
     }
-    .manageLabelsTopPanel{
-        min-height: 100px;
-    }
     .manageLabelsButton{
         vertical-align: central;
     }
     .labelListEdit{
         padding: 0;
         margin: 0;
-        height: 30px;
         vertical-align: central;
     }
     .theLabelListLabel{
@@ -152,7 +147,6 @@
         padding:5px;
         margin-top:3px;
         margin-right:3px;
-        height: 30px;
     }
     .theLabelListText{
         margin: 0;
@@ -166,13 +160,9 @@
         margin-top: 5px;
     }
     .labelListThing{
-        margin-bottom: 50px;
-        height: 30px;
-        border-bottom: none;
-    }
-    .list-group-item:last-child,
-    .topPanelThing{
-        margin-bottom: 40px;
+        margin: 15px 0px;
+        clear: both;
+        
     }
 </style>
 

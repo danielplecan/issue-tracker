@@ -90,9 +90,12 @@ $(document).ready(function() {
     var users = [];
     var assignee;
 
-    $("#assignTo").keydown(function() {
-        $('#assignButton').hide();
-        $('#cancelAssignButton').show();
+    $("#assignTo").keydown(function(event) {
+        var key = event.which;
+        if (key !== 13) {
+            $('#assignButton').hide();
+            $('#cancelAssignButton').show();
+        }
     });
 
 //    $("#assignTo").keyup(function() {
@@ -109,20 +112,22 @@ $(document).ready(function() {
                 users.pop();
             }
             var issueId = $("#issueState").attr('data-id');
-            issueTrackerService.getUsersAssignee(issueId, q)
-                    .done(function(data) {
-                        if (data.success) {
-                            var size = data.assignees.length;
-                            for (var i = 0; i < size; i++) {
-                                users.push(data.assignees[i]);
-                            }
+            if (q !== '') {
+                issueTrackerService.getUsersAssignee(issueId, q)
+                        .done(function(data) {
+                            if (data.success) {
+                                var size = data.assignees.length;
+                                for (var i = 0; i < size; i++) {
+                                    users.push(data.assignees[i]);
+                                }
 
-                        } else {
-                            $.each(data.errors, function(key, value) {
-                                $("#" + key + "Error").append(value);
-                            });
-                        }
-                    });
+                            } else {
+                                $.each(data.errors, function(key, value) {
+                                    $("#" + key + "Error").append(value);
+                                });
+                            }
+                        });
+            }
             cb(users);
         };
     };
