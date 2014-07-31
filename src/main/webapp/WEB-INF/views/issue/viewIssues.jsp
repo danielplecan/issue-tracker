@@ -17,7 +17,7 @@
                             <input class="form-control" id="searchFieldContent" placeholder="Content" type="text">
                         </div>
                         <div class="clearFormGroup col-lg-12">
-                            <input class="form-control" id="searchFieldAuthor" placeholder="Author" type="text">
+                            <input class="form-control typeaheadOwners" id="searchFieldAuthor" placeholder="Author" type="text">
                         </div>
                         <div class="clearFormGroup col-lg-12">
                             <input class="form-control" id="searchFieldAsignee" placeholder="Asignee" type="text">

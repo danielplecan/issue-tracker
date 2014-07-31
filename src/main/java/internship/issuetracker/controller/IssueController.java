@@ -315,4 +315,16 @@ public class IssueController {
         responseMap.put("labels", issueService.getAllLabels());
         return responseMap;
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/issues/get-owners")
+    @ResponseBody
+    public Map<String, Object> getOwners(@RequestParam(value = "ownedBy") String ownedBy,
+           HttpServletRequest request) {
+        Map<String, Object> responseMap = new HashMap<>();
+        
+        List<User> owners = issueService.findUsersIssuesOwnersByNamePrefix(ownedBy);
+        responseMap.put("success", true);
+        responseMap.put("owners", owners);
+        return responseMap;
+    }
 }

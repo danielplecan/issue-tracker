@@ -88,6 +88,21 @@ issueTrackerService = (function() {
             data: assigneeData
         });
     };
+    
+    self.getIssuesOwners =function(owner) {
+        var ownerData = {};
+        ownerData = {
+            'ownedBy': owner
+        };
+        return $.ajax({
+            async: false,
+            url: location.origin + "/issues/get-owners",
+            type: "GET",
+            dataType: "json",
+            data: ownerData
+        });
+    };
+    
     self.createLabel = function(labelName, labelColor) {
         var newLabel = {
             name: labelName,
