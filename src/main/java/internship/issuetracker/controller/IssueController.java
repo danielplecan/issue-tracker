@@ -295,7 +295,7 @@ public class IssueController {
             @PathVariable("id") Long issueId, HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
         
-        List<User> assignees = userService.filterUserByUsername(assignedTo);
+        List<User> assignees = userService.findUsersWithUsernameStartingWith(assignedTo);
         responseMap.put("success", true);
         responseMap.put("assignees", assignees);
         return responseMap;

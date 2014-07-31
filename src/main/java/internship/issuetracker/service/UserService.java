@@ -90,16 +90,10 @@ public class UserService {
         entityManager.merge(user);
     }
     
-    public List<User> filterUserByUsername(String username){
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-        Root<User> root = criteriaQuery.from(User.class);
+    public List<User> findUsersWithUsernameStartingWith(String username){
+        TypedQuery<User> userQuery = entityManager.createNamedQuery(User.FIND_BY_USERNAME_STARTING_WITH, User.class);
+        userQuery.setParameter("v_username", username + "%");
 
-        criteriaQuery.where(criteriaBuilder.like(criteriaBuilder.lower(root.get(User_.username)), username.toLowerCase() + "%"));
-        criteriaQuery.select(root);
-
-        TypedQuery<User> resultQuery = entityManager.createQuery(criteriaQuery);
-
-        return resultQuery.getResultList();
+        return userQuery.getResultList();
     }
 }

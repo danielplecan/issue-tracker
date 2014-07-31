@@ -20,7 +20,8 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @NamedQueries({
     @NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT u from User u WHERE u.username = :v_username"),
-    @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u from User u WHERE u.email = :v_email")
+    @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u from User u WHERE u.email = :v_email"),
+    @NamedQuery(name = User.FIND_BY_USERNAME_STARTING_WITH, query = "SELECT u from User u WHERE u.username = :v_username")
 })
 
 @Entity
@@ -28,6 +29,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class User implements Serializable {
 
     public static final String FIND_BY_USERNAME = "findByUsername";
+    public static final String FIND_BY_USERNAME_STARTING_WITH = "findByUsernameStartingWith";
     public static final String FIND_BY_EMAIL = "findByEmail";
 
     @Id
@@ -51,7 +53,7 @@ public class User implements Serializable {
     @Column(name = "password_hash", length = 60, nullable = false)
     @NotBlank
     private String passwordHash;
-    
+
     @Column(name = "active", nullable = false)
     private boolean active;
 
@@ -102,5 +104,5 @@ public class User implements Serializable {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
-    
+
 }
