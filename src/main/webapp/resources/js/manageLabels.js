@@ -116,9 +116,9 @@ function addFunctionalityToTopPanel(topPanel) {
     //SHOW / HIDE create new label panel
     function toggleCreateLabelPanel() {
         if ($(editLabelPanel).is(":visible")) {
-            $(editLabelPanel).hide();
+            $(editLabelPanel).hide('slow');
         } else {
-            $(editLabelPanel).show();
+            $(editLabelPanel).show('slow');
         }
     }
 
@@ -335,7 +335,9 @@ $(".manageLabelsNav").first().find('form').bind("keydown", function(e) {
         var labelId = $(getShowLabelPanel($(this))).attr('data-id');
         issueTrackerService.removeLabel(labelId).done(function(data) {
             if (data.success) {
-                $(getListElementContainer($(event.target))).remove();
+                $($(getListElementContainer($(event.target)))).hide("slow", function() {
+                    $(this).remove();
+                });
             }
         });
     });
