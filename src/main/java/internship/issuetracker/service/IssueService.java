@@ -4,9 +4,11 @@ import internship.issuetracker.dto.IssueDTO;
 import internship.issuetracker.dto.NewIssueDTO;
 import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
-import internship.issuetracker.entity.IssueLabels;
+import internship.issuetracker.entity.IssueAttachment;
+import internship.issuetracker.entity.IssueLabel;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.Label;
+import internship.issuetracker.entity.UploadedFile;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.QueryFilter;
@@ -61,11 +63,23 @@ public class IssueService {
             if (label == null) {
                 continue;
             }
-            IssueLabels issueLabel = new IssueLabels();
+            IssueLabel issueLabel = new IssueLabel();
             issueLabel.setIssue(issue);
             issueLabel.setLabel(label);
             em.persist(issueLabel);
         }
+        
+        for (Long attachment : issueDto.getAttachments()) {
+            UploadedFile uploadedFile = em.find(UploadedFile.class, attachment);
+            if(uploadedFile == null) {
+                continue;
+            }
+            IssueAttachment issueAttachment = new IssueAttachment();
+            issueAttachment.setIssue(issue);
+            issueAttachment.setAttachment(uploadedFile);
+            em.persist(issueAttachment);
+        }
+        
         return issue.getId();
     }
 
@@ -186,10 +200,10 @@ public class IssueService {
     }
 
     public List<Label> getLabelsByIssueId(Issue issue) {
-        TypedQuery<IssueLabels> userQuery = em.createNamedQuery(IssueLabels.FIND_BY_ISSUE_ID, IssueLabels.class);
+        TypedQuery<IssueLabel> userQuery = em.createNamedQuery(IssueLabel.FIND_BY_ISSUE_ID, IssueLabel.class);
         userQuery.setParameter("v_issue", issue);
 
-        List<IssueLabels> resultList = userQuery.getResultList();
+        List<IssueLabel> resultList = userQuery.getResultList();
 
         if (resultList == null || resultList.isEmpty()) {
             return null;
@@ -197,7 +211,7 @@ public class IssueService {
 
         List<Label> finalList = new ArrayList<>();
 
-        for (IssueLabels l : resultList) {
+        for (IssueLabel l : resultList) {
             finalList.add(l.getLabel());
         }
         return finalList;
@@ -288,7 +302,7 @@ public class IssueService {
     }
 
     public void removeIssueLabels(Long labelId) {
-        Query issueLabelQuery = em.createNamedQuery(IssueLabels.REMOVE_BY_LABEL_ID);
+        Query issueLabelQuery = em.createNamedQuery(IssueLabel.REMOVE_BY_LABEL_ID);
         issueLabelQuery.setParameter("label_id", labelId);
         issueLabelQuery.executeUpdate();
 
@@ -379,7 +393,7 @@ public class IssueService {
             if (label == null) {
                 continue;
             }
-            IssueLabels issueLabel = new IssueLabels();
+            IssueLabel issueLabel = new IssueLabel();
             issueLabel.setIssue(issue);
             issueLabel.setLabel(label);
             em.persist(issueLabel);
@@ -389,7 +403,7 @@ public class IssueService {
     }
 
     public void removeAllLabelsFromAnIssue(Long issueId) {
-        Query query = em.createNamedQuery(IssueLabels.REMOVE_BY_ISSUE_ID);
+        Query query = em.createNamedQuery(IssueLabel.REMOVE_BY_ISSUE_ID);
         query.setParameter("v_issue_id", issueId);
         query.executeUpdate();
     }
