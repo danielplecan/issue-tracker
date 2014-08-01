@@ -25,7 +25,6 @@ $("#themeSelect li").each(function(index, elem) {
     },function() {});
     $(this).click( function() {
         var currentThemeSelection = $(this).attr("value");
-        console.log('/settings/changeTheme/' + currentThemeSelection);
             
         $.ajax({
             type: 'POST',
@@ -54,6 +53,6 @@ function previewTheme(theme) {
         var targetPrevId = "#prev" + theme;
         $(targetPrevId).show();
             
-    })
+    });
 }
 
