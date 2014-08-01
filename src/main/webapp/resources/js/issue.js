@@ -185,7 +185,7 @@ $(document).ready(function() {
                 $('#assignedName>a>i').text('none');
             }
         });
-    })
+    });
     
 //comments
     function createCommentData() {
@@ -198,6 +198,7 @@ $(document).ready(function() {
             comment['id'] = lastComment.attr('data-id');
         }
         comment['content'] = commentContent;
+        comment['attachments'] = widget.getUploadedFiles();
         return comment;
     }
 
@@ -292,7 +293,22 @@ $(document).ready(function() {
                 $("#allComments blockquote p").last().text(comment.content);
             }
             $("#textAreaComment").val('');
+            
+            var attachments = $("<div class='attachments' />");
+            for (var j = 0; j < comment.attachments.length; j++) {
+                var link = "/attachment/download/" + comment.attachments[j].id;
+                var attachmentAnchor = $("<a></a>");
+                $(attachmentAnchor).attr("href", link);
+                var button = $("<span class='btn btn-default attachmentWidth'></span>");
+                var buttonText = $("<span class='buttontext'></span>");
+                $(buttonText).text(comment.attachments[j].originalName);
+                $(button).append(buttonText);
+                $(attachmentAnchor).append(button);
+                $(attachments).append(attachmentAnchor);
+            }
+            $(fullCommentDiv).append(attachments);
         }
+        widget.reset();
     }
 
     function clearErrorMessages() {
