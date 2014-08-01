@@ -15,9 +15,9 @@
                     </c:choose>
                 </div>
                 <br>
-                <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></span></a> 
+                <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></a></span>
                     &nbsp;<i>on</i>&nbsp;<span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
-                <span class="viewIssueLastUpdated">&nbsp<i>Last updated</i>&nbsp<span class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
+                <span class="viewIssueLastUpdated">&nbsp;<i>Last updated</i>&nbsp;<span class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
                 </span>
             </div>
         </div>      
@@ -123,11 +123,12 @@
                             </c:otherwise>
                         </c:choose>
                     </c:when>
-                </c:choose>
-                <!-- When the state hasn't been changed -->
-                <!--<span class="glyphicon glyphicon-comment"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</span>-->
-                <c:choose>
-                    <c:when test = "${not empty comment.content}">
+                    <c:otherwise>
+                        <span class="glyphicon glyphicon-comment"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</span>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test = "${not empty comment.content}">
                         <div class="commentBlockThing">
                             <blockquote class="commentBlockquote">
                                 <p class="commentContent"><c:out value="${comment.content}"/></p>

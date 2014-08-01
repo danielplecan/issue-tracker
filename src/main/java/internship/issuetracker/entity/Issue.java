@@ -31,6 +31,7 @@ import org.joda.time.Interval;
     @NamedQuery(name = Issue.FIND_ALL, query = "SELECT u from Issue u"),
     @NamedQuery(name = Issue.ORDERED_ISSUES, query = "SELECT u from Issue u ORDER BY u.updateDate DESC"),
     @NamedQuery(name = Issue.FIND_USERS_ISSUES_OWNERS, query = "SELECT DISTINCT u.owner from Issue u WHERE u.owner.username LIKE :v_username "),
+    @NamedQuery(name = Issue.FIND_USERS_ASSIGNEES, query = "SELECT DISTINCT u.assignee from Issue u WHERE u.assignee.username LIKE :v_username ")
 })
 
 @Entity
@@ -40,6 +41,7 @@ public class Issue implements Serializable {
     public static final String FIND_ALL = "findAllIssues";
     public static final String ORDERED_ISSUES = "getAllIssuesOrderedByDate";
     public static final String FIND_USERS_ISSUES_OWNERS = "findAllIssuesOwners";
+    public static final String FIND_USERS_ASSIGNEES= "findAllAssignees";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

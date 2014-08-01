@@ -30,11 +30,5 @@
                 </li>
             </ul>
         </div>
-    </div>
-                        
+    </div>                      
 </div>
-<script>
-//    var username = $("#username").text();
-//    $("#username").hide();
-//    $("#profile-link").attr('href', '/profile/' + username);
-</script>
