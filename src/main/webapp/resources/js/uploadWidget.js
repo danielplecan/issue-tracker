@@ -118,6 +118,12 @@ function uploadWidget(container) {
     return {
         getUploadedFiles: function() {
             return files;
+        },
+        reset: function() {
+            while (files.length > 0) {
+                files.pop();
+            }
+            filesPanel.empty();
         }
     };
 }
