@@ -216,6 +216,24 @@ public class IssueService {
         }
         return finalList;
     }
+    
+    public List<UploadedFile> getAttachmentsByIssueId(Issue issue) {
+        TypedQuery<IssueAttachment> userQuery = em.createNamedQuery(IssueAttachment.FIND_BY_ISSUE_ID, IssueAttachment.class);
+        userQuery.setParameter("v_issue", issue);
+
+        List<IssueAttachment> resultList = userQuery.getResultList();
+
+        if (resultList == null || resultList.isEmpty()) {
+            return null;
+        }
+
+        List<UploadedFile> finalList = new ArrayList<>();
+
+        for (IssueAttachment l : resultList) {
+            finalList.add(l.getAttachment());
+        }
+        return finalList;
+    }
 
     public List<Label> getAllLabels() {
         TypedQuery<Label> labelQuery;
