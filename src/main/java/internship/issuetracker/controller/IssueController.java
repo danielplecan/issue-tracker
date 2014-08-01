@@ -1,5 +1,6 @@
 package internship.issuetracker.controller;
 
+import internship.issuetracker.dto.CommentDTO;
 import internship.issuetracker.dto.NewIssueDTO;
 import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
@@ -8,6 +9,7 @@ import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.IssueSearchCriteria;
+import internship.issuetracker.service.FileUploadService;
 import internship.issuetracker.service.IssueService;
 import internship.issuetracker.service.MailService;
 import internship.issuetracker.service.UserService;
@@ -51,15 +53,18 @@ public class IssueController {
 
     @Autowired
     private LabelValidator labelValidator;
-    
-    @Autowired 
+
+    @Autowired
     private LabelForEditValidator labelForEditValidator;
-    
+
     @Autowired
     private UserSettingsService userSettingsService;
-    
+
     @Autowired
     private MailService mailService;
+    
+    @Autowired
+    private FileUploadService fileUploadService;
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String viewIssue(@PathVariable("id") Long id, Model model) {
@@ -123,7 +128,7 @@ public class IssueController {
 
         result.put("success", issueService.changeStateOfIssue(issueId, IssueState.CLOSED));
         response.setStatus(HttpServletResponse.SC_OK);
-        
+
        
 
         return result;
@@ -157,23 +162,25 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
     @ResponseBody
-    public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, UriComponentsBuilder builder, @PathVariable("id") Long issueId, HttpServletRequest request) {
-        
+    public Map<String, Object> addComment(@RequestBody @Valid CommentDTO commentDTO, BindingResult bindingResult, UriComponentsBuilder builder, @PathVariable("id") Long issueId, HttpServletRequest request) {
+
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         CommentValidator validator = new CommentValidator();
-        validator.validate(comment, bindingResult);
+        validator.validate(commentDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             responseMap.put("success", false);
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
-            long lastKnowCommentId = comment.getId();
+            long lastKnowCommentId = commentDTO.getId();
             
+            Comment comment = commentDTO.getCommentFromDTO();
+            comment.setAttachments(fileUploadService.getAttachmentsByIds(commentDTO.getAttachments()));
             issueService.addComment(currentUser, issueId, comment);
-            
+
             Issue issue = issueService.getIssueById(issueId);
-            
+
             
             List<User> targets = new ArrayList<>();
             targets.add(issue.getOwner());
@@ -185,12 +192,12 @@ public class IssueController {
                     issueService.sendNotification(comment, user);
                 }
             }
-           
+
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
             responseMap.put("comments", listComments);
         }
-        
+
         return responseMap;
     }
 
@@ -244,12 +251,12 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.PUT, value = "/label/{id}/edit")
     @ResponseBody
     public Map<String, Object> editLabel(@RequestBody @Valid Label label,
-            BindingResult bindingResult, @PathVariable("id") Long labelId, 
+            BindingResult bindingResult, @PathVariable("id") Long labelId,
             HttpServletResponse response) {
-        
+
         Map<String, Object> responseMap = new HashMap<>();
         response.setStatus(HttpServletResponse.SC_OK);
-        
+
         label.setId(labelId);
         labelForEditValidator.validate(label, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -266,7 +273,7 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-assignee")
     @ResponseBody
     public Map<String, Object> addAssignee(@RequestBody User assignedTo,
-            BindingResult bindingResult, @PathVariable("id") Long issueId, 
+            BindingResult bindingResult, @PathVariable("id") Long issueId,
             HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
 
@@ -281,13 +288,13 @@ public class IssueController {
         }
         return responseMap;
     }
-    
+
     @RequestMapping(method = RequestMethod.GET, value = "/issue/{id}/getUsers-assignee")
     @ResponseBody
     public Map<String, Object> getUsersAssignee(@RequestParam(value = "assignedTo") String assignedTo,
             @PathVariable("id") Long issueId, HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         List<User> assignees = userService.findUsersWithUsernameStartingWith(assignedTo);
         responseMap.put("success", true);
         responseMap.put("assignees", assignees);
@@ -315,13 +322,13 @@ public class IssueController {
         responseMap.put("labels", issueService.getAllLabels());
         return responseMap;
     }
-    
+
     @RequestMapping(method = RequestMethod.GET, value = "/issues/get-owners")
     @ResponseBody
     public Map<String, Object> getOwners(@RequestParam(value = "ownedBy") String ownedBy,
-           HttpServletRequest request) {
+            HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         List<User> owners = issueService.findUsersIssuesOwnersByNamePrefix(ownedBy);
         responseMap.put("success", true);
         responseMap.put("owners", owners);
