@@ -19,14 +19,15 @@ issueTrackerService = (function() {
             data: JSON.stringify(registerData)
         });
     };
-    self.createIssue = function(title, content, labelIdList) {
+    self.createIssue = function(title, content, labelIdList, attachments) {
         var issue = {
             'title': title,
             'content': content
         };
         var issueDTO = {
             'issue': issue,
-            'labelIdList': labelIdList
+            'labelIdList': labelIdList,
+            'attachments': attachments
         };
         return $.ajax({
             type: 'POST',

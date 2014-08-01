@@ -53,11 +53,11 @@ var pager = function() {
         while (labelIdList.length > 0) {
             labelIdList.pop();
         }
-        $(".thisLabelIsSelected").each(function(index, element) {
-            labelIdList.push($(element).data("id"));
-            console.log($(element).data("id"));
-        });
-
+        //        $(".thisLabelIsSelected").each(function(index, element) {
+        //            labelIdList.push($(element).data("id"));
+        //            console.log($(element).data("id"));
+        //        });
+        labelIdList = $("#e8_2").select2("val");
         order[theOrder] = theSort;
         filter["state"] = theState;
         filter["labels"] = labelIdList;
@@ -142,12 +142,12 @@ var pager = function() {
                 $(".typeOfSort").find('span').remove();
                 $(this).append('<span class="glyphicon glyphicon-ok"/>');
             });
-            
+
             var stopToggle = false;
             $(".panel-heading").click(function() {
-                
-                if(!stopToggle) {
-                    stopToggle=true;
+
+                if (!stopToggle) {
+                    stopToggle = true;
                     $("#panelBody").toggle(600, function() {
                         if ($("#panelBody").is(':visible')) {
                             document.getElementById('header-arrow').innerHTML = '&#x21d1';
@@ -156,7 +156,7 @@ var pager = function() {
                         else {
                             document.getElementById('header-arrow').innerHTML = '&#x21d3';
                         }
-                        stopToggle=false;
+                        stopToggle = false;
                     });
                 }
             });
@@ -169,8 +169,8 @@ var pager = function() {
     };
 };
 
-var autocomplete = function(){
-    var owners=[];
+var autocomplete = function() {
+    var owners = [];
     var substringMatcher = function() {
         return function(q, cb) {
             while (owners.length > 0) {
@@ -184,7 +184,7 @@ var autocomplete = function(){
                                 for (var i = 0; i < size; i++) {
                                     owners.push(data.owners[i]);
                                 }
-                            } 
+                            }
                             else {
                                 $.each(data.errors, function(key, value) {
                                     $("#" + key + "Error").append(value);

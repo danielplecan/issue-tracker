@@ -10,7 +10,9 @@ function getContrastYIQ(hexcolor) {
 }
 
 $(document).ready(function() {
-
+    
+    var widget = uploadWidget($("#attachments"));
+    
     //pressing the button for creating an issue
     $('#buttonCreateIssue').click(function(event) {
         event.preventDefault();
@@ -18,8 +20,10 @@ $(document).ready(function() {
         $('#labelSelector').find('.selectedLabel').each(function() {
             labelIdList.push($(this).attr('data-id'));
         });
+        
+        var attachments = widget.getUploadedFiles();
 
-        issueTrackerService.createIssue($('#textArea1').val(), $('#textArea2').val(), labelIdList).done(function(data) {
+        issueTrackerService.createIssue($('#textArea1').val(), $('#textArea2').val(), labelIdList, attachments).done(function(data) {
             if (data.success) {
                 window.location.replace(data.url);
             }

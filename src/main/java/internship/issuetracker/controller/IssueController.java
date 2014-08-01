@@ -6,6 +6,7 @@ import internship.issuetracker.entity.Comment;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
 import internship.issuetracker.entity.Label;
+import internship.issuetracker.entity.UploadedFile;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.IssueSearchCriteria;
@@ -79,7 +80,9 @@ public class IssueController {
 
         List<Comment> comments = issueService.getCommentsByIssueId(result);
         model.addAttribute("comments", comments);
-
+        
+        List<UploadedFile> attachments = issueService.getAttachmentsByIssueId(result);
+        model.addAttribute("attachments", attachments);
         return "issue";
     }
 

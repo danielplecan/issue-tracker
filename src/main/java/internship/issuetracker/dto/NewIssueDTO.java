@@ -7,7 +7,6 @@
 package internship.issuetracker.dto;
 
 import internship.issuetracker.entity.Issue;
-import internship.issuetracker.entity.Label;
 import java.util.List;
 import javax.validation.Valid;
 /**
@@ -19,6 +18,8 @@ public class NewIssueDTO {
     private Issue issue;
     
     private List<Long> labelIdList;
+    
+    private List<Long> attachments;
 
     public Issue getIssue() {
         return issue;
@@ -35,7 +36,12 @@ public class NewIssueDTO {
     public void setLabelIdList(List<Long> labelIdList) {
         this.labelIdList = labelIdList;
     }
-    
-    
-    
+
+    public List<Long> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Long> attachments) {
+        this.attachments = attachments;
+    }
 }

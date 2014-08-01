@@ -18,14 +18,14 @@ import javax.persistence.Table;
  */
 
 @NamedQueries({
-    @NamedQuery(name = IssueLabels.FIND_BY_ISSUE_ID, query = "SELECT u from IssueLabels u WHERE u.issue = :v_issue"),
-    @NamedQuery(name = IssueLabels.REMOVE_BY_LABEL_ID, query = "delete from IssueLabels where label.id = :label_id"),
-    @NamedQuery(name = IssueLabels.REMOVE_BY_ISSUE_ID, query = "DELETE from IssueLabels u WHERE u.issue.id = :v_issue_id")
+    @NamedQuery(name = IssueLabel.FIND_BY_ISSUE_ID, query = "SELECT u from IssueLabel u WHERE u.issue = :v_issue"),
+    @NamedQuery(name = IssueLabel.REMOVE_BY_LABEL_ID, query = "delete from IssueLabel where label.id = :label_id"),
+    @NamedQuery(name = IssueLabel.REMOVE_BY_ISSUE_ID, query = "DELETE from IssueLabel u WHERE u.issue.id = :v_issue_id")
 })
 
 @Entity
 @Table(name="en_issue_labels")
-public class IssueLabels implements Serializable{
+public class IssueLabel implements Serializable{
     
     public static final String FIND_BY_ISSUE_ID = "findAllIssueLabelsByIssue";
     

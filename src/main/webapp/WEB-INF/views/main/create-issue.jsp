@@ -22,6 +22,8 @@
                     </div>
                 </div>
             </fieldset>
+            <div id="attachments" class="well">
+            </div>
             <div class="col-lg-12 txt-center">
                 <div id="issueErrorSpan" class="commentError text-warning commentContent"></div>
                 <button class="btn btn-default" id="buttonCreateIssue">Create</button>

@@ -1,8 +1,8 @@
 package internship.issuetracker.filter;
 
 import internship.issuetracker.entity.Issue;
-import internship.issuetracker.entity.IssueLabels;
-import internship.issuetracker.entity.IssueLabels_;
+import internship.issuetracker.entity.IssueLabel;
+import internship.issuetracker.entity.IssueLabel_;
 import internship.issuetracker.entity.Issue_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,11 +27,11 @@ public class IssueLabelQueryFilter implements QueryFilter<Issue> {
     @Override
     public Predicate buildPredicate(CriteriaBuilder criteriaBuilder, CriteriaQuery<Issue> criteriaQuery, Root<Issue> root) {
         Subquery<Issue> subquery = criteriaQuery.subquery(Issue.class);
-        Root<IssueLabels> issueLabel = subquery.from(IssueLabels.class);
+        Root<IssueLabel> issueLabel = subquery.from(IssueLabel.class);
         
-        Predicate labelPredicate = criteriaBuilder.equal(issueLabel.get(IssueLabels_.label), labelId);
+        Predicate labelPredicate = criteriaBuilder.equal(issueLabel.get(IssueLabel_.label), labelId);
         subquery.where(labelPredicate);
-        subquery.select(issueLabel.get(IssueLabels_.issue));
+        subquery.select(issueLabel.get(IssueLabel_.issue));
         
         return root.in(subquery);
     }
