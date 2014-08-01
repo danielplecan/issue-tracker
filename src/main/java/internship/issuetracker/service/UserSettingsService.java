@@ -30,7 +30,7 @@ public class UserSettingsService {
         if (targetUser != null) {
             UserSettings userSettings = new UserSettings();
             userSettings.setUser(targetUser);
-            userSettings.setNotifications(Boolean.FALSE);
+            userSettings.setNotificationsForPostedIssues(Boolean.FALSE);
             userSettings.setTheme(1l);
             em.persist(userSettings);
         }
@@ -40,17 +40,17 @@ public class UserSettingsService {
         User targetUser = userService.getUserByUsername(username);
         
         UserSettings currentUserSettings = targetUser.getSettings();
-        currentUserSettings.setNotifications(!currentUserSettings.isOn());
+        currentUserSettings.setNotificationsForPostedIssues(!currentUserSettings.isNotificationsForPostedIssues());
         
         em.merge(currentUserSettings);
-        return currentUserSettings.isOn();
+        return currentUserSettings.isNotificationsForPostedIssues();
     }
     
     public boolean getCurrentNotificationStatus(String username) {
         User targetUser = userService.getUserByUsername(username);
         UserSettings currentUserSettings = targetUser.getSettings();
         
-        return currentUserSettings.isNotifications();
+        return currentUserSettings.isNotificationsForPostedIssues();
     }
     
     public Long getCurrentThemePreference(String username) {
@@ -77,6 +77,4 @@ public class UserSettingsService {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-    
-    
 }

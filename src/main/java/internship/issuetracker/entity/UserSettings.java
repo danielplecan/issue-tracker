@@ -38,10 +38,10 @@ public class UserSettings implements Serializable{
 
     @Basic(optional=false)
     @Column(name="notifications")
-    Boolean notifications;
+    Boolean notificationsForPostedIssues;
 
     @Column(name="theme")
-    Long theme;
+    Long themePreference;
     
     public User getUser() {
         return user;
@@ -51,20 +51,12 @@ public class UserSettings implements Serializable{
         this.user = user;
     }
 
-    public void setOn(Boolean notifications) {
-        this.notifications = notifications;
+    public void setNotificationsForPostedIssues(Boolean notifications) {
+        this.notificationsForPostedIssues = notifications;
     }
     
-    public Boolean isOn() {
-        return notifications;
-    }
-
-    public void setNotifications(Boolean notifications) {
-        this.notifications = notifications;
-    }
-    
-    public Boolean isNotifications() {
-        return notifications;
+    public Boolean isNotificationsForPostedIssues() {
+        return notificationsForPostedIssues;
     }
 
     public Long getId() {
@@ -76,10 +68,10 @@ public class UserSettings implements Serializable{
     }
     
     public Long getTheme() {
-        return theme;
+        return themePreference;
     }
 
     public void setTheme(Long theme) {
-        this.theme = theme;
+        this.themePreference = theme;
     }   
 }
