@@ -15,6 +15,7 @@ import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.UserValidator;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class RegisterController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ResponseBody
-    public Map<String, Object> createUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult, HttpServletResponse response) {
+    public Map<String, Object> createUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult, HttpServletResponse response,HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
 
         userValidator.validate(user, bindingResult);
@@ -64,7 +65,11 @@ public class RegisterController {
             result.put("success", true);
             userService.registerUser(user);
             String activationHash = activationService.createActivation(userService.getUserByUsername(user.getUsername()));
-            mailService.sendEmail(user.getEmail(), "Activation hash", "<a href=http://localhost:8080/activation/" + activationHash+">Activate your account</a>");
+            Map< String,Object> map=new HashMap<>();
+            map.put("link","http://"+request.getLocalAddr()+":"+request.getLocalPort()+"/activation/"+activationHash);
+            map.put("linkText","Activate your acount");
+            map.put("text","");
+            mailService.sendEmail(user.getEmail(), "Activation hash", map);
             userSettingsService.createSettingsforUser(user.getUsername());
         }
         

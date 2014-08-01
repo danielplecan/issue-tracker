@@ -1,6 +1,7 @@
 package internship.issuetracker.service;
 
-import org.hsqldb.lib.HashMap;
+
+import java.util.HashMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,6 @@ public class MailServiceTest {
     
     @Test
     public void firstTest () {
-        mailService.sendEmail( "irinel.nistor.constantin@gmail.com", "testing","testing subject");
+        mailService.sendEmail( "irinel.nistor.constantin@gmail.com", "testing",new HashMap<String, Object>());
     }
 }

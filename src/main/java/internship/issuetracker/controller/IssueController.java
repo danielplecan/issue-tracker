@@ -182,7 +182,7 @@ public class IssueController {
             }
             for (User user: targets) {
                 if(userSettingsService.getCurrentNotificationStatus(user.getUsername())){
-                    issueService.sendNotification(comment, user);
+                    issueService.sendNotification(comment, user,"http://"+ request.getLocalAddr()+":"+request.getLocalPort());
                 }
             }
            

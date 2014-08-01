@@ -38,14 +38,10 @@
         <property name="password" value="F2vAjawraS" />
     </bean>
     <!-- configure Velocity Engine for emails -->
-    <bean id="velocityEngine"
-          class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-        <property name="velocityProperties">
-            <value>
-                resource.loader=class
-                class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-            </value>
-        </property>
+    <bean class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean" id="freemarkerConfiguration">
+        <!-- Turn this off to always load via SpringTemplateLoader -->
+        <property name="preferFileSystemAccess" value="false"></property>
+        <property name="templateLoaderPath" value="Templates"></property>
     </bean>
     
     
