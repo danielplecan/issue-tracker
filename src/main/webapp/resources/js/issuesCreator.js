@@ -81,8 +81,7 @@ var issuesCreator = function() {
         issueDateTime.append("<i>Last updated by </i>");
         issueDateTime.append(createPostedDetailsSpan("LAST AUTHOR!!!"));
         issueDateTime.append("<i>, </i>");
-        issueDateTime.append(createPostedDetailsSpan(issue.lastUpdateDate));
-        issueDateTime.append("<i> ago</i>");
+        issueDateTime.append(createPostedDetailsSpan(issue.lastUpdateDate));       
         return issueDateTime;
     };
     var createIssueDetailsDiv = function(issue) {

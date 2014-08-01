@@ -38,14 +38,13 @@ public class IssueService {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     @Autowired
     private MailService mailService;
 
     /**
      *
-     * @param issueDto encapsulates an issue, and a list of id for existing
-     * labels
+     * @param issueDto encapsulates an issue, and a list of id for existing labels
      * @param owner
      * @return the id of the created issue
      */
@@ -360,11 +359,38 @@ public class IssueService {
             }
         }
     }
-    
-    public List<User> findUsersIssuesOwnersByNamePrefix(String usernamePrefix){
+
+    public List<User> findUsersIssuesOwnersByNamePrefix(String usernamePrefix) {
         TypedQuery<User> resultQuery = em.createNamedQuery(Issue.FIND_USERS_ISSUES_OWNERS, User.class);
         resultQuery.setParameter("v_username", usernamePrefix + "%");
-        
+
         return resultQuery.getResultList();
+    }
+
+    public Issue editIssueFromIssueDTO(NewIssueDTO issueDTO) {
+        Issue issue = em.find(Issue.class, issueDTO.getIssue().getId());
+        issue.setTitle(issueDTO.getIssue().getTitle());
+        issue.setContent(issueDTO.getIssue().getContent());
+        issue.setUpdateDate(new Date());
+        em.merge(issue);
+        removeAllLabelsFromAnIssue(issue.getId());
+        for (Long labelId : issueDTO.getLabelIdList()) {
+            Label label = em.find(Label.class, labelId);
+            if (label == null) {
+                continue;
+            }
+            IssueLabels issueLabel = new IssueLabels();
+            issueLabel.setIssue(issue);
+            issueLabel.setLabel(label);
+            em.persist(issueLabel);
+        }
+
+        return issue;
+    }
+
+    public void removeAllLabelsFromAnIssue(Long issueId) {
+        Query query = em.createNamedQuery(IssueLabels.REMOVE_BY_ISSUE_ID);
+        query.setParameter("v_issue_id", issueId);
+        query.executeUpdate();
     }
 }

@@ -36,6 +36,25 @@ issueTrackerService = (function() {
             data: JSON.stringify(issueDTO)
         });
     };
+    
+    self.editIssue = function(id, title, content, labelIdList) {
+        var issue = {
+            'id': id,
+            'title': title,
+            'content': content
+        };
+        var issueDTO = {
+            'issue': issue,
+            'labelIdList': labelIdList
+        };
+        return $.ajax({
+            type: 'POST',
+            url: location.origin + '/edit-issue',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(issueDTO)
+        });
+    };
 
     self.closeIssue = function(issueId) {
         return $.ajax({
