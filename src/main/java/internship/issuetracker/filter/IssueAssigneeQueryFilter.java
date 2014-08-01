@@ -30,6 +30,9 @@ public class IssueAssigneeQueryFilter implements QueryFilter<Issue> {
 
     @Override
     public Predicate buildPredicate(CriteriaBuilder criteriaBuilder, CriteriaQuery<Issue> criteriaQuery, Root<Issue> root) {
+        if(assigneeUsername == null || assigneeUsername.isEmpty()) {
+            return criteriaBuilder.and();
+        }
         return criteriaBuilder.like(root.get(Issue_.assignee).get(User_.username), "%" + assigneeUsername + "%");
     }
 
