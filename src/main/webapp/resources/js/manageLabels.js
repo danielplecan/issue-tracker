@@ -51,6 +51,17 @@ function createLabelListElement(label) {
 }
 
 var listOfLabels = function() {
+    function scrollToElement(selector, time, verticalOffset) {
+        time = typeof (time) !== 'undefined' ? time : 1000;
+        verticalOffset = typeof (verticalOffset) !== 'undefined' ? verticalOffset : 0;
+        var element = $(selector);
+        var offset = element.offset();
+        var offsetTop = offset.top + verticalOffset;
+        $('html, body').animate({
+            scrollTop: offsetTop
+        }, time);
+    }
+
     function compareElements(element1, element2) {
         var labelName1 = $(element1).find('.labelName').first().text();
         var labelName2 = $(element2).find('.labelName').first().text();
@@ -60,18 +71,20 @@ var listOfLabels = function() {
     return {
         positionElement: function(element) {
             $(element).detach();
+            var color = $(element).find('.showLabelPane').first().attr('data-color');
             var listContainer = $('#list-all-labels');
             var elementList = $(listContainer).find('.labelListThing');
             for (var i = 0; i < elementList.size(); i++) {
                 if (compareElements(element, elementList.get(i))) {
                     $(elementList).eq(i).before($(element));
+                    scrollToElement($(element), 300, -150);
+                    $(element).effect("highlight", {color: color}, 2000);
                     return;
                 }
             }
             $(listContainer).append($(element));
-            $('html, body').animate({
-                scrollTop: ($('#element').offset().top)
-            }, 500);
+            scrollToElement($(element), 300, -150);
+            $(element).effect("highlight", {color: color}, 2000);
         }
     };
 };
