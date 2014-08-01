@@ -84,6 +84,15 @@
             </div>
         </div>
     </div>
+    <div class="well">
+        <c:forEach items="${attachments}" var="attachment">
+            <a href="/attachment/download/<c:out value="${attachment.id}"/>">
+                <span class="btn btn-default attachmentWidth">
+                    <span class="buttontext " >${attachment.originalName}</span>
+                </span>
+            </a>
+        </c:forEach>
+    </div>
     <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
     <div id="allComments" class="list-group">
         <c:forEach items="${comments}" var="comment">
