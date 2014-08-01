@@ -1,6 +1,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<div style="position:relative;">
+<div style="position:relative;" data-notification="${initialNotificationCheckbox}" data-theme=${initialTheme} id="settingsContainer">
     <div>
         
         </choose>
@@ -24,24 +24,22 @@
         </ul>
     </div>
     <ul id="theme-preview">
-        <li id="prev1" class="col-lg-4 row theme-prev"><img src="../../../resources/img/theme1.png" alt=""/></li>
-        <li id="prev2" class="col-lg-4 row theme-prev"><img src="../../../resources/img/theme2.png" alt=""/></li>
-        <li id="prev3" class="col-lg-4 row theme-prev"><img src="../../../resources/img/theme3.png" alt=""/></li>
-        <li id="prev4" class="col-lg-4 row theme-prev"><img src="../../../resources/img/theme4.png" alt=""/></li>
-        <li id="prev5" class="col-lg-4 row theme-prev"><img src="../../../resources/img/theme5.png" alt=""/></li>
-        <li id="prev6" class="col-lg-4 row theme-prev"><img src="../../../resources/img/theme6.png" alt=""/></li>
+        <li id="prev1" class="col-lg-4 row theme-prev"><img src="/resources/img/theme1.png" alt=""/></li>
+        <li id="prev2" class="col-lg-4 row theme-prev"><img src="/resources/img/theme2.png" alt=""/></li>
+        <li id="prev3" class="col-lg-4 row theme-prev"><img src="/resources/img/theme3.png" alt=""/></li>
+        <li id="prev4" class="col-lg-4 row theme-prev"><img src="/resources/img/theme4.png" alt=""/></li>
+        <li id="prev5" class="col-lg-4 row theme-prev"><img src="/resources/img/theme5.png" alt=""/></li>
+        <li id="prev6" class="col-lg-4 row theme-prev"><img src="/resources/img/theme6.png" alt=""/></li>
     </ul>
 </div>
 <style>
     #themeSelect {
         width:30%;
-        display:inline-block;        
-    } 
-        
-    #themeSelect li {
+        display:inline-block;   
         list-style: none;
-        font-size:20px;   
-    }
+        font-size:20px; 
+    } 
+    
     #themeSelect li:hover {
         color:#0e80e5;
         cursor:pointer;
@@ -60,23 +58,4 @@
         height:320px;
     }
 </style>
-
-<script>
-       
-$("#theme-preview > li").hide();       
-function settingsInitialize() {
-        
-    $(".toggleBox").attr("checked", ${initialNotificationCheckbox});
-    var initialTheme = (${initialTheme});
-    $("#themeSelect li").each(function() {
-        if ($(this).attr("value") != initialTheme) {
-            $(this).hide();
-        }
-        else {
-            $(this).show();
-        }
-    });
-}
-    
-</script>
 <script src="../../../resources/js/settings.js"></script>

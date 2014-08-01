@@ -49,7 +49,6 @@ public class UserSettingsService {
     public boolean getCurrentNotificationStatus(String username) {
         User targetUser = userService.getUserByUsername(username);
         UserSettings currentUserSettings = targetUser.getSettings();
-        
         return currentUserSettings.isNotificationsForPostedIssues();
     }
     
