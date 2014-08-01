@@ -4,6 +4,8 @@ import internship.issuetracker.entity.UploadedFile;
 import internship.issuetracker.exception.FileUploadException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -79,5 +81,18 @@ public class FileUploadService {
     
     public File getFile(UploadedFile uploadedFile) {
         return new File(UploadedFile.LOCATION + File.separator + uploadedFile.getTargetName());
+    }
+
+
+    public List<UploadedFile> getAttachmentsByIds(List<Long> attachments) {
+        List<UploadedFile> files = new ArrayList<>();
+        for(Long attachment : attachments) {
+            UploadedFile file = entityManager.find(UploadedFile.class, attachment);
+            if(file != null) {
+                files.add(file);
+            }
+        }
+        
+        return files;
     }
 }
