@@ -6,7 +6,7 @@
         </choose>
         <div class="checkbox">
             <label>
-                <input type="checkbox" id="toggleNotifications" class="toggleBox"> Receive notifications 
+                <input type="checkbox" id="toggleNotifications" class="toggleBox"> Receive notifications for owned issues
             </label>
         </div>
         
