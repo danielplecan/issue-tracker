@@ -10,7 +10,9 @@ function getContrastYIQ(hexcolor) {
 }
 
 $(document).ready(function() {
-
+    
+    var widget = uploadWidget($("#attachments"));
+    
     //pressing the button for creating an issue
     $('#buttonCreateIssue').click(function(event) {
         event.preventDefault();
