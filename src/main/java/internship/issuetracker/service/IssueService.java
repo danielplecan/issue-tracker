@@ -367,6 +367,13 @@ public class IssueService {
         return resultQuery.getResultList();
     }
 
+    public List<User> findUsersAssigneesByNamePrefix(String usernamePrefix) {
+        TypedQuery<User> resultQuery = em.createNamedQuery(Issue.FIND_USERS_ASSIGNEES, User.class);
+        resultQuery.setParameter("v_username", usernamePrefix + "%");
+
+        return resultQuery.getResultList();
+    }
+    
     public Issue editIssueFromIssueDTO(NewIssueDTO issueDTO) {
         Issue issue = em.find(Issue.class, issueDTO.getIssue().getId());
         issue.setTitle(issueDTO.getIssue().getTitle());
