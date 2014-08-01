@@ -124,18 +124,28 @@
                         </c:choose>
                     </c:when>
                 </c:choose>
-<!-- When the state hasn't been changed -->
-<!--<span class="glyphicon glyphicon-comment"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</span>-->
+                <!-- When the state hasn't been changed -->
+                <!--<span class="glyphicon glyphicon-comment"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</span>-->
                 <c:choose>
                     <c:when test = "${not empty comment.content}">
                         <div class="commentBlockThing">
-                        <blockquote class="commentBlockquote">
-                            <p class="commentContent"><c:out value="${comment.content}"/></p>
-                        </blockquote>
-                        <span> - on <c:out value="${comment.getDateFormat()}"/></span>
+                            <blockquote class="commentBlockquote">
+                                <p class="commentContent"><c:out value="${comment.content}"/></p>
+                            </blockquote>
+                            <span> - on <c:out value="${comment.getDateFormat()}"/></span>
                         </div>
                     </c:when>
                 </c:choose>
+
+                <div class="attachments">
+                    <c:forEach items="${comment.attachments}" var="attachment">
+                        <a href="/attachment/download/<c:out value="${attachment.id}"/>">
+                            <span class="btn btn-default attachmentWidth">
+                                <span class="buttontext " >${attachment.originalName}</span>
+                            </span>
+                        </a>
+                    </c:forEach>
+                </div>
 
             </div>
         </c:forEach>
@@ -174,6 +184,6 @@
         margin-bottom: 30px;
     }
     .commentStateChanged{
-    padding-top: 30px;
-}
+        padding-top: 30px;
+    }
 </style>
