@@ -91,12 +91,12 @@
                                 <c:choose>
                                     <c:when test="${comment.changeState == 'OPEN'}">
                                         <div class="commentStateChanged">
-                                            <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span>.</span>
+                                            <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
                                         </div>
                                     </c:when>
                                     <c:when test="${comment.changeState == 'CLOSED'}">
                                         <div class="commentStateChanged">
-                                            <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor">closed</span>.</span>
+                                            <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor">closed</span>  on <c:out value="${comment.getDateFormat()}"/>.</span>
                                         </div>
                                     </c:when>
                                 </c:choose>
@@ -105,13 +105,16 @@
                         </c:choose>
                     </c:when>
                 </c:choose>
-
+<!-- When the state hasn't been changed -->
+<!--<span class="glyphicon glyphicon-comment"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</span>-->
                 <c:choose>
                     <c:when test = "${not empty comment.content}">
-                        <blockquote>
+                        <div class="commentBlockThing">
+                        <blockquote class="commentBlockquote">
                             <p class="commentContent"><c:out value="${comment.content}"/></p>
-                            <small><a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> on <c:out value="${comment.getDateFormat()}"/></small>
                         </blockquote>
+                        <span> - on <c:out value="${comment.getDateFormat()}"/></span>
+                        </div>
                     </c:when>
                 </c:choose>
 
@@ -140,10 +143,18 @@
         </div>
     </div>
 </div>
-
 <style>
     .centerButtonPanel {
         margin-left: auto;
         margin-right: auto;
     }
+    .commentBlockquote{
+        margin: 0px;
+    }
+    .commentBlockThing{
+        margin-bottom: 30px;
+    }
+    .commentStateChanged{
+    padding-top: 30px;
+}
 </style>
