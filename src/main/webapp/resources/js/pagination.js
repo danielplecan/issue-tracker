@@ -47,7 +47,7 @@ var pager = function() {
 
         filter["content"] = $("#searchFieldContent").val();
         filter["title"] = $("#searchFieldTitle").val();
-        filter["asignee"] = $("#searchFieldAsignee").val();
+        filter["assignee"] = $("#searchFieldAsignee").val();
         filter["owner"] = $("#searchFieldAuthor").val();
 
         while (labelIdList.length > 0) {

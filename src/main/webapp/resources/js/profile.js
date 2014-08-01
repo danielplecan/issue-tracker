@@ -88,7 +88,7 @@ $(document).ready(function() {
     var userFilter = {};
 
     order["updateDate"] = "DESC";
-    userFilter["owner"] = $('#themes').text();
+    userFilter["owner"] = $('#username').text();
     filterData["filters"] = userFilter;
     filterData["numberOfItemsPerPage"] = 2147483647;
     filterData["pageNumber"] = 1;
@@ -100,7 +100,7 @@ $(document).ready(function() {
     });
     
     var asigneeFilter={};
-    asigneeFilter["asignee"]=userFilter["owner"];
+    asigneeFilter["assignee"]=userFilter["owner"];
     filterData["filters"] = asigneeFilter;
     
     issueTrackerService.getFilteredIssues(filterData).done(function(data) {
