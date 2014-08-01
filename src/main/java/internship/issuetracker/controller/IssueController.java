@@ -51,13 +51,13 @@ public class IssueController {
 
     @Autowired
     private LabelValidator labelValidator;
-    
-    @Autowired 
+
+    @Autowired
     private LabelForEditValidator labelForEditValidator;
-    
+
     @Autowired
     private UserSettingsService userSettingsService;
-    
+
     @Autowired
     private MailService mailService;
 
@@ -123,8 +123,6 @@ public class IssueController {
 
         result.put("success", issueService.changeStateOfIssue(issueId, IssueState.CLOSED));
         response.setStatus(HttpServletResponse.SC_OK);
-        
-       
 
         return result;
     }
@@ -158,9 +156,9 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
     @ResponseBody
     public Map<String, Object> addComment(@RequestBody @Valid Comment comment, BindingResult bindingResult, UriComponentsBuilder builder, @PathVariable("id") Long issueId, HttpServletRequest request) {
-        
+
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         CommentValidator validator = new CommentValidator();
         validator.validate(comment, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -169,28 +167,27 @@ public class IssueController {
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
             long lastKnowCommentId = comment.getId();
-            
+
             issueService.addComment(currentUser, issueId, comment);
-            
+
             Issue issue = issueService.getIssueById(issueId);
-            
-            
+
             List<User> targets = new ArrayList<>();
             targets.add(issue.getOwner());
             if (issue.getAssignee() != null) {
                 targets.add(issue.getAssignee());
             }
-            for (User user: targets) {
-                if(userSettingsService.getCurrentNotificationStatus(user.getUsername())){
+            for (User user : targets) {
+                if (userSettingsService.getCurrentNotificationStatus(user.getUsername())) {
                     issueService.sendNotification(comment, user);
                 }
             }
-           
+
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
             responseMap.put("comments", listComments);
         }
-        
+
         return responseMap;
     }
 
@@ -244,12 +241,12 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.PUT, value = "/label/{id}/edit")
     @ResponseBody
     public Map<String, Object> editLabel(@RequestBody @Valid Label label,
-            BindingResult bindingResult, @PathVariable("id") Long labelId, 
+            BindingResult bindingResult, @PathVariable("id") Long labelId,
             HttpServletResponse response) {
-        
+
         Map<String, Object> responseMap = new HashMap<>();
         response.setStatus(HttpServletResponse.SC_OK);
-        
+
         label.setId(labelId);
         labelForEditValidator.validate(label, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -266,7 +263,7 @@ public class IssueController {
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-assignee")
     @ResponseBody
     public Map<String, Object> addAssignee(@RequestBody User assignedTo,
-            BindingResult bindingResult, @PathVariable("id") Long issueId, 
+            BindingResult bindingResult, @PathVariable("id") Long issueId,
             HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
 
@@ -281,18 +278,19 @@ public class IssueController {
         }
         return responseMap;
     }
-    
+
     @RequestMapping(method = RequestMethod.GET, value = "/issue/{id}/getUsers-assignee")
     @ResponseBody
     public Map<String, Object> getUsersAssignee(@RequestParam(value = "assignedTo") String assignedTo,
             @PathVariable("id") Long issueId, HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         List<User> assignees = userService.findUsersWithUsernameStartingWith(assignedTo);
         responseMap.put("success", true);
         responseMap.put("assignees", assignees);
         return responseMap;
     }
+
     @RequestMapping(value = {"/edit-issue/{id}"}, method = RequestMethod.GET)
     public String getEditIssuePage(@PathVariable("id") Long id, Model model) {
         Issue resultIssue = issueService.getIssueById(id);
@@ -315,16 +313,38 @@ public class IssueController {
         responseMap.put("labels", issueService.getAllLabels());
         return responseMap;
     }
-    
+
     @RequestMapping(method = RequestMethod.GET, value = "/issues/get-owners")
     @ResponseBody
     public Map<String, Object> getOwners(@RequestParam(value = "ownedBy") String ownedBy,
-           HttpServletRequest request) {
+            HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         List<User> owners = issueService.findUsersIssuesOwnersByNamePrefix(ownedBy);
         responseMap.put("success", true);
         responseMap.put("owners", owners);
+        return responseMap;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/edit-issue")
+    @ResponseBody
+    public Map<String, Object> editIssue(@RequestBody @Valid NewIssueDTO issueDto, BindingResult bindingResult,
+            HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> responseMap = new HashMap<>();
+
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        if (bindingResult.hasErrors()) {
+            responseMap.put("success", false);
+            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+        } else {
+
+            Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto);
+
+            responseMap.put("success", true);
+            responseMap.put("editedIssue", editedIssue);   
+            responseMap.put("editedLabels",issueService.getLabelsByIssueId(editedIssue));
+        }
         return responseMap;
     }
 }

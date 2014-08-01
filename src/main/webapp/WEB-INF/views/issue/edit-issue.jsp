@@ -1,14 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
-<script src="/resources/js/jquery-2.1.1.min.js" type="text/javascript"></script>
-<script src="/resources/js/typeahead.bundle.js" type="text/javascript"></script>
 <div id="viewTheIssue">
     <div class="col-lg-offset-1 col-lg-10">
         <div class="panel panel-default  modal-content2">
+            <div id="editIssueId" class="hidden">${issue.id}</div>
             <div class="panel-heading">
-                <h3>
-                    <c:out value="${issue.title}"/>
+                <h3 >
+                    <div id="oldIssueTitle">
+                        <c:out value="${issue.title}"/>
+                    </div>
                 </h3>
                 <div class="issueDateTime">
                     <div>Current State :
@@ -18,9 +19,9 @@
                         </c:choose>
                     </div>
                     <br>
-                    <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></span></a> 
+                    <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></a></span>
                         &nbsp;<i>on</i>&nbsp;<span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
-                    <span class="viewIssueLastUpdated">&nbsp<i>Last updated</i>&nbsp<span class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
+                    <span class="viewIssueLastUpdated">&nbsp<i>Last updated</i>&nbsp<span id="oldIssueLastUpdate" class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
                     </span>
                 </div>
             </div>      
@@ -152,16 +153,17 @@
             <h3 class="h3createanissue">Edit an Issue</h3>
             <hr>          
             <fieldset>
+                <input id="editIssueId" class="hidden"/>
                 <div id="divToChange" class="form-group">
-                    <label class="col-lg-1 control-label" for="textArea">Title</label>
+                    <label class="col-lg-1 control-label" for="editIssueTitle">Title</label>
                     <div class="col-lg-11">
-                        <input class="form-control" id="textArea1" placeholder="Title" autocomplete="off" autofocus/>
+                        <input class="form-control" id="editIssueTitle" placeholder="Title" autocomplete="off" autofocus />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-1 control-label" for="textArea">Content</label>
+                    <label class="col-lg-1 control-label" for="editIssueContent">Content</label>
                     <div class="col-lg-11">
-                        <textarea id="textArea" rows="6" class="form-control"></textarea>                          
+                        <textarea id="editIssueContent" rows="6" class="form-control">v<c:out value="${issue.content}"/></textarea>                          
                     </div>
                 </div>
                 <div class="form-group">
@@ -169,16 +171,18 @@
                     <div class="col-lg-11 ">
                         <div id="existingLabels" class="well"> 
                             <div id="modifiedIssueLabelsList" class="row">
-                                <c:forEach items="${labels}" var="label">
-                                    <span class="label btn-sm label-default labelEditLabels"><c:out value="${label.name}"/> <span class="glyphicon glyphicon-remove"></span></span>
-                                    </c:forEach>
+                                <c:forEach var="label" items="${labels}">
+                                    <span style="margin-right:3px;background-color:${label.color};color:black" data-color="${label.color}" data-id="${label.id}"class="label label-warning labelEditLabels"> <c:out value="${label.name}"/> <span class="glyphicon glyphicon-remove"></span></span>
+                                </c:forEach>
                             </div>
                             <hr>
                             <div class="row">
-                                <button id="addNewLabelToAnIssue" class="btn btn-default btn-xs" type="button" ><span class="glyphicon glyphicon-plus"></span>  Add new Label</button>
-                                <div class="form-group col-lg-5 " >
-                                    <input id="newLabelInput" class="form-control" placeholder="NewLabel" autocomplete="off" autofocus />
-                                    <button id="cancelAddNewLabel" class="btn btn-default btn-xs" type="button" >Cancel</button>
+                                <button id="addNewLabelToAnIssue" class="btn btn-default btn-xs" type="button" ><span class="glyphicon glyphicon-plus"></span> Add new Label</button>
+                                <div class="form-group ">
+                                    <div class="col-lg-5">
+                                        <input id="newLabelInput" class="form-control" placeholder="NewLabel" autocomplete="off" autofocus/>
+                                    </div>
+                                    <button id="cancelAddNewLabel" class="btn btn-default btn-xs" type="button">Done</button>
                                 </div>
                                 <div id="labelsSugestions" class="col-lg-12"></div>
                             </div>
@@ -189,20 +193,16 @@
                     <label class="col-lg-1 control-label" for="textArea">Attachments</label>
                     <div class="col-lg-11 ">
                         <div id="existingFiles" class="well"> 
-                            <div class="row">
-                                <c:forEach items="${labels}" var="label">
-                                    <span class="label label-default labelEditLabels"><c:out value="${label.name}"/> <span class="glyphicon glyphicon-remove"></span></span>
-                                    </c:forEach>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <button class="btn btn-default btn-xs" type="button" ><span class="glyphicon glyphicon-plus"></span> Add new File</button>
-                            </div>
+
                         </div>                         
                     </div>
                 </div>
-                <button id="saveChangesEdit" class="btn btn-default btn-xs" type="button">Save Changes</button>
-                <button id="discardChangesEdit" class="btn btn-default btn-xs" type="button">Dismiss</button>
+                <div id="editIssueErrors" class="form-group text-warning txt-center">
+                </div>
+                <div class="form-group txt-center">
+                    <button id="saveChangesEdit" class="btn btn-default btn-xs" type="button">Save Changes</button>
+                    <button id="discardChangesEdit" class="btn btn-default btn-xs" type="button">Dismiss</button>
+                </div>
             </fieldset>           
         </div>
 
@@ -235,6 +235,10 @@
     #editTheIssue{
         display: none;
     }
+    #modifiedIssueLabelsList > span > span:hover{
+          cursor: pointer;
+    }
+
 </style>
 <script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
 <script src="/resources/js/editIssue.js" type="text/javascript"></script>
