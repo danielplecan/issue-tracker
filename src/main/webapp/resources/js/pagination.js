@@ -142,17 +142,23 @@ var pager = function() {
                 $(".typeOfSort").find('span').remove();
                 $(this).append('<span class="glyphicon glyphicon-ok"/>');
             });
-
+            
+            var stopToggle = false;
             $(".panel-heading").click(function() {
-                $("#panelBody").toggle("slow", function() {
-                    if ($("#panelBody").is(':visible')) {
-                        document.getElementById('header-arrow').innerHTML = '&#x21d1';
-                        $("#searchFieldTitle").focus();
-                    }
-                    else {
-                        document.getElementById('header-arrow').innerHTML = '&#x21d3';
-                    }
-                });
+                
+                if(!stopToggle) {
+                    stopToggle=true;
+                    $("#panelBody").toggle(600, function() {
+                        if ($("#panelBody").is(':visible')) {
+                            document.getElementById('header-arrow').innerHTML = '&#x21d1';
+                            $("#searchFieldTitle").focus();
+                        }
+                        else {
+                            document.getElementById('header-arrow').innerHTML = '&#x21d3';
+                        }
+                        stopToggle=false;
+                    });
+                }
             });
 
             pageNumber = 1;
