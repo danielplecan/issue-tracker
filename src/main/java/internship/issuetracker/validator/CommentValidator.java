@@ -5,7 +5,7 @@
  */
 package internship.issuetracker.validator;
 
-import internship.issuetracker.entity.Comment;
+import internship.issuetracker.dto.CommentDTO;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -17,12 +17,12 @@ public class CommentValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> type) {
-        return Comment.class.equals(type);
+        return CommentDTO.class.equals(type);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        Comment comment = (Comment) o;
+        CommentDTO comment = (CommentDTO) o;
         int contentSize = comment.getContent().length();
         if (comment.getChangeState() == null) {
             if (contentSize < 3 || contentSize > 500) {
@@ -36,5 +36,4 @@ public class CommentValidator implements Validator {
             }
         }
     }
-
 }
