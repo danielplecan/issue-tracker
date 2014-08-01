@@ -1,20 +1,20 @@
 function createLabelListElement(label) {
-    var li = $('<div class=" labelListThing col-lg-12">\r\n\n\
-                <div class=\"labelPanel  editLabelPane\">\r\n\n\
+    var li = $(' <div class=\"labelListThing col-lg-12\">\r\n\n\
+                <div class=\"labelPanel editLabelPane\">\r\n\n\
                     <div class=\"showLabelPane\" data-id=\"' + label.id + '\" data-color=\"' + label.color + '\">\r\n\n\
                         <div class=\"navbar-left\">\r\n\n\
                             <form class=\"navbar-form navbar-left labelListEdit\">\r\n\n\
-                                <span class=\"labelName theLabelListLabel label theLabelListText\" style=\"background-color: ' + label.color + '\"><\/span>\r\n\n\
-                            <\/form>\r\n \n\
-                       <\/div>\r\n\n\
+                                <span class=\"labelName theLabelListLabel label theLabelListText\" style=\"min-width:100px; background-color: ' + label.color + '\"><\/span>\r\n\n\
+                            <\/form>\r\n\n\
+                        <\/div>\r\n\n\
                         <div class=\"navbar-right\">\r\n\n\
                             <button type=\"button\" class=\"btn btn-default btn-edit manageLabelsButton btn-sm\"><span class=\"glyphicon glyphicon-pencil\"><\/span> Edit<\/button>\r\n\n\
                             <button type=\"button\" class=\"btn btn-default btn-remove manageLabelsButton btn-sm\"><span class=\"glyphicon glyphicon-remove\"><\/span> Delete<\/button>\r\n\n\
                         <\/div>\r\n\n\
                     <\/div>\r\n\n\
                             \r\n\n\
-                    <div class=\"editLabelPane hidden\">\r\n \n\
-                       <div class=\"navbar-left \">\r\n\n\
+                    <div class=\"editLabelPane hidden\">\r\n\n\
+                        <div class=\"navbar-left \">\r\n\n\
                             <div class=\"navbar-form navbar-left labelListEdit\">\r\n\n\
                                 <input type=\"text\" class=\"small-input-box form-control flLeft labelListEdit\" placeholder=\"label\">\r\n\n\
                                 <button class=\"toggle-color-picker color-chooser-color labelColorManageColors col-lg-1\"><\/button>\r\n\n\
@@ -24,8 +24,8 @@ function createLabelListElement(label) {
                                     <span class=\"color-chooser-color color-square\" data-color=\"#FFF4C4\" style=\"background-color:#FFF4C4\"><\/span>\r\n\n\
                                     <span class=\"color-chooser-color color-square\" data-color=\"#E6FAFF\" style=\"background-color:#E6FAFF\"><\/span>\r\n\n\
                                     <span class=\"color-chooser-color color-square\" data-color=\"#D8FFC4\" style=\"background-color:#D8FFC4\"><\/span>\r\n\n\
-                                    <span class=\"color-chooser-color color-square\" data-color=\"#E6E6E6\" style=\"background-color:#E6E6E6\"><\/span>\r\n \n\
-                                   <span class=\"color-chooser-color color-square\" data-color=\"#B6BDCC\" style=\"background-color:#B6BDCC\"><\/span>\r\n\n\
+                                    <span class=\"color-chooser-color color-square\" data-color=\"#E6E6E6\" style=\"background-color:#E6E6E6\"><\/span>\r\n\n\
+                                    <span class=\"color-chooser-color color-square\" data-color=\"#B6BDCC\" style=\"background-color:#B6BDCC\"><\/span>\r\n\n\
                                 <\/div>\r\n\n\
                             <\/div>\r\n\n\
                         <\/div>\r\n\n\
@@ -34,8 +34,8 @@ function createLabelListElement(label) {
                             <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-cancel-edit-label\"><span class=\"glyphicon glyphicon-remove-circle\"><\/span> Cancel<\/button>\r\n\n\
                         <\/div>\r\n\n\
                         <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>\r\n\n\
-                    <\/div>\r\n\n\ ' +
-            '<div class=\"deleteLabelPanel\" style=\"display: none\">\r\n\n\
+                    <\/div>\r\n\n\
+                    <div class=\"deleteLabelPanel\" style=\"display: none\">\r\n\n\
                         <div class=\"navbar-left leftWarningDeleteLabel\">\r\n\n\
                             <span>Are you sure you want to permanently delete the label?<\/span>\r\n\n\
                         <\/div>\r\n\n\
@@ -43,8 +43,8 @@ function createLabelListElement(label) {
                             <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-delete-edit-label\"><span class=\"glyphicon glyphicon-remove-sign\"><\/span> Delete<\/button>\r\n\n\
                             <button type=\"button\" class=\"btn btn-default btn-sm manageButton btn-cancel-delete-label\"><span class=\"glyphicon glyphicon-minus-sign\"><\/span> Cancel<\/button>\r\n\n\
                         <\/div>\r\n\n\
-                    <\/div>' +
-            '<\/div>\r\n\n\
+                    <\/div>\r\n\n\
+                <\/div>\r\n\n\
             <\/div>');
     $(li).find('.labelName').text(label.name);
     return li;
@@ -56,19 +56,22 @@ var listOfLabels = function() {
         var labelName2 = $(element2).find('.labelName').first().text();
         return labelName1 < labelName2;
     }
-    
+
     return {
         positionElement: function(element) {
             $(element).detach();
             var listContainer = $('#list-all-labels');
             var elementList = $(listContainer).find('.labelListThing');
-            for(var i = 0; i < elementList.size(); i++){
-               if(compareElements(element, elementList.get(i))) {
-                   $(elementList).eq(i).before($(element));
-                   return;
-               }
+            for (var i = 0; i < elementList.size(); i++) {
+                if (compareElements(element, elementList.get(i))) {
+                    $(elementList).eq(i).before($(element));
+                    return;
+                }
             }
             $(listContainer).append($(element));
+            $('html, body').animate({
+                scrollTop: ($('#element').offset().top)
+            }, 500);
         }
     };
 };
