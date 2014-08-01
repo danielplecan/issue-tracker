@@ -5,13 +5,13 @@
     <div class="manageLabelsTopPanel topPanelThing">
         <div class="manageLabelsNav col-lg-12">
             <form class="navbar-form navbar-left manageLabelsNavLeft">
-                <input type="text" class="form-control" placeholder="Search labels..">
+                <input type="text" class="form-control searchLabelsBar" placeholder="Search labels..">
             </form>
             <button type="button" class="btn btn-default manageLabelsNavRight btn-new-label" id="editLabel"><span class="glyphicon glyphicon-plus"></span>  Create new label</button>
         </div>
         <div class="editLabelPane col-lg-12" style="display: none">
             <div class="navbar-form manageLabelsNavLeft">
-                <input type="text" class="form-control flLeft small-input-box" placeholder="label">
+                <input type="text" class="form-control flLeft small-input-box createLabelImput" placeholder="label">
                 <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1" style="background-color: #FF8F8F" data-color="#FF8F8F"></button>
                 <div class="theColorsList" style="display: none;">
                     <span class="color-chooser-color color-square" data-color="#FF8F8F" style="background-color:#FF8F8F"></span>
@@ -48,7 +48,7 @@
                     </div>
                             
                     <div class="editLabelPane hidden">
-                        <div class="navbar-left ">
+                        <div class="navbar-left">
                             <div class="navbar-form navbar-left labelListEdit">
                                 <input type="text" class="small-input-box form-control flLeft labelListEdit" placeholder="label">
                                 <button class="toggle-color-picker color-chooser-color labelColorManageColors col-lg-1"></button>
@@ -127,6 +127,7 @@
         margin: 0px;
     }
     .manageLabelsNav{
+        padding: 0px;
         padding-top: 15px;
         margin-top: 6px;
         margin-bottom: 6px;
@@ -134,11 +135,13 @@
     }
     .manageLabelsNavLeft{
         margin: 6px 0px;
+        padding: 0px;
     }
     .manageLabelsNavRight{
         right: 0;
         float: right;
         margin: 6px 0px;
+        height: 35px;
     }
     #editLabel{
         margin-top: 7px;
@@ -156,7 +159,6 @@
         padding:5px;
         margin-top:3px;
         margin-right:3px;
-
     }
     .theLabelListText{
         margin: 0;
@@ -172,6 +174,9 @@
     .labelListThing:first-child{
         border-top: 1px solid #F5F5F5;
     }
+    .labelListThing:last-child{
+        border-bottom: none;
+    }
     .labelListThing{
         padding: 15px 0px;
         clear: both;
@@ -184,6 +189,14 @@
     .topPanelThing{
         border-bottom: #000;
     }
+    .createLabelImput,
+    .searchLabelsBar{
+        height: 35px;
+    }
+    .editLabelPane{
+        padding: 0px;
+    }
+    
 </style>
 
 <script src="/resources/js/manageLabels.js" type="text/javascript"></script>
