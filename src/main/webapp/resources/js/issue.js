@@ -267,7 +267,7 @@ $(document).ready(function() {
                                     "<span class=\"glyphicon glyphicon-ok-circle openColor\"></span><span> <a href=\"/profile/"
                                     + comment.author.username + "\">" +
                                     comment.author.name +
-                                    "</a> changed the state to <span class=\"openColor\">open</span>.</span>" +
+                                    "</a> changed the state to <span class=\"openColor\">open</span> on " + comment.dateFormat+ ".</span>" +
                                     "</div>";
                             break;
                         case 'CLOSED':
@@ -275,20 +275,28 @@ $(document).ready(function() {
                                     "<span class=\"glyphicon glyphicon-remove-circle closedColor\"></span><span> <a href=\"/profile/"
                                     + comment.author.username + "\">" +
                                     comment.author.name +
-                                    "</a> changed the state to <span class=\"closedColor\">closed</span>.</span>" +
+                                    "</a> changed the state to <span class=\"closedColor\">closed</span> on" + comment.dateFormat+ ".</span>" +
                                     "</div>";
                             break;
                     }
                 }
+            } else {
+                stateChangeDiv = '<span class=\"glyphicon glyphicon-comment\"></span>\n\
+                                    <span> <a href=\"/profile/' 
+                        + comment.author.username + '">' 
+                        + comment.author.name + '</a> said:</span>';
             }
             fullCommentDiv.append(stateChangeDiv);
 
             $("#allComments").append(fullCommentDiv);
 
             if (comment.content.length !== 0) {
-                commentContent = $("<blockquote><p class=\"commentContent\"></p><small><a href=\"\">" +
-                        comment.author.name + "</a> on  " + comment.dateFormat + "</small>" +
-                        "</blockquote>");
+                commentContent = $('<div class=\"commentBlockThing\">\r\n\n\
+                            <blockquote class=\"commentBlockquote\">\r\n\n\
+                                <p class=\"commentContent\"><\/p>\r\n\n\
+                            <\/blockquote>\r\n\n\
+                            <span> - on ' + comment.dateFormat + '<\/span>\r\n\n\
+                        <\/div>');
                 fullCommentDiv.append(commentContent);
                 $("#allComments blockquote p").last().text(comment.content);
             }
