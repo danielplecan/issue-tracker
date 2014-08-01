@@ -80,11 +80,18 @@ $(document).ready(function() {
         $('#changeAssignButton').hide();
         $('#assignButton').hide();
         $('#cancelAssignButton').show();
+        $('#clearAssignButton').hide();
     });
 
     $('#cancelAssignButton').click(function() {
         $('#scrollable-dropdown-menu').hide();
-        $('#changeAssignButton').show();
+        if($('#assignedName>a>i').text()!=='none'){
+            $('#clearAssignButton').show();
+            $('#changeAssignButton').show();
+        }
+        else{
+            $('#changeAssignButton').show();
+        }
         $('#assignTo').val('');
     });
 
@@ -145,17 +152,41 @@ $(document).ready(function() {
 
     $("#assignButton").click(function(event) {
         $('#scrollable-dropdown-menu').hide();
+        $('#assignButtons').show();
         $('#changeAssignButton').show();
+        $('#clearAssignButton').show();
+        $('#changeAssignButton').text('Change');
         $('#assignTo').val('');
+        if($('#clearAssignButton').length===0){
+            $('#assignButtons').append("<button id=\"clearAssignButton\" type=\"button\" class=\"btn btn-default btn-xs\" data-container=\"body\">Clear</button>");
+        }
         event.preventDefault();
         var issueId = $("#issueState").attr('data-id');
         issueTrackerService.assignTo(issueId, assignee).done(function(data) {
             if (data.success) {
-                $('#assignedName').text(data.assignedTo.username);
+                $('#assignedName>a>i').text(data.assignedTo.username);
+                $('#assignedName>a').attr('href','/profile/'+data.assignedTo.username);
             }
         });
     });
-
+    
+    $('#assignButtons').delegate('#clearAssignButton','click',function(event){
+        event.preventDefault();
+        $('#scrollable-dropdown-menu').hide();
+        $('#assignButtons').show();
+        $('#changeAssignButton').text('Assign');
+        $('#changeAssignButton').show();
+        $('#clearAssignButton').hide();
+        $('#assignTo').val('');
+        $('#assignedName>a').removeAttr('href');
+        var issueId = $("#issueState").attr('data-id');
+        issueTrackerService.assignTo(issueId, null).done(function(data) {
+            if (data.success) {
+                $('#assignedName>a>i').text('none');
+            }
+        });
+    })
+    
 //comments
     function createCommentData() {
         var commentContent = $("#textAreaComment").val();

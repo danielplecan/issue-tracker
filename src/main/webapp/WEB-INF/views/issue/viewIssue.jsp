@@ -36,22 +36,41 @@
                     </div>
                 </c:when>
             </c:choose>
-            <div>
+            <div class='container'>
                 <span><i>Assigned to: </i>&nbsp;
                     <span id = "assignedName">
                         <c:choose>
                             <c:when test="${not empty issue.assignee.username}">
-                                <c:out value="${issue.assignee.username}"/>
+                                <a href="/profile/<c:out value="${issue.assignee.username}"/>"/>
+                                <i><c:out value="${issue.assignee.username}"/></i>
+                                </a>
                             </c:when>
                             <c:otherwise>
-                                <i>none</i>
+                                <a><i>none</i></a>
                             </c:otherwise>
                         </c:choose>
                     </span>
                 </span>
-                <button id="changeAssignButton" type="button" class="btn btn-default btn-xs" data-container="body">
-                    Change assignee
-                </button>  
+                <span id = "assignButtons">
+                    <button id="changeAssignButton" type="button" class="btn btn-default btn-xs" data-container="body">
+                        <c:choose>
+                            <c:when test="${not empty issue.assignee.username}">
+                                Change
+                            </c:when>
+                            <c:otherwise>
+                                Assign
+                            </c:otherwise>
+                        </c:choose>
+                    </button>
+                    <c:choose>
+                        <c:when test="${not empty issue.assignee.username}">
+                            <button id="clearAssignButton" type="button" class="btn btn-default btn-xs" data-container="body">
+                                Clear
+                            </button>
+                        </c:when>
+                    </c:choose>
+                </span>
+
                 <div class="col-lg-12" id="scrollable-dropdown-menu" style="display:none;">
                     <input class="form-control typeahead" id="assignTo" placeholder="Assign to" />
                     <span id = "assigneeSpan" class="help-block"></span>

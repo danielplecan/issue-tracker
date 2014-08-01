@@ -13,7 +13,9 @@ import internship.issuetracker.filter.QueryFilter;
 import internship.issuetracker.order.QueryOrder;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -36,14 +38,13 @@ public class IssueService {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     @Autowired
     private MailService mailService;
 
     /**
      *
-     * @param issueDto encapsulates an issue, and a list of id for existing
-     * labels
+     * @param issueDto encapsulates an issue, and a list of id for existing labels
      * @param owner
      * @return the id of the created issue
      */
@@ -339,29 +340,57 @@ public class IssueService {
         }
     }
     
-    public void sendNotification(Comment comment, User target) {
+    public void sendNotification(Comment comment, User target,String link) {
         if (!comment.getAuthor().getId().equals(target.getId())) {
+            Map<String,Object> map=new HashMap<>();
+            map.put("link",link +"/issue/"+ comment.getIssue().getId());
+            map.put("linkText","Click here to see the issue");
             if (comment.getChangeState() == null) {
-                String emailContent = "<p>Somebody commented on an issue!</p></br>";
-                emailContent +="<b>" + comment.getAuthor().getName() + "</b> commented on the issue with the title ";
-                emailContent +="<b>" + comment.getIssue().getTitle() + "</b>. You can view that issue ";
-                emailContent +="<a href=\"http://localhost:8080/issue/" +  comment.getIssue().getId() + "\"> here</a>.";
-                mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", emailContent);
+                String emailContent =  comment.getAuthor().getName() + " commented on the issue with the title ";
+                emailContent += comment.getIssue().getTitle();
+                map.put("text", emailContent);
+                mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", map);
             }
             else {
-                String emailContent = "<p>Somebody changed the state of an issue!</p></br>";
-                emailContent +="<b>" + comment.getAuthor().getName() + "</b> changed the state of the issue with the title ";
-                emailContent +="<b>" + comment.getIssue().getTitle() + "</b> to " + comment.getChangeState() + ". You can view that issue ";
-                emailContent +="<a href=\"http://localhost:8080/issue/" +  comment.getIssue().getId() + "\"> here</a>.";
-                mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", emailContent);
+                String emailContent = comment.getAuthor().getName() + " changed the state of the issue with the title ";
+                emailContent += comment.getIssue().getTitle() + " to " + comment.getChangeState();
+                map.put("text", emailContent);
+                mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", map);
             }
         }
     }
-    
-    public List<User> findUsersIssuesOwnersByNamePrefix(String usernamePrefix){
+
+    public List<User> findUsersIssuesOwnersByNamePrefix(String usernamePrefix) {
         TypedQuery<User> resultQuery = em.createNamedQuery(Issue.FIND_USERS_ISSUES_OWNERS, User.class);
         resultQuery.setParameter("v_username", usernamePrefix + "%");
-        
+
         return resultQuery.getResultList();
+    }
+
+    public Issue editIssueFromIssueDTO(NewIssueDTO issueDTO) {
+        Issue issue = em.find(Issue.class, issueDTO.getIssue().getId());
+        issue.setTitle(issueDTO.getIssue().getTitle());
+        issue.setContent(issueDTO.getIssue().getContent());
+        issue.setUpdateDate(new Date());
+        em.merge(issue);
+        removeAllLabelsFromAnIssue(issue.getId());
+        for (Long labelId : issueDTO.getLabelIdList()) {
+            Label label = em.find(Label.class, labelId);
+            if (label == null) {
+                continue;
+            }
+            IssueLabels issueLabel = new IssueLabels();
+            issueLabel.setIssue(issue);
+            issueLabel.setLabel(label);
+            em.persist(issueLabel);
+        }
+
+        return issue;
+    }
+
+    public void removeAllLabelsFromAnIssue(Long issueId) {
+        Query query = em.createNamedQuery(IssueLabels.REMOVE_BY_ISSUE_ID);
+        query.setParameter("v_issue_id", issueId);
+        query.executeUpdate();
     }
 }

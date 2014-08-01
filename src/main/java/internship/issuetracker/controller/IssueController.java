@@ -62,7 +62,6 @@ public class IssueController {
 
     @Autowired
     private MailService mailService;
-    
     @Autowired
     private FileUploadService fileUploadService;
 
@@ -129,7 +128,6 @@ public class IssueController {
         result.put("success", issueService.changeStateOfIssue(issueId, IssueState.CLOSED));
         response.setStatus(HttpServletResponse.SC_OK);
 
-       
 
         return result;
     }
@@ -178,10 +176,8 @@ public class IssueController {
             Comment comment = commentDTO.getCommentFromDTO();
             comment.setAttachments(fileUploadService.getAttachmentsByIds(commentDTO.getAttachments()));
             issueService.addComment(currentUser, issueId, comment);
-
             Issue issue = issueService.getIssueById(issueId);
 
-            
             List<User> targets = new ArrayList<>();
             targets.add(issue.getOwner());
             if (issue.getAssignee() != null) {
@@ -189,7 +185,7 @@ public class IssueController {
             }
             for (User user: targets) {
                 if(userSettingsService.getCurrentNotificationStatus(user.getUsername())){
-                    issueService.sendNotification(comment, user);
+                    issueService.sendNotification(comment, user,"http://"+ request.getLocalAddr()+":"+request.getLocalPort());
                 }
             }
 
@@ -300,6 +296,7 @@ public class IssueController {
         responseMap.put("assignees", assignees);
         return responseMap;
     }
+
     @RequestMapping(value = {"/edit-issue/{id}"}, method = RequestMethod.GET)
     public String getEditIssuePage(@PathVariable("id") Long id, Model model) {
         Issue resultIssue = issueService.getIssueById(id);
@@ -332,6 +329,28 @@ public class IssueController {
         List<User> owners = issueService.findUsersIssuesOwnersByNamePrefix(ownedBy);
         responseMap.put("success", true);
         responseMap.put("owners", owners);
+        return responseMap;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/edit-issue")
+    @ResponseBody
+    public Map<String, Object> editIssue(@RequestBody @Valid NewIssueDTO issueDto, BindingResult bindingResult,
+            HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> responseMap = new HashMap<>();
+
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        if (bindingResult.hasErrors()) {
+            responseMap.put("success", false);
+            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+        } else {
+
+            Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto);
+
+            responseMap.put("success", true);
+            responseMap.put("editedIssue", editedIssue);   
+            responseMap.put("editedLabels",issueService.getLabelsByIssueId(editedIssue));
+        }
         return responseMap;
     }
 }

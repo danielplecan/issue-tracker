@@ -5,7 +5,7 @@
     </div>
     <table class="table table-striped col-lg-4">
         <tr>
-            <td id="username">Username: ${user.username}</td>
+            <td >Username: <span id="username">${user.username}<span/></td>
         </tr>
         <tr>
             <td>Name: ${user.name}</td>
@@ -26,8 +26,7 @@
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade active in col-lg-8" id="home">
-            <br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i>
-            <br/>These are some status bars that will measure what part of your posted issues are open, closed and reopened.<br/><br/>
+            <br/>These are some status bars that measure what part of your posted issues are open and closed.<br/><br/>
             <span class="col-lg-3">Open issues</span>
             <div id="numberOfOpenIssues" class="col-lg-9"></div>
             <div class="col-lg-12">
@@ -46,13 +45,13 @@
 
         </div>     
         <div class="tab-pane fade" id="assigned">
-            <p><br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i><br/>Here there will be all the issues that were assigned to you</p>
-            <div class="  col-lg-12 labelsFilterList"  id="allAsignedIssues"> 
+            <p><br/>These are the issues that were assigned to you</p>
+            <div class="  col-lg-12 issuesList"  id="allAsignedIssues"> 
             </div>
         </div>
         <div class="tab-pane fade col-lg-12" id="posted">
-            <p><br/><i>PAGE UNDER CONSTRUCTION - coming soon.</i><br/>Here there will be all the issues that you posted</p>
-            <div class="  col-lg-12 labelsFilterList"  id="allUserIssues"> 
+            <p><br/>These are the issues that you posted</p>
+            <div class="  col-lg-12 issuesList"  id="allUserIssues"> 
             </div>
         </div>
 

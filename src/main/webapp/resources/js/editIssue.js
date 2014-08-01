@@ -1,14 +1,15 @@
-function editIssue() {
+(function editIssue() {
 
     var theLabels = [];
+    var widget = uploadWidget($("#existingFiles"));
 
     $("#addNewLabelToAnIssue").click(function() {
         $(this).hide();
         $("#newLabelInput").show();
         $("#cancelAddNewLabel").show();
-        if (theLabels.length == 0) {
+        if (theLabels.length === 0) {
             $.ajax({
-                url: location.origin + '/getAllLabels',
+                url: location.origin + '/getAllLabels'
             }).done(function(data) {
                 theLabels = data.labels;
             });
@@ -27,6 +28,7 @@ function editIssue() {
         var inputValue = $(this).val();
         theLabels.forEach(function(entry) {
             if (entry.name.indexOf(inputValue) > -1 && ($("#modifiedIssueLabelsList").text()).indexOf(entry.name) < 0) {
+                
                 var newLabel = $('<span class="label label-default labelEditLabels"></span>');
                 newLabel.text(entry.name);
                 newLabel.data("data-color", entry.color);
@@ -39,12 +41,13 @@ function editIssue() {
     });
 
     $("#labelsSugestions").delegate("span", "click", function() {
-        var newLabel = $('<span class="label btn-sm label-default labelEditLabels">  </span>');
+        var newLabel = $('<span class="label label-warning labelEditLabels">  </span>');
         var $this = $(this);
         newLabel.text($this.text());
         newLabel.attr("data-color", $this.data("color"));
         newLabel.attr('data-id', $this.data("id"));
         newLabel.css("background-color", $this.data("color"));
+        newLabel.attr("style","margin-right:3px;background-color:#D8FFC4;color:black");
         newLabel.append('<span class="glyphicon glyphicon-remove"></span>');
 
         $("#modifiedIssueLabelsList").append(newLabel);
@@ -53,21 +56,68 @@ function editIssue() {
 
     $("#modifiedIssueLabelsList").delegate("span > span", "click", function() {
         $(this).parent().remove();
-        $("#newLabelInput").keyup();
+        if ($('#cancelAddNewLabel').attr('style') !== 'display: none;')
+            $("#newLabelInput").keyup();
     });
 
     $("#editTheIssueButton").click(function() {
+        $('#editIssueTitle').val($('#oldIssueTitle').text().trim());
+        $('#editIssueContent').val($('#issueContent').text().trim());
         $('#viewTheIssue').hide();
         $('#editTheIssue').show();
     });
 
     $('#saveChangesEdit').click(function() {
-        $('#viewTheIssue').show();
-        $('#editTheIssue').hide();
+        var newEditLabels = [];
+        var newEditIssueId = $('#editIssueId').text();
+        var newEditTitle = $('#editIssueTitle').val();
+        var newEditContent = $('#editIssueContent').val();
+
+        $('#modifiedIssueLabelsList > span').each(function(index) {
+            newEditLabels.push($(this).data('id'));
+        });
+
+        issueTrackerService.editIssue(newEditIssueId, newEditTitle, newEditContent, newEditLabels).done(function(data) {
+            if (data.success) {
+                $('#oldIssueTitle').text(data.editedIssue.title);
+                $('#issueContent').text(data.editedIssue.content);
+                $('#oldIssueLastUpdate').text(data.editedIssue.lastUpdateDate);
+                $('#labelContainer').empty();
+
+                for (var i = 0; i < data.editedLabels.length; i++) {
+                    $('#labelContainer').append(createOldLabelSpan(data.editedLabels[i]));
+                }
+
+                $('#viewTheIssue').show();
+                $('#editTheIssue').hide();
+            }
+            else {
+                var createIssueErrors = "";
+                $.each(data.errors, function(key, value) {
+                    createIssueErrors += value;
+                    createIssueErrors += "\n";
+                });
+                $("#editIssueErrors").text(createIssueErrors);
+                ;
+            }
+        });
     });
+
     $('#discardChangesEdit').click(function() {
         $('#viewTheIssue').show();
         $('#editTheIssue').hide();
     });
-}
-editIssue();
+
+
+    function createOldLabelSpan(label) {
+        var newLabel = $('<span class="label label-default ">  </span>');
+        newLabel.text(label.name);
+        newLabel.attr("data-color", label.color);
+        newLabel.attr('data-id', label.id);
+        newLabel.css("margin-right", "3px");
+        newLabel.css("background-color", label.color);
+        newLabel.css("color", getContrastYIQ(label.color));
+        return newLabel;
+    }
+
+})();
