@@ -432,6 +432,10 @@ td {
     height:150px;
     overflow-y: auto;
 }
+.issuesList{
+    height:350px;
+    overflow-y: auto;
+}
 .firstColButton{
     width:70px;
 }
