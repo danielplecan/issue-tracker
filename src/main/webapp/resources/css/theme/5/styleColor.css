@@ -1,4 +1,4 @@
-/*LIGHT STYLE*/
+/*colorful*/
 .disabledButton {
     background-color: #669999;
 }
@@ -15,7 +15,7 @@
 }
 
 #issueContent{
-    border-left: 4px #E0E0E0 solid;
+    border-left: 4px #D3FFA3 solid;
 }
 
 .label-success {
@@ -64,17 +64,16 @@
 .theIssueTitleLink{
     color:#333333;
 }
-
 .theIssueContentPreview{
-    border-left: 4px #E0E0E0 solid;
+    border-left: 4px #DB698A solid;
 }
 
 .theIssueShowContent{
     color:#c2c2c2;
 }
 
-#allIssues > div:nth-child(even)  {
-    background: none repeat scroll 0 0 #e7e7e7 !important;
+#allIssues > div:nth-child(odd)  {
+    background: none repeat scroll 0 0 #D3FFA3 !important;
 }
 
 /*andreea;*/
@@ -85,4 +84,85 @@
 
 .closedColor{
     color:#FA2A2A;
+}
+
+
+/*start*/
+.panel-primary > .panel-heading,
+.panel-heading{
+    background-color:#222222;
+}
+.navbar,
+.navbar-default {
+    background-image: none;
+    background-color: #FF4279;
+    border-bottom: 4px solid #DE3A69;
+}
+.navbar-default .navbar-nav > li > a {
+color: #000;
+}
+
+.theIssueTitleLink{
+    color:#333333;
+}
+body{
+    background-color:#ffffff;
+}
+.panel-body,
+.list-group-item,
+.panel
+{
+    background-color: #FF4279;
+}
+.navbar-brand{
+    color: #000;
+}
+
+.panel-default > .panel-heading {
+color: #333333;
+background-color: #D3FFA3;
+border-color: #D3FFA3;
+}
+.glyphicon{
+    color: #A83857;
+}
+
+/*buttons */
+.btn,
+.btn-default,
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  background-color: #D9004C;
+  border-color: #e2e2e2;
+}
+.btn-default.disabled,
+.btn-default[disabled],
+fieldset[disabled] .btn-default,
+.btn-default.disabled:hover,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default:hover,
+.btn-default.disabled:focus,
+.btn-default[disabled]:focus,
+fieldset[disabled] .btn-default:focus,
+.btn-default.disabled:active,
+.btn-default[disabled]:active,
+fieldset[disabled] .btn-default:active,
+.btn-default.disabled.active,
+.btn-default[disabled].active,
+fieldset[disabled] .btn-default.active {
+  background-color: #D9004C;
+  border-color: #e2e2e2;
+}
+.theIssue{
+    padding: 10px;
+    border: none;
+}
+.panel-primary > .panel-heading, .panel-heading {
+background-color: #FF4279;
+}
+#panelBody{
+    background-color: #ffffff;
 }

@@ -354,7 +354,7 @@ td {
     padding-top: 20px;
 }
 .commentContent{
-    margin-top: 15px;
+    margin-top: 3px;
 }
 .list-item-text{
     margin: 0;
@@ -483,4 +483,8 @@ td {
 }
 .xButton:hover{
     color:red;
+}
+.theIssue{
+    padding: 10px;
+    
 }
