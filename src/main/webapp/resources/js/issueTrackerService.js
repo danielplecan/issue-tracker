@@ -108,6 +108,20 @@ issueTrackerService = (function() {
         });
     };
     
+    self.getFilterAssignee = function(assignee) {
+        var assigneeData = {};
+        assigneeData = {
+            'assignedTo': assignee
+        };
+        return $.ajax({
+            async: false,
+            url: location.origin + "/issues/getFilterAssignees",
+            type: "GET",
+            dataType: "json",
+            data: assigneeData
+        });
+    };
+    
     self.getIssuesOwners =function(owner) {
         var ownerData = {};
         ownerData = {

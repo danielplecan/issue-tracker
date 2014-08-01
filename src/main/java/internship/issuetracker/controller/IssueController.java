@@ -331,7 +331,18 @@ public class IssueController {
         responseMap.put("owners", owners);
         return responseMap;
     }
-
+  
+    @RequestMapping(method = RequestMethod.GET, value = "/issues/getFilterAssignees")
+    @ResponseBody
+    public Map<String, Object> getFilterAssignees(@RequestParam(value = "assignedTo") String assignedTo,
+            HttpServletRequest request) {
+        Map<String, Object> responseMap = new HashMap<>();
+        List<User> assignees = issueService.findUsersAssigneesByNamePrefix(assignedTo);
+        responseMap.put("success", true);
+        responseMap.put("assignees", assignees);
+        return responseMap;
+    }
+    
     @RequestMapping(method = RequestMethod.POST, value = "/edit-issue")
     @ResponseBody
     public Map<String, Object> editIssue(@RequestBody @Valid NewIssueDTO issueDto, BindingResult bindingResult,
