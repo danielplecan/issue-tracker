@@ -85,11 +85,11 @@ $(document).ready(function() {
 
     $('#cancelAssignButton').click(function() {
         $('#scrollable-dropdown-menu').hide();
-        if($('#assignedName>a>i').text()!=='none'){
+        if ($('#assignedName>a>i').text() !== 'none') {
             $('#clearAssignButton').show();
             $('#changeAssignButton').show();
         }
-        else{
+        else {
             $('#changeAssignButton').show();
         }
         $('#assignTo').val('');
@@ -120,7 +120,7 @@ $(document).ready(function() {
                                 for (var i = 0; i < size; i++) {
                                     users.push(data.assignees[i]);
                                 }
-                            } 
+                            }
                             else {
                                 $.each(data.errors, function(key, value) {
                                     $("#" + key + "Error").append(value);
@@ -157,7 +157,7 @@ $(document).ready(function() {
         $('#clearAssignButton').show();
         $('#changeAssignButton').text('Change');
         $('#assignTo').val('');
-        if($('#clearAssignButton').length===0){
+        if ($('#clearAssignButton').length === 0) {
             $('#assignButtons').append("<button id=\"clearAssignButton\" type=\"button\" class=\"btn btn-default btn-xs\" data-container=\"body\">Clear</button>");
         }
         event.preventDefault();
@@ -165,12 +165,12 @@ $(document).ready(function() {
         issueTrackerService.assignTo(issueId, assignee).done(function(data) {
             if (data.success) {
                 $('#assignedName>a>i').text(data.assignedTo.username);
-                $('#assignedName>a').attr('href','/profile/'+data.assignedTo.username);
+                $('#assignedName>a').attr('href', '/profile/' + data.assignedTo.username);
             }
         });
     });
-    
-    $('#assignButtons').delegate('#clearAssignButton','click',function(event){
+
+    $('#assignButtons').delegate('#clearAssignButton', 'click', function(event) {
         event.preventDefault();
         $('#scrollable-dropdown-menu').hide();
         $('#assignButtons').show();
@@ -186,7 +186,7 @@ $(document).ready(function() {
             }
         });
     });
-    
+
 //comments
     function createCommentData() {
         var commentContent = $("#textAreaComment").val();
@@ -267,7 +267,7 @@ $(document).ready(function() {
                                     "<span class=\"glyphicon glyphicon-ok-circle openColor\"></span><span> <a href=\"/profile/"
                                     + comment.author.username + "\">" +
                                     comment.author.name +
-                                    "</a> changed the state to <span class=\"openColor\">open</span> on " + comment.dateFormat+ ".</span>" +
+                                    "</a> changed the state to <span class=\"openColor\">open</span> on " + comment.dateFormat + ".</span>" +
                                     "</div>";
                             break;
                         case 'CLOSED':
@@ -275,15 +275,15 @@ $(document).ready(function() {
                                     "<span class=\"glyphicon glyphicon-remove-circle closedColor\"></span><span> <a href=\"/profile/"
                                     + comment.author.username + "\">" +
                                     comment.author.name +
-                                    "</a> changed the state to <span class=\"closedColor\">closed</span> on" + comment.dateFormat+ ".</span>" +
+                                    "</a> changed the state to <span class=\"closedColor\">closed</span> on" + comment.dateFormat + ".</span>" +
                                     "</div>";
                             break;
                     }
                 }
             } else {
                 stateChangeDiv = '<span class=\"glyphicon glyphicon-comment\"></span>\n\
-                                    <span> <a href=\"/profile/' 
-                        + comment.author.username + '">' 
+                                    <span> <a href=\"/profile/'
+                        + comment.author.username + '">'
                         + comment.author.name + '</a> said:</span>';
             }
             fullCommentDiv.append(stateChangeDiv);
@@ -301,7 +301,7 @@ $(document).ready(function() {
                 $("#allComments blockquote p").last().text(comment.content);
             }
             $("#textAreaComment").val('');
-            
+
             var attachments = $("<div class='attachments' />");
             for (var j = 0; j < comment.attachments.length; j++) {
                 var link = "/attachment/download/" + comment.attachments[j].id;
@@ -322,8 +322,26 @@ $(document).ready(function() {
     function clearErrorMessages() {
         $('#contentError').text("");
     }
-    
-    
+
+    $('#textAreaComment').on('input', function() {
+        var commentContent = $(this).val().trim();
+        var size = commentContent.length;
+        if ((size > 0 && size < 3) || size > 500) {
+            $('#contentError').text('A comment must contain between 3 and 500 characters.');
+//            $('#changeState-close').attr('disabled', true);
+//            $('#changeState-open').attr('disabled', true);
+//            $('#submitComment').attr('disabled', true);
+            return;
+        } else if (size === 0) {
+//            $('#submitComment').attr('disabled', true);
+
+        } else {
+//            $('#submitComment').attr('disabled', false);
+        }
+        $('#contentError').text('');
+//        $('#changeState-close').attr('disabled', false);
+//        $('#changeState-open').attr('disabled', false);
+    });
 
 });
 
