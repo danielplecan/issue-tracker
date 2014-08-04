@@ -391,14 +391,14 @@ td {
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
 
-.typeahead {
+.typeahead, .typeaheadOwners, .typeaheadAssignees {
     width: 300px;
     padding: 8px 12px;
     line-height: 30px;
-    border: 2px solid #ccc;
-    -webkit-border-radius: 8px;
+ /*    border: 2px solid #ccc;
+   -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
-    border-radius: 8px;
+    border-radius: 8px;*/
     outline: none;
     background-color: #fff;
 }

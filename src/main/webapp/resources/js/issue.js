@@ -148,9 +148,10 @@ $(document).ready(function() {
 
 //cosmina's autocomplete
 
+    autocomplete.getAllUsersForAssignTo();
     $('#changeAssignButton').click(function() {
         $('#assignTo').val('');
-        $('#scrollable-dropdown-menu').show();
+        $('#scrollable-dropdown-menu').show('slow');
         $('#changeAssignButton').hide();
         $('#assignButton').hide();
         $('#cancelAssignButton').show();
@@ -168,8 +169,6 @@ $(document).ready(function() {
         }
         $('#assignTo').val('');
     });
-
-    var users = [];
     var assignee;
 
     $("#assignTo").keydown(function(event) {
@@ -178,43 +177,6 @@ $(document).ready(function() {
             $('#assignButton').hide();
             $('#cancelAssignButton').show();
         }
-    });
-
-    var substringMatcher = function() {
-        return function(q, cb) {
-            while (users.length > 0) {
-                users.pop();
-            }
-            var issueId = $("#issueState").attr('data-id');
-            if (q !== '') {
-                issueTrackerService.getUsersAssignee(issueId, q)
-                        .done(function(data) {
-                            if (data.success) {
-                                var size = data.assignees.length;
-                                for (var i = 0; i < size; i++) {
-                                    users.push(data.assignees[i]);
-                                }
-                            }
-                            else {
-                                $.each(data.errors, function(key, value) {
-                                    $("#" + key + "Error").append(value);
-                                });
-                            }
-                        });
-            }
-            cb(users);
-        };
-    };
-
-    $('#scrollable-dropdown-menu .typeahead').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    },
-    {
-        name: 'users',
-        displayKey: 'username',
-        source: substringMatcher()
     });
 
     $('#assignTo').bind('typeahead:selected', function(obj, datum, name) {

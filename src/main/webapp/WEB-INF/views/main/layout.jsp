@@ -17,6 +17,7 @@
         <script src="/resources/js/jquery.fileupload-process.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload-validate.js" type="text/javascript"></script>
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
+        <script src="/resources/js/autocomplete.js" type="text/javascript"></script>
         <script src="/resources/js/uploadWidget.js" type="text/javascript"></script>
         <script src="/resources/js/issue.js" type="text/javascript"></script>
         <script src="/resources/js/jquery-ui.min.js" type="text/javascript"></script>
