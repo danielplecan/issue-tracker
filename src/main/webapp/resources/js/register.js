@@ -163,4 +163,17 @@ $(document).ready(function() {
     $('#inputRetypePassword').on('focus', function() {
         $('#passwordError').text('');
     });
+
+    $('#inputUsername').on('blur', function() {
+        var username = $(this).val();
+        if (username.length !== 0) {
+            issueTrackerService.checkUsernameExistance(username).done(function(data) {
+                if (data.success) {
+                    var previousErros =   $('#usernameError').text();
+                    $('#usernameError').text(previousErros + 
+                            '\nUsername is already taken.');
+                }
+            });
+        }
+    });
 });

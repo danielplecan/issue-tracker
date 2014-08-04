@@ -92,4 +92,18 @@ public class RegisterController {
         }
         return "activation";
     }
+    
+    @RequestMapping(value = "/userExistance/{username}", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> checkUsernameExistence(@PathVariable("username") String username,
+             HttpServletResponse response) {
+        Map<String, Object> responseMap = new HashMap<>();
+        response.setStatus(HttpServletResponse.SC_OK);
+        if (userService.usernameExists(username)) {
+            responseMap.put("success", true);
+        } else {
+            responseMap.put("success", false);
+        }
+        return responseMap;
+    }
 }

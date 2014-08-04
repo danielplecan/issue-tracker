@@ -201,6 +201,14 @@ issueTrackerService = (function() {
         });
     };
     
+    self.checkUsernameExistance = function(username) {
+         return $.ajax({
+            type: 'GET',
+            url: location.origin + '/userExistance/' + username,
+            dataType: 'json'
+        });
+    };
+    
     return self;
 })();
    

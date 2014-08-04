@@ -12,7 +12,8 @@
         <security:intercept-url pattern="/register" access="permitAll" />
         <security:intercept-url pattern="/login" access="permitAll" />
         <security:intercept-url pattern="/activation/*" access="permitAll" />
-         <security:intercept-url pattern="/registerMessage" access="permitAll" />
+        <security:intercept-url pattern="/registerMessage" access="permitAll" />
+        <security:intercept-url pattern="/userExistance/*" access="permitAll" />
         <security:intercept-url pattern="/**" access="isAuthenticated()" />
         <security:form-login login-page="/login" 
                              authentication-failure-handler-ref="customAuthenticationFailureHandler" 
