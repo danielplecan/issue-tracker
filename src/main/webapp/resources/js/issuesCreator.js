@@ -61,7 +61,10 @@ var issuesCreator = function() {
 
     var createPostedDetailsSpan = function(text) {
         var span = $("<span></span>");
-        span.text(text);
+        var a = $('<a/>');
+        a.attr('href','/profile/'+text);
+        a.text(text);
+        span.append(a);
         span.addClass("text-primary");
         return span;
     };
@@ -79,7 +82,7 @@ var issuesCreator = function() {
         var issueDateTime = $("<span/>");
         issueDateTime.addClass("theIssueRightDetails");
         issueDateTime.append("<i>Last updated by </i>");
-        issueDateTime.append(createPostedDetailsSpan("LAST AUTHOR!!!"));
+        issueDateTime.append(createPostedDetailsSpan(issue.lastUpdatedBy.username));
         issueDateTime.append("<i>, </i>");
         issueDateTime.append(createPostedDetailsSpan(issue.lastUpdateDate));       
         return issueDateTime;
