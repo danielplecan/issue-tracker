@@ -492,3 +492,37 @@ td {
     padding: 10px;
     
 }
+
+/*view an issue /edit*/
+.labelEditLabels{
+        display:inline-block;
+        font-size:13px;
+    }
+    .labelEditLabels > span{
+        color:#C42D16;
+    }
+    .labelEditLabels > span:hover{
+        cursor: pointer;
+    }
+    #existingLabels > .row{
+        margin-left: 1px;
+    }
+    #newLabelInput, #cancelAddNewLabel{
+        display:none;
+        float:left;
+    }
+    #addNewLabelToAnIssue{
+        float:left;
+    }
+    #labelsSugestions > span{
+        cursor:pointer;
+    }
+    #editTheIssue{
+        display: none;
+    }
+    #modifiedIssueLabelsList > span > span:hover{
+        cursor: pointer;
+    }
+    .editTheIssueButton{
+        float:right;
+    }
