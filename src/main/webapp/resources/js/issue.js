@@ -60,6 +60,7 @@ var commentBuilder = (function() {
             var blockquote = $('<blockquote class=\"commentBlockquote\"><\/blockquote>');
             var pElement = $('<p class=\"commentContent\"><\/p>').text(comment.content);
             var span = $('<span><\/span>').text('- on ' + comment.dateFormat);
+            var attachmentsDiv = $('')
 
             $(blockquote).append($(pElement));
             $(commentDiv).append($(blockquote));
@@ -356,7 +357,8 @@ $(document).ready(function() {
             
             fullCommentDiv.append(stateChangeDiv);
             
-            fullCommentDiv.append(commentBuilder.createCommentContent(comment));
+            var commentContent = commentBuilder.createCommentContent(comment);
+            fullCommentDiv.append(commentContent);
             $("#allComments").append(fullCommentDiv);
             $("#textAreaComment").val('');
 
@@ -372,7 +374,7 @@ $(document).ready(function() {
                 $(attachmentAnchor).append(button);
                 $(attachments).append(attachmentAnchor);
             }
-            $(fullCommentDiv).append(attachments);
+            $(commentContent).find('blockquote').first().append(attachments);
         }
         widget.reset();
     }
