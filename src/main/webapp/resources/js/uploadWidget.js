@@ -8,7 +8,7 @@ function uploadWidget(container) {
     $(addButton).append($("<span class='glyphicon glyphicon-plus'></span>"));
     $(addButton).append($("<span>Add file...</span>"));
 
-    var fileInput = $("<input type='file' name='file' data-url='/upload' />");
+    var fileInput = $("<input type='file' accept='image/*' name='file' data-url='/upload' />");
     var errorSpan = $("<span class='errorsUpload text-danger'></span>");
 
     $(actionPanel).append(addButton);
