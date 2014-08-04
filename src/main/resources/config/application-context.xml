@@ -41,7 +41,7 @@
     <bean class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean" id="freemarkerConfiguration">
         <!-- Turn this off to always load via SpringTemplateLoader -->
         <property name="preferFileSystemAccess" value="false"></property>
-        <property name="templateLoaderPath" value="Templates"></property>
+        <property name="templateLoaderPath" value="resources/Templates"></property>
     </bean>
     
     

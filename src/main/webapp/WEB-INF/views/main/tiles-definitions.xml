@@ -34,6 +34,12 @@
         <put-attribute name="body" value="/WEB-INF/views/main/activation.jsp" />
         <put-attribute name="footer" value="" />
     </definition>
+    
+     <definition name="registerMessage" extends="mainLayout">
+        <put-attribute name="header" value="/WEB-INF/views/main/headerLoginAndRegister.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/main/registerMessage.jsp" />
+        <put-attribute name="footer" value="" />
+    </definition>
 
     <definition name="not-found" extends="mainLayout">
         <put-attribute name="header" value="/WEB-INF/views/main/header.jsp" />

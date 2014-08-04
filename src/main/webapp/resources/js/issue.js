@@ -1,3 +1,77 @@
+var commentBuilder = (function() {
+    var self = {};
+
+    self.createFullCommentDiv = function(commentId) {
+        var fullCommentDiv = $("<div class=\"fullCommentBody\"></div>");
+        $(fullCommentDiv).attr('data-id', commentId);
+        return fullCommentDiv;
+    };
+
+    self.createStateChangeDiv = function() {
+        return $("<div class=\"commentStateChanged\"></div>");
+    };
+
+    self.createActionIcon = function(type) {
+        var actionIcon;
+        switch (type) {
+            case 'OPEN':
+                actionIcon = $('<span class=\"glyphicon-ok-circle openColor\">\n\
+                                </span>');
+                break;
+            case 'CLOSE':
+                actionIcon = $('<span class=\"glyphicon-remove-circle closedColor\">\n\
+                                </span>');
+                break;
+            case 'TEXT':
+                actionIcon = $(' <span class="glyphicon-comment">\n\
+                                </span>');
+                break;
+        }
+        $(actionIcon).addClass('glyphicon');
+
+        return actionIcon;
+    };
+
+    self.createAuthorLink = function(username, name) {
+        var authorLink = $('<a></a>').attr('href', '/profile/' + username).text(' ' + name);
+        return authorLink;
+    };
+
+    self.createSimpleSpan = function() {
+        return $('<span></span>');
+    };
+
+    self.createStateSpan = function(type) {
+        var stateSpan;
+        switch (type) {
+            case 'OPEN':
+                stateSpan = $('<span class=\"openColor\">open</span>');
+                break;
+            case 'CLOSE':
+                stateSpan = $('<span class=\"closedColor\">closed</span>');
+                break;
+        }
+        return stateSpan;
+    };
+
+    self.createCommentContent = function(comment) {
+        var commentDiv = $('<div class=\"commentBlockThing\"></div>');
+        if (comment.content.length !== 0) {
+            var blockquote = $('<blockquote class=\"commentBlockquote\"><\/blockquote>');
+            var pElement = $('<p class=\"commentContent\"><\/p>').text(comment.content);
+            var span = $('<span><\/span>').text('- on ' + comment.dateFormat);
+            var attachmentsDiv = $('')
+
+            $(blockquote).append($(pElement));
+            $(commentDiv).append($(blockquote));
+            $(commentDiv).append($(span));
+        }
+        return commentDiv;
+    };
+
+    return self;
+})();
+
 $(document).ready(function() {
     var widget = uploadWidget($("#commentFileUpload"));
     $('#textAreaComment').focus(function() {
@@ -74,9 +148,10 @@ $(document).ready(function() {
 
 //cosmina's autocomplete
 
+    autocomplete.getAllUsersForAssignTo();
     $('#changeAssignButton').click(function() {
         $('#assignTo').val('');
-        $('#scrollable-dropdown-menu').show();
+        $('#scrollable-dropdown-menu').show('slow');
         $('#changeAssignButton').hide();
         $('#assignButton').hide();
         $('#cancelAssignButton').show();
@@ -94,8 +169,6 @@ $(document).ready(function() {
         }
         $('#assignTo').val('');
     });
-
-    var users = [];
     var assignee;
 
     $("#assignTo").keydown(function(event) {
@@ -104,43 +177,6 @@ $(document).ready(function() {
             $('#assignButton').hide();
             $('#cancelAssignButton').show();
         }
-    });
-
-    var substringMatcher = function() {
-        return function(q, cb) {
-            while (users.length > 0) {
-                users.pop();
-            }
-            var issueId = $("#issueState").attr('data-id');
-            if (q !== '') {
-                issueTrackerService.getUsersAssignee(issueId, q)
-                        .done(function(data) {
-                            if (data.success) {
-                                var size = data.assignees.length;
-                                for (var i = 0; i < size; i++) {
-                                    users.push(data.assignees[i]);
-                                }
-                            }
-                            else {
-                                $.each(data.errors, function(key, value) {
-                                    $("#" + key + "Error").append(value);
-                                });
-                            }
-                        });
-            }
-            cb(users);
-        };
-    };
-
-    $('#scrollable-dropdown-menu .typeahead').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    },
-    {
-        name: 'users',
-        displayKey: 'username',
-        source: substringMatcher()
     });
 
     $('#assignTo').bind('typeahead:selected', function(obj, datum, name) {
@@ -236,70 +272,56 @@ $(document).ready(function() {
         var size = data.comments.length;
         for (var i = 0; i < size; i++) {
             var comment = data.comments[i];
-            var commentContent;
-            var stateChangeDiv = "<div class=\"commentStateChanged\"></div>";
-            var fullCommentDiv = $("<div class=\"fullCommentBody\" data-id=\"" + comment.id + "\"></div>");
+            var stateChangeDiv = commentBuilder.createStateChangeDiv();
+            var fullCommentDiv = commentBuilder.createFullCommentDiv(comment.id);
+            var span = commentBuilder.createSimpleSpan();
+            var authorLink = commentBuilder.createAuthorLink(
+                    comment.author.username, comment.author.name
+                    );
 
             if (comment.changeState !== null) {
                 if (comment.content.length !== 0) {
                     switch (comment.changeState) {
                         case 'OPEN':
-                            stateChangeDiv = "<div class=\"commentStateChanged\">" +
-                                    "<span class=\"glyphicon glyphicon-ok-circle openColor\"></span><span> <a href=\"/profile/"
-                                    + comment.author.username + "\">" +
-                                    comment.author.name +
-                                    "</a> changed the state to <span class=\"openColor\">open</span> and said:</span>" +
-                                    "</div>";
+                            $(stateChangeDiv).append(commentBuilder.createActionIcon('OPEN'));
+                            $(span).append(authorLink);
+                            $(span).append(commentBuilder.createStateSpan('OPEN'));
                             break;
                         case 'CLOSED':
-                            stateChangeDiv = "<div class=\"commentStateChanged\">" +
-                                    "<span class=\"glyphicon glyphicon-remove-circle closedColor\"></span><span> <a href=\"/profile/"
-                                    + comment.author.username + "\">" +
-                                    comment.author.name +
-                                    "</a> changed the state to <span class=\"closedColor\">closed</span> and said:</span>" +
-                                    "</div>";
+                            $(stateChangeDiv).append(commentBuilder.createActionIcon('CLOSE'));
+                            $(span).append(authorLink);
+                            $(span).append(commentBuilder.createStateSpan('CLOSE'));
                             break;
                     }
+                    $(span).append(' and said :');
                 } else {
                     switch (comment.changeState) {
                         case 'OPEN':
-                            stateChangeDiv = "<div class=\"commentStateChanged\">" +
-                                    "<span class=\"glyphicon glyphicon-ok-circle openColor\"></span><span> <a href=\"/profile/"
-                                    + comment.author.username + "\">" +
-                                    comment.author.name +
-                                    "</a> changed the state to <span class=\"openColor\">open</span> on " + comment.dateFormat + ".</span>" +
-                                    "</div>";
+                            $(stateChangeDiv).append(commentBuilder.createActionIcon('OPEN'));
+                            $(span).append(authorLink);
+                            $(span).append(commentBuilder.createStateSpan('OPEN'));
                             break;
                         case 'CLOSED':
-                            stateChangeDiv = "<div class=\"commentStateChanged\">" +
-                                    "<span class=\"glyphicon glyphicon-remove-circle closedColor\"></span><span> <a href=\"/profile/"
-                                    + comment.author.username + "\">" +
-                                    comment.author.name +
-                                    "</a> changed the state to <span class=\"closedColor\">closed</span> on" + comment.dateFormat + ".</span>" +
-                                    "</div>";
+                            $(stateChangeDiv).append(commentBuilder.createActionIcon('CLOSE'));
+                            $(span).append(authorLink);
+                            $(span).append(commentBuilder.createStateSpan('CLOSE'));
                             break;
                     }
+                    $(span).append(' on ' + comment.dateFormat + '.');
                 }
+                $(authorLink).after(' changed the state to ');
+                stateChangeDiv.append($(span));
             } else {
-                stateChangeDiv = '<span class=\"glyphicon glyphicon-comment\"></span>\n\
-                                    <span> <a href=\"/profile/'
-                        + comment.author.username + '">'
-                        + comment.author.name + '</a> said:</span>';
+                $(stateChangeDiv).append(commentBuilder.createActionIcon('TEXT'));
+                $(stateChangeDiv).append(authorLink);
+                $(stateChangeDiv).append(' said: ');
             }
+            
             fullCommentDiv.append(stateChangeDiv);
-
+            
+            var commentContent = commentBuilder.createCommentContent(comment);
+            fullCommentDiv.append(commentContent);
             $("#allComments").append(fullCommentDiv);
-
-            if (comment.content.length !== 0) {
-                commentContent = $('<div class=\"commentBlockThing\">\r\n\n\
-                            <blockquote class=\"commentBlockquote\">\r\n\n\
-                                <p class=\"commentContent\"><\/p>\r\n\n\
-                            <\/blockquote>\r\n\n\
-                            <span> - on ' + comment.dateFormat + '<\/span>\r\n\n\
-                        <\/div>');
-                fullCommentDiv.append(commentContent);
-                $("#allComments blockquote p").last().text(comment.content);
-            }
             $("#textAreaComment").val('');
 
             var attachments = $("<div class='attachments' />");
@@ -314,7 +336,7 @@ $(document).ready(function() {
                 $(attachmentAnchor).append(button);
                 $(attachments).append(attachmentAnchor);
             }
-            $(fullCommentDiv).append(attachments);
+            $(commentContent).find('blockquote').first().append(attachments);
         }
         widget.reset();
     }
@@ -328,19 +350,9 @@ $(document).ready(function() {
         var size = commentContent.length;
         if ((size > 0 && size < 3) || size > 500) {
             $('#contentError').text('A comment must contain between 3 and 500 characters.');
-//            $('#changeState-close').attr('disabled', true);
-//            $('#changeState-open').attr('disabled', true);
-//            $('#submitComment').attr('disabled', true);
-            return;
-        } else if (size === 0) {
-//            $('#submitComment').attr('disabled', true);
-
         } else {
-//            $('#submitComment').attr('disabled', false);
+            $('#contentError').text('');
         }
-        $('#contentError').text('');
-//        $('#changeState-close').attr('disabled', false);
-//        $('#changeState-open').attr('disabled', false);
     });
 
 });

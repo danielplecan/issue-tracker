@@ -12,10 +12,12 @@
         <security:intercept-url pattern="/register" access="permitAll" />
         <security:intercept-url pattern="/login" access="permitAll" />
         <security:intercept-url pattern="/activation/*" access="permitAll" />
+         <security:intercept-url pattern="/registerMessage" access="permitAll" />
         <security:intercept-url pattern="/**" access="isAuthenticated()" />
         <security:form-login login-page="/login" 
                              authentication-failure-handler-ref="customAuthenticationFailureHandler" 
                              authentication-success-handler-ref="customAuthenticationSuccessHandler"
+                             
                              default-target-url="/" always-use-default-target="true"
                              
                              login-processing-url="/security_check"
@@ -27,7 +29,6 @@
             <security:concurrency-control  max-sessions="1" expired-url="/" error-if-maximum-exceeded="true" />
         </security:session-management>
     </security:http>
-    
 
 
     <security:authentication-manager>

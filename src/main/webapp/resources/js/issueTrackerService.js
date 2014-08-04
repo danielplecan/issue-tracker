@@ -109,7 +109,7 @@ issueTrackerService = (function() {
         });
     };
     
-    self.getFilterAssignee = function(assignee) {
+    self.getFilterAssignee = function(id, assignee) {
         var assigneeData = {};
         assigneeData = {
             'assignedTo': assignee
@@ -123,7 +123,7 @@ issueTrackerService = (function() {
         });
     };
     
-    self.getIssuesOwners =function(owner) {
+    self.getFilterOwners =function(id, owner) {
         var ownerData = {};
         ownerData = {
             'ownedBy': owner

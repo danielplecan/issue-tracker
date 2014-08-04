@@ -42,7 +42,9 @@ $(document).ready( function() {
     $("#themeSelect li").each(function(index, elem) {
         $(this).hover(function() {
             previewTheme($(this).attr("value"));
-        },function() {});
+        },function() {
+            restoreOriginalTheme(initialTheme);
+        });
         $(this).click( function() {
             var currentThemeSelection = $(this).attr("value");
             
@@ -70,9 +72,22 @@ $(document).ready( function() {
 
 function previewTheme(theme) {
     $(".theme-prev").hide();
-    $(".theme-prev").each( function() {
-        var targetPrevId = "#prev" + theme;
-        $(targetPrevId).show();
-        
-    });
+    
+    var targetPrevId = "#prev" + theme;
+    $(targetPrevId).show();
+    $("#bootstrapTheme").removeAttr("href");
+    $("#bootstrapTheme").attr("href", "/resources/css/theme/" + theme + "/bootstrap.css");
+    console.log("href", "/resources/css/theme/" + theme + "/bootstrap.css");
+    console.log("href", "/resources/css/theme/" + theme + "/styleColor.css");
+    $("#colorTheme").removeAttr("href");
+    $("#colorTheme").attr("href", "/resources/css/theme/" + theme + "/styleColor.css");
+    $(".navbar").height(50); //hack
+}
+
+
+function restoreOriginalTheme(theme) {
+    $("#bootstrapTheme").removeAttr("href");
+    $("#bootstrapTheme").attr("href", "/resources/css/theme/" + theme + "/bootstrap.css");
+    $("#colorTheme").removeAttr("href");
+    $("#colorTheme").attr("href", "/resources/css/theme/" + theme + "/styleColor.css");
 }
