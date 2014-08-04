@@ -192,6 +192,14 @@ issueTrackerService = (function() {
         });
     };
     
+    self.getAttachmentsForIssue = function(issueId) {
+        return $.ajax({
+            type: 'GET',
+            url: location.origin + '/issue/' + issueId + '/get-attachments',
+            dataType: 'json'
+        });
+    };
+    
     return self;
 })();
    
