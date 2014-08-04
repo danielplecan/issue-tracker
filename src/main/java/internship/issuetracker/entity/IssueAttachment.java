@@ -20,7 +20,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = IssueAttachment.FIND_BY_ISSUE_ID, query = "SELECT u from IssueAttachment u WHERE u.issue = :v_issue"),
     @NamedQuery(name = IssueAttachment.REMOVE_BY_ATTACHMENT_ID, query = "DELETE from IssueAttachment where attachment.id = :attachment_id"),
-    @NamedQuery(name = IssueAttachment.REMOVE_BY_ISSUE_ID, query = "DELETE from IssueAttachment u WHERE u.issue.id = :v_issue_id")
+    @NamedQuery(name = IssueAttachment.REMOVE_BY_ISSUE_ID, query = "DELETE from IssueAttachment u WHERE u.issue.id = :v_issue_id"),
+    @NamedQuery(name = IssueAttachment.FIND_ORPHAN_ATTACHMENT, query = "SELECT u FROM IssueAttachment u WHERE u.attachment.id = :attachment_id")
 })
 
 @Entity
@@ -32,6 +33,8 @@ public class IssueAttachment implements Serializable{
     public static final String REMOVE_BY_ATTACHMENT_ID = "removeIssueAttachmentsByAttachmentId";
     
     public static final String REMOVE_BY_ISSUE_ID = "removeIssueAttachmentsByIssueId";
+    
+    public static final String FIND_ORPHAN_ATTACHMENT = "findOrphanAttachments";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

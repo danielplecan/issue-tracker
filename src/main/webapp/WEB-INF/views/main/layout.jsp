@@ -17,6 +17,7 @@
         <script src="/resources/js/jquery.fileupload-process.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload-validate.js" type="text/javascript"></script>
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
+        <script src="/resources/js/autocomplete.js" type="text/javascript"></script>
         <script src="/resources/js/uploadWidget.js" type="text/javascript"></script>
         <script src="/resources/js/issue.js" type="text/javascript"></script>
         <script src="/resources/js/jquery-ui.min.js" type="text/javascript"></script>
@@ -29,8 +30,8 @@
         <sec:authorize var="loggedIn" access="isAuthenticated()" />
         <c:choose>
             <c:when test="${loggedIn}">
-                <link href="/resources/css/theme/${sessionScope.theme}/bootstrap.css" rel="stylesheet" type="text/css"/>
-                <link href="/resources/css/theme/${sessionScope.theme}/styleColor.css" rel="stylesheet" type="text/css"/>
+                <link id="bootstrapTheme" href="/resources/css/theme/${sessionScope.theme}/bootstrap.css" rel="stylesheet" type="text/css"/>
+                <link id="colorTheme" href="/resources/css/theme/${sessionScope.theme}/styleColor.css" rel="stylesheet" type="text/css"/>
             </c:when>
             <c:otherwise>
                 <link href="/resources/css/theme/1/bootstrap.css" rel="stylesheet" type="text/css"/>

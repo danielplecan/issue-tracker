@@ -1,4 +1,4 @@
-/*LIGHT STYLE*/
+/*cold*/
 .disabledButton {
     background-color: #669999;
 }
@@ -22,6 +22,7 @@
     background-color: #80E680;
     color: green;
 }
+
 .label-danger{
     background-color: #FF8080;
     color: #7A0000;
@@ -85,19 +86,5 @@
 .closedColor{
     color:#FA2A2A;
 }
-/*stuff*/
-.panel-primary > .panel-heading{
-    background-color:#c2c2c2;
-}
 
-    .fullCommentBody{
-        border: 1px solid #F7F7F7;
-        background-color: #FCFCFC;
-        margin-top: 30px;
-        padding-left: 5px;
-        background: -webkit-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: -moz-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: -ms-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: linear-gradient(180deg, #F5F5F5 5%, #FCFCFC 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F5F5', endColorstr='#FCFCFC');
-    }
+

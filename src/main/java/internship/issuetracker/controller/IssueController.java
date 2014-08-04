@@ -296,7 +296,7 @@ public class IssueController {
 
         List<User> assignees = userService.findUsersWithUsernameStartingWith(assignedTo);
         responseMap.put("success", true);
-        responseMap.put("assignees", assignees);
+        responseMap.put("result", assignees);
         return responseMap;
     }
 
@@ -331,7 +331,7 @@ public class IssueController {
 
         List<User> owners = issueService.findUsersIssuesOwnersByNamePrefix(ownedBy);
         responseMap.put("success", true);
-        responseMap.put("owners", owners);
+        responseMap.put("result", owners);
         return responseMap;
     }
   
@@ -342,7 +342,7 @@ public class IssueController {
         Map<String, Object> responseMap = new HashMap<>();
         List<User> assignees = issueService.findUsersAssigneesByNamePrefix(assignedTo);
         responseMap.put("success", true);
-        responseMap.put("assignees", assignees);
+        responseMap.put("result", assignees);
         return responseMap;
     }
     
@@ -364,6 +364,7 @@ public class IssueController {
             responseMap.put("success", true);
             responseMap.put("editedIssue", editedIssue);   
             responseMap.put("editedLabels",issueService.getLabelsByIssueId(editedIssue));
+            responseMap.put("editedAttachments", issueService.getAttachmentsByIssueId(editedIssue));
         }
         return responseMap;
     }

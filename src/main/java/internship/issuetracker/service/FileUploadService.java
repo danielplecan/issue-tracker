@@ -1,5 +1,6 @@
 package internship.issuetracker.service;
 
+import internship.issuetracker.entity.IssueAttachment;
 import internship.issuetracker.entity.UploadedFile;
 import internship.issuetracker.exception.FileUploadException;
 import java.io.File;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,7 +85,7 @@ public class FileUploadService {
         return new File(UploadedFile.LOCATION + File.separator + uploadedFile.getTargetName());
     }
 
-
+    @Transactional
     public List<UploadedFile> getAttachmentsByIds(List<Long> attachments) {
         List<UploadedFile> files = new ArrayList<>();
         for(Long attachment : attachments) {
@@ -94,5 +96,18 @@ public class FileUploadService {
         }
         
         return files;
+    }
+    
+    @Transactional
+    public void removeOrphanAttachments(List<Long> attachments) {
+        for(Long attachment : attachments) {
+            TypedQuery<IssueAttachment> query = entityManager.createNamedQuery(IssueAttachment.FIND_ORPHAN_ATTACHMENT, IssueAttachment.class);
+            query.setParameter("attachment_id", attachment);
+            
+            List<IssueAttachment> resultList = query.getResultList();
+            if(resultList == null || resultList.isEmpty()) {
+                this.removeFile(attachment);
+            }
+        }
     }
 }

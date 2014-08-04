@@ -1,5 +1,6 @@
 package internship.issuetracker.controller;
 
+import internship.issuetracker.dto.OrphanAttachmentDTO;
 import internship.issuetracker.entity.UploadedFile;
 import internship.issuetracker.exception.FileUploadException;
 import internship.issuetracker.service.FileUploadService;
@@ -10,12 +11,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -74,5 +77,14 @@ public class FileUploadController {
         } catch (IOException exception) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
+    
+    @RequestMapping(value = "/attachment/remove-orphans", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Map<String, Object> removeOrphanAttachments(@RequestBody OrphanAttachmentDTO orphanAttachment) {
+        Map<String, Object> responseMap = new HashMap<>();
+        fileUploadService.removeOrphanAttachments(orphanAttachment.getAttachments());
+        responseMap.put("success", true);
+        return responseMap;
     }
 }

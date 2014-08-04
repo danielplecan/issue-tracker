@@ -25,10 +25,10 @@
             <c:choose>
                 <c:when test="${not empty issue.content}">
                     <h4><div clsss="" id="issueContent"><c:out value="${issue.content}"/></div></h4>
-                </c:when>    
-            </c:choose>
-            <c:choose>
-                <c:when test="${labels != null}">
+                    </c:when>    
+                </c:choose>
+                <c:choose>
+                    <c:when test="${labels != null}">
                     <div id="labelContainer">
                         <c:forEach var="label" items="${labels}">
                             <span style="margin-right:3px;background-color:${label.color}" data-color="${label.color}" class="label label-warning"> <c:out value="${label.name}"/></span>
@@ -118,12 +118,31 @@
                                 <c:choose>
                                     <c:when test="${comment.changeState == 'OPEN'}">
                                         <div class="commentStateChanged">
+
                                             <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
+                                            <div class="attachments">
+                                                <c:forEach items="${comment.attachments}" var="attachment">
+                                                    <a href="/attachment/download/<c:out value="${attachment.id}"/>">
+                                                        <span class="btn btn-default attachmentWidth">
+                                                            <span class="buttontext " >${attachment.originalName}</span>
+                                                        </span>
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
                                         </div>
                                     </c:when>
                                     <c:when test="${comment.changeState == 'CLOSED'}">
                                         <div class="commentStateChanged">
                                             <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor"> closed</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
+                                            <div class="attachments">
+                                                <c:forEach items="${comment.attachments}" var="attachment">
+                                                    <a href="/attachment/download/<c:out value="${attachment.id}"/>">
+                                                        <span class="btn btn-default attachmentWidth">
+                                                            <span class="buttontext " >${attachment.originalName}</span>
+                                                        </span>
+                                                    </a>
+                                                </c:forEach>
+                                            </div>
                                         </div>
                                     </c:when>
                                 </c:choose>
@@ -186,9 +205,7 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .commentBlockquote{
-        margin: 0px;
-    }
+
     .commentStateChanged{
         padding-top: 0px;
     }
@@ -198,16 +215,5 @@
     }
     #labelContainer{
         padding-left: 0px;
-    }
-    .fullCommentBody{
-        border: 1px solid #F7F7F7;
-        background-color: #FCFCFC;
-        margin-top: 30px;
-        padding-left: 5px;
-        background: -webkit-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: -moz-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: -ms-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: linear-gradient(180deg, #F5F5F5 5%, #FCFCFC 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F5F5', endColorstr='#FCFCFC');
     }
 </style>

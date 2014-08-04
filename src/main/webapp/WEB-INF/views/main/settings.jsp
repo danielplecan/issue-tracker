@@ -16,10 +16,9 @@
         <ul id="themeSelect">
             <li value="1" id="op1">Light(default)</li>
             <li value="2" id="op2">Dark</li>
-            <li value="3" id="op3">No longer in use</li>
-            <li value="4" id="op4">Cold</li>
-            <li value="5" id="op5">Salad</li>
-            <li value="6" id="op6">Pink</li>
+            <li value="3" id="op3">Cold</li>
+            <li value="4" id="op4">Salad</li>
+            <li value="5" id="op5">Pink</li>
             
         </ul>
     </div>
@@ -29,7 +28,6 @@
         <li id="prev3" class="col-lg-4 row theme-prev"><img src="/resources/img/theme3.png" alt=""/></li>
         <li id="prev4" class="col-lg-4 row theme-prev"><img src="/resources/img/theme4.png" alt=""/></li>
         <li id="prev5" class="col-lg-4 row theme-prev"><img src="/resources/img/theme5.png" alt=""/></li>
-        <li id="prev6" class="col-lg-4 row theme-prev"><img src="/resources/img/theme6.png" alt=""/></li>
     </ul>
 </div>
 <style>

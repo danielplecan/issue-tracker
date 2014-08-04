@@ -14,10 +14,9 @@ $(document).ready(function() {
         };
 
         issueTrackerService.login(loginData).then(
-                function() {
+                function(response) {
                     currentButton.removeAttr("disabled");
-                    window.location.replace("/");
-
+                    window.location.replace(response);
                 },
                 function(response) {
                     switch (response.responseText) {

@@ -169,47 +169,10 @@ var pager = function() {
     };
 };
 
-var autocomplete = function() {
-    var owners = [];
-    var substringMatcher = function() {
-        return function(q, cb) {
-            while (owners.length > 0) {
-                owners.pop();
-            }
-            if (q !== '') {
-                issueTrackerService.getIssuesOwners(q)
-                        .done(function(data) {
-                            if (data.success) {
-                                var size = data.owners.length;
-                                for (var i = 0; i < size; i++) {
-                                    owners.push(data.owners[i]);
-                                }
-                            }
-                            else {
-                                $.each(data.errors, function(key, value) {
-                                    $("#" + key + "Error").append(value);
-                                });
-                            }
-                        });
-            }
-            cb(owners);
-        };
-    };
-
-    $('.typeaheadOwners').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    },
-    {
-        name: 'owners',
-        displayKey: 'username',
-        source: substringMatcher()
-    });
-}
 $(document).ready(function() {
     var pagObject = pager();
-    autocomplete();
+    autocomplete.filterOwners();
+    autocomplete.filterAssignees();
     pagObject.initializePagination();
 
     var paginationButtonContainer = $('.pager');

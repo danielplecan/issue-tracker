@@ -48,7 +48,7 @@ issueTrackerService = (function() {
         });
     };
     
-    self.editIssue = function(id, title, content, labelIdList) {
+    self.editIssue = function(id, title, content, labelIdList, attachments) {
         var issue = {
             'id': id,
             'title': title,
@@ -56,7 +56,8 @@ issueTrackerService = (function() {
         };
         var issueDTO = {
             'issue': issue,
-            'labelIdList': labelIdList
+            'labelIdList': labelIdList,
+            'attachments': attachments
         };
         return $.ajax({
             type: 'POST',
@@ -119,7 +120,7 @@ issueTrackerService = (function() {
         });
     };
     
-    self.getFilterAssignee = function(assignee) {
+    self.getFilterAssignee = function(id, assignee) {
         var assigneeData = {};
         assigneeData = {
             'assignedTo': assignee
@@ -133,7 +134,7 @@ issueTrackerService = (function() {
         });
     };
     
-    self.getIssuesOwners =function(owner) {
+    self.getFilterOwners =function(id, owner) {
         var ownerData = {};
         ownerData = {
             'ownedBy': owner

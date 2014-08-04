@@ -2,6 +2,7 @@
 
     var theLabels = [];
     var widget = uploadWidget($("#existingFiles"));
+    widget.initialize($('#editIssueId').text());
 
     $("#addNewLabelToAnIssue").click(function() {
         $(this).hide();
@@ -26,15 +27,23 @@
     $("#newLabelInput").keyup(function() {
         $("#labelsSugestions").empty();
         var inputValue = $(this).val();
-        theLabels.forEach(function(entry) {
-            if (entry.name.indexOf(inputValue) > -1 && ($("#modifiedIssueLabelsList").text()).indexOf(entry.name) < 0) {
-                
+        theLabels.forEach(function(entry) {         
+            var exists = false;
+            $("#modifiedIssueLabelsList > span").each(function(index, element) {
+               if($(element).text().trim() === entry.name) {
+                   exists = true;
+               }
+            });
+
+            if (entry.name.indexOf(inputValue) > -1 && exists === false) {
                 var newLabel = $('<span class="label label-default labelEditLabels"></span>');
                 newLabel.text(entry.name);
-                newLabel.data("data-color", entry.color);
+                newLabel.attr("data-color", entry.color);
                 newLabel.attr('data-id', entry.id);
                 newLabel.css("background-color", entry.color);
                 newLabel.css("color", getContrastYIQ(entry.color));
+                newLabel.css("margin-right", "3px;");
+
                 $("#labelsSugestions").append(newLabel);
             }
         });
@@ -47,7 +56,7 @@
         newLabel.attr("data-color", $this.data("color"));
         newLabel.attr('data-id', $this.data("id"));
         newLabel.css("background-color", $this.data("color"));
-        newLabel.attr("style","margin-right:3px;background-color:#D8FFC4;color:black");
+        newLabel.attr("style", "margin-right:3px;background-color:#D8FFC4;color:black");
         newLabel.append('<span class="glyphicon glyphicon-remove"></span>');
 
         $("#modifiedIssueLabelsList").append(newLabel);
@@ -72,20 +81,23 @@
         var newEditIssueId = $('#editIssueId').text();
         var newEditTitle = $('#editIssueTitle').val();
         var newEditContent = $('#editIssueContent').val();
+        var newEditAttachments = widget.getUploadedFiles();
 
         $('#modifiedIssueLabelsList > span').each(function(index) {
             newEditLabels.push($(this).data('id'));
         });
 
-        issueTrackerService.editIssue(newEditIssueId, newEditTitle, newEditContent, newEditLabels).done(function(data) {
+        issueTrackerService.editIssue(newEditIssueId, newEditTitle, newEditContent, newEditLabels, newEditAttachments).done(function(data) {
             if (data.success) {
                 $('#oldIssueTitle').text(data.editedIssue.title);
                 $('#issueContent').text(data.editedIssue.content);
                 $('#oldIssueLastUpdate').text(data.editedIssue.lastUpdateDate);
                 $('#labelContainer').empty();
 
-                for (var i = 0; i < data.editedLabels.length; i++) {
-                    $('#labelContainer').append(createOldLabelSpan(data.editedLabels[i]));
+                if (data.editedLabels !== null) {
+                    for (var i = 0; i < data.editedLabels.length; i++) {
+                        $('#labelContainer').append(createOldLabelSpan(data.editedLabels[i]));
+                    }
                 }
 
                 $('#viewTheIssue').show();
@@ -104,6 +116,7 @@
     });
 
     $('#discardChangesEdit').click(function() {
+        issueTrackerService.removeOrphanAttachments(widget.getUploadedFiles());
         $('#viewTheIssue').show();
         $('#editTheIssue').hide();
     });

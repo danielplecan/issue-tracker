@@ -44,6 +44,9 @@ public class IssueService {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private FileUploadService fileUploadService;
+
     /**
      *
      * @param issueDto encapsulates an issue, and a list of id for existing labels
@@ -68,10 +71,10 @@ public class IssueService {
             issueLabel.setLabel(label);
             em.persist(issueLabel);
         }
-        
+
         for (Long attachment : issueDto.getAttachments()) {
             UploadedFile uploadedFile = em.find(UploadedFile.class, attachment);
-            if(uploadedFile == null) {
+            if (uploadedFile == null) {
                 continue;
             }
             IssueAttachment issueAttachment = new IssueAttachment();
@@ -79,7 +82,7 @@ public class IssueService {
             issueAttachment.setAttachment(uploadedFile);
             em.persist(issueAttachment);
         }
-        
+
         return issue.getId();
     }
 
@@ -216,7 +219,7 @@ public class IssueService {
         }
         return finalList;
     }
-    
+
     public List<UploadedFile> getAttachmentsByIssueId(Issue issue) {
         TypedQuery<IssueAttachment> userQuery = em.createNamedQuery(IssueAttachment.FIND_BY_ISSUE_ID, IssueAttachment.class);
         userQuery.setParameter("v_issue", issue);
@@ -371,19 +374,18 @@ public class IssueService {
             return commentQuery3.getResultList();
         }
     }
-    
-    public void sendNotification(Comment comment, User target,String link) {
+
+    public void sendNotification(Comment comment, User target, String link) {
         if (!comment.getAuthor().getId().equals(target.getId())) {
-            Map<String,Object> map=new HashMap<>();
-            map.put("link",link +"/issue/"+ comment.getIssue().getId());
-            map.put("linkText","Click here to see the issue");
+            Map<String, Object> map = new HashMap<>();
+            map.put("link", link + "/issue/" + comment.getIssue().getId());
+            map.put("linkText", "Click here to see the issue");
             if (comment.getChangeState() == null) {
-                String emailContent =  comment.getAuthor().getName() + " commented on the issue with the title ";
+                String emailContent = comment.getAuthor().getName() + " commented on the issue with the title ";
                 emailContent += comment.getIssue().getTitle();
                 map.put("text", emailContent);
                 mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", map);
-            }
-            else {
+            } else {
                 String emailContent = comment.getAuthor().getName() + " changed the state of the issue with the title ";
                 emailContent += comment.getIssue().getTitle() + " to " + comment.getChangeState();
                 map.put("text", emailContent);
@@ -405,14 +407,19 @@ public class IssueService {
 
         return resultQuery.getResultList();
     }
-    
+
     public Issue editIssueFromIssueDTO(NewIssueDTO issueDTO) {
         Issue issue = em.find(Issue.class, issueDTO.getIssue().getId());
         issue.setTitle(issueDTO.getIssue().getTitle());
         issue.setContent(issueDTO.getIssue().getContent());
         issue.setUpdateDate(new Date());
         em.merge(issue);
+
+        List<UploadedFile> oldAttachments = this.getAttachmentsByIssueId(issue);
+
         removeAllLabelsFromAnIssue(issue.getId());
+        removeAllAttachmentsFromAnIssue(issue.getId());
+
         for (Long labelId : issueDTO.getLabelIdList()) {
             Label label = em.find(Label.class, labelId);
             if (label == null) {
@@ -424,11 +431,37 @@ public class IssueService {
             em.persist(issueLabel);
         }
 
+        for (Long attachment : issueDTO.getAttachments()) {
+            UploadedFile uploadedFile = em.find(UploadedFile.class, attachment);
+            if (uploadedFile == null) {
+                continue;
+            }
+            IssueAttachment issueAttachment = new IssueAttachment();
+            issueAttachment.setIssue(issue);
+            issueAttachment.setAttachment(uploadedFile);
+            em.persist(issueAttachment);
+        }
+
+        List<Long> attachmentsId = new ArrayList<>();
+        if(oldAttachments != null && !oldAttachments.isEmpty()) {
+            for (UploadedFile attachment : oldAttachments) {
+                attachmentsId.add(attachment.getId());
+            }
+
+            fileUploadService.removeOrphanAttachments(attachmentsId);
+        }
+
         return issue;
     }
 
     public void removeAllLabelsFromAnIssue(Long issueId) {
         Query query = em.createNamedQuery(IssueLabel.REMOVE_BY_ISSUE_ID);
+        query.setParameter("v_issue_id", issueId);
+        query.executeUpdate();
+    }
+
+    public void removeAllAttachmentsFromAnIssue(Long issueId) {
+        Query query = em.createNamedQuery(IssueAttachment.REMOVE_BY_ISSUE_ID);
         query.setParameter("v_issue_id", issueId);
         query.executeUpdate();
     }

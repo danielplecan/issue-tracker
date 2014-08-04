@@ -8,7 +8,7 @@
             <input class="form-control" id="searchFieldTitle" placeholder="Title" type="text">
             <input class="form-control" id="searchFieldContent" placeholder="Content" type="text">
             <input class="form-control typeaheadOwners" id="searchFieldAuthor" placeholder="Author" type="text">
-            <input class="form-control" id="searchFieldAsignee" placeholder="Asignee" type="text">
+            <input class="form-control typeaheadAssignees" id="searchFieldAsignee" placeholder="Asignee" type="text">
             <select class="populate select2-offscreen" multiple="" id="e8_2" tabindex="-1" style="width:100%"> 
                 <c:forEach items="${allLabels}" var="label">
                     <option value="${label.id}">
