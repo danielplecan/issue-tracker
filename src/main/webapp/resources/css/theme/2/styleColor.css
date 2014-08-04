@@ -95,3 +95,14 @@
     background: none repeat scroll 0 0 #272b30 !important;
     border-color: #000;
 }
+.fullCommentBody{
+    border: 1px solid #333333;
+    background-color: #FCFCFC;
+    margin-top: 30px;
+    padding-left: 5px;
+    background: -webkit-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
+    background: -moz-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
+    background: -ms-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
+    background: linear-gradient(180deg, #272A2E 5%, #3e444c 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#272A2E', endColorstr='#3e444c');
+}

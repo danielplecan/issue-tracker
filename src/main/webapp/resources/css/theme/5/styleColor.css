@@ -54,8 +54,8 @@
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
-  background-color: #EDDDE6;
-  border-color: #EBDAE3;
+    background-color: #EDDDE6;
+    border-color: #EBDAE3;
 }
 .btn-default.disabled,
 .btn-default[disabled],
@@ -72,8 +72,8 @@ fieldset[disabled] .btn-default:active,
 .btn-default.disabled.active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
-  background-color: #EDDDE6;
-  border-color: #e2e2e2;
+    background-color: #EDDDE6;
+    border-color: #e2e2e2;
 }
 .panel-default > .panel-heading,
 .panel-heading{
@@ -92,4 +92,20 @@ fieldset[disabled] .btn-default.active {
 }
 .theIssueContentPreview{
     border-left: 4px #F5E4ED solid;
+}
+
+.fullCommentBody{
+    border: 1px solid #F5E4ED;
+    background-color: #FCFCFC;
+    margin-top: 30px;
+    padding-left: 5px;
+    background: -webkit-linear-gradient(90deg, #272b30 5%, #5C5C5C 100%);
+    background: -moz-linear-gradient(90deg, #272b30 5%, #5C5C5C 100%);
+    background: -ms-linear-gradient(90deg, #272b30 5%, #5C5C5C 100%);
+    background: linear-gradient(180deg, #F5E4ED 5%, #FFF7FC 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#272b30', endColorstr='#5C5C5C');
+}
+.commentBlockquote{
+    margin: 0px;
+    border-left: 4px solid #F5E4ED;
 }

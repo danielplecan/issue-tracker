@@ -186,9 +186,7 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .commentBlockquote{
-        margin: 0px;
-    }
+    
     .commentStateChanged{
         padding-top: 0px;
     }
@@ -198,16 +196,5 @@
     }
     #labelContainer{
         padding-left: 0px;
-    }
-    .fullCommentBody{
-        border: 1px solid #F7F7F7;
-        background-color: #FCFCFC;
-        margin-top: 30px;
-        padding-left: 5px;
-        background: -webkit-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: -moz-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: -ms-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: linear-gradient(180deg, #F5F5F5 5%, #FCFCFC 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F5F5', endColorstr='#FCFCFC');
     }
 </style>
