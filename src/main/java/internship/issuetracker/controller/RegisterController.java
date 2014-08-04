@@ -76,6 +76,11 @@ public class RegisterController {
         return result;
     }
     
+     @RequestMapping(value = "/registerMessage", method = RequestMethod.GET)
+    public String verifieActivation() {
+        return "registerMessage";
+    }
+    
     @RequestMapping(value = "/activation/{hash}", method = RequestMethod.GET)
     public String verifieActivation(@PathVariable("hash") String hash, Model model) {
         User user = activationService.getUserByActivationHash(hash);
