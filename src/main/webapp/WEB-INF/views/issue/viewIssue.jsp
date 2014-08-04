@@ -220,36 +220,12 @@
     .stateChangeAttachment{
         margin: 20px;
     }
-    .arrow_box {
-        position: relative;
-        background: -webkit-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: -moz-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: -ms-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
-        background: linear-gradient(180deg, #F5F5F5 5%, #FCFCFC 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F5F5', endColorstr='#FCFCFC');
-        border: 1px solid #fafafa;
-    }
-    .arrow_box:after, .arrow_box:before {
-        right: 100%;
-        top: 50%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-    }
-    .arrow_box:after {
-        border-color: rgba(252, 252, 252, 0);
-        border-right-color: #fafafa;
-        border-width: 20px;
-        margin-top: -20px;
-    }
-    .arrow_box:before {
-        border-color: rgba(252, 252, 252, 0);
-        border-right-color: #fafafa;
-        border-width: 21px;
-        margin-top: -21px;
+
+    .fullCommentBody{
+        border: 1px solid #F7F7F7;
+        background-color: #FCFCFC;
+        margin-top: 30px;
+        padding-left: 5px;
     }
     .fullCommentBody:last-child{
         margin-bottom: 30px;
