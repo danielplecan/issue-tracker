@@ -1,5 +1,6 @@
 package internship.issuetracker.entity;
 
+import internship.issuetracker.util.DateFormatUtil;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -152,62 +153,11 @@ public class Issue implements Serializable {
         return dateFormat.format(this.date);
     }
 
-    public String getDateFormat2() {
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        return dateFormat.format(this.date);
-    }
-
     public String getLastUpdateDate() {
-        return getFriendlyInterval(updateDate);
+        return DateFormatUtil.getFriendlyInterval(updateDate);
     }
 
     public String getTimeInterval() {
-        return getFriendlyInterval(date);
-    }
-
-    private String getFriendlyInterval(Date oldDate) {
-        DateTime oldTimeInstant = new DateTime(oldDate);
-        DateTime newTimeInstant = new DateTime(new Date());
-        Interval interval = new Interval(oldTimeInstant, newTimeInstant);
-        StringBuilder result = new StringBuilder();
-
-        long days = interval.toDuration().getStandardDays();
-
-        long hours = interval.toDuration().getStandardHours() - days * 24;
-
-        long minutes = interval.toDuration().getStandardMinutes() - days * 24 * 60 - hours * 60;
-
-        long seconds = interval.toDuration().getStandardSeconds() - days * 24 * 60 * 60 - hours * 60 * 60 - minutes * 60;
-
-        boolean agoFlag = true;
-
-        if (days == 1) {
-            result.append(" 1 day ");
-        } else if (days > 1 && days < 14) {
-            result.append(days).append(" days  ");
-        } else if (days >= 14) {
-            result.append(getDateFormat2());
-            return result.toString();
-        } else if (hours == 1) {
-            result.append(" 1 hour ");
-        } else if (hours > 1) {
-            result.append(hours).append(" hours ");
-        } else if (minutes == 1) {
-            result.append(" 1 minute ");
-        } else if (minutes > 1) {
-            result.append(minutes).append(" minutes ");
-        } else if (seconds == 1) {
-            result.append(" 1 second ");
-        } else if (seconds < 1) {
-            result.append(" just now ");
-            agoFlag = false;
-        } else {
-            result.append(seconds).append(" seconds ");
-        }
-
-        if (agoFlag) {
-            result.append("ago");
-        }
-        return result.toString();
+        return DateFormatUtil.getFriendlyInterval(date);
     }
 }
