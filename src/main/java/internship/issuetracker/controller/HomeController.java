@@ -24,11 +24,6 @@ public class HomeController {
     
     @RequestMapping(value = {"/", ""})
     public String home(HttpSession session) {
-        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long currentThemePreference = userSettingsService.getCurrentThemePreference(currentUser.getUsername());
-        
-        session.setAttribute("theme", currentThemePreference);
-        
         return "home";
     }
 
