@@ -190,9 +190,9 @@
                 </div>
             </c:forEach>
         </div>
-        <div id="addComment">
+        <div id="addComment" class="col-lg-12">
             <div id="innerCommentDiv"> 
-                <textarea id="textAreaComment" rows="4" class="form-control" placeholder="Insert your comment here..."></textarea>        
+                <textarea id="textAreaComment" rows="4" class="form-control" data-provide="markdown" placeholder="Insert your comment here..."></textarea>        
             </div>
             <div id="commentFileUpload" class="well"></div>
             <span id="contentError" class="commentError text-warning"></span>
