@@ -275,16 +275,18 @@ $(document).ready(function() {
                                     "<span class=\"glyphicon glyphicon-remove-circle closedColor\"></span><span> <a href=\"/profile/"
                                     + comment.author.username + "\">" +
                                     comment.author.name +
-                                    "</a> changed the state to <span class=\"closedColor\">closed</span> on" + comment.dateFormat + ".</span>" +
+                                    "</a> changed the state to <span class=\"closedColor\">closed</span> on "  + comment.dateFormat + ".</span>" +
                                     "</div>";
                             break;
                     }
                 }
             } else {
-                stateChangeDiv = '<span class=\"glyphicon glyphicon-comment\"></span>\n\
-                                    <span> <a href=\"/profile/'
-                        + comment.author.username + '">'
-                        + comment.author.name + '</a> said:</span>';
+                stateChangeDiv = '<div class="commentStateChanged">\n\
+                                        <span class="glyphicon glyphicon-comment"></span>\n\
+                                        <a href="/profile/' + comment.author.username + '">\n\ ' +
+                                            comment.author.name + '\n\ ' +
+                                        '</a> said:\n\
+                                </div>';
             }
             fullCommentDiv.append(stateChangeDiv);
 
@@ -328,19 +330,9 @@ $(document).ready(function() {
         var size = commentContent.length;
         if ((size > 0 && size < 3) || size > 500) {
             $('#contentError').text('A comment must contain between 3 and 500 characters.');
-//            $('#changeState-close').attr('disabled', true);
-//            $('#changeState-open').attr('disabled', true);
-//            $('#submitComment').attr('disabled', true);
-            return;
-        } else if (size === 0) {
-//            $('#submitComment').attr('disabled', true);
-
         } else {
-//            $('#submitComment').attr('disabled', false);
+            $('#contentError').text('');
         }
-        $('#contentError').text('');
-//        $('#changeState-close').attr('disabled', false);
-//        $('#changeState-open').attr('disabled', false);
     });
 
 });

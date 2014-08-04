@@ -367,4 +367,25 @@ public class IssueController {
         }
         return responseMap;
     }
+    
+    @RequestMapping(value = "/issue/{id}/get-attachments", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getAttachmentsForIssue(@PathVariable("id") Long issueId) {
+        Map<String, Object> responseMap = new HashMap<>();
+        Issue issue = issueService.getIssueById(issueId);
+        
+        if (issue == null) {
+            responseMap.put("success", false);
+        } else {
+            List<UploadedFile> attachments = issueService.getAttachmentsByIssueId(issue);
+            if(attachments == null) {
+                responseMap.put("success", false);
+            } else {
+                responseMap.put("success", true);
+                responseMap.put("attachments", attachments);
+            }
+        }
+        
+        return responseMap;
+    }
 }

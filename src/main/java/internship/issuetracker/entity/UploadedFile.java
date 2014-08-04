@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -29,6 +30,7 @@ public class UploadedFile implements Serializable {
     @NotBlank
     private String originalName;
     
+    @JsonIgnore
     @Column(name = "target_name", nullable = false)
     @NotBlank
     private String targetName;

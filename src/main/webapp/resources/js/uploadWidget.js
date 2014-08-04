@@ -1,6 +1,6 @@
 function uploadWidget(container) {
     var files = [];
-    
+
     var actionPanel = $("<div class='row actionsDiv' />");
     var filesPanel = $("<div class='row allFilesDiv' />");
 
@@ -23,27 +23,29 @@ function uploadWidget(container) {
         var fileContent = null;
         var removeButton = null;
 
+        $(errorSpan).empty();
+
         $(fileInput).fileupload({
             dataType: 'json',
             done: function(e, data) {
                 if (data.result.success) {
                     files.push(data.result.fileId);
                     $(progressContent).remove();
-                    $(fileContent).click(function(event){
-                       event.preventDefault();
-                       window.location = location.origin + "/attachment/download/" + data.result.fileId;
+                    $(fileContent).click(function(event) {
+                        event.preventDefault();
+                        window.location = location.origin + "/attachment/download/" + data.result.fileId;
                     });
                     removeButton = createRemoveButton(data.result.fileId, fileContent);
                     $(fileButton).append(removeButton);
-                    
+
                     $(fileButton).removeClass("disabled");
-                    
+
                 } else {
-                    errorSpan.text(data.result.error);
+                    $(errorSpan).text(data.result.error);
+                    $(fileContent).remove();
                 }
             },
             singleFileUploads: false,
-            //maxFileSize: 1,
             progressall: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
                 $(progressBar).css('width', progress + '%');
@@ -65,6 +67,12 @@ function uploadWidget(container) {
                 $(fileContent).append(fileButton);
                 $(fileContent).append(progressContent);
                 $(filesPanel).append(fileContent);
+            },
+            maxFileSize: 5242880,
+            acceptFileTypes: /(\.|\/)(jpe?g|png)$/i,
+            messages: {
+                acceptFileTypes: "Wrong file format. Only images are allowed.",
+                maxFileSize: "File too large. Maximum allowed size is 5 MB."
             }
         });
 
@@ -105,16 +113,16 @@ function uploadWidget(container) {
                 if (data.success) {
                     $(fileContent).remove();
                     var position = $.inArray(fileId, files);
-                    if(position !== -1) {
+                    if (position !== -1) {
                         files.splice(position, 1);
                     }
                 }
             });
         });
-        
+
         return removeButton;
     }
-    
+
     return {
         getUploadedFiles: function() {
             return files;
@@ -124,6 +132,39 @@ function uploadWidget(container) {
                 files.pop();
             }
             filesPanel.empty();
+        },
+        initialize: function(issueId) {
+            reset();
+            
+            issueTrackerService.getAttachmentsForIssue(issueId).done(function(data) {
+                if (data.success) {
+                    for (var index = 0; index < data.attachments.length; index++) {
+                        files.push(data.attachments[index].id);
+                        
+                        var fileContent = createFileContent();
+                        var fileButton = createFileButton();
+
+                        var fileText = createFileText(data.attachments[index].originalName);
+                        
+                        var removeButton = createRemoveButton(data.attachments[index].id, fileContent);
+                        
+                        $(fileButton).append(fileText);
+
+                        $(fileContent).append(fileButton);
+                        $(filesPanel).append(fileContent);
+                        
+                        $(fileButton).append(removeButton);
+
+                        $(fileButton).removeClass("disabled");
+
+                        
+                        $(fileContent).click(function(event) {
+                            event.preventDefault();
+                            window.location = location.origin + "/attachment/download/" + data.attachments[index].id;
+                        });
+                    }
+                }
+            });
         }
     };
 }
