@@ -1,3 +1,76 @@
+var commentBuilder = (function() {
+    var self = {};
+
+    self.createFullCommentDiv = function(commentId) {
+        var fullCommentDiv = $("<div class=\"fullCommentBody\"></div>");
+        $(fullCommentDiv).attr('data-id', commentId);
+        return fullCommentDiv;
+    };
+
+    self.createStateChangeDiv = function() {
+        return $("<div class=\"commentStateChanged\"></div>");
+    };
+
+    self.createActionIcon = function(type) {
+        var actionIcon;
+        switch (type) {
+            case 'OPEN':
+                actionIcon = $('<span class=\"glyphicon-ok-circle openColor\">\n\
+                                </span>');
+                break;
+            case 'CLOSE':
+                actionIcon = $('<span class=\"glyphicon-remove-circle closedColor\">\n\
+                                </span>');
+                break;
+            case 'TEXT':
+                actionIcon = $(' <span class="glyphicon-comment">\n\
+                                </span>');
+                break;
+        }
+        $(actionIcon).addClass('glyphicon');
+
+        return actionIcon;
+    };
+
+    self.createAuthorLink = function(username, name) {
+        var authorLink = $('<a></a>').attr('href', '/profile/' + username).text(' ' + name);
+        return authorLink;
+    };
+
+    self.createSimpleSpan = function() {
+        return $('<span></span>');
+    };
+
+    self.createStateSpan = function(type) {
+        var stateSpan;
+        switch (type) {
+            case 'OPEN':
+                stateSpan = $('<span class=\"openColor\">open</span>');
+                break;
+            case 'CLOSE':
+                stateSpan = $('<span class=\"closedColor\">closed</span>');
+                break;
+        }
+        return stateSpan;
+    };
+
+    self.createCommentContent = function(comment) {
+        var commentDiv = $('<div class=\"commentBlockThing\"></div>');
+        if (comment.content.length !== 0) {
+            var blockquote = $('<blockquote class=\"commentBlockquote\"><\/blockquote>');
+            var pElement = $('<p class=\"commentContent\"><\/p>').text(comment.content);
+            var span = $('<span><\/span>').text('- on ' + comment.dateFormat);
+
+            $(blockquote).append($(pElement));
+            $(commentDiv).append($(blockquote));
+            $(commentDiv).append($(span));
+        }
+        return commentDiv;
+    };
+
+    return self;
+})();
+
 $(document).ready(function() {
     var widget = uploadWidget($("#commentFileUpload"));
     $('#textAreaComment').focus(function() {
@@ -236,72 +309,55 @@ $(document).ready(function() {
         var size = data.comments.length;
         for (var i = 0; i < size; i++) {
             var comment = data.comments[i];
-            var commentContent;
-            var stateChangeDiv = "<div class=\"commentStateChanged\"></div>";
-            var fullCommentDiv = $("<div class=\"fullCommentBody\" data-id=\"" + comment.id + "\"></div>");
+            var stateChangeDiv = commentBuilder.createStateChangeDiv();
+            var fullCommentDiv = commentBuilder.createFullCommentDiv(comment.id);
+            var span = commentBuilder.createSimpleSpan();
+            var authorLink = commentBuilder.createAuthorLink(
+                    comment.author.username, comment.author.name
+                    );
 
             if (comment.changeState !== null) {
                 if (comment.content.length !== 0) {
                     switch (comment.changeState) {
                         case 'OPEN':
-                            stateChangeDiv = "<div class=\"commentStateChanged\">" +
-                                    "<span class=\"glyphicon glyphicon-ok-circle openColor\"></span><span> <a href=\"/profile/"
-                                    + comment.author.username + "\">" +
-                                    comment.author.name +
-                                    "</a> changed the state to <span class=\"openColor\">open</span> and said:</span>" +
-                                    "</div>";
+                            $(stateChangeDiv).append(commentBuilder.createActionIcon('OPEN'));
+                            $(span).append(authorLink);
+                            $(span).append(commentBuilder.createStateSpan('OPEN'));
                             break;
                         case 'CLOSED':
-                            stateChangeDiv = "<div class=\"commentStateChanged\">" +
-                                    "<span class=\"glyphicon glyphicon-remove-circle closedColor\"></span><span> <a href=\"/profile/"
-                                    + comment.author.username + "\">" +
-                                    comment.author.name +
-                                    "</a> changed the state to <span class=\"closedColor\">closed</span> and said:</span>" +
-                                    "</div>";
+                            $(stateChangeDiv).append(commentBuilder.createActionIcon('CLOSE'));
+                            $(span).append(authorLink);
+                            $(span).append(commentBuilder.createStateSpan('CLOSE'));
                             break;
                     }
+                    $(span).append(' and said :');
                 } else {
                     switch (comment.changeState) {
                         case 'OPEN':
-                            stateChangeDiv = "<div class=\"commentStateChanged\">" +
-                                    "<span class=\"glyphicon glyphicon-ok-circle openColor\"></span><span> <a href=\"/profile/"
-                                    + comment.author.username + "\">" +
-                                    comment.author.name +
-                                    "</a> changed the state to <span class=\"openColor\">open</span> on " + comment.dateFormat + ".</span>" +
-                                    "</div>";
+                            $(stateChangeDiv).append(commentBuilder.createActionIcon('OPEN'));
+                            $(span).append(authorLink);
+                            $(span).append(commentBuilder.createStateSpan('OPEN'));
                             break;
                         case 'CLOSED':
-                            stateChangeDiv = "<div class=\"commentStateChanged\">" +
-                                    "<span class=\"glyphicon glyphicon-remove-circle closedColor\"></span><span> <a href=\"/profile/"
-                                    + comment.author.username + "\">" +
-                                    comment.author.name +
-                                    "</a> changed the state to <span class=\"closedColor\">closed</span> on "  + comment.dateFormat + ".</span>" +
-                                    "</div>";
+                            $(stateChangeDiv).append(commentBuilder.createActionIcon('CLOSE'));
+                            $(span).append(authorLink);
+                            $(span).append(commentBuilder.createStateSpan('CLOSE'));
                             break;
                     }
+                    $(span).append(' on ' + comment.dateFormat + '.');
                 }
+                $(authorLink).after(' changed the state to ');
+                stateChangeDiv.append($(span));
             } else {
-                stateChangeDiv = '<div class="commentStateChanged">\n\
-                                        <span class="glyphicon glyphicon-comment"></span>\n\
-                                        <a href="/profile/' + comment.author.username + '">\n\ ' +
-                                            comment.author.name + '\n\ ' +
-                                        '</a> said:\n\
-                                </div>';
+                $(stateChangeDiv).append(commentBuilder.createActionIcon('TEXT'));
+                $(stateChangeDiv).append(authorLink);
+                $(stateChangeDiv).append(' said: ');
             }
+            
             fullCommentDiv.append(stateChangeDiv);
-
+            
+            fullCommentDiv.append(commentBuilder.createCommentContent(comment));
             $("#allComments").append(fullCommentDiv);
-
-            if (comment.content.length !== 0) {
-                commentContent = $('<div class=\"commentBlockThing\">\r\n\n\
-                            <blockquote class=\"commentBlockquote\">\r\n\n\
-                                <p class=\"commentContent\"><\/p>\r\n\n\
-                            <\/blockquote>\r\n\n\
-                            <span> - on ' + comment.dateFormat + '<\/span>\r\n\n\
-                        <\/div>');
-                fullCommentDiv.append(commentContent);
-                $("#allComments blockquote p").last().text(comment.content);
-            }
             $("#textAreaComment").val('');
 
             var attachments = $("<div class='attachments' />");
