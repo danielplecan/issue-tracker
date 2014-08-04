@@ -95,7 +95,7 @@
     <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
     <div id="allComments" class="list-group">
         <c:forEach items="${comments}" var="comment">
-            <div class="fullCommentBody" data-id="${comment.id}">
+            <div class="fullCommentBody arrow_box col-lg-10 col-lg-offset-1" style="clear:both;" data-id="${comment.id}">
                 <!--When the comment is not empty and state has been changed-->
                 <c:choose>
                     <c:when test="${not empty comment.changeState}">
@@ -120,7 +120,7 @@
                                         <div class="commentStateChanged">
 
                                             <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
-                                            <div class="attachments">
+                                            <div class="attachments stateChangeAttachment">
                                                 <c:forEach items="${comment.attachments}" var="attachment">
                                                     <a href="/attachment/download/<c:out value="${attachment.id}"/>">
                                                         <span class="btn btn-default attachmentWidth">
@@ -134,7 +134,7 @@
                                     <c:when test="${comment.changeState == 'CLOSED'}">
                                         <div class="commentStateChanged">
                                             <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor"> closed</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
-                                            <div class="attachments">
+                                            <div class="attachments stateChangeAttachment">
                                                 <c:forEach items="${comment.attachments}" var="attachment">
                                                     <a href="/attachment/download/<c:out value="${attachment.id}"/>">
                                                         <span class="btn btn-default attachmentWidth">
@@ -175,6 +175,8 @@
                         </div>
                     </c:when>
                 </c:choose>
+
+
             </div>
         </c:forEach>
     </div>
@@ -205,7 +207,6 @@
         margin-left: auto;
         margin-right: auto;
     }
-
     .commentStateChanged{
         padding-top: 0px;
     }
@@ -215,5 +216,46 @@
     }
     #labelContainer{
         padding-left: 0px;
+    }
+    .stateChangeAttachment{
+        margin: 20px;
+    }
+    .arrow_box {
+        position: relative;
+        background: -webkit-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+        background: -moz-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+        background: -ms-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+        background: linear-gradient(180deg, #F5F5F5 5%, #FCFCFC 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F5F5', endColorstr='#FCFCFC');
+        border: 1px solid #fafafa;
+    }
+    .arrow_box:after, .arrow_box:before {
+        right: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+    .arrow_box:after {
+        border-color: rgba(252, 252, 252, 0);
+        border-right-color: #fafafa;
+        border-width: 20px;
+        margin-top: -20px;
+    }
+    .arrow_box:before {
+        border-color: rgba(252, 252, 252, 0);
+        border-right-color: #fafafa;
+        border-width: 21px;
+        margin-top: -21px;
+    }
+    .fullCommentBody:last-child{
+        margin-bottom: 30px;
+    }
+    .commentBlockquote{
+        margin: 10px 0px;
+        margin-left: 17px;
     }
 </style>
