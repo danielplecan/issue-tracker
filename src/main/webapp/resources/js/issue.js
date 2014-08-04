@@ -60,7 +60,6 @@ var commentBuilder = (function() {
             var blockquote = $('<blockquote class=\"commentBlockquote\"><\/blockquote>');
             var pElement = $('<p class=\"commentContent\"><\/p>').text(comment.content);
             var span = $('<span><\/span>').text('- on ' + comment.dateFormat);
-            var attachmentsDiv = $('')
 
             $(blockquote).append($(pElement));
             $(commentDiv).append($(blockquote));
@@ -278,6 +277,21 @@ $(document).ready(function() {
             var authorLink = commentBuilder.createAuthorLink(
                     comment.author.username, comment.author.name
                     );
+            
+            //DANIEL
+            var attachments = $("<div class='attachments' />");
+            for (var j = 0; j < comment.attachments.length; j++) {
+                var link = "/attachment/download/" + comment.attachments[j].id;
+                var attachmentAnchor = $("<a></a>");
+                $(attachmentAnchor).attr("href", link);
+                var button = $("<span class='btn btn-default attachmentWidth'></span>");
+                var buttonText = $("<span class='buttontext'></span>");
+                $(buttonText).text(comment.attachments[j].originalName);
+                $(button).append(buttonText);
+                $(attachmentAnchor).append(button);
+                $(attachments).append(attachmentAnchor);
+            }
+
 
             if (comment.changeState !== null) {
                 if (comment.content.length !== 0) {
@@ -311,31 +325,22 @@ $(document).ready(function() {
                 }
                 $(authorLink).after(' changed the state to ');
                 stateChangeDiv.append($(span));
+                if (comment.content.length === 0) {
+                    stateChangeDiv.append($(attachments));
+                }
             } else {
                 $(stateChangeDiv).append(commentBuilder.createActionIcon('TEXT'));
                 $(stateChangeDiv).append(authorLink);
                 $(stateChangeDiv).append(' said: ');
             }
-            
+
             fullCommentDiv.append(stateChangeDiv);
-            
+
             var commentContent = commentBuilder.createCommentContent(comment);
             fullCommentDiv.append(commentContent);
             $("#allComments").append(fullCommentDiv);
             $("#textAreaComment").val('');
 
-            var attachments = $("<div class='attachments' />");
-            for (var j = 0; j < comment.attachments.length; j++) {
-                var link = "/attachment/download/" + comment.attachments[j].id;
-                var attachmentAnchor = $("<a></a>");
-                $(attachmentAnchor).attr("href", link);
-                var button = $("<span class='btn btn-default attachmentWidth'></span>");
-                var buttonText = $("<span class='buttontext'></span>");
-                $(buttonText).text(comment.attachments[j].originalName);
-                $(button).append(buttonText);
-                $(attachmentAnchor).append(button);
-                $(attachments).append(attachmentAnchor);
-            }
             $(commentContent).find('blockquote').first().append(attachments);
         }
         widget.reset();
