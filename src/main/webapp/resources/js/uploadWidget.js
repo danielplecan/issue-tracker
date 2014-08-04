@@ -122,6 +122,43 @@ function uploadWidget(container) {
 
         return removeButton;
     }
+    
+    function initializeFile(attachment) {
+        var fileId = attachment.id;
+
+        files.push(fileId);
+
+        var fileContent = createFileContent();
+        var fileButton = createFileButton();
+
+        var fileText = createFileText(attachment.originalName);
+
+        var removeButton = $("<i class='glyphicon glyphicon-remove xButton'></i>");
+
+        $(removeButton).click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $(fileContent).remove();
+            var position = $.inArray(fileId, files);
+            if (position !== -1) {
+                files.splice(position, 1);
+            }
+        });
+
+        $(fileButton).append(fileText);
+
+        $(fileContent).append(fileButton);
+        $(filesPanel).append(fileContent);
+
+        $(fileButton).append(removeButton);
+
+        $(fileButton).removeClass("disabled");
+
+        $(fileContent).click(function(event) {
+            event.preventDefault();
+            window.location = location.origin + "/attachment/download/" + fileId;
+        });
+    }
 
     return {
         getUploadedFiles: function() {
@@ -134,34 +171,12 @@ function uploadWidget(container) {
             filesPanel.empty();
         },
         initialize: function(issueId) {
-            reset();
+//            reset();
             
             issueTrackerService.getAttachmentsForIssue(issueId).done(function(data) {
                 if (data.success) {
                     for (var index = 0; index < data.attachments.length; index++) {
-                        files.push(data.attachments[index].id);
-                        
-                        var fileContent = createFileContent();
-                        var fileButton = createFileButton();
-
-                        var fileText = createFileText(data.attachments[index].originalName);
-                        
-                        var removeButton = createRemoveButton(data.attachments[index].id, fileContent);
-                        
-                        $(fileButton).append(fileText);
-
-                        $(fileContent).append(fileButton);
-                        $(filesPanel).append(fileContent);
-                        
-                        $(fileButton).append(removeButton);
-
-                        $(fileButton).removeClass("disabled");
-
-                        
-                        $(fileContent).click(function(event) {
-                            event.preventDefault();
-                            window.location = location.origin + "/attachment/download/" + data.attachments[index].id;
-                        });
+                        initializeFile(data.attachments[index]);
                     }
                 }
             });
