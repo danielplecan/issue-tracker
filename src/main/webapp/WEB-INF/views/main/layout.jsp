@@ -11,16 +11,23 @@
         <script src="/resources/js/jquery-2.1.1.min.js" type="text/javascript"></script>
         <script src="/resources/js/bootstrap.js" type="text/javascript"></script>
         <script src="/resources/js/typeahead.bundle.js" type="text/javascript"></script>
+        <script src="/resources/js/jquery-ui.min.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.ui.widget.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.iframe-transport.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload-process.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload-validate.js" type="text/javascript"></script>
+        
+        
+        <script src="/resources/js/markdown.js" type="text/javascript"></script>
+        <script src="/resources/js/to-markdown.js" type="text/javascript"></script>
+        <script src="/resources/js/bootstrap-markdown.js" type="text/javascript"></script>
+        <script src="/resources/js/jquery.hotkeys.js" type="text/javascript"></script>
         <script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
         <script src="/resources/js/autocomplete.js" type="text/javascript"></script>
         <script src="/resources/js/uploadWidget.js" type="text/javascript"></script>
         <script src="/resources/js/issue.js" type="text/javascript"></script>
-        <script src="/resources/js/jquery-ui.min.js" type="text/javascript"></script>
+        
 
 
         <!-- ${theme} -->
