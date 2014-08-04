@@ -96,4 +96,8 @@ public class UserService {
 
         return userQuery.getResultList();
     }
+
+    public void updateUser(User user, UserDTO editedUser) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

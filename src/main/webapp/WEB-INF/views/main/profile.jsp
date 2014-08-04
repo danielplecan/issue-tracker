@@ -44,7 +44,7 @@
             </div>
 
         </div>     
-        <div class="tab-pane fade" id="assigned">
+        <div class="tab-pane fade col-lg-12" id="assigned">
             <p><br/>These are the issues that were assigned to you</p>
             <div class="  col-lg-12 issuesList"  id="allAsignedIssues"> 
             </div>

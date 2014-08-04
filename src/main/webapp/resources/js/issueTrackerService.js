@@ -19,6 +19,16 @@ issueTrackerService = (function() {
             data: JSON.stringify(registerData)
         });
     };
+    self.edit = function(editData) {
+        return $.ajax({
+            url: location.origin + "/editProfile",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            mimeType: "application/json",
+            data: JSON.stringify(editData)
+        });
+    };
     self.createIssue = function(title, content, labelIdList, attachments) {
         var issue = {
             'title': title,
