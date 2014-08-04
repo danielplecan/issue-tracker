@@ -80,8 +80,20 @@ public class Issue implements Serializable {
     @JoinColumn(name = "assigned_to")
     private User assignee;
 
+    @ManyToOne
+    @JoinColumn(name = "last_updated_by")
+    private User lastUpdatedBy;
+    
     public Issue() {
         state = IssueState.OPEN;
+    }
+
+    public User getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public void setLastUpdatedBy(User lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
     public User getAssignee() {
