@@ -1,26 +1,102 @@
 $(document).ready( function() { 
-    
     var initialNotificationCheckbox = $("#settingsContainer").data("notification");
     var initialTheme = $("#settingsContainer").data("theme");
-    
-    $("#theme-preview > li").hide();       
-    function settingsInitialize() {
-        
+    $(".toggleBox").attr("checked", initialNotificationCheckbox);
+   
+    $("#optionContainer").hide();
+    $("#theme-preview").hide();
+   
+    $("#changeTheme").click( function() {
+        $("#optionContainer").show(100);
+        $("#theme-preview").show(100);
+        $(this).hide(100);
+    });
+   
+    settingsInit();
+
+    function settingsInit() {
         $(".toggleBox").attr("checked", initialNotificationCheckbox);
         $("#themeSelect li").each(function() {
-            if ($(this).attr("value") != initialTheme) {
-                $(this).hide();
+            if ($(this).attr("value") == initialTheme) {
+                $(this).addClass("active");
             }
-            else {
-                $(this).show();
+        $(".theme-prev").hide();
+        });
+    }
+
+    $("#set").click( function() {
+        $("#themeSelect li").each( function() {
+            if ($(this).hasClass("active")) {
+                changeTheme($(this).attr("value"));
+                previewTheme($(this).attr("value"));
+            }
+        });
+    });
+
+    $("#preview").click( function() {
+        $("#themeSelect li").each( function() {
+            if ($(this).hasClass("active")) {
+                previewTheme($(this).attr("value"));
+            }
+        });
+    });
+
+    $("#cancel").click( function() {
+        restoreTheme(); 
+        selectTheme(initialTheme);
+        $("#optionContainer").hide(100);
+        $("#theme-preview").hide(100);
+        $(this).show(100);
+        $("#changeTheme").show();
+    });
+
+    $("#themeSelect li").click( function() {
+        selectTheme($(this).attr("value")); 
+   
+    });
+
+    function selectTheme(theme) {
+        $("#themeSelect li").each(function(index, elem) {
+            $(this).removeClass("active");
+            if ($(this).attr("value") == theme) {
+                $("#op" + $(this).attr("value")).addClass("active");
             }
         });
     }
-    
-    settingsInitialize();
-    
+    var flag;
+    flag = true;
+    function previewTheme(theme) {
+        console.log("preview: " + theme);
+        $("#bootstrapTheme").removeAttr("href");
+        $("#bootstrapTheme").attr("href", "/resources/css/theme/" + theme + "/bootstrap.css");
+        $("#colorTheme").removeAttr("href");
+        $("#colorTheme").attr("href", "/resources/css/theme/" + theme + "/styleColor.css");
+        $(".theme-prev").hide();
+        if (flag) {
+            flag=false;
+            $("#prev" + theme).fadeIn(200, function() { flag = true;});
+        }
+    }
+
+    function restoreTheme() {
+        previewTheme(initialTheme);
+    }
+   
+    function changeTheme(theme) {
+        $.ajax({
+            type: 'POST',
+            url: location.origin + '/settings/changeTheme/' + theme,
+            dataType: "json",
+            success:function(data) {
+                if (data.success) {
+                    location.reload();
+                }
+            }
+        });
+        console.log("change: " + theme);
+    }
+   
     $("#toggleNotifications").click(function() {
-        
         $.ajax({
             type: 'POST',
             url: location.origin + '/settings/toggleNotifications',
@@ -35,59 +111,6 @@ $(document).ready( function() {
                     $("#toggleNotifications").checked = false;
                 }
             }
-        });
-        
+        }); 
     });
-    
-    $("#themeSelect li").each(function(index, elem) {
-        $(this).hover(function() {
-            previewTheme($(this).attr("value"));
-        },function() {
-            restoreOriginalTheme(initialTheme);
-        });
-        $(this).click( function() {
-            var currentThemeSelection = $(this).attr("value");
-            
-            $.ajax({
-                type: 'POST',
-                url: location.origin + '/settings/changeTheme/' + currentThemeSelection,
-                dataType: "json",
-                success:function(data) {
-                    if (data.success) {
-                        location.reload();
-                    }
-                }
-            });
-        });
-    });
-    
-    $("#optionContainer").hover(function() {
-        $("#themeSelect li").show(100);
-    }, function() {
-        $("#themeSelect li").hide(100, settingsInitialize);
-        $(".theme-prev").hide();
-    });
-    
 });
-
-function previewTheme(theme) {
-    $(".theme-prev").hide();
-    
-    var targetPrevId = "#prev" + theme;
-    $(targetPrevId).show();
-    $("#bootstrapTheme").removeAttr("href");
-    $("#bootstrapTheme").attr("href", "/resources/css/theme/" + theme + "/bootstrap.css");
-    console.log("href", "/resources/css/theme/" + theme + "/bootstrap.css");
-    console.log("href", "/resources/css/theme/" + theme + "/styleColor.css");
-    $("#colorTheme").removeAttr("href");
-    $("#colorTheme").attr("href", "/resources/css/theme/" + theme + "/styleColor.css");
-    $(".navbar").height(50); //hack
-}
-
-
-function restoreOriginalTheme(theme) {
-    $("#bootstrapTheme").removeAttr("href");
-    $("#bootstrapTheme").attr("href", "/resources/css/theme/" + theme + "/bootstrap.css");
-    $("#colorTheme").removeAttr("href");
-    $("#colorTheme").attr("href", "/resources/css/theme/" + theme + "/styleColor.css");
-}
