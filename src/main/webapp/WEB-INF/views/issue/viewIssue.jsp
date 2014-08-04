@@ -124,7 +124,7 @@
                                     </c:when>
                                     <c:when test="${comment.changeState == 'CLOSED'}">
                                         <div class="commentStateChanged">
-                                            <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor">closed</span>  on <c:out value="${comment.getDateFormat()}"/>.</span>
+                                            <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor"> closed</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
                                         </div>
                                     </c:when>
                                 </c:choose>
@@ -133,7 +133,7 @@
                         </c:choose>
                     </c:when>
                     <c:otherwise>
-                        <span class="glyphicon glyphicon-comment"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</span>
+                        <div class="commentStateChanged"><span class="glyphicon glyphicon-comment"></span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</div>
                         </c:otherwise>
                     </c:choose>
                     <c:choose>
@@ -189,9 +189,6 @@
     }
     .commentBlockquote{
         margin: 0px;
-    }
-    .commentBlockThing{
-        margin-bottom: 30px;
     }
     .commentStateChanged{
         padding-top: 30px;
