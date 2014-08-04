@@ -21,14 +21,14 @@
                 </span>
             </div>
         </div>      
-        <div class="panel-body contentLine">  
+        <div class="panel-body contentLine">
             <c:choose>
                 <c:when test="${not empty issue.content}">
-                    <h4><div clsss="" id="issueContent"><c:out value="${issue.content}"/></div></h4>   
-                    </c:when>    
-                </c:choose>
-                <c:choose>
-                    <c:when test="${labels != null}">
+                    <h4><div clsss="" id="issueContent"><c:out value="${issue.content}"/></div></h4>
+                </c:when>    
+            </c:choose>
+            <c:choose>
+                <c:when test="${labels != null}">
                     <div id="labelContainer">
                         <c:forEach var="label" items="${labels}">
                             <span style="margin-right:3px;background-color:${label.color}" data-color="${label.color}" class="label label-warning"> <c:out value="${label.name}"/></span>
@@ -36,6 +36,15 @@
                     </div>
                 </c:when>
             </c:choose>
+            <div class="container attachmentsLine">
+                <c:forEach items="${attachments}" var="attachment">
+                    <a href="/attachment/download/<c:out value="${attachment.id}"/>">
+                        <span class="btn btn-default attachmentWidth">
+                            <span class="buttontext " >${attachment.originalName}</span>
+                        </span>
+                    </a>
+                </c:forEach>
+            </div>
             <div class='container'>
                 <span><i>Assigned to: </i>&nbsp;
                     <span id = "assignedName">
@@ -70,7 +79,6 @@
                         </c:when>
                     </c:choose>
                 </span>
-
                 <div class="col-lg-12" id="scrollable-dropdown-menu" style="display:none;">
                     <input class="form-control typeahead" id="assignTo" placeholder="Assign to" />
                     <span id = "assigneeSpan" class="help-block"></span>
@@ -83,15 +91,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="well">
-        <c:forEach items="${attachments}" var="attachment">
-            <a href="/attachment/download/<c:out value="${attachment.id}"/>">
-                <span class="btn btn-default attachmentWidth">
-                    <span class="buttontext " >${attachment.originalName}</span>
-                </span>
-            </a>
-        </c:forEach>
     </div>
     <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
     <div id="allComments" class="list-group">
@@ -134,29 +133,29 @@
                     </c:when>
                     <c:otherwise>
                         <div class="commentStateChanged"><span class="glyphicon glyphicon-comment"></span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</div>
-                        </c:otherwise>
-                    </c:choose>
-                    <c:choose>
-                        <c:when test = "${not empty comment.content}">
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test = "${not empty comment.content}">
                         <div class="commentBlockThing">
                             <blockquote class="commentBlockquote">
                                 <p class="commentContent"><c:out value="${comment.content}"/></p>
+
+                                <div class="attachments">
+                                    <c:forEach items="${comment.attachments}" var="attachment">
+                                        <a href="/attachment/download/<c:out value="${attachment.id}"/>">
+                                            <span class="btn btn-default attachmentWidth">
+                                                <span class="buttontext " >${attachment.originalName}</span>
+                                            </span>
+                                        </a>
+                                    </c:forEach>
+                                </div>
                             </blockquote>
+
                             <span> - on <c:out value="${comment.getDateFormat()}"/></span>
                         </div>
                     </c:when>
                 </c:choose>
-
-                <div class="attachments">
-                    <c:forEach items="${comment.attachments}" var="attachment">
-                        <a href="/attachment/download/<c:out value="${attachment.id}"/>">
-                            <span class="btn btn-default attachmentWidth">
-                                <span class="buttontext " >${attachment.originalName}</span>
-                            </span>
-                        </a>
-                    </c:forEach>
-                </div>
-
             </div>
         </c:forEach>
     </div>
@@ -191,6 +190,24 @@
         margin: 0px;
     }
     .commentStateChanged{
-        padding-top: 30px;
+        padding-top: 0px;
+    }
+    .attachmentsLine{
+        margin: 10px 0px 20px;
+        padding-left: 0px;
+    }
+    #labelContainer{
+        padding-left: 0px;
+    }
+    .fullCommentBody{
+        border: 1px solid #F7F7F7;
+        background-color: #FCFCFC;
+        margin-top: 30px;
+        padding-left: 5px;
+        background: -webkit-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+        background: -moz-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+        background: -ms-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+        background: linear-gradient(180deg, #F5F5F5 5%, #FCFCFC 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F5F5', endColorstr='#FCFCFC');
     }
 </style>
