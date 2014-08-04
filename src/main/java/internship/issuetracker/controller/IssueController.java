@@ -364,6 +364,7 @@ public class IssueController {
             responseMap.put("success", true);
             responseMap.put("editedIssue", editedIssue);   
             responseMap.put("editedLabels",issueService.getLabelsByIssueId(editedIssue));
+            responseMap.put("editedAttachments", issueService.getAttachmentsByIssueId(editedIssue));
         }
         return responseMap;
     }

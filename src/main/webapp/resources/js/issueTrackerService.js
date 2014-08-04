@@ -38,7 +38,7 @@ issueTrackerService = (function() {
         });
     };
     
-    self.editIssue = function(id, title, content, labelIdList) {
+    self.editIssue = function(id, title, content, labelIdList, attachments) {
         var issue = {
             'id': id,
             'title': title,
@@ -46,7 +46,8 @@ issueTrackerService = (function() {
         };
         var issueDTO = {
             'issue': issue,
-            'labelIdList': labelIdList
+            'labelIdList': labelIdList,
+            'attachments': attachments
         };
         return $.ajax({
             type: 'POST',
