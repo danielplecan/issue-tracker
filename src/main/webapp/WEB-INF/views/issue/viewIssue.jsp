@@ -191,4 +191,4 @@
 <script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
 <script src="/resources/js/editIssue.js" type="text/javascript"></script>
 <script src="/resources/js/markdown-editor.js" type="text/javascript"></script>
-<script src="/resources/js/getCommentsForAnIssue.js" type="text/javascript"></script>
+<script src="/resources/js/getIssueData.js" type="text/javascript"></script>
