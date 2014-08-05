@@ -419,18 +419,19 @@ public class IssueService {
             map.put("text", emailContent);
             mailService.sendEmail(issue.getOwner().getEmail(), "Issue-Tracker Notification", map);
         }
-        if (!issue.getAssignee().getId().equals(issue.getOwner().getId())) {
-            if(!issue.getAssignee().getId().equals(issue.getLastUpdatedBy().getId())){ 
-                Map<String, Object> map = new HashMap<>();
-                map.put("link", link + "/issue/" + issue.getId());
-                map.put("linkText", "Click here to see the issue");
-                String emailContent ="The issue you are assigned to, with the title ";
-                emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName();
-                map.put("text", emailContent);
-                mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
+        if (issue.getAssignee() != null) {
+            if (!issue.getAssignee().getId().equals(issue.getOwner().getId())) {
+                if(!issue.getAssignee().getId().equals(issue.getLastUpdatedBy().getId())){
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("link", link + "/issue/" + issue.getId());
+                    map.put("linkText", "Click here to see the issue");
+                    String emailContent ="The issue you are assigned to, with the title ";
+                    emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName();
+                    map.put("text", emailContent);
+                    mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
+                }
             }
         }
-        
         
     }
     
