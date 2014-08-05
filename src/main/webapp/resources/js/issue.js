@@ -58,7 +58,7 @@ var commentBuilder = (function() {
         var commentDiv = $('<div class=\"commentBlockThing\"></div>');
         if (comment.content.length !== 0) {
             var blockquote = $('<blockquote class=\"commentBlockquote\"><\/blockquote>');
-            var pElement = $('<p class=\"commentContent\"><\/p>').text(comment.content);
+            var pElement = $('<p class=\"commentContent\"><\/p>').append(markdown.toHTML(comment.content));
             var span = $('<span><\/span>').text('- on ' + comment.dateFormat);
 
             $(blockquote).append($(pElement));
@@ -70,6 +70,8 @@ var commentBuilder = (function() {
 
     return self;
 })();
+
+var insertRecievedComments = null;
 
 $(document).ready(function() {
     var widget = uploadWidget($("#commentFileUpload"));
@@ -267,7 +269,7 @@ $(document).ready(function() {
         $("#changeState-close").removeClass("hidden");
     }
 
-    function insertRecievedComments(data) {
+    insertRecievedComments = function (data) {
         var size = data.comments.length;
         for (var i = 0; i < size; i++) {
             var comment = data.comments[i];
