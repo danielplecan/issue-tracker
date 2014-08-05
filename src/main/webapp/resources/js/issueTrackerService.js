@@ -237,6 +237,19 @@ issueTrackerService = (function() {
             url: location.origin + '/getAllLabels'
         });
     }
+    
+    self.changeTheme = function(theme) {
+        $.ajax({
+            type: 'POST',
+            url: location.origin + '/settings/changeTheme/' + theme,
+            dataType: "json",
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                }
+            }
+        });
+    };
     return self;
 })();
    

@@ -18,11 +18,9 @@
      <div id="optionContainer">
          <p>Change theme:</p>
          <ul id="themeSelect" class="nav nav-pills nav-stacked">
-             <li value="1" id="op1"><a>Light(default)</a></li>
-             <li value="2" id="op2"><a>Dark</a></li>
-             <li value="3" id="op3"><a>Cold</a></li>
-             <li value="4" id="op4"><a>Salad</a></li>
-             <li value="5" id="op5"><a>Pink</a></li>
+             <li value="0" id="op0"><a>Light(default)</a></li>
+             <li value="1" id="op1"><a>Dark</a></li>
+             <li value="2" id="op2"><a>Cold</a></li>
                 
          </ul></br>
          <button type="button" class="btn btn-default" id="preview">Preview</button>

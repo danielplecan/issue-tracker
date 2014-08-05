@@ -27,7 +27,7 @@ $(document).ready( function() {
     $("#set").click( function() {
         $("#themeSelect li").each( function() {
             if ($(this).hasClass("active")) {
-                changeTheme($(this).attr("value"));
+                issueTrackerService.changeTheme($(this).attr("value"));
                 previewTheme($(this).attr("value"));
             }
         });
@@ -73,20 +73,6 @@ $(document).ready( function() {
 
     function restoreTheme() {
         previewTheme(initialTheme);
-    }
-   
-    function changeTheme(theme) {
-        $.ajax({
-            type: 'POST',
-            url: location.origin + '/settings/changeTheme/' + theme,
-            dataType: "json",
-            success:function(data) {
-                if (data.success) {
-                    location.reload();
-                }
-            }
-        });
-        console.log("change: " + theme);
     }
    
     $("#toggleNotifications").click(function() {

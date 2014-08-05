@@ -42,12 +42,12 @@
                 <link id="colorTheme" href="/resources/css/theme/${sessionScope.theme}/styleColor.css" rel="stylesheet" type="text/css"/>
             </c:when>
             <c:otherwise>
-                <link href="/resources/css/theme/1/bootstrap.css" rel="stylesheet" type="text/css"/>
-                <link href="/resources/css/theme/1/styleColor.css" rel="stylesheet" type="text/css"/> 
+                <link href="/resources/css/theme/0/bootstrap.css" rel="stylesheet" type="text/css"/>
+                <link href="/resources/css/theme/0/styleColor.css" rel="stylesheet" type="text/css"/> 
             </c:otherwise>
         </c:choose>
 
-
+        <script src="/resources/js/bulbThemeSwitch.js" type="text/javascript"></script>
         <link href="/resources/css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/jquery-ui.min.tooltip.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>

@@ -1,20 +1,4 @@
-/*DARK STYLE*/
-
-.disabledButton{
-    background-color: #669999;
-}
-
-.list-group-item-label-list{
-    background-color: #ffffff;
-}
-
-.list-item-text{
-    background-color: #FFFFFF;
-}
-
-#issueContent{
-    border-left: 4px #E0E0E0 solid;
-}
+/*pink theme*/
 
 .label-success {
     background-color: #80E680;
@@ -31,51 +15,70 @@
     color: #CC5200;
 }
 
-/* creating labels (Ionut & Augustin)*/
-
-.label-add-new:hover{
-    background-color: #28B62C;
-}
-
-.color-chooser-color{
-    background-color: red;
-}
-
-.color-chooser-color:hover{
-    border: 1px solid black;
-}
-
-#createLabelH{
-    border: 1.5px #e7e7e7 solid;
-}
-
-.label-selected{
-    border: 2px solid black;
-}
-
-#createLabelErrorField{
-    color:orange;
-}
-
-/*View All Issues (ionut)*/
-
 .theIssueTitleLink{
-    color:#c2c2c2;
+    color:#333333;
 }
 
-.theIssueContentPreview{
-    border-left: 4px #5C5C5C solid;
+.panel-body,
+.list-group-item,
+.panel,
+.navbar{
+    background-color:#F7EDF3;
 }
-
-.theIssueShowContent{
-    color:#5C5C5C;
+.panel,
+.navbar-default{
+    border-color:#F2E1EB;
 }
-
+.btn-default{
+    background-color:#F2E1EB;
+    border-color:#F2E1EB;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    background-color:#F2E1EB;
+}
+.nav > li > a:hover, .nav > li > a:focus{
+    background-color:#F2E1EB;
+}
+.panel-primary > .panel-heading{
+    background-color: #F2E1EB;
+}
 #allIssues > div:nth-child(odd)  {
-    background: none repeat scroll 0 0 #060606 !important;
+    background: none repeat scroll 0 0 #FAF7F9 !important;
+    border-color: #FAEDF5;
 }
-
-/*andreea*/
+.glyphicon{
+    color: #CFB4C3;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+    background-color: #EDDDE6;
+    border-color: #EBDAE3;
+}
+.btn-default.disabled,
+.btn-default[disabled],
+fieldset[disabled] .btn-default,
+.btn-default.disabled:hover,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default:hover,
+.btn-default.disabled:focus,
+.btn-default[disabled]:focus,
+fieldset[disabled] .btn-default:focus,
+.btn-default.disabled:active,
+.btn-default[disabled]:active,
+fieldset[disabled] .btn-default:active,
+.btn-default.disabled.active,
+.btn-default[disabled].active,
+fieldset[disabled] .btn-default.active {
+    background-color: #EDDDE6;
+    border-color: #e2e2e2;
+}
+.panel-default > .panel-heading,
+.panel-heading{
+    background-color:#F5E4ED;
+}
 
 .openColor{
     color:#53F01A;
@@ -84,25 +87,26 @@
 .closedColor{
     color:#FA2A2A;
 }
-.list-item-text{
-    background-color: black;
+#issueContent{
+    border-left: 4px #F5E4ED solid;
+}
+.theIssueContentPreview{
+    border-left: 4px #F5E4ED solid;
 }
 
-.list-group-item{
-    background-color:#2e3338;
+.commentBlockquote{
+    margin: 0px;
+    border-left: 4px solid #F5E4ED;
 }
-#allIssues > div:nth-child(odd)  {
-    background: none repeat scroll 0 0 #272b30 !important;
-    border-color: #000;
-}
+
 .arrow_box {
     position: relative;
-    background: -webkit-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
-    background: -moz-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
-    background: -ms-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
-    background: linear-gradient(180deg, #272A2E 5%, #3e444c 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#272A2E', endColorstr='#3e444c');
-    border: 1px solid #343940;
+    background: -webkit-linear-gradient(90deg, #FAF2F7 5%, #FFFAFD 100%);
+    background: -moz-linear-gradient(90deg, #FAF2F7 5%, #FFFAFD 100%);
+    background: -ms-linear-gradient(90deg, #FAF2F7 5%, #FFFAFD 100%);
+    background: linear-gradient(180deg, #FAF2F7 5%, #FFFAFD 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAF2F7', endColorstr='#FFFAFD');
+    border: 1px solid #FFF7FC;
 }
 .arrow_box:after, .arrow_box:before {
     right: 100%;
@@ -116,13 +120,22 @@
 }
 .arrow_box:after {
     border-color: rgba(252, 252, 252, 0);
-    border-right-color: #343940;
+    border-right-color: #FFF7FC;
     border-width: 20px;
     margin-top: -20px;
 }
 .arrow_box:before {
     border-color: rgba(252, 252, 252, 0);
-    border-right-color: #343940;
+    border-right-color: #FFF7FC;
     border-width: 21px;
     margin-top: -21px;
+}
+/*light bulb*/
+#lightBulbPic{
+    -webkit-filter: hue-rotate(230deg) brightness(1);
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'hue-rotate\'><feColorMatrix type=\'hueRotate\' values=\'250\'/></filter></svg>#hue-rotate");
+}
+#lightBulbPic:hover{
+    -webkit-filter: none;
+    filter: none;
 }
