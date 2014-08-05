@@ -56,7 +56,7 @@
 
     $("#editTheIssueButton").click(function() {
         $('#editIssueTitle').val($('#oldIssueTitle').text().trim());
-        $('#editIssueContent').val($('#issueContent').text().trim());
+//        $('#editIssueContent').val($('#issueContent').text().trim());
         $('#viewTheIssue').hide("slow");
         $('#editTheIssue').show("slow");
 
@@ -83,7 +83,8 @@
             if (data.success) {
                 $('#oldIssueTitle').text(data.editedIssue.title);
                 $('#oldIssueLastUpdate').text(data.editedIssue.lastUpdateDate);
-                $('#issueContent').text(data.editedIssue.content);
+                $("#issueContent").empty();
+                $("#issueContent").append($(markdown.toHTML(data.editedIssue.content)));
                 var contentLength = data.editedIssue.content.length;
 
                 if (contentLength !== 0) {
