@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="/resources/js/select2.js" type="text/javascript"></script>
-<link href="/resources/css/select2.css" rel="stylesheet" type="text/css"/>
+<link href="/resources/css/select2/select2.css" rel="stylesheet" type="text/css"/>
 
 <div id="pageContent">
     <section class="well col-sm-10 col-sm-offset-1">
