@@ -232,6 +232,11 @@ issueTrackerService = (function() {
         });
 
     };
+    self.getAllLables = function() {
+        return $.ajax({
+            url: location.origin + '/getAllLabels'
+        });
+    }
     return self;
 })();
    

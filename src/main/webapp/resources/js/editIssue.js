@@ -9,16 +9,13 @@
         $("#newLabelInput").show();
         $("#cancelAddNewLabel").show();
         if (theLabels.length === 0) {
-            $.ajax({
-                url: location.origin + '/getAllLabels'
-            }).done(function(data) {
+            issueTrackerService.getAllLables().done(function(data) {
                 theLabels = data.labels;
                 $("#newLabelInput").keyup();
             });
         }
-
-
     });
+    
     $("#cancelAddNewLabel").click(function() {
         $(this).hide();
         $("#newLabelInput").hide();
@@ -38,30 +35,15 @@
             });
 
             if (entry.name.indexOf(inputValue) > -1 && exists === false) {
-                var newLabel = $('<span class="label label-default labelEditLabels"></span>');
-                newLabel.text(entry.name);
-                newLabel.attr("data-color", entry.color);
-                newLabel.attr('data-id', entry.id);
-                newLabel.css("background-color", entry.color);
-                newLabel.css("color", "black");
-                newLabel.css("margin-right", "3px;");
-
+                var newLabel = createNewLabel(entry.name, entry.id, entry.color, "label label-default labelEditLabels", "black", false)
                 $("#labelsSugestions").append(newLabel);
             }
         });
     });
 
     $("#labelsSugestions").delegate("span", "click", function() {
-        var newLabel = $('<span/>');
         var $this = $(this);
-        newLabel.addClass("label label-warning labelEditLabels");
-        newLabel.text($this.text());
-        newLabel.attr("data-color", $this.data("color"));
-        newLabel.attr('data-id', $this.data("id"));        
-        var color = $this.data("color");
-        newLabel.attr("style", "color:black;margin-right:3px;background-color:"+color);       
-        newLabel.append('<span class="glyphicon glyphicon-remove"></span>');
-
+        var newLabel = createNewLabel($this.text(), $this.data('id'), $this.data('color'), "label label-warning labelEditLabels", "black", true)
         $("#modifiedIssueLabelsList").append(newLabel);
         $this.remove();
     });
@@ -77,6 +59,13 @@
         $('#editIssueContent').val($('#issueContent').text().trim());
         $('#viewTheIssue').hide();
         $('#editTheIssue').show();
+
+        $('#modifiedIssueLabelsList').empty();
+        $('#labelContainer > span').each(function() {
+            var $this = $(this);
+            var newLabel = createNewLabel($this.text(), $this.data('id'), $this.data('color'), "label label-warning labelEditLabels", "black", true);
+            $('#modifiedIssueLabelsList').append(newLabel);
+        });
     });
 
     $('#saveChangesEdit').click(function() {
@@ -109,7 +98,9 @@
 
                 if (data.editedLabels !== null) {
                     for (var i = 0; i < data.editedLabels.length; i++) {
-                        $('#labelContainer').append(createOldLabelSpan(data.editedLabels[i]));
+                        var entry = data.editedLabels[i];
+                        var oldLabel = createNewLabel(entry.name, entry.id, entry.color, "label label-warning", "black", false);
+                        $('#labelContainer').append(oldLabel);
                     }
                 }
 
@@ -140,17 +131,6 @@
         $('#editTheIssue').hide();
     });
 
-
-    function createOldLabelSpan(label) {
-        var newLabel = $('<span class="label label-default ">  </span>');
-        newLabel.text(label.name);
-        newLabel.attr("data-color", label.color);
-        newLabel.attr('data-id', label.id);
-        newLabel.css("margin-right", "3px");
-        newLabel.css("background-color", label.color);
-        newLabel.css("color", getContrastYIQ(label.color));
-        return newLabel;
-    }
     function createAtachment(attachment) {
         var a = $('<a/>');
         a.attr('href', '/attachment/download/' + attachment.id);
@@ -166,6 +146,23 @@
         a.append(span);
 
         return a;
+    }
+
+    function createNewLabel(text, id, color, labelClass, textColor, removeButton) {
+        var label = $('<span/>')
+        label.addClass(labelClass);
+        label.text(text);
+        label.attr("data-color", color);
+        label.attr('data-id', id);
+        label.css("margin-right", "3px");
+        label.css("background-color", color);
+        label.css("color", textColor);
+        label.attr("style", "color:" + textColor + ";margin-right:3px;background-color:" + color);
+
+        if (removeButton === true) {
+            label.append('<span class="glyphicon glyphicon-remove"></span>');
+        }
+        return label;
     }
 
 })();
