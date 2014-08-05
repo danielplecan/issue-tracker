@@ -7,11 +7,9 @@
             <div id="editIssueId" class="hidden">${issue.id}</div>           
             <div class="panel-heading">
                 <button id="editTheIssueButton" class="btn btn-default" type="button" style="float:right;"><span class="glyphicon glyphicon-edit"/> Edit</button>
-                <h3>
-                    <div id="oldIssueTitle">
-                        <c:out value="${issue.title}"/>
-                    </div>
-                </h3>
+                <div id="oldIssueTitle">
+                    <c:out value="${issue.title}"/>
+                </div>
                 <div class="issueDateTime">
                     <div>Current State :
                         <c:choose>
@@ -32,14 +30,14 @@
             <div class="panel-body contentLine">
                 <c:choose>
                     <c:when test="${not empty issue.content}">                       
-                        <h4><div id="issueContent"><c:out value="${issue.content}"/></div></h4>                     
-                        </c:when>  
-                        <c:otherwise>
-                        <h4 class="hidden"><div  id="issueContent"></div></h4>  
-                        </c:otherwise>
-                    </c:choose>
-                    <c:choose>
-                        <c:when test="${labels != null}">
+                        <div id="issueContent"><c:out value="${issue.content}"/></div>                    
+                    </c:when>  
+                    <c:otherwise>
+                        <div class="hidden"><div id="issueContent"></div> </div> 
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${labels != null}">
                         <div id="labelContainer">
                             <c:forEach var="label" items="${labels}">
                                 <span style="margin-right:3px;background-color:${label.color}" data-color="${label.color}" data-id="${label.id}" class="label label-warning"> <c:out value="${label.name}"/></span>
@@ -103,7 +101,7 @@
                 </div>                
             </div>
         </div>
-        <legend class="col-lg-10 col-lg-offset-1">&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
+        <div class="col-lg-10 col-lg-offset-1 commentsLabelTextSize">Comments<hr></div>
         <div id="allComments" class="list-group">
             <c:forEach items="${comments}" var="comment">
                 <div class="fullCommentBody arrow_box col-lg-10 col-lg-offset-1" style="clear:both;" data-id="${comment.id}">
