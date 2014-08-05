@@ -21,7 +21,7 @@
                     <br>
                     <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></a></span>
                         &nbsp;<i>on</i>&nbsp;<span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
-                    <span class="viewIssueLastUpdated">&nbsp;<i>Last updated</i>&nbsp;<span class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
+                    <span class="viewIssueLastUpdated">&nbsp;<i>Last updated</i>&nbsp;<span id="oldIssueLastUpdate" class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
                     </span>
                 </div>
             </div>      

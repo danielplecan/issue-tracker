@@ -344,6 +344,7 @@ $(document).ready(function() {
 
             $(commentContent).find('blockquote').first().append(attachments);
         }
+        $('#oldIssueLastUpdate').text(" just now ");
         widget.reset();
     }
 
@@ -362,5 +363,3 @@ $(document).ready(function() {
     });
 
 });
-
-
