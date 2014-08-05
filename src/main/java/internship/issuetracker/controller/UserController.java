@@ -11,17 +11,12 @@ import internship.issuetracker.service.UserService;
 import internship.issuetracker.service.UserSettingsService;
 import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.EditUserValidator;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,21 +50,34 @@ public class UserController {
     public String settingsPageMapping(Model model,HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
-        model.addAttribute("initialNotificationCheckbox", userSettingsService.getCurrentNotificationStatus(user.getUsername()));
+        model.addAttribute("initialNotificationPosted", userSettingsService.getNotificationStatusForPosted(user.getUsername()));
         model.addAttribute("initialTheme", userSettingsService.getCurrentThemePreference(user.getUsername()));
+        model.addAttribute("initialNotificationAssigned", userSettingsService.getNotificationStatusForAssigned(user.getUsername()));
 
         return "settings";
     }
 
     @RequestMapping(value = "/settings/toggleNotifications", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> toggleNotifications(HttpServletRequest request) {
+    public Map<String, Object> toggleNotificationsForPostedIssues(HttpServletRequest request) {
 
         Map<String, Object> responseMap = new HashMap<>();
         User currentUser = (User) request.getSession().getAttribute("user");
 
         responseMap.put("success", true);
-        responseMap.put("value", userSettingsService.toggleNotifications(currentUser.getUsername()));
+        responseMap.put("value", userSettingsService.toggleNotificationsForPosted(currentUser.getUsername()));
+        return responseMap;
+    }
+    
+    @RequestMapping(value = "/settings/toggleNotificationsAssigned", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> toggleNotificationsForAssignedIssues(HttpServletRequest request) {
+
+        Map<String, Object> responseMap = new HashMap<>();
+        User currentUser = (User) request.getSession().getAttribute("user");
+
+        responseMap.put("success", true);
+        responseMap.put("value", userSettingsService.toggleNotificationsForAssigned(currentUser.getUsername()));
         return responseMap;
     }
 

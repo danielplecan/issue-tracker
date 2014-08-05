@@ -1,7 +1,10 @@
 $(document).ready( function() { 
     var initialNotificationCheckbox = $("#settingsContainer").data("notification");
+    var initialNotificationAssigned = $("#settingsContainer").data("assigned");
     var initialTheme = $("#settingsContainer").data("theme");
+    
     $(".toggleBox").attr("checked", initialNotificationCheckbox);
+    $(".toggleBoxAssigned").attr("checked", initialNotificationAssigned);
    
     $("#optionContainer").hide();
     $("#theme-preview").hide();
@@ -109,6 +112,24 @@ $(document).ready( function() {
                 }
                 else {
                     $("#toggleNotifications").checked = false;
+                }
+            }
+        }); 
+    });
+    
+    $("#toggleNotificationsAssigned").click(function() {
+        $.ajax({
+            type: 'POST',
+            url: location.origin + '/settings/toggleNotificationsAssigned',
+            dataType: "json",
+            success: function(data) {
+                
+                $("#test").text(data.value);
+                if (data.value === true) {
+                    $("#toggleNotificationsAssigned").checked = true;
+                }
+                else {
+                    $("#toggleNotificationsAssigned").checked = false;
                 }
             }
         }); 

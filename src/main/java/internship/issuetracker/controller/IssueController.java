@@ -185,14 +185,17 @@ public class IssueController {
 
             List<User> targets = new ArrayList<>();
             targets.add(issue.getOwner());
+            issueService.sendNotification(comment, targets.get(0), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
             if (issue.getAssignee() != null) {
                 targets.add(issue.getAssignee());
+                issueService.sendNotification(comment, targets.get(1), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
             }
-            for (User user: targets) {
-                if(userSettingsService.getCurrentNotificationStatus(user.getUsername())){
-                    issueService.sendNotification(comment, user,"http://"+ request.getLocalAddr()+":"+request.getLocalPort());
-                }
-            }
+            
+//            for (User user: targets) {
+//                if(user.getSettings().isNotificationsForPostedIssues()){
+//                    issueService.sendNotification(comment, user,"http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+//                }
+//            }
 
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);

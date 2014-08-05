@@ -1,12 +1,15 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<div style="position:relative;" data-notification="${initialNotificationCheckbox}" data-theme=${initialTheme} id="settingsContainer">
+<div style="position:relative;" data-notification="${initialNotificationPosted}" data-theme=${initialTheme}  data-assigned="${initialNotificationAssigned}" id="settingsContainer">
     <div>
-        
-        </choose>
         <div class="checkbox">
             <label>
-                <input type="checkbox" id="toggleNotifications" class="toggleBox"> Receive notifications for owned issues
+                <input type="checkbox" id="toggleNotifications" class="toggleBox"> Notifications for owned issues
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="toggleNotificationsAssigned" class="toggleBoxAssigned"> Notifications for assigned issues
             </label>
         </div>
         
@@ -26,7 +29,7 @@
          <button type="button" class="btn btn-default" id="set">Set theme</button>
          <button type="button" class="btn btn-default" id="cancel">Cancel</button>
      </div>
-    
+     <a href="/edit-profile"><button type="button" class="btn btn-default">Edit user profile</button></a>
     <ul id="theme-preview">
         <li id="prev1" class="col-lg-4 row theme-prev">
             <img src="/resources/img/theme1.png" alt=""/>
@@ -69,11 +72,6 @@
         width:600px;
         height:400px;
     }  
-    #theme-preview > li >img {
-/*        width:30%;
-        height:30%;
-        margin:3%;*/
-    }
     
     #theme-preview {
         display:inline-block;
