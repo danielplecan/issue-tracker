@@ -1,54 +1,286 @@
-function createLabelListElement(label) {
-    var li = $(' <div class=\"labelListThing col-lg-12\">\r\n\n\
-                <div class=\"labelPanel editLabelPane\">\r\n\n\
-                    <div class=\"showLabelPane\" data-id=\"' + label.id + '\" data-color=\"' + label.color + '\">\r\n\n\
-                        <div class=\"navbar-left\">\r\n\n\
-                            <form class=\"navbar-form navbar-left labelListEdit\">\r\n\n\
-                                <span class=\"labelName theLabelListLabel label theLabelListText\" style=\"min-width:100px; background-color: ' + label.color + '\"><\/span>\r\n\n\
-                            <\/form>\r\n\n\
-                        <\/div>\r\n\n\
-                        <div class=\"navbar-right\">\r\n\n\
-                            <button type=\"button\" class=\"btn btn-default btn-edit manageLabelsButton btn-sm\"><span class=\"glyphicon glyphicon-pencil\"><\/span> Edit<\/button>\r\n\n\
-                            <button type=\"button\" class=\"btn btn-default btn-remove manageLabelsButton btn-sm\"><span class=\"glyphicon glyphicon-remove\"><\/span> Delete<\/button>\r\n\n\
-                        <\/div>\r\n\n\
-                    <\/div>\r\n\n\
-                            \r\n\n\
-                    <div class=\"editLabelPane hidden\">\r\n\n\
-                        <div class=\"navbar-left \">\r\n\n\
-                            <div class=\"navbar-form navbar-left labelListEdit\">\r\n\n\
-                                <input type=\"text\" class=\"small-input-box form-control flLeft labelListEdit\" placeholder=\"label\">\r\n\n\
-                                <button class=\"toggle-color-picker color-chooser-color labelColorManageColors col-lg-1\"><\/button>\r\n\n\
-                                <div class=\"theColorsList\" style=\"display: none\">\r\n\n\
-                                    <span class=\"color-chooser-color color-square\" data-color=\"#FF8F8F\" style=\"background-color:#FF8F8F\"><\/span>\r\n\n\
-                                    <span class=\"color-chooser-color color-square\" data-color=\"#FFC69E\" style=\"background-color:#FFC69E\"><\/span>\r\n\n\
-                                    <span class=\"color-chooser-color color-square\" data-color=\"#FFF4C4\" style=\"background-color:#FFF4C4\"><\/span>\r\n\n\
-                                    <span class=\"color-chooser-color color-square\" data-color=\"#E6FAFF\" style=\"background-color:#E6FAFF\"><\/span>\r\n\n\
-                                    <span class=\"color-chooser-color color-square\" data-color=\"#D8FFC4\" style=\"background-color:#D8FFC4\"><\/span>\r\n\n\
-                                    <span class=\"color-chooser-color color-square\" data-color=\"#E6E6E6\" style=\"background-color:#E6E6E6\"><\/span>\r\n\n\
-                                    <span class=\"color-chooser-color color-square\" data-color=\"#B6BDCC\" style=\"background-color:#B6BDCC\"><\/span>\r\n\n\
-                                <\/div>\r\n\n\
-                            <\/div>\r\n\n\
-                        <\/div>\r\n\n\
-                        <div class=\"navbar-right\">\r\n\n\
-                            <button type=\"button\" class=\"btn btn-success btn-sm manageButton btn-save-edit-label\"><span class=\"glyphicon glyphicon-ok-circle\"><\/span> Save<\/button>\r\n\n\
-                            <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-cancel-edit-label\"><span class=\"glyphicon glyphicon-remove-circle\"><\/span> Cancel<\/button>\r\n\n\
-                        <\/div>\r\n\n\
-                        <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>\r\n\n\
-                    <\/div>\r\n\n\
-                    <div class=\"deleteLabelPanel\" style=\"display: none\">\r\n\n\
-                        <div class=\"navbar-left leftWarningDeleteLabel\">\r\n\n\
-                            <span>Are you sure you want to permanently delete the label?<\/span>\r\n\n\
-                        <\/div>\r\n\n\
-                        <div class=\"navbar-right\">\r\n\n\
-                            <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-delete-edit-label\"><span class=\"glyphicon glyphicon-remove-sign\"><\/span> Delete<\/button>\r\n\n\
-                            <button type=\"button\" class=\"btn btn-default btn-sm manageButton btn-cancel-delete-label\"><span class=\"glyphicon glyphicon-minus-sign\"><\/span> Cancel<\/button>\r\n\n\
-                        <\/div>\r\n\n\
-                    <\/div>\r\n\n\
-                <\/div>\r\n\n\
-            <\/div>');
-    $(li).find('.labelName').text(label.name);
-    return li;
-}
+var labelWidgetElementsBuilder = (function() {
+    var self = {};
+    var label;
+
+    self.setLabel = function(labelForWidget) {
+        label = labelForWidget;
+    };
+
+
+    //SHOW LABEL PANEL
+    var createGlyphiconSpan = function(type) {
+        var span = $('<span class=\"glyphicon\"><\/span>');
+        switch (type) {
+            case 'EDIT':
+                $(span).addClass('glyphicon-pencil');
+                break;
+            case 'REMOVE':
+                $(span).addClass('glyphicon-remove');
+                break;
+            case 'SAVE':
+                $(span).addClass('glyphicon-ok-circle');
+                break;
+            case 'CANCEL':
+                $(span).addClass('glyphicon-remove-circle');
+                break;
+            case 'DELETECONFIRM':
+                $(span).addClass('glyphicon-remove-sign');
+                break;
+            case 'DELETECANCEL':
+                $(span).addClass('glyphicon-minus-sign');
+                break;
+        }
+        return span;
+    };
+
+    var createEditButton = function() {
+        var button = $('<button type=\"button\" class=\"btn btn-default btn-edit manageLabelsButton btn-sm\"><\/button>');
+        $(button).append(createGlyphiconSpan('EDIT'));
+        $(button).append('Edit');
+        return button;
+    };
+
+    var createRemoveButton = function() {
+        var button = $('<button type=\"button\" class=\"btn btn-default btn-remove manageLabelsButton btn-sm\"><\/span><\/button>');
+        $(button).append(createGlyphiconSpan('REMOVE'));
+        $(button).append('Delete');
+        return button;
+    };
+
+    var createLabelNameSpan = function() {
+        var span = $('<span class=\"labelName theLabelListLabel label theLabelListText\"><\/span>');
+        $(span).css('min-width', '100px');
+        $(span).css('background-color', label.color);
+        $(span).text(label.name);
+        return span;
+    };
+
+    var createNavbarForm = function() {
+        var form = $('<form class=\"navbar-form navbar-left labelListEdit\">');
+        $(form).append(createLabelNameSpan());
+        return form;
+    };
+
+    var createNavBarRightDiv = function() {
+        var div = $('<div class=\"navbar-right\">');
+        $(div).append(createEditButton());
+        $(div).append(' ');
+        $(div).append(createRemoveButton());
+        return div;
+    };
+
+    var createNavBarLeftDiv = function() {
+        var div = $('<div class=\"navbar-left\">');
+        $(div).append(createNavbarForm());
+        return div;
+    };
+
+    var createShowLabelPanelDiv = function() {
+        var div = $('<div class=\"showLabelPane\">');
+        $(div).attr('data-id', label.id);
+        $(div).attr('data-color', label.color);
+        $(div).append(createNavBarLeftDiv());
+        $(div).append(createNavBarRightDiv());
+        return div;
+    };
+    //SHOW LABEL PANEL
+
+    //EDIT LABEL PANEL
+
+    var createSmallColorButton = function(color) {
+        var span = $('<span class=\"color-chooser-color color-square\"><\/span>');
+        $(span).attr('data-color', color);
+        $(span).css('background-color', color);
+        return span;
+    };
+
+    var createColorList = function() {
+        var list = $('<div class=\"theColorsList\" style=\"display: none\">');
+        $(list).append(createSmallColorButton('#FF8F8F'));
+        $(list).append(createSmallColorButton('#FFC69E'));
+        $(list).append(createSmallColorButton('#FFF4C4'));
+        $(list).append(createSmallColorButton('#E6FAFF'));
+        $(list).append(createSmallColorButton('#D8FFC4'));
+        $(list).append(createSmallColorButton('#E6E6E6'));
+        $(list).append(createSmallColorButton('#B6BDCC'));
+        return list;
+    };
+
+    var createLabelInput = function() {
+        var input = $('<input type=\"text\" class=\"small-input-box form-control flLeft labelListEdit\" placeholder=\"label\">');
+        return input;
+    };
+
+    var createToggleButton = function() {
+        var input = $('<button class=\"toggle-color-picker color-chooser-color labelColorManageColors col-lg-1\"><\/button>');
+        return input;
+    };
+
+    var createButtonsForm = function() {
+        var div = $('<div class=\"navbar-form navbar-left labelListEdit\">');
+        $(div).append(createLabelInput());
+        $(div).append(createToggleButton());
+        $(div).append(createColorList());
+        return div;
+    };
+
+    var createSaveButton = function() {
+        var button = $('<button type=\"button\" class=\"btn btn-success btn-sm manageButton btn-save-edit-label\"><\/button>');
+        $(button).append(createGlyphiconSpan('SAVE'));
+        $(button).append(' Save ');
+        return button;
+    };
+
+    var createCancelButton = function() {
+        var button = $('<button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-cancel-edit-label\"><\/button>');
+        $(button).append(createGlyphiconSpan('CANCEL'));
+        $(button).append(' Cancel ');
+        return button;
+    };
+
+    var createNavBarRightEditDiv = function() {
+        var div = $('<div class=\"navbar-right\">');
+        $(div).append(createSaveButton());
+        $(div).append(' ');
+        $(div).append(createCancelButton());
+        return div;
+    };
+
+    var createNavBarLeftEditDiv = function() {
+        var div = $('<div class=\"navbar-left\">');
+        $(div).append(createButtonsForm());
+        return div;
+    };
+
+    var createErrorDiv = function() {
+        var div = $('<div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>');
+        return div;
+    };
+
+    var createEditLabelPanelDiv = function() {
+        var div = $('<div class=\"editLabelPane hidden\">');
+        $(div).append(createNavBarLeftEditDiv());
+        $(div).append(createNavBarRightEditDiv());
+        $(div).append(createErrorDiv());
+        return div;
+    };
+    //EDIT LABEL PANEL
+
+
+    //DELETE LABEL PANEL
+
+
+    var createDeleteConfirmButton = function() {
+        var button = $('<button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-delete-edit-label\"><\/button>');
+        $(button).append(createGlyphiconSpan('DELETECONFIRM'));
+        $(button).append(' Delete ');
+        return button;
+    };
+
+    var createDeleteCancelButton = function() {
+        var button = $('<button type=\"button\" class=\"btn btn-default btn-sm manageButton btn-cancel-delete-label\"><\/button>');
+        $(button).append(createGlyphiconSpan('DELETECANCEL'));
+        $(button).append(' Cancel ');
+        return button;
+    };
+
+    var createDeleteLabelSpan = function() {
+        var span = $('<span>Are you sure you want to permanently delete the label?<\/span>');
+        return span;
+    };
+
+    var createNavBarLeftDeleteDiv = function() {
+        var div = $('<div class=\"navbar-left leftWarningDeleteLabel\">');
+        $(div).append(createDeleteLabelSpan());
+        return div;
+    };
+
+    var createNavBarRightDeleteDiv = function() {
+        var div = $('<div class=\"navbar-right\">');
+        $(div).append(createDeleteConfirmButton());
+        $(div).append(' ');
+        $(div).append(createDeleteCancelButton());
+        return div;
+    };
+
+
+    var createDeleteLabelPanelDiv = function() {
+        var div = $('<div class=\"deleteLabelPanel\" style=\"display: none\">');
+        $(div).append(createNavBarLeftDeleteDiv());
+        $(div).append(createNavBarRightDeleteDiv());
+        return div;
+    };
+    //DELETE LABEL PANEL
+    var createLabelPanelDiv = function() {
+        var div = $('<div class=\"labelPanel editLabelPane\">');
+        $(div).append(createShowLabelPanelDiv());
+        $(div).append(createEditLabelPanelDiv());
+        $(div).append(createDeleteLabelPanelDiv());
+        return div;
+    };
+
+    self.createLabelListThingDiv = function() {
+        var div = $('<div class=\"labelListThing col-lg-12\">');
+        $(div).append(createLabelPanelDiv());
+        return div;
+    };
+
+    return self;
+})();
+
+
+//
+//function createLabelListElement(label) {
+//    var li = $('<div class=\"labelListThing col-lg-12\">\r\n\n\
+//                <div class=\"labelPanel editLabelPane\">\r\n\n\
+//                    <div class=\"showLabelPane\" data-id=\"' + label.id + '\" data-color=\"' + label.color + '\">\r\n\n\
+//                        <div class=\"navbar-left\">\r\n\n\
+//                            <form class=\"navbar-form navbar-left labelListEdit\">\r\n\n\
+//                                <span class=\"labelName theLabelListLabel label theLabelListText\" style=\"min-width:100px; background-color: ' + label.color + '\"><\/span>\r\n\n\
+//                            <\/form>\r\n\n\
+//                        <\/div>\r\n\n\
+//                        <div class=\"navbar-right\">\r\n\n\
+//                            <button type=\"button\" class=\"btn btn-default btn-edit manageLabelsButton btn-sm\"><span class=\"glyphicon glyphicon-pencil\"><\/span> Edit<\/button>\r\n\n\
+//                            <button type=\"button\" class=\"btn btn-default btn-remove manageLabelsButton btn-sm\"><span class=\"glyphicon glyphicon-remove\"><\/span> Delete<\/button>\r\n\n\
+//                        <\/div>\r\n\n\
+//                    <\/div>\r\n\n\
+//                            \r\n\n\
+//                    <div class=\"editLabelPane hidden\">\r\n\n\
+//                        <div class=\"navbar-left \">\r\n\n\
+//                            <div class=\"navbar-form navbar-left labelListEdit\">\r\n\n\
+//                                <input type=\"text\" class=\"small-input-box form-control flLeft labelListEdit\" placeholder=\"label\">\r\n\n\
+//                                <button class=\"toggle-color-picker color-chooser-color labelColorManageColors col-lg-1\"><\/button>\r\n\n\
+//                                <div class=\"theColorsList\" style=\"display: none\">\r\n\n\
+//                                    <span class=\"color-chooser-color color-square\" data-color=\"#FF8F8F\" style=\"background-color:#FF8F8F\"><\/span>\r\n\n\
+//                                    <span class=\"color-chooser-color color-square\" data-color=\"#FFC69E\" style=\"background-color:#FFC69E\"><\/span>\r\n\n\
+//                                    <span class=\"color-chooser-color color-square\" data-color=\"#FFF4C4\" style=\"background-color:#FFF4C4\"><\/span>\r\n\n\
+//                                    <span class=\"color-chooser-color color-square\" data-color=\"#E6FAFF\" style=\"background-color:#E6FAFF\"><\/span>\r\n\n\
+//                                    <span class=\"color-chooser-color color-square\" data-color=\"#D8FFC4\" style=\"background-color:#D8FFC4\"><\/span>\r\n\n\
+//                                    <span class=\"color-chooser-color color-square\" data-color=\"#E6E6E6\" style=\"background-color:#E6E6E6\"><\/span>\r\n\n\
+//                                    <span class=\"color-chooser-color color-square\" data-color=\"#B6BDCC\" style=\"background-color:#B6BDCC\"><\/span>\r\n\n\
+//                                <\/div>\r\n\n\
+//                            <\/div>\r\n\n\
+//                        <\/div>\r\n\n\
+//                        <div class=\"navbar-right\">\r\n\n\
+//                            <button type=\"button\" class=\"btn btn-success btn-sm manageButton btn-save-edit-label\"><span class=\"glyphicon glyphicon-ok-circle\"><\/span> Save<\/button>\r\n\n\
+//                            <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-cancel-edit-label\"><span class=\"glyphicon glyphicon-remove-circle\"><\/span> Cancel<\/button>\r\n\n\
+//                        <\/div>\r\n\n\
+//                        <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>\r\n\n\
+//                    <\/div>\r\n\n\
+//                    <div class=\"deleteLabelPanel\" style=\"display: none\">\r\n\n\
+//                        <div class=\"navbar-left leftWarningDeleteLabel\">\r\n\n\
+//                            <span>Are you sure you want to permanently delete the label?<\/span>\r\n\n\
+//                        <\/div>\r\n\n\
+//                        <div class=\"navbar-right\">\r\n\n\
+//                            <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-delete-edit-label\"><span class=\"glyphicon glyphicon-remove-sign\"><\/span> Delete<\/button>\r\n\n\
+//                            <button type=\"button\" class=\"btn btn-default btn-sm manageButton btn-cancel-delete-label\"><span class=\"glyphicon glyphicon-minus-sign\"><\/span> Cancel<\/button>\r\n\n\
+//                        <\/div>\r\n\n\
+//                    <\/div>\r\n\n\
+//                <\/div>\r\n\n\
+//            <\/div>');
+//    $(li).find('.labelName').text(label.name);
+//    return li;
+//}
 
 var listOfLabels = function() {
     function scrollToElement(selector, time, verticalOffset) {
@@ -144,7 +376,10 @@ function addFunctionalityToTopPanel(topPanel) {
         var newLabelColor = $(toggleColorPickerEdit).attr('data-color');
         issueTrackerService.createLabel(newLabelName, newLabelColor).done(function(data) {
             if (data.success) {
-                var newLabelPanel = $(createLabelListElement(data.label));
+                labelWidgetElementsBuilder.setLabel(data.label);
+                var newLabelPanel = labelWidgetElementsBuilder.createLabelListThingDiv();
+                console.log(newLabelPanel);
+                
                 clearInput();
                 listOfLabels().positionElement($(newLabelPanel));
             } else {

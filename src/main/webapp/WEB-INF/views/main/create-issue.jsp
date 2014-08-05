@@ -9,16 +9,18 @@
     <div class="col-lg-9 ">
         <h3 class="h3createanissue">Create an Issue</h3>
         <hr>
-        <form class="form-horizontal" action="" method='POST'>
+        <form class="form-horizontal" action="" method='POST' id="createIssueForm">
             <fieldset>
                 <div id="divToChange" class="form-group">
                     <div class="col-lg-12">
                         <input class="form-control" id="textArea1" placeholder="Title" autocomplete="off" autofocus/>
+                        <span id="titleError" class="text-warning errors"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-12">
                         <textarea class="form-control" rows="7" id="textArea2" placeholder="Content"></textarea>
+                        <span id="contentError" class="text-warning errors"></span>
                     </div>
                 </div>
             </fieldset>

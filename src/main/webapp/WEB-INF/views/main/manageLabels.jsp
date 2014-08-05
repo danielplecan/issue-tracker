@@ -42,8 +42,8 @@
                             </form>
                         </div>
                         <div class="navbar-right">
-                            <button type="button" class="btn btn-default btn-edit manageLabelsButton btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
-                            <button type="button" class="btn btn-default btn-remove manageLabelsButton btn-sm"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                            <button type="button" class="btn btn-default btn-edit manageLabelsButton btn-sm"><span class="glyphicon glyphicon-pencil"></span>Edit </button>
+                            <button type="button" class="btn btn-default btn-remove manageLabelsButton btn-sm"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                         </div>
                     </div>
                             
