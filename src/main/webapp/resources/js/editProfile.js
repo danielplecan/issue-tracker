@@ -14,6 +14,12 @@ function createEditData(){
 
 $(document).ready(function() {
     var submitButton = $("#submitButton");
+    var cancelButton = $("#cancelButton");
+    
+    cancelButton.click( function(event) {
+        event.preventDefault();
+        window.location.replace("/settings");
+    });
     
     submitButton.on("click", function(event) {
         event.preventDefault();

@@ -7,11 +7,9 @@ $(document).ready( function() {
     $(".toggleBoxAssigned").attr("checked", initialNotificationAssigned);
    
     $("#optionContainer").hide();
-    $("#theme-preview").hide();
    
     $("#changeTheme").click( function() {
         $("#optionContainer").show(100);
-        $("#theme-preview").show(100);
         $(this).hide(100);
     });
    
@@ -23,7 +21,6 @@ $(document).ready( function() {
             if ($(this).attr("value") == initialTheme) {
                 $(this).addClass("active");
             }
-        $(".theme-prev").hide();
         });
     }
 
@@ -48,7 +45,6 @@ $(document).ready( function() {
         restoreTheme(); 
         selectTheme(initialTheme);
         $("#optionContainer").hide(100);
-        $("#theme-preview").hide(100);
         $(this).show(100);
         $("#changeTheme").show();
     });
@@ -66,19 +62,13 @@ $(document).ready( function() {
             }
         });
     }
-    var flag;
-    flag = true;
+
     function previewTheme(theme) {
         console.log("preview: " + theme);
         $("#bootstrapTheme").removeAttr("href");
         $("#bootstrapTheme").attr("href", "/resources/css/theme/" + theme + "/bootstrap.css");
         $("#colorTheme").removeAttr("href");
         $("#colorTheme").attr("href", "/resources/css/theme/" + theme + "/styleColor.css");
-        $(".theme-prev").hide();
-        if (flag) {
-            flag=false;
-            $("#prev" + theme).fadeIn(200, function() { flag = true;});
-        }
     }
 
     function restoreTheme() {

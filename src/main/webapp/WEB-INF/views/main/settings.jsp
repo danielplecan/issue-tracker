@@ -30,19 +30,6 @@
          <button type="button" class="btn btn-default" id="cancel">Cancel</button>
      </div>
      <a href="/edit-profile"><button type="button" class="btn btn-default">Edit user profile</button></a>
-    <ul id="theme-preview">
-        <li id="prev1" class="col-lg-4 row theme-prev">
-            <img src="/resources/img/theme1.png" alt=""/>
-        </li>
-        <li id="prev2" class="col-lg-4 row theme-prev"><img src="/resources/img/theme2.png" alt=""/>
-        </li>
-        <li id="prev3" class="col-lg-4 row theme-prev"><img src="/resources/img/theme3.png" alt=""/>
-        </li>
-        <li id="prev4" class="col-lg-4 row theme-prev"><img src="/resources/img/theme4.png" alt=""/>
-        </li>
-        <li id="prev5" class="col-lg-4 row theme-prev"><img src="/resources/img/theme5.png" alt=""/>
-        </li>
-    </ul>
 </div>
 <style>
     #themeSelect {
@@ -65,18 +52,6 @@
     #optionContainer{
         width:30%;
         display:inline-block;
-    }
-    
-    #theme-preview > li {
-        list-style: none;
-        width:600px;
-        height:400px;
-    }  
-    
-    #theme-preview {
-        display:inline-block;
-        float:right;
-        margin-right:15%;
     }
 </style>
 <script src="../../../resources/js/settings.js"></script>

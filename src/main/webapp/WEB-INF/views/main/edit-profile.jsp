@@ -48,7 +48,7 @@
             </div>
             <div class="form-group text-center">
                 <div class="col-lg-12">
-                    <button class="btn btn-default">Cancel</button>
+                    <button class="btn btn-default" id="cancelButton">Cancel</button>
                     <button class="btn btn-primary" id="submitButton">Edit</button>
                 </div>
             </div>
