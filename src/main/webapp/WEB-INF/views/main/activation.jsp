@@ -4,7 +4,7 @@
         <c:choose>
             <c:when test="${success == 'true'}">
                 <span   >Activation successful</span>
-                <p><a href="/login">Sign in</a></p>
+                <span><a href="/login">Sign in</a></span>
             </c:when>
             <c:when test="${success == 'false'}"><span  >Activation failed</span></c:when>
         </c:choose>

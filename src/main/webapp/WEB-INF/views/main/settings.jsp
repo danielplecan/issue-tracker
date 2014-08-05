@@ -29,27 +29,4 @@
      </div>
      <a href="/edit-profile"><button type="button" class="btn btn-default">Edit user profile</button></a>
 </div>
-<style>
-    #themeSelect {
-        width:30%;
-        display:inline-block;   
-        list-style: none;
-        font-size:20px; 
-    } 
-    
-    #themeSelect li {
-        width:200px;
-        display:inline-block;
-    }
-    
-    #themeSelect li:hover {
-        color:#0e80e5;
-        cursor:pointer;
-    }
-        
-    #optionContainer{
-        width:30%;
-        display:inline-block;
-    }
-</style>
 <script src="../../../resources/js/settings.js"></script>

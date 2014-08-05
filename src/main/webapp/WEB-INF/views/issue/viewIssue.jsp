@@ -173,7 +173,7 @@
                                         <c:forEach items="${comment.attachments}" var="attachment">
                                             <a href="/attachment/download/<c:out value="${attachment.id}"/>">
                                                 <span class="btn btn-default attachmentWidth">
-                                                    <span class="buttontext " >${attachment.originalName}</span>
+                                                    <span class="buttontext" >${attachment.originalName}</span>
                                                 </span>
                                             </a>
                                         </c:forEach>
@@ -237,7 +237,7 @@
                         <div id="existingLabels" class="well"> 
                             <div id="modifiedIssueLabelsList" class="row">
                                 <c:forEach var="label" items="${labels}">
-                                    <span style="margin-right:3px;background-color:${label.color};color:black" data-color="${label.color}" data-id="${label.id}"class="label label-warning labelEditLabels"> <c:out value="${label.name}"/> <span class="glyphicon glyphicon-remove"></span></span>
+                                    <span style="margin-right:3px;background-color:${label.color};color:black" data-color="${label.color}" data-id="${label.id}" class="label label-warning labelEditLabels"> <c:out value="${label.name}"/> <span class="glyphicon glyphicon-remove"></span></span>
                                     </c:forEach>
                             </div>
                             <hr>

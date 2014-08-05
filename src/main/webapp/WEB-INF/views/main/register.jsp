@@ -52,49 +52,4 @@
         </form>
         <span class="col-lg-12 txt-center">If you already have an account, please <a href="/login"> Login</a></span>
     </div>
-    <style>
-        .ui-tooltip, .arrow:after {
-            background: white;
-            border: 1px solid #999;       
-        }      
-
-        .ui-tooltip {
-            padding: 10px 12px;
-            color: Black;
-            font: 8pt "Helvetica Neue", Sans-Serif;   
-            max-width: 150px;
-            border: 1px solid #999;
-            position: absolute;
-        } 
-        .arrow {
-            height: 0;
-            width: 0;    
-            overflow: hidden;
-            position: absolute;
-            top: 50%;
-            margin-top: -10px;
-            left: -20px;
-            border:10px solid #000;
-            border-top-color:transparent;
-            border-left-color:transparent;
-            border-bottom-color:transparent;
-
-        }
-
-        .arrow:after {
-            content: "";
-            position: absolute;
-            width: 25px;  
-            height: 25px;
-            border-width: 0 15px 2px;
-            box-shadow:6px 5px 9px -9px black;
-            -webkit-transform-origin: 5px 25px;
-            -webkit-transform: rotate(45deg);
-            -moz-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            -o-transform: rotate(45deg);
-            tranform: rotate(45deg);
-        }
-
-    </style>
     <script src="/resources/js/register.js" type="text/javascript"></script>
