@@ -1,4 +1,16 @@
 /*pink theme*/
+
+/*view issue*/
+
+.textDate{
+    color: #158cba;
+}
+.textDate:hover{
+    color:#158cba;
+}
+/*end view issue*/
+
+
 .theIssueTitleLink{
     color:#333333;
 }

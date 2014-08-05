@@ -21,11 +21,11 @@
                     </div>
                     <br>
                     <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></a></span>
-                        &nbsp;<i>on</i>&nbsp;<span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
+                        &nbsp;<i>on</i>&nbsp;<span class="text-primary textDate"> <c:out value="${issue.getDateFormat()}"/> </span></span>
                     <span class="viewIssueLastUpdated">&nbsp;
                         <i>Last updated by</i>&nbsp;
                         <span class="text-primary"><a href="/profile/<c:out value="${issue.lastUpdatedBy.username}"/>"><c:out value="${issue.lastUpdatedBy.name}"/></a>,</span>
-                        <span id="oldIssueLastUpdate" class="text-primary"><c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
+                        <span id="oldIssueLastUpdate" class="text-primary textDate"><c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
                     </span>
                 </div>
             </div>      
@@ -103,7 +103,7 @@
                 </div>                
             </div>
         </div>
-        <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
+        <legend class="col-lg-10 col-lg-offset-1">&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
         <div id="allComments" class="list-group">
             <c:forEach items="${comments}" var="comment">
                 <div class="fullCommentBody arrow_box col-lg-10 col-lg-offset-1" style="clear:both;" data-id="${comment.id}">
@@ -274,38 +274,5 @@
         </div>
     </div>
 </div>
-<style>
-    .centerButtonPanel {
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .commentStateChanged{
-        padding-top: 0px;
-    }
-    .attachmentsLine{
-        margin: 10px 0px 20px;
-        padding-left: 0px;
-    }
-    #labelContainer{
-        padding-left: 0px;
-    }
-    .stateChangeAttachment{
-        margin: 20px;
-    }
-
-    .fullCommentBody{
-        border: 1px solid #F7F7F7;
-        background-color: #FCFCFC;
-        margin-top: 30px;
-        padding-left: 5px;
-    }
-    .fullCommentBody:last-child{
-        margin-bottom: 30px;
-    }
-    .commentBlockquote{
-        margin: 10px 0px;
-        margin-left: 17px;
-    }
-</style>
 <script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
 <script src="/resources/js/editIssue.js" type="text/javascript"></script>

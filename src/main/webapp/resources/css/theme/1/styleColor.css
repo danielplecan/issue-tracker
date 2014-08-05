@@ -1,4 +1,13 @@
 /*DARK STYLE*/
+/*view issue*/
+
+.textDate{
+    color: #ffffff;
+}
+.textDate:hover{
+    color:#F2f2f2;
+}
+/*end view issue*/
 
 .disabledButton{
     background-color: #669999;

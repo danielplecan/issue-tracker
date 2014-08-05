@@ -1,5 +1,12 @@
 /*LIGHT STYLE*/
-
+/*view issue*/
+.textDate{
+    color: #158cba;
+}
+.textDate:hover{
+    color:#158cba;
+}
+/*end view issue*/
 .list-item-text{
     background-color: #FFFFFF;
     border: 1px solid #F5F5F5;
