@@ -2,7 +2,7 @@ var commentBuilder = (function() {
     var self = {};
 
     self.createFullCommentDiv = function(commentId) {
-        var fullCommentDiv = $("<div class=\"fullCommentBody\"></div>");
+        var fullCommentDiv = $("<div class=\"fullCommentBody arrow_box col-lg-10 col-lg-offset-1\" style=\"clear:both;\"></div>");
         $(fullCommentDiv).attr('data-id', commentId);
         return fullCommentDiv;
     };
@@ -326,6 +326,7 @@ $(document).ready(function() {
                 $(authorLink).after(' changed the state to ');
                 stateChangeDiv.append($(span));
                 if (comment.content.length === 0) {
+                    $(attachments).addClass('stateChangeAttachment');
                     stateChangeDiv.append($(attachments));
                 }
             } else {
@@ -343,6 +344,7 @@ $(document).ready(function() {
 
             $(commentContent).find('blockquote').first().append(attachments);
         }
+        $('#oldIssueLastUpdate').text(" just now ");
         widget.reset();
     }
 
@@ -361,5 +363,3 @@ $(document).ready(function() {
     });
 
 });
-
-

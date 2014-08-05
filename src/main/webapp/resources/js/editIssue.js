@@ -27,12 +27,12 @@
     $("#newLabelInput").keyup(function() {
         $("#labelsSugestions").empty();
         var inputValue = $(this).val();
-        theLabels.forEach(function(entry) {         
+        theLabels.forEach(function(entry) {
             var exists = false;
             $("#modifiedIssueLabelsList > span").each(function(index, element) {
-               if($(element).text().trim() === entry.name) {
-                   exists = true;
-               }
+                if ($(element).text().trim() === entry.name) {
+                    exists = true;
+                }
             });
 
             if (entry.name.indexOf(inputValue) > -1 && exists === false) {
@@ -90,13 +90,29 @@
         issueTrackerService.editIssue(newEditIssueId, newEditTitle, newEditContent, newEditLabels, newEditAttachments).done(function(data) {
             if (data.success) {
                 $('#oldIssueTitle').text(data.editedIssue.title);
-                $('#issueContent').text(data.editedIssue.content);
                 $('#oldIssueLastUpdate').text(data.editedIssue.lastUpdateDate);
+                $('#issueContent').text(data.editedIssue.content);
+                var contentLength = data.editedIssue.content.length;
+
+                if (contentLength !== 0) {
+                    $('#issueContent').parent().show();
+                }
+                else {
+                    $('#issueContent').parent().hide();
+                }
+
                 $('#labelContainer').empty();
+                $('#attachmentsContainer').empty();
 
                 if (data.editedLabels !== null) {
                     for (var i = 0; i < data.editedLabels.length; i++) {
                         $('#labelContainer').append(createOldLabelSpan(data.editedLabels[i]));
+                    }
+                }
+
+                if (data.editedAttachments !== null) {
+                    for (var i = 0; i < data.editedAttachments.length; i++) {
+                        $('#attachmentsContainer').append(createAtachment(data.editedAttachments[i]));
                     }
                 }
 
@@ -131,6 +147,22 @@
         newLabel.css("background-color", label.color);
         newLabel.css("color", getContrastYIQ(label.color));
         return newLabel;
+    }
+    function createAtachment(attachment) {
+        var a = $('<a/>');
+        a.attr('href', '/attachment/download/' + attachment.id);
+
+        var span = $('<span/>');
+        span.attr('class', 'btn btn-default attachmentWidth');
+
+        var innerSpan = $('<span/>');
+        innerSpan.attr('class', 'buttontext');
+        innerSpan.text(attachment.originalName);
+
+        span.append(innerSpan);
+        a.append(span);
+
+        return a;
     }
 
 })();

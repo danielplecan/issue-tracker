@@ -211,6 +211,27 @@ issueTrackerService = (function() {
         });
     };
     
+    self.checkUsernameExistance = function(username) {
+         return $.ajax({
+            type: 'GET',
+            url: location.origin + '/userExistance/' + username,
+            dataType: 'json'
+        });
+    };
+    self.removeOrphanAttachments = function(attachments) {
+        var attachmentsData = {
+            'attachments': attachments
+        };
+
+        return $.ajax({
+            type: 'DELETE',
+            url: location.origin + '/attachment/remove-orphans',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(attachmentsData)
+        });
+
+    };
     return self;
 })();
    

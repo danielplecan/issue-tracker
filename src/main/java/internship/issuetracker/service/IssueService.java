@@ -59,6 +59,7 @@ public class IssueService {
         issue.setDate(currentDate);
         issue.setUpdateDate(currentDate);
         issue.setOwner(owner);
+        issue.setLastUpdatedBy(owner);
         em.persist(issue);
 
         for (Long labelId : issueDto.getLabelIdList()) {
@@ -105,13 +106,14 @@ public class IssueService {
         return false;
     }
 
-    public boolean updateAssignee(long issueId, User assignee) {
+    public boolean updateAssignee(long issueId, User assignee,User currentUser) {
         Issue issue = em.find(Issue.class, issueId);
 
         //in case an issue with this id exists
         if (issue != null) {
             issue.setAssignee(assignee);
             issue.setUpdateDate(new Date());
+            issue.setLastUpdatedBy(currentUser);
             em.merge(issue);
             return true;
         }
@@ -119,13 +121,13 @@ public class IssueService {
         return false;
     }
 
-    public boolean changeStateOfIssue(Long issueId, IssueState newState) {
+    public boolean changeStateOfIssue(Long issueId, IssueState newState, User currentUser) {
         Issue issue = em.find(Issue.class, issueId);
 
         if (issue == null || newState == null) {
             return false;
         }
-
+        issue.setLastUpdatedBy(currentUser);
         switch (newState) {
             case CLOSED:
                 if (issue.getState() != IssueState.CLOSED) {
@@ -176,8 +178,9 @@ public class IssueService {
     public Comment addComment(User author, Long issueId, Comment comment) {
         Issue issue = em.find(Issue.class, issueId);
         issue.setUpdateDate(new Date());
+        issue.setLastUpdatedBy(author);
         if (comment.getChangeState() != null) {
-            this.changeStateOfIssue(issue.getId(), comment.getChangeState());
+            this.changeStateOfIssue(issue.getId(), comment.getChangeState(),author);
         }
 
         comment.setId(null);
@@ -408,10 +411,11 @@ public class IssueService {
         return resultQuery.getResultList();
     }
 
-    public Issue editIssueFromIssueDTO(NewIssueDTO issueDTO) {
+    public Issue editIssueFromIssueDTO(NewIssueDTO issueDTO, User currentUser) {
         Issue issue = em.find(Issue.class, issueDTO.getIssue().getId());
         issue.setTitle(issueDTO.getIssue().getTitle());
         issue.setContent(issueDTO.getIssue().getContent());
+        issue.setLastUpdatedBy(currentUser);
         issue.setUpdateDate(new Date());
         em.merge(issue);
 

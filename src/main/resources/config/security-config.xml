@@ -6,13 +6,16 @@
           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+    
+    <security:http pattern="/favicon.ico" security="none" />
 
     <security:http use-expressions="true">
         <security:intercept-url pattern="/resources/**" access="permitAll" />
         <security:intercept-url pattern="/register" access="permitAll" />
         <security:intercept-url pattern="/login" access="permitAll" />
         <security:intercept-url pattern="/activation/*" access="permitAll" />
-         <security:intercept-url pattern="/registerMessage" access="permitAll" />
+        <security:intercept-url pattern="/registerMessage" access="permitAll" />
+        <security:intercept-url pattern="/userExistance/*" access="permitAll" />
         <security:intercept-url pattern="/**" access="isAuthenticated()" />
         <security:form-login login-page="/login" 
                              authentication-failure-handler-ref="customAuthenticationFailureHandler" 

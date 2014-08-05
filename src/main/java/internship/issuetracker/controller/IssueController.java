@@ -125,10 +125,11 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/close")
     @ResponseBody
-    public Map<String, Object> closeIssue(@PathVariable("id") Long issueId, HttpServletResponse response) {
+    public Map<String, Object> closeIssue(@PathVariable("id") Long issueId, HttpServletRequest request,
+            HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
-
-        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.CLOSED));
+        User currentUser = (User) request.getSession().getAttribute("user");
+        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.CLOSED, currentUser));
         response.setStatus(HttpServletResponse.SC_OK);
 
 
@@ -137,10 +138,11 @@ public class IssueController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/open")
     @ResponseBody
-    public Map<String, Object> reopenIssue(@PathVariable("id") Long issueId, HttpServletResponse response) {
+    public Map<String, Object> reopenIssue(@PathVariable("id") Long issueId, HttpServletRequest request,
+            HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
-
-        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.OPEN));
+        User currentUser = (User) request.getSession().getAttribute("user");
+        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.OPEN,currentUser));
         response.setStatus(HttpServletResponse.SC_OK);
 
         return result;
@@ -278,10 +280,9 @@ public class IssueController {
 
         if (bindingResult.hasErrors()) {
             responseMap.put("success", false);
-//            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
-//            User assignee = userService.getUserById(assignedTo.getId());
-            issueService.updateAssignee(issueId, assignedTo);
+            User currentUser = (User) request.getSession().getAttribute("user");
+            issueService.updateAssignee(issueId, assignedTo,currentUser);
             responseMap.put("success", true);
             responseMap.put("assignedTo", assignedTo);
         }
@@ -358,8 +359,8 @@ public class IssueController {
             responseMap.put("success", false);
             responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
         } else {
-
-            Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto);
+            User currentUser = (User) request.getSession().getAttribute("user");
+            Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto,currentUser);
 
             responseMap.put("success", true);
             responseMap.put("editedIssue", editedIssue);   
