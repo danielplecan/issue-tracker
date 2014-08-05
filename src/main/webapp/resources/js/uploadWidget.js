@@ -24,7 +24,11 @@ function uploadWidget(container) {
         var removeButton = null;
 
         $(errorSpan).empty();
-
+        
+        $(fileInput).remove();
+        fileInput = $("<input type='file' accept='image/*' name='file' data-url='/upload' />");
+        $(actionPanel).append(fileInput);
+        
         $(fileInput).fileupload({
             dataType: 'json',
             done: function(e, data) {
