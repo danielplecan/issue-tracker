@@ -57,8 +57,17 @@ var issuesCreator = function() {
             labelsDiv.append(spanLabel);
         });
         return labelsDiv;
-    }
+    };
 
+    var createPostedUserSpan = function(name, username) {
+        var span = $("<span></span>");
+        var a = $('<a/>');
+        a.attr('href','/profile/'+username);
+        a.text(name);
+        span.append(a);
+        span.addClass("text-primary");
+        return span;
+    };
     var createPostedDetailsSpan = function(text) {
         var span = $("<span></span>");
         var a = $('<a/>');
@@ -73,7 +82,7 @@ var issuesCreator = function() {
         dateTimeUpdate.addClass("theIssueLeftDetails");
         dateTimeUpdate.append("<i>Posted by </i>");
 
-        dateTimeUpdate.append(createPostedDetailsSpan(issue.owner.name));
+        dateTimeUpdate.append(createPostedUserSpan(issue.owner.name, issue.owner.username));
         dateTimeUpdate.append("<i> on </i>");
         dateTimeUpdate.append(createPostedDetailsSpan(issue.dateFormat));
         return dateTimeUpdate;
@@ -82,7 +91,7 @@ var issuesCreator = function() {
         var issueDateTime = $("<span/>");
         issueDateTime.addClass("theIssueRightDetails");
         issueDateTime.append("<i>Last updated by </i>");
-        issueDateTime.append(createPostedDetailsSpan(issue.lastUpdatedBy.username));
+        issueDateTime.append(createPostedUserSpan(issue.lastUpdatedBy.name, issue.lastUpdatedBy.username));
         issueDateTime.append("<i>, </i>");
         issueDateTime.append(createPostedDetailsSpan(issue.lastUpdateDate));       
         return issueDateTime;
