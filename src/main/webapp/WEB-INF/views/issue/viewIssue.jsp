@@ -4,8 +4,9 @@
 <div id="viewTheIssue">
     <div class="col-lg-offset-1 col-lg-10">
         <div class="panel panel-default  modal-content2">
-            <div id="editIssueId" class="hidden">${issue.id}</div>
+            <div id="editIssueId" class="hidden">${issue.id}</div>           
             <div class="panel-heading">
+                 <button id="editTheIssueButton" class="btn btn-default" type="button" style="float:right;"><span class="glyphicon glyphicon-edit"/> Edit</button>
                 <h3>
                     <div id="oldIssueTitle">
                         <c:out value="${issue.title}"/>
@@ -96,10 +97,7 @@
                             Cancel
                         </button>                        
                     </div>                  
-                </div>
-                <div class='col-lg-2'>
-                    <button id="editTheIssueButton" class="btn btn-default" type="button"><span class="glyphicon glyphicon-edit"/> Edit</button>
-                </div>
+                </div>                
             </div>
         </div>
         <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
@@ -190,7 +188,7 @@
                 </div>
             </c:forEach>
         </div>
-        <div id="addComment" class="col-lg-12">
+        <div id="addComment" class="col-lg-10 col-lg-offset-1">
             <div id="innerCommentDiv"> 
                 <textarea id="textAreaComment" rows="4" class="form-control" data-provide="markdown" placeholder="Insert your comment here..."></textarea>        
             </div>
@@ -221,20 +219,20 @@
             <fieldset>
                 <input id="editIssueId" class="hidden"/>
                 <div id="divToChange" class="form-group">
-                    <label class="col-lg-1 control-label" for="editIssueTitle">Title</label>
-                    <div class="col-lg-11">
+                    <label class="col-lg-2 control-label" for="editIssueTitle">Title</label>
+                    <div class="col-lg-10">
                         <input class="form-control" id="editIssueTitle" placeholder="Title" autocomplete="off" autofocus />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-1 control-label" for="editIssueContent">Content</label>
-                    <div class="col-lg-11">
+                    <label class="col-lg-2 control-label" for="editIssueContent">Content</label>
+                    <div class="col-lg-10">
                         <textarea id="editIssueContent" rows="6" class="form-control">v<c:out value="${issue.content}"/></textarea>                          
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-1 control-label" for="textArea">Labels</label>
-                    <div class="col-lg-11 ">
+                    <label class="col-lg-2 control-label" for="textArea">Labels</label>
+                    <div class="col-lg-10 ">
                         <div id="existingLabels" class="well"> 
                             <div id="modifiedIssueLabelsList" class="row">
                                 <c:forEach var="label" items="${labels}">
@@ -243,12 +241,12 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <button id="addNewLabelToAnIssue" class="btn btn-default btn-xs" type="button" ><span class="glyphicon glyphicon-plus"></span> Add new Label</button>
+                                <button id="addNewLabelToAnIssue" class="btn btn-default btn-sm" type="button" ><span class="glyphicon glyphicon-plus"></span> Add new Label</button>
                                 <div class="form-group ">
                                     <div class="col-lg-5">
                                         <input id="newLabelInput" class="form-control" placeholder="NewLabel" autocomplete="off" autofocus/>
                                     </div>
-                                    <button id="cancelAddNewLabel" class="btn btn-default btn-xs" type="button">Done</button>
+                                    <button id="cancelAddNewLabel" class="btn btn-default" type="button">Done</button>
                                 </div>
                                 <div id="labelsSugestions" class="col-lg-12"></div>
                             </div>
@@ -256,8 +254,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-1 control-label" for="textArea">Attachments</label>
-                    <div class="col-lg-11 ">
+                    <label class="col-lg-2 control-label" for="textArea">Attachments</label>
+                    <div class="col-lg-10 ">
                         <div id="existingFiles" class="well"> 
 
                         </div>                         
@@ -266,8 +264,8 @@
                 <div id="editIssueErrors" class="form-group text-warning txt-center">
                 </div>
                 <div class="form-group txt-center">
-                    <button id="saveChangesEdit" class="btn btn-default btn-xs" type="button">Save Changes</button>
-                    <button id="discardChangesEdit" class="btn btn-default btn-xs" type="button">Dismiss</button>
+                    <button id="saveChangesEdit" class="btn btn-default btn-sm" type="button">Save Changes</button>
+                    <button id="discardChangesEdit" class="btn btn-default btn-sm" type="button">Dismiss</button>
                 </div>
             </fieldset>           
         </div>

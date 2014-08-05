@@ -13,8 +13,10 @@
                 url: location.origin + '/getAllLabels'
             }).done(function(data) {
                 theLabels = data.labels;
+                $("#newLabelInput").keyup();
             });
         }
+
 
     });
     $("#cancelAddNewLabel").click(function() {
@@ -41,7 +43,7 @@
                 newLabel.attr("data-color", entry.color);
                 newLabel.attr('data-id', entry.id);
                 newLabel.css("background-color", entry.color);
-                newLabel.css("color", getContrastYIQ(entry.color));
+                newLabel.css("color", "black");
                 newLabel.css("margin-right", "3px;");
 
                 $("#labelsSugestions").append(newLabel);
@@ -50,13 +52,14 @@
     });
 
     $("#labelsSugestions").delegate("span", "click", function() {
-        var newLabel = $('<span class="label label-warning labelEditLabels">  </span>');
+        var newLabel = $('<span/>');
         var $this = $(this);
+        newLabel.addClass("label label-warning labelEditLabels");
         newLabel.text($this.text());
         newLabel.attr("data-color", $this.data("color"));
-        newLabel.attr('data-id', $this.data("id"));
-        newLabel.css("background-color", $this.data("color"));
-        newLabel.attr("style", "margin-right:3px;background-color:#D8FFC4;color:black");
+        newLabel.attr('data-id', $this.data("id"));        
+        var color = $this.data("color");
+        newLabel.attr("style", "color:black;margin-right:3px;background-color:"+color);       
         newLabel.append('<span class="glyphicon glyphicon-remove"></span>');
 
         $("#modifiedIssueLabelsList").append(newLabel);
