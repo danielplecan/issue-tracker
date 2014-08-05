@@ -28,7 +28,7 @@
                         <li><a href="/logout"><span class="glyphicon glyphicon-off"></span>  Log out</a></li>
                     </ul>
                 </li>
-                <li><img src="/resources/img/yellowBulb.png" id="lightBulbPic" height = "40px" width="45px" style="margin-top:5px;"/></li>
+                <li><img src="/resources/img/yellowBulb.png" id="lightBulbPic" style="height:40px;width:45px;margin-top:5px;"/></li>
             </ul>
         </div>
     </div>                      
