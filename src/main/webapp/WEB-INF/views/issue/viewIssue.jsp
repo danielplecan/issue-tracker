@@ -30,7 +30,7 @@
             <div class="panel-body contentLine">
                 <c:choose>
                     <c:when test="${not empty issue.content}">                       
-                        <div id="issueContent"><c:out value="${issue.content}"/></div>                    
+                        <div id="issueContent"></div>                    
                     </c:when>  
                     <c:otherwise>
                         <div class="hidden"><div id="issueContent"></div> </div> 
@@ -103,95 +103,11 @@
         </div>
         <div class="col-lg-10 col-lg-offset-1 commentsLabelTextSize">Comments<hr></div>
         <div id="allComments" class="list-group">
-            <c:forEach items="${comments}" var="comment">
-                <div class="fullCommentBody arrow_box col-lg-10 col-lg-offset-1" style="clear:both;" data-id="${comment.id}">
-                    <!--When the comment is not empty and state has been changed-->
-                    <c:choose>
-                        <c:when test="${not empty comment.changeState}">
-                            <c:choose>
-                                <c:when test = "${not empty comment.content}">
-                                    <c:choose>
-                                        <c:when test="${comment.changeState == 'OPEN'}">
-                                            <div class="commentStateChanged">
-                                                <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span> and said:</span>
-                                            </div>
-                                        </c:when>
-                                        <c:when test="${comment.changeState == 'CLOSED'}">
-                                            <div class="commentStateChanged">
-                                                <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor">closed</span> and said:</span>
-                                            </div>
-                                        </c:when>
-                                    </c:choose>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:choose>
-                                        <c:when test="${comment.changeState == 'OPEN'}">
-                                            <div class="commentStateChanged">
-
-                                                <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
-                                                <div class="attachments stateChangeAttachment">
-                                                    <c:forEach items="${comment.attachments}" var="attachment">
-                                                        <a href="/attachment/download/<c:out value="${attachment.id}"/>">
-                                                            <span class="btn btn-default attachmentWidth">
-                                                                <span class="buttontext " >${attachment.originalName}</span>
-                                                            </span>
-                                                        </a>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-                                        </c:when>
-                                        <c:when test="${comment.changeState == 'CLOSED'}">
-                                            <div class="commentStateChanged">
-                                                <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor"> closed</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
-                                                <div class="attachments stateChangeAttachment">
-                                                    <c:forEach items="${comment.attachments}" var="attachment">
-                                                        <a href="/attachment/download/<c:out value="${attachment.id}"/>">
-                                                            <span class="btn btn-default attachmentWidth">
-                                                                <span class="buttontext " >${attachment.originalName}</span>
-                                                            </span>
-                                                        </a>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-                                        </c:when>
-                                    </c:choose>
-
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="commentStateChanged"><span class="glyphicon glyphicon-comment"></span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</div>
-                        </c:otherwise>
-                    </c:choose>
-                    <c:choose>
-                        <c:when test = "${not empty comment.content}">
-                            <div class="commentBlockThing">
-                                <blockquote class="commentBlockquote">
-                                    <p class="commentContent"><c:out value="${comment.content}"/></p>
-
-                                    <div class="attachments">
-                                        <c:forEach items="${comment.attachments}" var="attachment">
-                                            <a href="/attachment/download/<c:out value="${attachment.id}"/>">
-                                                <span class="btn btn-default attachmentWidth">
-                                                    <span class="buttontext" >${attachment.originalName}</span>
-                                                </span>
-                                            </a>
-                                        </c:forEach>
-                                    </div>
-                                </blockquote>
-
-                                <span> - on <c:out value="${comment.getDateFormat()}"/></span>
-                            </div>
-                        </c:when>
-                    </c:choose>
-
-
-                </div>
-            </c:forEach>
+            
         </div>
         <div id="addComment" class="col-lg-10 col-lg-offset-1">
             <div id="innerCommentDiv"> 
-                <textarea id="textAreaComment" rows="4" class="form-control" data-provide="markdown" placeholder="Insert your comment here..."></textarea>        
+                <textarea id="textAreaComment" rows="4" class="form-control markdownArea" placeholder="Insert your comment here..."></textarea>        
             </div>
             <div id="commentFileUpload" class="well"></div>
             <span id="contentError" class="commentError text-warning"></span>
@@ -228,7 +144,7 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label" for="editIssueContent">Content</label>
                     <div class="col-lg-10">
-                        <textarea id="editIssueContent" rows="6" class="form-control">v<c:out value="${issue.content}"/></textarea>                          
+                        <textarea id="editIssueContent" rows="6" class="form-control markdownArea"></textarea>                          
                     </div>
                 </div>
                 <div class="form-group">
@@ -274,3 +190,5 @@
 </div>
 <script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
 <script src="/resources/js/editIssue.js" type="text/javascript"></script>
+<script src="/resources/js/markdown-editor.js" type="text/javascript"></script>
+<script src="/resources/js/getCommentsForAnIssue.js" type="text/javascript"></script>
