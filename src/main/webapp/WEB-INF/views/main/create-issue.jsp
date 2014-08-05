@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <textarea class="form-control" rows="7" id="textArea2" placeholder="Content"></textarea>
+                        <textarea class="form-control markdownArea" rows="7" id="textArea2" placeholder="Content"></textarea>
                         <span id="contentError" class="text-warning errors"></span>
                     </div>
                 </div>
@@ -72,3 +72,4 @@
     </div>
 </div>
 <script src="/resources/js/createIssue.js" type="text/javascript"></script>
+<script src="/resources/js/markdown-editor.js" type="text/javascript"></script>
