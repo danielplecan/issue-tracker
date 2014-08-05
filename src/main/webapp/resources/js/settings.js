@@ -1,4 +1,8 @@
 $(document).ready( function() { 
+    
+    if (!window.location.origin) {
+        window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+    }
     var initialNotificationCheckbox = $("#settingsContainer").data("notification");
     var initialNotificationAssigned = $("#settingsContainer").data("assigned");
     var initialTheme = $("#settingsContainer").data("theme");
