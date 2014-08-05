@@ -400,4 +400,28 @@ public class IssueController {
         
         return responseMap;
     }
+    
+    @RequestMapping(value = "/issue/{id}/get-all-data", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getDataForAnIssue(@PathVariable("id") Long issueId) {
+        Map<String, Object> responseMap = new HashMap<>();
+        
+        Issue issue = issueService.getIssueById(issueId);
+        
+        if (issue == null) {
+            responseMap.put("success", false);
+        } else {
+            List<Comment> comments = issueService.getCommentsByIssueId(issue);
+            if(comments == null) {
+                responseMap.put("success", false);
+            } else {
+                responseMap.put("success", true);
+                responseMap.put("comments", comments);
+            }
+            
+            responseMap.put("issue", issue);
+        }
+        
+        return responseMap;
+    }
 }
