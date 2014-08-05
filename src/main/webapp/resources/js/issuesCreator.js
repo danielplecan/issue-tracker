@@ -34,7 +34,7 @@ var issuesCreator = function() {
         var issueContentPreview = $("<div/>");
         issueContentPreview.addClass("theIssueContentPreview breakLongWord hidden");
         issueContentPreview.attr("data-contentId", issue.id);
-        issueContentPreview.text(issue.content);
+        issueContentPreview.append($(markdown.toHTML(issue.content)));
 
         issueContentDiv.append(issueContentPreview);
         issueContentDiv.append(createIssueLabelsDiv(issue.labels));
