@@ -378,7 +378,7 @@ public class IssueService {
         }
     }
 
-    public void sendNotification(Comment comment, User target, String link) {
+    public void sendNotificationForComment(Comment comment, User target, String link) {
         if (!comment.getAuthor().getId().equals(target.getId())) {
             Map<String, Object> map = new HashMap<>();
             map.put("link", link + "/issue/" + comment.getIssue().getId());
@@ -396,7 +396,41 @@ public class IssueService {
             }
         }
     }
+    
+    public void sendNotificationForAssign(Issue issue, User loggedUser, String link) {
+        if (!issue.getAssignee().getId().equals(loggedUser.getId())) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("link", link + "/issue/" + issue.getId());
+            map.put("linkText", "Click here to see the issue");
+            String emailContent ="You were assigned on the issue with the title ";
+            emailContent += issue.getTitle();
+            map.put("text", emailContent);
+            mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
+        }
+    }
 
+    public void sendNotificationForEdit(Issue issue, String link) {
+        if(!issue.getAssignee().getId().equals(issue.getLastUpdatedBy().getId())){
+            Map<String, Object> map = new HashMap<>();
+            map.put("link", link + "/issue/" + issue.getId());
+            map.put("linkText", "Click here to see the issue");
+            String emailContent ="The issue you are assigned to, with the title ";
+            emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName();
+            map.put("text", emailContent);
+            mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
+        }
+        if(!issue.getOwner().getId().equals(issue.getLastUpdatedBy().getId())){
+            Map<String, Object> map = new HashMap<>();
+            map.put("link", link + "/issue/" + issue.getId());
+            map.put("linkText", "Click here to see the issue");
+            String emailContent ="The issue you created, with the title ";
+            emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName();
+            map.put("text", emailContent);
+            mailService.sendEmail(issue.getOwner().getEmail(), "Issue-Tracker Notification", map);
+        }
+        
+    }
+    
     public List<User> findUsersIssuesOwnersByNamePrefix(String usernamePrefix) {
         TypedQuery<User> resultQuery = em.createNamedQuery(Issue.FIND_USERS_ISSUES_OWNERS, User.class);
         resultQuery.setParameter("v_username", usernamePrefix + "%");

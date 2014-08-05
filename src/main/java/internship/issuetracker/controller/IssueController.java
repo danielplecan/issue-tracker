@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -185,10 +186,10 @@ public class IssueController {
 
             List<User> targets = new ArrayList<>();
             targets.add(issue.getOwner());
-            issueService.sendNotification(comment, targets.get(0), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+            issueService.sendNotificationForComment(comment, targets.get(0), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
             if (issue.getAssignee() != null) {
                 targets.add(issue.getAssignee());
-                issueService.sendNotification(comment, targets.get(1), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+                issueService.sendNotificationForComment(comment, targets.get(1), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
             }
             
 //            for (User user: targets) {
@@ -286,6 +287,10 @@ public class IssueController {
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
             issueService.updateAssignee(issueId, assignedTo,currentUser);
+            
+            Issue targetIssue = issueService.getIssueById(issueId);
+            issueService.sendNotificationForAssign(targetIssue, currentUser, "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+            
             responseMap.put("success", true);
             responseMap.put("assignedTo", assignedTo);
         }
@@ -369,6 +374,8 @@ public class IssueController {
             responseMap.put("editedIssue", editedIssue);   
             responseMap.put("editedLabels",issueService.getLabelsByIssueId(editedIssue));
             responseMap.put("editedAttachments", issueService.getAttachmentsByIssueId(editedIssue));
+            
+            issueService.sendNotificationForEdit(editedIssue, "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
         }
         return responseMap;
     }
