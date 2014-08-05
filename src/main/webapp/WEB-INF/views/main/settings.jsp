@@ -29,4 +29,4 @@
      </div>
      <a href="/edit-profile"><button type="button" class="btn btn-default">Edit user profile</button></a>
 </div>
-<script src="../../../resources/js/settings.js"></script>
+<script src="/resources/js/settings.js"></script>
