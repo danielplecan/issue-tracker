@@ -15,7 +15,7 @@
             });
         }
     });
-    
+
     $("#cancelAddNewLabel").click(function() {
         $(this).hide();
         $("#newLabelInput").hide();
@@ -57,8 +57,8 @@
     $("#editTheIssueButton").click(function() {
         $('#editIssueTitle').val($('#oldIssueTitle').text().trim());
         $('#editIssueContent').val($('#issueContent').text().trim());
-        $('#viewTheIssue').hide();
-        $('#editTheIssue').show();
+        $('#viewTheIssue').hide("slow");
+        $('#editTheIssue').show("slow");
 
         $('#modifiedIssueLabelsList').empty();
         $('#labelContainer > span').each(function() {
@@ -110,8 +110,8 @@
                     }
                 }
 
-                $('#viewTheIssue').show();
-                $('#editTheIssue').hide();
+                $('#viewTheIssue').show("slow");
+                $('#editTheIssue').hide("slow");
             }
             else {
                 var createIssueErrors = "";
@@ -127,8 +127,8 @@
 
     $('#discardChangesEdit').click(function() {
         issueTrackerService.removeOrphanAttachments(widget.getUploadedFiles());
-        $('#viewTheIssue').show();
-        $('#editTheIssue').hide();
+        $('#viewTheIssue').show("slow");
+        $('#editTheIssue').hide("slow");
     });
 
     function createAtachment(attachment) {

@@ -6,7 +6,7 @@
         <div class="panel panel-default  modal-content2">
             <div id="editIssueId" class="hidden">${issue.id}</div>           
             <div class="panel-heading">
-                 <button id="editTheIssueButton" class="btn btn-default" type="button" style="float:right;"><span class="glyphicon glyphicon-edit"/> Edit</button>
+                <button id="editTheIssueButton" class="btn btn-default" type="button" style="float:right;"><span class="glyphicon glyphicon-edit"/> Edit</button>
                 <h3>
                     <div id="oldIssueTitle">
                         <c:out value="${issue.title}"/>
@@ -22,7 +22,10 @@
                     <br>
                     <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></a></span>
                         &nbsp;<i>on</i>&nbsp;<span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
-                    <span class="viewIssueLastUpdated">&nbsp;<i>Last updated</i>&nbsp;<span id="oldIssueLastUpdate" class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
+                    <span class="viewIssueLastUpdated">&nbsp;
+                        <i>Last updated by</i>&nbsp;
+                        <span class="text-primary"><a href="/profile/<c:out value="${issue.lastUpdatedBy.username}"/>"><c:out value="${issue.lastUpdatedBy.name}"/></a>,</span>
+                        <span id="oldIssueLastUpdate" class="text-primary"><c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
                     </span>
                 </div>
             </div>      
