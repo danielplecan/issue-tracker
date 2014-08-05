@@ -525,3 +525,6 @@ td {
     .editTheIssueButton{
         float:right;
     }
+    #attachmentsContainer{
+        width:100%;
+    }
