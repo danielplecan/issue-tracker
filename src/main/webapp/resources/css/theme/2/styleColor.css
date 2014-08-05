@@ -1,24 +1,7 @@
 /*pink theme*/
-
-.label-success {
-    background-color: #80E680;
-    color: green;
-}
-
-.label-danger{
-    background-color: #FF8080;
-    color: #7A0000;
-}
-
-.label-warning{
-    background-color: #FFB280;
-    color: #CC5200;
-}
-
 .theIssueTitleLink{
     color:#333333;
 }
-
 .panel-body,
 .list-group-item,
 .panel,
@@ -138,4 +121,7 @@ fieldset[disabled] .btn-default.active {
 #lightBulbPic:hover{
     -webkit-filter: none;
     filter: none;
+}
+.commentBlockquote{
+    border-left: 4px solid #F5E4ED;
 }

@@ -3,34 +3,12 @@
 .disabledButton{
     background-color: #669999;
 }
-
-.list-group-item-label-list{
-    background-color: #ffffff;
-}
-
 .list-item-text{
     background-color: #FFFFFF;
 }
-
 #issueContent{
     border-left: 4px #E0E0E0 solid;
 }
-
-.label-success {
-    background-color: #80E680;
-    color: green;
-}
-
-.label-danger{
-    background-color: #FF8080;
-    color: #7A0000;
-}
-
-.label-warning{
-    background-color: #FFB280;
-    color: #CC5200;
-}
-
 /* creating labels (Ionut & Augustin)*/
 
 .label-add-new:hover{
@@ -134,4 +112,7 @@
 #lightBulbPic:hover{
     -webkit-filter: hue-rotate(230deg) brightness(1);
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'hue-rotate\'><feColorMatrix type=\'hueRotate\' values=\'250\'/></filter></svg>#hue-rotate");    
+}
+.commentBlockquote{
+    border-left: 4px solid #E6E6E6;
 }
