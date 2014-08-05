@@ -2,14 +2,10 @@ package internship.issuetracker.service;
 
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.entity.User;
-import internship.issuetracker.entity.User_;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,7 +93,11 @@ public class UserService {
         return userQuery.getResultList();
     }
 
-    public void updateUser(User user, UserDTO editedUser) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User updateUser(User user, User editedUser) {
+        user.setName(editedUser.getName());
+        user.setUsername(editedUser.getUsername());
+        user.setEmail(editedUser.getEmail());
+        user.setPasswordHash(editedUser.getPasswordHash());
+        return entityManager.merge(user);
     }
 }

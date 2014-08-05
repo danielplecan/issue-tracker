@@ -68,9 +68,9 @@
         <put-attribute name="body" value="/WEB-INF/views/main/upload.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/main/footer.jsp" />
     </definition>
-    <definition name="editProfile" extends="mainLayout">
+    <definition name="edit-profile" extends="mainLayout">
         <put-attribute name="header" value="/WEB-INF/views/main/header.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/main/editProfile.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/main/edit-profile.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/main/footer.jsp" />
     </definition>
     <definition name="manageLabels" extends="mainLayout">

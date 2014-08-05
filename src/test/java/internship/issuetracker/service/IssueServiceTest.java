@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,6 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
     "classpath:config/datasource/h2.xml",
     "classpath:config/application-context.xml"
 })
+@Ignore
 public class IssueServiceTest {
 
     @Autowired

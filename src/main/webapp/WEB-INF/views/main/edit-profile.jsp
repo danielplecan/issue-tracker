@@ -28,7 +28,8 @@
             <div class="form-group">
                 <label class="col-lg-3 control-label">Old password</label>
                 <div class="col-lg-9">
-                    <input class="form-control" id="inputOldPassword" type="password" placeholder="Old password" name="password" />
+                    <input class="form-control" id="inputOldPassword" type="password" placeholder="Old password" name="oldPassword" />
+                    <span id="oldPasswordError" class="text-warning errors"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -54,3 +55,4 @@
         </fieldset>
     </form>
 </div>
+<script src="/resources/js/editProfile.js" type="text/javascript"></script>

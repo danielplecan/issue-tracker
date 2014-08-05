@@ -21,7 +21,7 @@ issueTrackerService = (function() {
     };
     self.edit = function(editData) {
         return $.ajax({
-            url: location.origin + "/editProfile",
+            url: location.origin + "/edit-profile",
             type: "POST",
             dataType: "json",
             contentType: "application/json",

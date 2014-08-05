@@ -5,16 +5,22 @@
  */
 package internship.issuetracker.controller;
 
-import internship.issuetracker.dto.UserDTO;
+import internship.issuetracker.dto.EditUserDto;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.UserService;
 import internship.issuetracker.service.UserSettingsService;
 import internship.issuetracker.util.SerializationUtil;
+import internship.issuetracker.validator.EditUserValidator;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +34,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserController {
 
+    @Autowired
+    private EditUserValidator editUserValidator;
     @Autowired
     UserService userService;
     @Autowired
@@ -44,9 +52,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
-    public String settingsPageMapping(Model model) {
+    public String settingsPageMapping(Model model,HttpServletRequest request) {
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) request.getSession().getAttribute("user");
         model.addAttribute("initialNotificationCheckbox", userSettingsService.getCurrentNotificationStatus(user.getUsername()));
         model.addAttribute("initialTheme", userSettingsService.getCurrentThemePreference(user.getUsername()));
 
@@ -55,10 +63,10 @@ public class UserController {
 
     @RequestMapping(value = "/settings/toggleNotifications", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> toggleNotifications() {
+    public Map<String, Object> toggleNotifications(HttpServletRequest request) {
 
         Map<String, Object> responseMap = new HashMap<>();
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) request.getSession().getAttribute("user");
 
         responseMap.put("success", true);
         responseMap.put("value", userSettingsService.toggleNotifications(currentUser.getUsername()));
@@ -67,10 +75,10 @@ public class UserController {
 
     @RequestMapping(value = "/settings/changeTheme/{theme}", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> changeTheme(HttpSession session, @PathVariable Long theme) {
+    public Map<String, Object> changeTheme(HttpSession session, @PathVariable Long theme,HttpServletRequest request) {
 
         Map<String, Object> responseMap = new HashMap<>();
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) request.getSession().getAttribute("user");
 
         session.setAttribute("theme", theme);
 
@@ -78,27 +86,48 @@ public class UserController {
         return responseMap;
     }
 
-    @RequestMapping(value = "/editProfile", method = RequestMethod.GET)
-    public String editProfile(Model model) {
+    @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
+    public String editProfile(Model model,HttpServletRequest request) {
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) request.getSession().getAttribute("user");
         model.addAttribute("name", user.getName());
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
 
-        return "editProfile";
+        return "edit-profile";
     }
 
-    @RequestMapping(value = "/editProfile", method = RequestMethod.POST)
-    public Map<Stirng,Object> editProfile(@RequestBody @Valid UserDTO editedUser, BindingResult bindingResult) {
+    @RequestMapping(value = "/edit-profile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> editProfile(@RequestBody @Valid EditUserDto editedUser, BindingResult bindingResult,HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        userService.updateUser(user, editedUser);
+        User user =  (User) request.getSession().getAttribute("user");
+        if (editedUser.getPassword().isEmpty()) {
+            editedUser.setPassword(editedUser.getOldPassword());
+        }
+
+        editUserValidator.setOldUser(user);
+        editUserValidator.validate(editedUser, bindingResult);
         if (bindingResult.hasErrors()) {
             result.put("success", false);
-            result.put("errors", SerializationUtil.extractFieldErrors(bindingResult));   
-        }
-        else{
+            result.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+        } else {
+
+            user = userService.loginUser(user.getUsername(), editedUser.getOldPassword());
+
+            if (user == null) {
+                result.put("success", false);
+                Map<String, Object> passwordError = new HashMap<>();
+                passwordError.put("oldPassword", "wrong password");
+                result.put("errors", passwordError);
+                return result;
+            }
+
+            user = userService.updateUser(user, editedUser.getUserFromDTO());
+            request.getSession().setAttribute("user", user);
+            result.put("success", true);
+            result.put("username",user.getUsername());
         }
         return result;
     }
+}

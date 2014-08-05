@@ -1,5 +1,5 @@
 function passwordsMatch() {
-    return $('#inputPassword').val() === $('#inputRetypePassword').val();
+    return $('#inputNewPassword').val()!==""?$('#inputNewPassword').val() === $('#inputRetypePassword').val():true;
 }
 
 function createEditData(){
@@ -26,7 +26,7 @@ $(document).ready(function() {
             
             issueTrackerService.edit(editData).done(function(data) {
                 if (data.success) {
-                    window.location.replace("/profile");
+                    window.location.replace("/profile/"+data.username);
                 }
                 else {
                    $.each(data.errors, function(key, value) {
