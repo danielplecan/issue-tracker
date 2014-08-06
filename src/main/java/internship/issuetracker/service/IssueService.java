@@ -409,7 +409,7 @@ public class IssueService {
 
     public void sendNotificationForEdit(Issue issue, String link) {
 
-        Map<String, Boolean> changes = IssueEditUtil.getChanges();
+        Map<String, Boolean> changes = IssueEditUtil.getCHANGES();
         String text = " The following items has been modified: ";
         if (changes.get("title") == true) {
             text += " title ";
