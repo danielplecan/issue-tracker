@@ -433,8 +433,8 @@
 
       // Set the preview element dimensions
       replacementContainer.css({
-        width: container.outerWidth() + 'px',
-        height: container.outerHeight() + 'px'
+        //width: container.outerWidth() + 'px',
+        //height: container.outerHeight() + 'px'
       })
 
       if (this.$options.resize) {

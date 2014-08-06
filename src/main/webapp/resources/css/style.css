@@ -790,3 +790,13 @@ td {
     width:30%;
     display:inline-block;
 }
+
+/*bootstrap-markdown dynamic size*/
+#issueContent img, .theIssueContentPreview img, .md-preview img, .commentContent img{
+    height: inherit;
+    position: relative;
+    width: inherit;
+}
+#issueContent > p, .theIssueContentPreview > p, .md-preview > p, .commentContent > p{
+    width: 100%;
+}
