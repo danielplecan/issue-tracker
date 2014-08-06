@@ -9,6 +9,11 @@ var registerValidationService = (function() {
         return true;
     };
 
+    self.validateAlphanumeric = function(text) {
+        var re = /^[a-z0-9]+$/i;
+        return re.test(text.trim());
+    };
+
     self.validateName = function(name) {
         var trimedName = name.trim();
         if (trimedName.length < 5 || trimedName.length > 60) {
@@ -70,7 +75,11 @@ function validateRegisterForm() {
         hasErrors = true;
     }
     if (!service.validateUsername(username)) {
-        $('#usernameError').text('Username must contain between 5 and 20 characters');
+        $('#usernameError').append('Username must contain between 5 and 20 characters.\n');
+        hasErrors = true;
+    }
+    if (!service.validateAlphanumeric(username)) {
+        $('#usernameError').append('Only alphanumeric characters are accepted.');
         hasErrors = true;
     }
     if (!service.validateEmail(email)) {
@@ -148,63 +157,86 @@ $(document).ready(function() {
     //EVENT HANDLERS FOR ACTIONS ON THE FORM ELEMENTS
     $('#inputUsername').on('blur', function() {
         var username = $(this).val();
-        if (!registerValidationService.validateUsername(username)) {
-            $('#usernameError').text('Username must contain between 5 and 20 characters');
-        } else if (username.length !== 0) {
-            issueTrackerService.checkUsernameExistance(username).done(function(data) {
-                if (data.success) {
-                    var previousErros = $('#usernameError').text();
-                    $('#usernameError').text(previousErros +
-                            '\nUsername is already taken.');
-                }
-            });
-        } else {
+        var hasErrors = false;
+        setTimeout(function() {
             $('#usernameError').text('');
-        }
+            if (!registerValidationService.validateUsername(username)) {
+                $('#usernameError').append('Username must contain between 5 and 20 characters.\n    ');
+                hasErrors = true;
+            } else {
+                $('#usernameError').text('');
+            }
+            if (!registerValidationService.validateAlphanumeric(username)) {
+                $('#usernameError').append('Only alphanumeric characters are accepted.');
+                hasErrors = true;
+            }
+            if (hasErrors)
+                return;
+            if (username.length !== 0) {
+                issueTrackerService.checkUsernameExistance(username).done(function(data) {
+                    if (data.success) {
+                        var previousErros = $('#usernameError').text();
+                        $('#usernameError').text(previousErros +
+                                '\nUsername is already taken.');
+                    }
+                });
+            } else {
+                $('#usernameError').text('');
+            }
+        }, 150);
     });
 
     $('#inputName').on('blur', function() {
         var name = $(this).val();
-        if (!registerValidationService.validateName(name)) {
-            $('#nameError').text('Name must contain between 5 and 60 characters');
-        } else {
-            $('#nameError').text('');
-        }
+        setTimeout(function() {
+            if (!registerValidationService.validateName(name)) {
+                $('#nameError').text('Name must contain between 5 and 60 characters');
+            } else {
+                $('#nameError').text('');
+            }
+        }, 150);
     });
 
     $('#inputEmail').on('blur', function() {
         var email = $(this).val();
-        if (!registerValidationService.validateEmail(email)) {
-            $('#emailError').text('Not a well-formed email adress.');
-        } else {
-            $('#emailError').text('');
-        }
+        setTimeout(function() {
+            if (!registerValidationService.validateEmail(email)) {
+                $('#emailError').text('Not a well-formed email adress.');
+            } else {
+                $('#emailError').text('');
+            }
+        }, 150);
     });
 
     $('#inputPassword').on('blur', function() {
         var password = $(this).val();
-        if (!registerValidationService.validatePassword(password)) {
-            $('#mainPasswordError').text('Password must contain between 5 and 20 characters.');
-        } else {
-            $('#mainPasswordError').text('');
-        }
-
-        var password2 = $('#inputRetypePassword').val();
-        if (!registerValidationService.passwordsMatch(password, password2)) {
-            $('#passwordError').text('Passwords don\'t match.');
-        } else {
-            $('#passwordError').text('');
-        }
+        setTimeout(function() {
+            if (!registerValidationService.validatePassword(password)) {
+                $('#mainPasswordError').text('Password must contain between 5 and 20 characters.');
+            } else {
+                $('#mainPasswordError').text('');
+            }
+            
+            var password2 = $('#inputRetypePassword').val();
+            if (!registerValidationService.passwordsMatch(password, password2)) {
+                $('#passwordError').text('Passwords don\'t match.');
+            } else {
+                $('#passwordError').text('');
+            }
+        }, 150);
     });
 
     $('#inputRetypePassword').on('input', function() {
         var password1 = $(this).val();
         var password2 = $('#inputPassword').val();
-        if (!registerValidationService.passwordsMatch(password1, password2)) {
-            $('#passwordError').text('Passwords don\'t match.');
-        } else {
-            $('#passwordError').text('');
-        }
+
+        setTimeout(function() {
+            if (!registerValidationService.passwordsMatch(password1, password2)) {
+                $('#passwordError').text('Passwords don\'t match.');
+            } else {
+                $('#passwordError').text('');
+            }
+        }, 150);
     });
 
 
@@ -227,6 +259,5 @@ $(document).ready(function() {
     $('#inputRetypePassword').on('focus', function() {
         $('#passwordError').text('');
     });
-
 
 });

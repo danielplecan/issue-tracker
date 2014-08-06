@@ -734,7 +734,7 @@ td {
     padding: 10px 12px;
     color: Black;
     font: 8pt "Helvetica Neue", Sans-Serif;   
-    max-width: 150px;
+    max-width: 250px;
     border: 1px solid #999;
     position: absolute;
 } 
@@ -789,4 +789,14 @@ td {
 #optionContainer{
     width:30%;
     display:inline-block;
+}
+
+/*bootstrap-markdown dynamic size*/
+#issueContent img, .theIssueContentPreview img, .md-preview img, .commentContent img{
+    height: inherit;
+    position: relative;
+    width: inherit;
+}
+#issueContent > p, .theIssueContentPreview > p, .md-preview > p, .commentContent > p{
+    width: 100%;
 }
