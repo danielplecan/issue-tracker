@@ -145,7 +145,7 @@ public class Issue implements Serializable {
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date = new Date(date.getTime());
     }
 
     public Date getUpdateDate() {
@@ -153,7 +153,7 @@ public class Issue implements Serializable {
     }
 
     public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+        this.updateDate = new Date(updateDate.getTime());
     }
 
     public String getDateFormat() {

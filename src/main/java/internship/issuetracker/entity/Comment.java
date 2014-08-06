@@ -93,7 +93,7 @@ public class Comment implements Serializable{
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date = new Date(date.getTime());
     }
 
     public User getAuthor() {

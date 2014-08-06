@@ -37,7 +37,7 @@ public class CommentDTO{
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date = new Date(date.getTime());
     }
 
     public List<Long> getAttachments() {
