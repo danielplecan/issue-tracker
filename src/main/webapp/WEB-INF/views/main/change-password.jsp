@@ -1,9 +1,7 @@
 <div class="col-lg-4 col-lg-offset-4 Absolute-Center login-register-form">
-    <div>
-        <img src="/resources/img/logo.png" alt="Issue Tracker" class="col-lg-12 logo">
-    </div>
     <form id="registerForm" class="form-horizontal col-lg-12" method='POST'>
         <fieldset>
+            <legend class="col-lg-10 col-lg-offset-1">Enter the new password, ${user}</legend>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">
                     <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
