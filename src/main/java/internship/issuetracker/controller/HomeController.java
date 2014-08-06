@@ -2,7 +2,6 @@ package internship.issuetracker.controller;
 
 import internship.issuetracker.entity.Label;
 import internship.issuetracker.service.IssueService;
-import internship.issuetracker.service.UserSettingsService;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,6 @@ public class HomeController {
     
     @Autowired
     private IssueService issueService;
-    
-    @Autowired
-    private UserSettingsService userSettingsService;
     
     @RequestMapping(value = {"/", ""})
     public String home(HttpSession session) {
