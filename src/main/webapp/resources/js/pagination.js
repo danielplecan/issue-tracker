@@ -79,6 +79,10 @@ var pager = function() {
         filter["title"] = $("#searchFieldTitle").val();
         filter["assignee"] = assigneeId;
         filter["owner"] = authorId;
+        
+        theState = $('#filterByStateSelect').val();
+        theOrder = $('#orderByFirstSelect').val();//orderby title
+        theSort = $('#orderBySecondSelect').val();//asc/desc
 
         while (labelIdList.length > 0) {
             labelIdList.pop();
