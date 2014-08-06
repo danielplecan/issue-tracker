@@ -17,23 +17,23 @@ import javax.persistence.criteria.Root;
 
 public class IssueOwnerQueryFilter implements QueryFilter<Issue> {
     
-    private String ownerUsername;
+    private Long ownerId;
 
-    public IssueOwnerQueryFilter(String ownerUsername) {
-         this.ownerUsername = ownerUsername;
+    public IssueOwnerQueryFilter(Long ownerId) {
+         this.ownerId = ownerId;
     }
     
 
     @Override
     public Predicate buildPredicate(CriteriaBuilder criteriaBuilder, CriteriaQuery<Issue> criteriaQuery, Root<Issue> root) {
-        return criteriaBuilder.like(root.get(Issue_.owner).get(User_.username), "%" + ownerUsername + "%");
+        return criteriaBuilder.equal(root.get(Issue_.owner).get(User_.id), ownerId);
     }
     
-    public String getOwnerUsername() {
-        return ownerUsername;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwnerUsername(String creatorUsername) {
-        this.ownerUsername = creatorUsername;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

@@ -44,12 +44,6 @@ public class IssueSearchCriteria {
                             queryFilters.add(new IssueStateQueryFilter(state));
                         }
                         break;
-                    case "assignee":
-                        queryFilters.add(new IssueAssigneeQueryFilter((String) filterValue));
-                        break;
-                    case "owner":
-                        queryFilters.add(new IssueOwnerQueryFilter((String) filterValue));
-                        break;
                     default:
                         break;
                 }
@@ -57,14 +51,24 @@ public class IssueSearchCriteria {
                 switch (filter) {
                     case "labels":
                         for (Object value : (List) filterValue) {
-                            if (value instanceof String) {
-                                queryFilters.add(new IssueLabelQueryFilter(Long.parseLong((String) value)));
+                            if (value instanceof Integer) {
+                                queryFilters.add(new IssueLabelQueryFilter(((Integer) value).longValue()));
                             }
                         }
                         break;
                     default:
                         break;
                 }
+            } else if (filterValue instanceof Integer) {
+                switch (filter) {
+                    case "assignee":
+                        queryFilters.add(new IssueAssigneeQueryFilter(((Integer) filterValue).longValue()));
+                        break;
+                    case "owner":
+                        queryFilters.add(new IssueOwnerQueryFilter(((Integer) filterValue).longValue()));
+                        break;
+                }
+
             }
         }
 
