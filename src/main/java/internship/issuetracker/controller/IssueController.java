@@ -59,11 +59,6 @@ public class IssueController {
     private LabelForEditValidator labelForEditValidator;
 
     @Autowired
-    private UserSettingsService userSettingsService;
-
-    @Autowired
-    private MailService mailService;
-    @Autowired
     private FileUploadService fileUploadService;
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
