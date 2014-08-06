@@ -27,9 +27,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         
         User authenticatedUser;
         if((authenticatedUser = userService.loginUser(username, password)) != null ) {
-            if(!authenticatedUser.isActive())
-            throw new AuthenticationCredentialsNotFoundException("not activated");
-            Authentication confirmedAuthentication = new UsernamePasswordAuthenticationToken(authenticatedUser, password, new ArrayList<GrantedAuthority>());
+            if(!authenticatedUser.isActive()) {
+                throw new AuthenticationCredentialsNotFoundException("not activated");
+            }
+            
+            Authentication confirmedAuthentication;
+            confirmedAuthentication = new UsernamePasswordAuthenticationToken(authenticatedUser, password, new ArrayList<GrantedAuthority>());
             return confirmedAuthentication;
         } else {
             throw new AuthenticationCredentialsNotFoundException("wrong credentials.");
