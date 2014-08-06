@@ -34,6 +34,7 @@ public class Label implements Serializable {
 
     public static final String FIND_ALL_LABELS = "findAllLabels";
     public static final String FIND_LABEL_BY_NAME = "findLabelByName";
+    public static final String LABEL_NAME_PARAMETER = "label_name";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

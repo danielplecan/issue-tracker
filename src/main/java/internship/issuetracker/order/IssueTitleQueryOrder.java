@@ -8,9 +8,9 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 public class IssueTitleQueryOrder implements QueryOrder<Issue>{
-    private final String orderType;
+    private final OrderType orderType;
     
-    public IssueTitleQueryOrder(String orderType) {
+    public IssueTitleQueryOrder(OrderType orderType) {
         this.orderType = orderType;
     }
 
@@ -19,10 +19,10 @@ public class IssueTitleQueryOrder implements QueryOrder<Issue>{
         if(orderType == null) {
             return null;
         }
-        switch(orderType.toUpperCase()) {
-            case "ASC" :
+        switch(orderType) {
+            case ASCENDENT :
                 return criteriaBuilder.asc(root.get(Issue_.title));
-            case "DESC":
+            case DESCENDENT:
                 return criteriaBuilder.desc(root.get(Issue_.title));
             default:
                 return null;

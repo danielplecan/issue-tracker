@@ -2,7 +2,9 @@ package internship.issuetracker.filter;
 
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
-import internship.issuetracker.order.OrderFactory;
+import internship.issuetracker.order.IssueTitleQueryOrder;
+import internship.issuetracker.order.IssueUpdateDateQueryOrder;
+import internship.issuetracker.order.OrderType;
 import internship.issuetracker.order.QueryOrder;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,13 +85,25 @@ public class IssueSearchCriteria {
 
         for (String key : getOrders().keySet()) {
             Object orderValue = getOrders().get(key);
-            if (orderValue instanceof String) {
-                QueryOrder<Issue> order = OrderFactory.<Issue>createFilter(key, (String) orderValue);
-                if (order != null) {
-                    return order;
-                }
+            
+            switch(key) {
+                case "title":
+                    if(orderValue instanceof String) {
+                       return new IssueTitleQueryOrder(OrderType.fromString((String) orderValue)); 
+                    }
+                    break;
+                    
+                case "updateDate":
+                    if(orderValue instanceof String) {
+                       return new IssueUpdateDateQueryOrder(OrderType.fromString((String) orderValue)); 
+                    }
+                    break;
+                    
+                default:
+                    return null;
             }
         }
+        
         return null;
     }
 

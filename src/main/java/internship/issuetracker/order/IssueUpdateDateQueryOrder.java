@@ -8,9 +8,9 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
 public class IssueUpdateDateQueryOrder implements QueryOrder<Issue>{
-    private final String orderType;
+    private final OrderType orderType;
     
-    public IssueUpdateDateQueryOrder(String orderType) {
+    public IssueUpdateDateQueryOrder(OrderType orderType) {
         this.orderType = orderType;
     }
 
@@ -19,10 +19,11 @@ public class IssueUpdateDateQueryOrder implements QueryOrder<Issue>{
         if(orderType == null) {
             return null;
         }
-        switch(orderType.toUpperCase()) {
-            case "ASC" :
+        
+        switch(orderType) {
+            case ASCENDENT:
                 return criteriaBuilder.asc(root.get(Issue_.updateDate));
-            case "DESC":
+            case DESCENDENT:
                 return criteriaBuilder.desc(root.get(Issue_.updateDate));
             default:
                 return null;

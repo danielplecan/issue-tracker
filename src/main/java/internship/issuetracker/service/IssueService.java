@@ -47,10 +47,12 @@ public class IssueService {
 
     @Autowired
     private FileUploadService fileUploadService;
+    
 
     /**
      *
-     * @param issueDto encapsulates an issue, and a list of id for existing labels
+     * @param issueDto encapsulates an issue, and a list of id for existing
+     * labels
      * @param owner
      * @return the id of the created issue
      */
@@ -89,8 +91,7 @@ public class IssueService {
     }
 
     public Issue getIssueById(Long id) {
-        Issue result = em.find(Issue.class, id);
-        return result;
+        return em.find(Issue.class, id);
     }
 
     public boolean updateIssueState(long issueId, IssueState newState) {
@@ -107,7 +108,7 @@ public class IssueService {
         return false;
     }
 
-    public boolean updateAssignee(long issueId, User assignee,User currentUser) {
+    public boolean updateAssignee(long issueId, User assignee, User currentUser) {
         Issue issue = em.find(Issue.class, issueId);
 
         //in case an issue with this id exists
@@ -122,6 +123,17 @@ public class IssueService {
         return false;
     }
 
+    public boolean changeStateOfAnIssueToNewState(Issue issue, IssueState newState) {
+        if (issue.getState() != newState) {
+            issue.setState(newState);
+            issue.setUpdateDate(new Date());
+            em.merge(issue);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean changeStateOfIssue(Long issueId, IssueState newState, User currentUser) {
         Issue issue = em.find(Issue.class, issueId);
 
@@ -131,23 +143,8 @@ public class IssueService {
         issue.setLastUpdatedBy(currentUser);
         switch (newState) {
             case CLOSED:
-                if (issue.getState() != IssueState.CLOSED) {
-                    issue.setState(newState);
-                    issue.setUpdateDate(new Date());
-                    em.merge(issue);
-                    return true;
-                } else {
-                    return false;
-                }
             case OPEN:
-                if (issue.getState() != IssueState.OPEN) {
-                    issue.setState(newState);
-                    issue.setUpdateDate(new Date());
-                    em.merge(issue);
-                    return true;
-                } else {
-                    return false;
-                }
+                return changeStateOfAnIssueToNewState(issue, newState);
             default:
                 return false;
         }
@@ -181,7 +178,7 @@ public class IssueService {
         issue.setUpdateDate(new Date());
         issue.setLastUpdatedBy(author);
         if (comment.getChangeState() != null) {
-            this.changeStateOfIssue(issue.getId(), comment.getChangeState(),author);
+            this.changeStateOfIssue(issue.getId(), comment.getChangeState(), author);
         }
 
         comment.setId(null);
@@ -196,19 +193,19 @@ public class IssueService {
 
     public List<Comment> getCommentsByIssueId(Issue issue) {
         TypedQuery<Comment> userQuery = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
-        userQuery.setParameter("v_issue", issue);
+        userQuery.setParameter(Comment.V_ISSUE_PARAMETER, issue);
 
         List<Comment> resultList = userQuery.getResultList();
 
         if (resultList == null || resultList.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         return resultList;
     }
 
     public List<Label> getLabelsByIssueId(Issue issue) {
         TypedQuery<IssueLabel> userQuery = em.createNamedQuery(IssueLabel.FIND_BY_ISSUE_ID, IssueLabel.class);
-        userQuery.setParameter("v_issue", issue);
+        userQuery.setParameter(Comment.V_ISSUE_PARAMETER, issue);
 
         List<IssueLabel> resultList = userQuery.getResultList();
 
@@ -226,7 +223,7 @@ public class IssueService {
 
     public List<UploadedFile> getAttachmentsByIssueId(Issue issue) {
         TypedQuery<IssueAttachment> userQuery = em.createNamedQuery(IssueAttachment.FIND_BY_ISSUE_ID, IssueAttachment.class);
-        userQuery.setParameter("v_issue", issue);
+        userQuery.setParameter(Comment.V_ISSUE_PARAMETER, issue);
 
         List<IssueAttachment> resultList = userQuery.getResultList();
 
@@ -311,7 +308,7 @@ public class IssueService {
 
     public Label getLabelByName(String labelName) {
         TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
-        labelQuery.setParameter("label_name", labelName);
+        labelQuery.setParameter(Label.LABEL_NAME_PARAMETER, labelName);
         List<Label> labelList = labelQuery.getResultList();
         return labelList.isEmpty() ? null : labelList.get(0);
     }
@@ -322,7 +319,7 @@ public class IssueService {
 
     public boolean labelExists(String labelName) {
         TypedQuery<Label> labelQuery = em.createNamedQuery(Label.FIND_LABEL_BY_NAME, Label.class);
-        labelQuery.setParameter("label_name", labelName);
+        labelQuery.setParameter(Label.LABEL_NAME_PARAMETER, labelName);
         return !labelQuery.getResultList().isEmpty();
     }
 
@@ -354,7 +351,7 @@ public class IssueService {
     public List<Comment> getMissedComments(long issueId, long commentId) {
         if (commentId < 0) {
             TypedQuery<Comment> commentQuery2 = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
-            commentQuery2.setParameter("v_issue", this.getIssueById(issueId));
+            commentQuery2.setParameter(Comment.V_ISSUE_PARAMETER, this.getIssueById(issueId));
             return commentQuery2.getResultList();
         }
 
@@ -366,7 +363,7 @@ public class IssueService {
 
         if (comment == null) {
             TypedQuery<Comment> commentQuery2 = em.createNamedQuery(Comment.FIND_BY_ISSUE_ID, Comment.class);
-            commentQuery2.setParameter("v_issue", this.getIssueById(issueId));
+            commentQuery2.setParameter(Comment.V_ISSUE_PARAMETER, this.getIssueById(issueId));
             return commentQuery2.getResultList();
         } else if (comment.getIssue().getId() != issueId) {
             return new ArrayList<>();
@@ -397,13 +394,13 @@ public class IssueService {
             }
         }
     }
-    
+
     public void sendNotificationForAssign(Issue issue, User loggedUser, String link) {
         if (!issue.getAssignee().getId().equals(loggedUser.getId())) {
             Map<String, Object> map = new HashMap<>();
             map.put("link", link + "/issue/" + issue.getId());
             map.put("linkText", "Click here to see the issue");
-            String emailContent ="You were assigned on the issue with the title ";
+            String emailContent = "You were assigned on the issue with the title ";
             emailContent += issue.getTitle();
             map.put("text", emailContent);
             mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
@@ -411,24 +408,24 @@ public class IssueService {
     }
 
     public void sendNotificationForEdit(Issue issue, String link) {
-        
+
         Map<String, Boolean> changes = IssueEditUtil.getChanges();
         String text = " The following items has been modified: ";
         if (changes.get("title") == true) {
-            text+=" title ";
+            text += " title ";
         }
         if (changes.get("content") == true) {
-            text+=" content ";
+            text += " content ";
         }
         if (changes.get("labels") == true) {
-            text+=" labels ";
+            text += " labels ";
         }
-        
-        if(!issue.getOwner().getId().equals(issue.getLastUpdatedBy().getId())){
+
+        if (!issue.getOwner().getId().equals(issue.getLastUpdatedBy().getId())) {
             Map<String, Object> map = new HashMap<>();
             map.put("link", link + "/issue/" + issue.getId());
             map.put("linkText", "Click here to see the issue");
-            String emailContent ="The issue you created, with the title ";
+            String emailContent = "The issue you created, with the title ";
             emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName() + text;
 
             map.put("text", emailContent);
@@ -436,20 +433,20 @@ public class IssueService {
         }
         if (issue.getAssignee() != null) {
             if (!issue.getAssignee().getId().equals(issue.getOwner().getId())) {
-                if(!issue.getAssignee().getId().equals(issue.getLastUpdatedBy().getId())){
+                if (!issue.getAssignee().getId().equals(issue.getLastUpdatedBy().getId())) {
                     Map<String, Object> map = new HashMap<>();
                     map.put("link", link + "/issue/" + issue.getId());
                     map.put("linkText", "Click here to see the issue");
-                    String emailContent ="The issue you are assigned to, with the title ";
+                    String emailContent = "The issue you are assigned to, with the title ";
                     emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName() + text;
                     map.put("text", emailContent);
                     mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
                 }
             }
         }
-        
+
     }
-    
+
     public List<User> findUsersIssuesOwnersByNamePrefix(String usernamePrefix) {
         TypedQuery<User> resultQuery = em.createNamedQuery(Issue.FIND_USERS_ISSUES_OWNERS, User.class);
         resultQuery.setParameter("v_username", usernamePrefix + "%");
@@ -466,14 +463,14 @@ public class IssueService {
 
     public Issue editIssueFromIssueDTO(NewIssueDTO issueDTO, User currentUser) {
         Issue issue = em.find(Issue.class, issueDTO.getIssue().getId());
-        
-        List<Issue> issueList = new ArrayList<Issue>();
+
+        List<Issue> issueList = new ArrayList<>();
         issueList.add(issue);
-        
+
         List<IssueDTO> issueDTOList = getDTOsFromIssues(issueList);
-        
+
         IssueEditUtil.storeChanges(issueDTO, issueDTOList.get(0));
-        
+
         issue.setTitle(issueDTO.getIssue().getTitle());
         issue.setContent(issueDTO.getIssue().getContent());
         issue.setLastUpdatedBy(currentUser);
@@ -508,7 +505,7 @@ public class IssueService {
         }
 
         List<Long> attachmentsId = new ArrayList<>();
-        if(oldAttachments != null && !oldAttachments.isEmpty()) {
+        if (oldAttachments != null && !oldAttachments.isEmpty()) {
             for (UploadedFile attachment : oldAttachments) {
                 attachmentsId.add(attachment.getId());
             }
@@ -521,13 +518,13 @@ public class IssueService {
 
     public void removeAllLabelsFromAnIssue(Long issueId) {
         Query query = em.createNamedQuery(IssueLabel.REMOVE_BY_ISSUE_ID);
-        query.setParameter("v_issue_id", issueId);
+        query.setParameter(Comment.V_ISSUE_PARAMETER, issueId);
         query.executeUpdate();
     }
 
     public void removeAllAttachmentsFromAnIssue(Long issueId) {
         Query query = em.createNamedQuery(IssueAttachment.REMOVE_BY_ISSUE_ID);
-        query.setParameter("v_issue_id", issueId);
+        query.setParameter(Comment.V_ISSUE_PARAMETER, issueId);
         query.executeUpdate();
     }
 }

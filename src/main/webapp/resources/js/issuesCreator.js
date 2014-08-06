@@ -69,7 +69,7 @@ var issuesCreator = function() {
         return span;
     };
      var createDateSpan = function(text) {
-        var span = $("<span></span>");
+        var span = $("<span class=\"textDate\"></span>");
         span.text(text);
         span.addClass("text-primary");
         return span;
