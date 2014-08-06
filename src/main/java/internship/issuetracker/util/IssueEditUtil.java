@@ -35,9 +35,13 @@ public class IssueEditUtil {
         }       
         
         List<Long> issue2Labels = new ArrayList<>();
-        for (Label label : issue2.getLabels()) {
+        List<Label> labels = issue2.getLabels();
+        if(labels != null) {
+            for (Label label : labels) {
             issue2Labels.add(label.getId());
         }
+        }
+        
         
         if (!issue1.getLabelIdList().equals(issue2Labels)){
             changes.put("labels", Boolean.TRUE);
