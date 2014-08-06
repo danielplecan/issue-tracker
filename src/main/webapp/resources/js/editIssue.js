@@ -88,10 +88,10 @@
                 var contentLength = data.editedIssue.content.length;
 
                 if (contentLength !== 0) {
-                    $('#issueContent').parent().show();
+                    $('#issueContent').show();
                 }
                 else {
-                    $('#issueContent').parent().hide();
+                    $('#issueContent').hide();
                 }
 
                 $('#labelContainer').empty();
