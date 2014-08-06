@@ -8,6 +8,8 @@ var pager = function() {
     var theOrder = "updateDate";
     var theSort = "DESC";
     var labelIdList = [];
+    var authorId = '';
+    var assigneeId = '';
 
     var toggleFirstButtons = function(flag) {
         if (!flag) {
@@ -40,6 +42,34 @@ var pager = function() {
             toggleLastButtons(pageNumber < numberOfPages);
         });
     };
+
+    var onOptionAutocompleteSelected = function() {
+        $('#searchFieldAsignee').bind('typeahead:selected', function(obj, datum, name) {
+            $('#assigneeLabel').show();
+            $('#assigneeLabel').text(datum.username);
+            var xLabel = $('<span class="glyphicon glyphicon-remove assigneeLabelX" style="cursor:pointer;"></span>');
+            $('#assigneeLabel').append(xLabel);
+            assigneeId = datum.id;
+        });
+        $('#searchFieldAuthor').bind('typeahead:selected', function(obj, datum, name) {
+            $('#autorLabel').show();
+            $('#autorLabel').text(datum.username);
+            var xLabel = $('<span class="glyphicon glyphicon-remove autorLabelX" style="cursor:pointer;"></span>');
+            $('#autorLabel').append(xLabel);
+
+            authorId = datum.id;
+        });
+        $('#assigneeLabel').delegate('.assigneeLabelX','click',function(){
+            $('#assigneeLabel').hide();
+            assigneeId = '';
+        });
+            
+        $('#autorLabel').delegate('.autorLabelX','click',function(){
+            $('#autorLabel').hide();
+            assigneeId = '';
+        });
+    };
+
     var createFilterData = function() {
         filterData = {};
         var filter = {};
@@ -47,16 +77,12 @@ var pager = function() {
 
         filter["content"] = $("#searchFieldContent").val();
         filter["title"] = $("#searchFieldTitle").val();
-        filter["assignee"] = $("#searchFieldAsignee").val();
-        filter["owner"] = $("#searchFieldAuthor").val();
+        filter["assignee"] = assigneeId;
+        filter["owner"] = authorId;
 
         while (labelIdList.length > 0) {
             labelIdList.pop();
         }
-        //        $(".thisLabelIsSelected").each(function(index, element) {
-        //            labelIdList.push($(element).data("id"));
-        //            console.log($(element).data("id"));
-        //        });
         labelIdList = $("#e8_2").select2("val");
         order[theOrder] = theSort;
         filter["state"] = theState;
@@ -162,6 +188,7 @@ var pager = function() {
             });
 
             pageNumber = 1;
+            onOptionAutocompleteSelected();
             createFilterData();
             pageLabel = $(".pageLabel");
             ReloadIssuesOnPage();
@@ -170,9 +197,9 @@ var pager = function() {
 };
 
 $(document).ready(function() {
-    var pagObject = pager();
     autocomplete.filterOwners();
     autocomplete.filterAssignees();
+    var pagObject = pager();
     pagObject.initializePagination();
 
     var paginationButtonContainer = $('.pager');
