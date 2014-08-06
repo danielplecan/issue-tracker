@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
  * @author inistor
  */
 public class SerializationUtil {
+    private SerializationUtil() {}
 
     public static Map<String, Object> extractFieldErrors(BindingResult bindingResult) {
         Map<String, Object> fieldErrors = new HashMap<>();
