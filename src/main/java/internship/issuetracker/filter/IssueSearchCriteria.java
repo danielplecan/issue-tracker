@@ -50,6 +50,8 @@ public class IssueSearchCriteria {
                     case "owner":
                         queryFilters.add(new IssueOwnerQueryFilter((String) filterValue));
                         break;
+                    default:
+                        break;
                 }
             } else if (filterValue instanceof List) {
                 switch (filter) {
@@ -59,6 +61,9 @@ public class IssueSearchCriteria {
                                 queryFilters.add(new IssueLabelQueryFilter(Long.parseLong((String) value)));
                             }
                         }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -76,6 +81,8 @@ public class IssueSearchCriteria {
                         return new IssueTitleQueryOrder(OrderType.fromString((String) orderValue));
                     case "updateDate":
                         return new IssueUpdateDateQueryOrder(OrderType.fromString((String) orderValue));
+                    default:
+                        return null;
                 }
             }
         }
