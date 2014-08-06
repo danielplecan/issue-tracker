@@ -1,13 +1,9 @@
 issueTrackerService = (function() {
     var self = {};
-    
-    if (!window.location.origin) {
-        window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-    }
 
     self.login = function(loginData) {
         return $.ajax({
-            url: location.origin + "/security_check",
+            url: "/security_check",
             type: "POST",
             data: loginData
         });
@@ -15,7 +11,7 @@ issueTrackerService = (function() {
 
     self.register = function(registerData) {
         return $.ajax({
-            url: location.origin + "/register",
+            url: "/register",
             type: "POST",
             dataType: "json",
             contentType: "application/json",
@@ -25,7 +21,7 @@ issueTrackerService = (function() {
     };
     self.edit = function(editData) {
         return $.ajax({
-            url: location.origin + "/edit-profile",
+            url: "/edit-profile",
             type: "POST",
             dataType: "json",
             contentType: "application/json",
@@ -45,13 +41,13 @@ issueTrackerService = (function() {
         };
         return $.ajax({
             type: 'POST',
-            url: location.origin + '/create-issue',
+            url: '/create-issue',
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(issueDTO)
         });
     };
-    
+
     self.editIssue = function(id, title, content, labelIdList, attachments) {
         var issue = {
             'id': id,
@@ -65,7 +61,7 @@ issueTrackerService = (function() {
         };
         return $.ajax({
             type: 'POST',
-            url: location.origin + '/edit-issue',
+            url: '/edit-issue',
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(issueDTO)
@@ -75,7 +71,7 @@ issueTrackerService = (function() {
     self.closeIssue = function(issueId) {
         return $.ajax({
             type: "POST",
-            url: location.origin + "/issue/" + issueId + "/change-state/close",
+            url: "/issue/" + issueId + "/change-state/close",
             dataType: "json"
         });
     };
@@ -83,14 +79,14 @@ issueTrackerService = (function() {
     self.openIssue = function(issueId) {
         return $.ajax({
             type: "POST",
-            url: location.origin + "/issue/" + issueId + "/change-state/open",
+            url: "/issue/" + issueId + "/change-state/open",
             dataType: "json"
         });
     };
 
     self.addComment = function(issueId, commentData) {
         return $.ajax({
-            url: location.origin + "/issue/" + issueId + "/add-comment",
+            url: "/issue/" + issueId + "/add-comment",
             type: "POST",
             dataType: "json",
             contentType: "application/json",
@@ -101,7 +97,7 @@ issueTrackerService = (function() {
 
     self.assignTo = function(issueId, assignee) {
         return $.ajax({
-            url: location.origin + "/issue/" + issueId + "/add-assignee",
+            url: "/issue/" + issueId + "/add-assignee",
             type: "POST",
             dataType: "json",
             contentType: "application/json",
@@ -117,13 +113,13 @@ issueTrackerService = (function() {
         };
         return $.ajax({
             async: false,
-            url: location.origin + "/issue/" + issueId + "/getUsers-assignee",
+            url: "/issue/" + issueId + "/getUsers-assignee",
             type: "GET",
             dataType: "json",
             data: assigneeData
         });
     };
-    
+
     self.getFilterAssignee = function(id, assignee) {
         var assigneeData = {};
         assigneeData = {
@@ -131,27 +127,27 @@ issueTrackerService = (function() {
         };
         return $.ajax({
             async: false,
-            url: location.origin + "/issues/getFilterAssignees",
+            url: "/issues/getFilterAssignees",
             type: "GET",
             dataType: "json",
             data: assigneeData
         });
     };
-    
-    self.getFilterOwners =function(id, owner) {
+
+    self.getFilterOwners = function(id, owner) {
         var ownerData = {};
         ownerData = {
             'ownedBy': owner
         };
         return $.ajax({
             async: false,
-            url: location.origin + "/issues/get-owners",
+            url: "/issues/get-owners",
             type: "GET",
             dataType: "json",
             data: ownerData
         });
     };
-    
+
     self.createLabel = function(labelName, labelColor) {
         var newLabel = {
             name: labelName,
@@ -159,7 +155,7 @@ issueTrackerService = (function() {
         };
         return $.ajax({
             type: 'POST',
-            url: location.origin + '/create-label',
+            url: '/create-label',
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(newLabel)
@@ -169,12 +165,12 @@ issueTrackerService = (function() {
     self.removeLabel = function(labelId) {
         return $.ajax({
             type: 'DELETE',
-            url: location.origin + '/label/' + labelId + '/remove',
+            url: '/label/' + labelId + '/remove',
             contentType: "application/json",
             dataType: "json"
         });
     };
-    
+
     self.editLabel = function(labelNewName, labelNewColor, labelId) {
         var editedLabel = {
             name: labelNewName,
@@ -182,7 +178,7 @@ issueTrackerService = (function() {
         };
         return $.ajax({
             type: 'PUT',
-            url: location.origin + '/label/' + labelId + '/edit',
+            url: '/label/' + labelId + '/edit',
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(editedLabel)
@@ -192,33 +188,33 @@ issueTrackerService = (function() {
     self.getFilteredIssues = function(filterData) {
         return $.ajax({
             type: 'POST',
-            url: location.origin + '/issues/filter',
+            url: '/issues/filter',
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(filterData)
         });
     };
-    
+
     self.removeFile = function(fileId) {
         return $.ajax({
-           type: 'DELETE',
-           url: location.origin + '/attachment/remove/' + fileId,
-           dataType: 'json'
-        });
-    };
-    
-    self.getAttachmentsForIssue = function(issueId) {
-        return $.ajax({
-            type: 'GET',
-            url: location.origin + '/issue/' + issueId + '/get-attachments',
+            type: 'DELETE',
+            url: '/attachment/remove/' + fileId,
             dataType: 'json'
         });
     };
-    
-    self.checkUsernameExistance = function(username) {
-         return $.ajax({
+
+    self.getAttachmentsForIssue = function(issueId) {
+        return $.ajax({
             type: 'GET',
-            url: location.origin + '/userExistance/' + username,
+            url: '/issue/' + issueId + '/get-attachments',
+            dataType: 'json'
+        });
+    };
+
+    self.checkUsernameExistance = function(username) {
+        return $.ajax({
+            type: 'GET',
+            url: '/userExistance/' + username,
             dataType: 'json'
         });
     };
@@ -229,7 +225,7 @@ issueTrackerService = (function() {
 
         return $.ajax({
             type: 'DELETE',
-            url: location.origin + '/attachment/remove-orphans',
+            url: '/attachment/remove-orphans',
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(attachmentsData)
@@ -238,15 +234,15 @@ issueTrackerService = (function() {
     };
     self.getAllLables = function() {
         return $.ajax({
-            url: location.origin + '/getAllLabels',
+            url: '/getAllLabels',
             dataType: 'json'
         });
     };
-    
+
     self.changeTheme = function(theme) {
         $.ajax({
             type: 'POST',
-            url: location.origin + '/settings/changeTheme/' + theme,
+            url: '/settings/changeTheme/' + theme,
             dataType: "json",
             success: function(data) {
                 if (data.success) {
@@ -255,15 +251,15 @@ issueTrackerService = (function() {
             }
         });
     };
-    
+
     self.getAllDataForAnIssue = function(issueId) {
         return $.ajax({
             type: 'GET',
-            url: location.origin + '/issue/' + issueId + '/get-all-data',
+            url: '/issue/' + issueId + '/get-all-data',
             dataType: 'json'
         });
     };
-    
+
     return self;
 })();
    

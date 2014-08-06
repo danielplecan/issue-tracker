@@ -1,8 +1,5 @@
 $(document).ready( function() { 
     
-    if (!window.location.origin) {
-        window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-    }
     var initialNotificationCheckbox = $("#settingsContainer").data("notification");
     var initialNotificationAssigned = $("#settingsContainer").data("assigned");
     var initialTheme = $("#settingsContainer").data("theme");
@@ -82,7 +79,7 @@ $(document).ready( function() {
     $("#toggleNotifications").click(function() {
         $.ajax({
             type: 'POST',
-            url: location.origin + '/settings/toggleNotifications',
+            url: '/settings/toggleNotifications',
             dataType: "json",
             success: function(data) {
                 
@@ -100,7 +97,7 @@ $(document).ready( function() {
     $("#toggleNotificationsAssigned").click(function() {
         $.ajax({
             type: 'POST',
-            url: location.origin + '/settings/toggleNotificationsAssigned',
+            url: '/settings/toggleNotificationsAssigned',
             dataType: "json",
             success: function(data) {
                 
