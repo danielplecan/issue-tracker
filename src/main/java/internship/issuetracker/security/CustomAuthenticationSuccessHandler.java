@@ -1,4 +1,4 @@
-package internship.issuetracker.handler;
+package internship.issuetracker.security;
 
 import internship.issuetracker.entity.User;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package internship.issuetracker.provider;
+package internship.issuetracker.security;
 
 import internship.issuetracker.entity.User;
 import internship.issuetracker.service.UserService;
