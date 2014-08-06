@@ -14,7 +14,8 @@ import java.util.Map;
  */
 
 public class IssueEditUtil {
-    private IssueEditUtil() {}
+    private IssueEditUtil() {
+    }
     
     private final static Map<String, Boolean> changes = new HashMap<>();
     
