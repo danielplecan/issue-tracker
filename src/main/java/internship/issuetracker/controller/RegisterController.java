@@ -36,12 +36,12 @@ public class RegisterController {
 
     @Autowired
     private UserValidator userValidator;
-	
+
     @Autowired
     private ActivationService activationService;
-    
+
     @Autowired
-    private MailService mailService;    
+    private MailService mailService;
 
     @Autowired
     private UserSettingsService userSettingsService;
@@ -53,7 +53,7 @@ public class RegisterController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     @ResponseBody
-    public Map<String, Object> createUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult, HttpServletResponse response,HttpServletRequest request) {
+    public Map<String, Object> createUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult, HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
 
         userValidator.validate(user, bindingResult);
@@ -61,26 +61,26 @@ public class RegisterController {
         if (bindingResult.hasErrors()) {
             result.put("success", false);
             result.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
-        } else {        
+        } else {
             result.put("success", true);
             userService.registerUser(user);
             String activationHash = activationService.createActivation(userService.getUserByUsername(user.getUsername()));
-            Map< String,Object> map=new HashMap<>();
-            map.put("link","http://"+request.getLocalAddr()+":"+request.getLocalPort()+"/activation/"+activationHash);
-            map.put("linkText","Activate your acount");
-            map.put("text","");
+            Map< String, Object> map = new HashMap<>();
+            map.put("link", "http://" + request.getLocalAddr() + ":" + request.getLocalPort() + "/activation/" + activationHash);
+            map.put("linkText", "Activate your acount");
+            map.put("text", "");
             mailService.sendEmail(user.getEmail(), "Activation hash", map);
             userSettingsService.createSettingsforUser(user.getUsername());
         }
-        
+
         return result;
     }
-    
-     @RequestMapping(value = "/registerMessage", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/registerMessage", method = RequestMethod.GET)
     public String verifieActivation() {
         return "registerMessage";
     }
-    
+
     @RequestMapping(value = "/activation/{hash}", method = RequestMethod.GET)
     public String verifieActivation(@PathVariable("hash") String hash, Model model) {
         User user = activationService.getUserByActivationHash(hash);
@@ -92,11 +92,11 @@ public class RegisterController {
         }
         return "activation";
     }
-    
+
     @RequestMapping(value = "/userExistance/{username}", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> checkUsernameExistence(@PathVariable("username") String username,
-             HttpServletResponse response) {
+            HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
         response.setStatus(HttpServletResponse.SC_OK);
         if (userService.usernameExists(username)) {
