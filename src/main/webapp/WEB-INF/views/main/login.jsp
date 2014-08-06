@@ -23,11 +23,14 @@
                         <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
                     </div>
                 </div>
-            
+
                 <span id="loginActivation" class="txt-center col-lg-12">${message}</span>
                 <span id="loginErrorCredential" class="text-warning errors hidden txt-center col-lg-12">Login has failed. Wrong username or password.</span>
                 <span id="loginErrorActivation" class="text-warning errors hidden txt-center col-lg-12">The account is not active.</span>
-                <br /><br />
+                <a href="/recover-password" class="col-lg-12 txt-center">I forgot my password </a>
+                <br />
+
+                <br />
                 <div class="form-group">
                     <div class="col-lg-12 txt-center">
                         <button class="btn btn-primary btn-lg" id="loginButton" type="submit">Login</button>

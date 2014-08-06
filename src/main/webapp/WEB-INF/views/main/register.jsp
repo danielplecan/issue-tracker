@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-1">
-                        <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" title="Username must contain between 5 and 20 characters."/>
+                        <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" title="Username must contain between 5 and 20 alphanumeric characters."/>
                         <span id="usernameError" class="text-warning errors"></span>
                     </div>
                 </div>
@@ -50,6 +50,7 @@
                 </div>
             </fieldset>
         </form>
-        <span class="col-lg-12 txt-center">If you already have an account, please <a href="/login"> Login</a></span>
+        <span class="col-lg-12 txt-center" id="loginLink">If you already have an account, please <a href="/login"> Login</a></span>
     </div>
+    <script src="/resources/js/registerValidationService.js" type="text/javascript"></script>
     <script src="/resources/js/register.js" type="text/javascript"></script>

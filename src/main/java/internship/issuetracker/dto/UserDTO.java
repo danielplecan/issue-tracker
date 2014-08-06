@@ -2,6 +2,7 @@ package internship.issuetracker.dto;
 
 import internship.issuetracker.entity.User;
 import internship.issuetracker.util.SecurityUtil;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,6 +17,7 @@ public class UserDTO {
     @Size(min = 5, max = 60, message = "Name must contain between 5 and 60 characters.")
     private String name;
 
+    @Pattern( regexp = "^[A-Za-z0-9]*$", message = "Only alphanumeric characters are accepted.")
     @NotBlank(message = "Username must contain between 5 and 20 characters.")
     @Size(min = 5, max = 20, message = "Username must contain between 5 and 20 characters.")
     private String username;

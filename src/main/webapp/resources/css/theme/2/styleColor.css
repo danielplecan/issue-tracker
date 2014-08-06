@@ -1,15 +1,16 @@
 /*pink theme*/
-
+body{
+    background-color: #F7EDF3;
+}
 /*view issue*/
 
 .textDate{
-    color: #158cba;
+    color:#158cba;
 }
 .textDate:hover{
     color:#158cba;
 }
 /*end view issue*/
-
 
 .theIssueTitleLink{
     color:#333333;
@@ -18,15 +19,15 @@
 .list-group-item,
 .panel,
 .navbar{
-    background-color:#F7EDF3;
+    background-color:#F2E1EB;
 }
 .panel,
 .navbar-default{
-    border-color:#F2E1EB;
+    border-color:#E8D5E0;
 }
 .btn-default{
-    background-color:#F2E1EB;
-    border-color:#F2E1EB;
+    background-color:#EDD8E4;
+    border-color:#E8D5E0;
 }
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
     background-color:#F2E1EB;
@@ -38,8 +39,8 @@
     background-color: #F2E1EB;
 }
 #allIssues > div:nth-child(odd)  {
-    background: none repeat scroll 0 0 #FAF7F9 !important;
-    border-color: #FAEDF5;
+    background: none repeat scroll 0 0 #F5E9F0 !important;
+    border-color: #F2E1EB;
 }
 .glyphicon{
     color: #CFB4C3;
@@ -86,7 +87,7 @@ fieldset[disabled] .btn-default.active {
     border-left: 4px #F5E4ED solid;
 }
 .theIssueContentPreview{
-    border-left: 4px #F5E4ED solid;
+    border-left: 4px #E3CAD8 solid;
 }
 
 .commentBlockquote{
@@ -128,6 +129,7 @@ fieldset[disabled] .btn-default.active {
 /*light bulb*/
 #lightBulbPic{
     -webkit-filter: hue-rotate(230deg) brightness(1);
+    -ms-filter: hue-rotate(230deg) brightness(1);
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'hue-rotate\'><feColorMatrix type=\'hueRotate\' values=\'250\'/></filter></svg>#hue-rotate");
 }
 #lightBulbPic:hover{

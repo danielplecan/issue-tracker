@@ -16,6 +16,18 @@
         <put-attribute name="body" value="/WEB-INF/views/main/register.jsp" />
         <put-attribute name="footer" value="" />
     </definition>
+    
+    <definition name="recover-password" extends="mainLayout">
+        <put-attribute name="header" value="/WEB-INF/views/main/headerLoginAndRegister.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/main/recover-password.jsp" />
+        <put-attribute name="footer" value="" />
+    </definition>
+    
+    <definition name="change-password" extends="mainLayout">
+        <put-attribute name="header" value="/WEB-INF/views/main/headerLoginAndRegister.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/main/change-password.jsp" />
+        <put-attribute name="footer" value="" />
+    </definition>
 
     <definition name="create-issue" extends="mainLayout">
         <put-attribute name="header" value="/WEB-INF/views/main/header.jsp" />
@@ -38,6 +50,12 @@
      <definition name="registerMessage" extends="mainLayout">
         <put-attribute name="header" value="/WEB-INF/views/main/headerLoginAndRegister.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/main/registerMessage.jsp" />
+        <put-attribute name="footer" value="" />
+    </definition>
+    
+    <definition name="recovery-message" extends="mainLayout">
+        <put-attribute name="header" value="/WEB-INF/views/main/headerLoginAndRegister.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/main/recovery-message.jsp" />
         <put-attribute name="footer" value="" />
     </definition>
 

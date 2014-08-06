@@ -87,6 +87,7 @@ $(document).ready(function() {
         issueTrackerService.addComment(issueId, createCommentData()).done(function(data) {
             if (data.success) {
                 insertRecievedComments(data);
+                $('#oldIssueLastUpdate').text(" just now ");
             } else {
                 $.each(data.errors, function(key, value) {
                     $("#" + key + "Error").append(value);
@@ -111,6 +112,7 @@ $(document).ready(function() {
                     if (data.success) {
                         closeIssueSuccess();
                         insertRecievedComments(data);
+                        $('#oldIssueLastUpdate').text(" just now ");
                     } else {
                         $.each(data.errors, function(key, value) {
                             $("#" + key + "Error").append(value);
@@ -136,6 +138,7 @@ $(document).ready(function() {
                     if (data.success) {
                         openIssueSuccess();
                         insertRecievedComments(data);
+                        $('#oldIssueLastUpdate').text(" just now ");
                     } else {
                         $.each(data.errors, function(key, value) {
                             $("#" + key + "Error").append(value);
@@ -269,7 +272,7 @@ $(document).ready(function() {
         $("#changeState-close").removeClass("hidden");
     }
 
-    insertRecievedComments = function (data) {
+    insertRecievedComments = function(data) {
         var size = data.comments.length;
         for (var i = 0; i < size; i++) {
             var comment = data.comments[i];
@@ -279,7 +282,7 @@ $(document).ready(function() {
             var authorLink = commentBuilder.createAuthorLink(
                     comment.author.username, comment.author.name
                     );
-            
+
             //DANIEL
             var attachments = $("<div class='attachments' />");
             for (var j = 0; j < comment.attachments.length; j++) {
@@ -346,9 +349,8 @@ $(document).ready(function() {
 
             $(commentContent).find('blockquote').first().append(attachments);
         }
-        $('#oldIssueLastUpdate').text(" just now ");
         widget.reset();
-    }
+    };
 
     function clearErrorMessages() {
         $('#contentError').text("");

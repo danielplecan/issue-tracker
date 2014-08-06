@@ -100,4 +100,8 @@ public class UserService {
         user.setPasswordHash(editedUser.getPasswordHash());
         return entityManager.merge(user);
     }
+
+    public void updateUser(User user) {
+        entityManager.merge(user);
+    }
 }

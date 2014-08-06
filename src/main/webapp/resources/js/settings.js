@@ -19,7 +19,7 @@ $(document).ready( function() {
     function settingsInit() {
         $(".toggleBox").attr("checked", initialNotificationCheckbox);
         $("#themeSelect li").each(function() {
-            if ($(this).attr("value") == initialTheme) {
+            if ($(this).data("val") == initialTheme) {
                 $(this).addClass("active");
             }
         });
@@ -28,8 +28,8 @@ $(document).ready( function() {
     $("#set").click( function() {
         $("#themeSelect li").each( function() {
             if ($(this).hasClass("active")) {
-                issueTrackerService.changeTheme($(this).attr("value"));
-                previewTheme($(this).attr("value"));
+                issueTrackerService.changeTheme($(this).data("val"));
+                previewTheme($(this).data("val"));
             }
         });
     });
@@ -37,7 +37,7 @@ $(document).ready( function() {
     $("#preview").click( function() {
         $("#themeSelect li").each( function() {
             if ($(this).hasClass("active")) {
-                previewTheme($(this).attr("value"));
+                previewTheme($(this).data("val"));
             }
         });
     });
@@ -51,15 +51,15 @@ $(document).ready( function() {
     });
 
     $("#themeSelect li").click( function() {
-        selectTheme($(this).attr("value")); 
+        selectTheme($(this).data("val")); 
    
     });
 
     function selectTheme(theme) {
         $("#themeSelect li").each(function(index, elem) {
             $(this).removeClass("active");
-            if ($(this).attr("value") == theme) {
-                $("#op" + $(this).attr("value")).addClass("active");
+            if ($(this).data("val") == theme) {
+                $("#op" + $(this).data("val")).addClass("active");
             }
         });
     }

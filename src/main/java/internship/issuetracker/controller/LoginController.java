@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LoginController {
-
+        
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String loginUser(HttpServletRequest request,Model map) { 
-        request.getHeader("referer");
-     //   history.go(-2);
         return "login";
     }
 }

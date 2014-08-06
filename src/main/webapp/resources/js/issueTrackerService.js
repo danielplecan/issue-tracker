@@ -8,7 +8,6 @@ issueTrackerService = (function() {
             data: loginData
         });
     };
-
     self.register = function(registerData) {
         return $.ajax({
             url: "/register",
@@ -17,6 +16,29 @@ issueTrackerService = (function() {
             contentType: "application/json",
             mimeType: "application/json",
             data: JSON.stringify(registerData)
+        });
+    };
+    self.recoverPassword = function(username){
+        var recoverPasswordData = {};
+        recoverPasswordData = {
+            'username': username
+        };
+        return $.ajax({
+            url: location.origin + "/recover-password",
+            type: "POST",
+            data: recoverPasswordData
+        });
+    },
+    self.changePassword = function(password) {
+        var changePasswordData = {};
+        changePasswordData = {
+            'password': password
+        };
+        return $.ajax({
+            url: location.origin + "/change-password",
+            type: "POST",
+            dataType: "json",
+            data: changePasswordData
         });
     };
     self.edit = function(editData) {
