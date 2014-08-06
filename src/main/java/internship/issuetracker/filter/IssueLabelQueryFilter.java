@@ -16,24 +16,21 @@ import javax.persistence.criteria.Subquery;
  */
 public class IssueLabelQueryFilter implements QueryFilter<Issue> {
 
-    private Long labelId;
+    private final Long labelId;
 
-    public IssueLabelQueryFilter(String labelId) {
-        if (labelId != null) {
-            this.labelId = Long.parseLong(labelId);
-        }
+    public IssueLabelQueryFilter(Long labelId) {
+        this.labelId = labelId;
     }
 
     @Override
     public Predicate buildPredicate(CriteriaBuilder criteriaBuilder, CriteriaQuery<Issue> criteriaQuery, Root<Issue> root) {
         Subquery<Issue> subquery = criteriaQuery.subquery(Issue.class);
         Root<IssueLabel> issueLabel = subquery.from(IssueLabel.class);
-        
+
         Predicate labelPredicate = criteriaBuilder.equal(issueLabel.get(IssueLabel_.label), labelId);
         subquery.where(labelPredicate);
         subquery.select(issueLabel.get(IssueLabel_.issue));
-        
+
         return root.in(subquery);
     }
-
 }

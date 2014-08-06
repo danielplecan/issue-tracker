@@ -1,7 +1,10 @@
 package internship.issuetracker.filter;
 
 import internship.issuetracker.entity.Issue;
-import internship.issuetracker.order.OrderFactory;
+import internship.issuetracker.entity.IssueState;
+import internship.issuetracker.order.IssueTitleQueryOrder;
+import internship.issuetracker.order.IssueUpdateDateQueryOrder;
+import internship.issuetracker.order.OrderType;
 import internship.issuetracker.order.QueryOrder;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,29 +27,57 @@ public class IssueSearchCriteria {
     public List<QueryFilter<Issue>> getQueryFilters() {
         List<QueryFilter<Issue>> queryFilters = new ArrayList<>();
 
-        for (String key : filters.keySet()) {
-            Object filterValue = filters.get(key);
-            if (filterValue instanceof List) {
-                for (Object value : (List) filterValue) {
-                    if (value instanceof String) {
-                        QueryFilter<Issue> filter = FilterFactory.<Issue>createFilter(key, (String) value);
-                        if (filter != null) {
-                            queryFilters.add(filter);
-                        }
-                    } else if(value instanceof Integer) {
-                        QueryFilter<Issue> filter = FilterFactory.<Issue>createFilter(key, ((Integer) value).toString());
-                        if (filter != null) {
-                            queryFilters.add(filter);
+        for (String filter : filters.keySet()) {
+            Object filterValue = filters.get(filter);
+
+            switch (filter.toLowerCase()) {
+                case "title":
+                    if (filterValue instanceof String) {
+                        queryFilters.add(new IssueTitleQueryFilter((String) filterValue));
+                    }
+                    break;
+
+                case "content":
+                    if (filterValue instanceof String) {
+                        queryFilters.add(new IssueContentQueryFilter((String) filterValue));
+                    }
+                    break;
+
+                case "state":
+                    if (filterValue instanceof String) {
+                        IssueState state = IssueState.fromString((String) filterValue);
+                        if (state != null) {
+                            queryFilters.add(new IssueStateQueryFilter(state));
                         }
                     }
-                }
-            } else if (filterValue instanceof String) {
-                QueryFilter<Issue> filter = FilterFactory.<Issue>createFilter(key, (String) filterValue);
-                if (filter != null) {
-                    queryFilters.add(filter);
-                }
+                    break;
+
+                case "assignee":
+                    if (filterValue instanceof String) {
+                        queryFilters.add(new IssueAssigneeQueryFilter((String) filterValue));
+                    }
+                    break;
+
+                case "owner":
+                    if (filterValue instanceof String) {
+                        queryFilters.add(new IssueOwnerQueryFilter((String) filterValue));
+                    }
+                    break;
+
+                case "labels":
+                    if (filterValue instanceof List) {
+                        for (Object value : (List) filterValue) {
+                            if (value instanceof String) {
+                                queryFilters.add(new IssueLabelQueryFilter(Long.parseLong((String) value)));
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
+        
         return queryFilters;
     }
 
@@ -54,13 +85,25 @@ public class IssueSearchCriteria {
 
         for (String key : getOrders().keySet()) {
             Object orderValue = getOrders().get(key);
-            if (orderValue instanceof String) {
-                QueryOrder<Issue> order = OrderFactory.<Issue>createFilter(key, (String) orderValue);
-                if (order != null) {
-                    return order;
-                }
+            
+            switch(key) {
+                case "title":
+                    if(orderValue instanceof String) {
+                       return new IssueTitleQueryOrder(OrderType.fromString((String) orderValue)); 
+                    }
+                    break;
+                    
+                case "updateDate":
+                    if(orderValue instanceof String) {
+                       return new IssueUpdateDateQueryOrder(OrderType.fromString((String) orderValue)); 
+                    }
+                    break;
+                    
+                default:
+                    return null;
             }
         }
+        
         return null;
     }
 
@@ -88,16 +131,10 @@ public class IssueSearchCriteria {
         this.numberOfItemsPerPage = numberOfItemsPerPage;
     }
 
-    /**
-     * @return the orders
-     */
     public Map<String, Object> getOrders() {
         return orders;
     }
 
-    /**
-     * @param orders the orders to set
-     */
     public void setOrders(Map<String, Object> orders) {
         this.orders = orders;
     }

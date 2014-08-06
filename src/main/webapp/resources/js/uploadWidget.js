@@ -44,7 +44,7 @@ function uploadWidget(container) {
                     $(progressContent).remove();
                     $(fileContent).click(function(event) {
                         event.preventDefault();
-                        window.location = location.origin + "/attachment/download/" + data.result.fileId;
+                        window.location = "/attachment/download/" + data.result.fileId;
                     });
                     removeButton = createRemoveButton(data.result.fileId, fileContent);
                     $(fileButton).append(removeButton);
@@ -167,7 +167,7 @@ function uploadWidget(container) {
 
         $(fileContent).click(function(event) {
             event.preventDefault();
-            window.location = location.origin + "/attachment/download/" + fileId;
+            window.location = "/attachment/download/" + fileId;
         });
     }
 

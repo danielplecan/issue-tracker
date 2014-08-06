@@ -39,7 +39,7 @@
         <security:authentication-provider ref="customAuthenticationProvider" />
     </security:authentication-manager>
 
-    <bean id="customAuthenticationProvider" class="internship.issuetracker.provider.CustomAuthenticationProvider" />
-    <bean id="customAuthenticationFailureHandler" class="internship.issuetracker.handler.CustomAuthenticationFailureHandler" />
-    <bean id="customAuthenticationSuccessHandler" class="internship.issuetracker.handler.CustomAuthenticationSuccessHandler" />
+    <bean id="customAuthenticationProvider" class="internship.issuetracker.security.CustomAuthenticationProvider" />
+    <bean id="customAuthenticationFailureHandler" class="internship.issuetracker.security.CustomAuthenticationFailureHandler" />
+    <bean id="customAuthenticationSuccessHandler" class="internship.issuetracker.security.CustomAuthenticationSuccessHandler" />
 </beans>

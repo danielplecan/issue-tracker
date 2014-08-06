@@ -1,4 +1,4 @@
-package internship.issuetracker.handler;
+package internship.issuetracker.security;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

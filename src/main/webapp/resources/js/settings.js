@@ -1,8 +1,5 @@
 $(document).ready( function() { 
     
-    if (!window.location.origin) {
-        window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-    }
     var initialNotificationCheckbox = $("#settingsContainer").data("notification");
     var initialNotificationAssigned = $("#settingsContainer").data("assigned");
     var initialTheme = $("#settingsContainer").data("theme");
@@ -79,39 +76,11 @@ $(document).ready( function() {
         previewTheme(initialTheme);
     }
    
-    $("#toggleNotifications").click(function() {
-        $.ajax({
-            type: 'POST',
-            url: location.origin + '/settings/toggleNotifications',
-            dataType: "json",
-            success: function(data) {
-                
-                $("#test").text(data.value);
-                if (data.value === true) {
-                    $("#toggleNotifications").checked = true;
-                }
-                else {
-                    $("#toggleNotifications").checked = false;
-                }
-            }
-        }); 
+    $("#toggleNotificationsPosted").click(function() {
+        issueTrackerService.toggleNotificationsForPosted(); 
     });
     
     $("#toggleNotificationsAssigned").click(function() {
-        $.ajax({
-            type: 'POST',
-            url: location.origin + '/settings/toggleNotificationsAssigned',
-            dataType: "json",
-            success: function(data) {
-                
-                $("#test").text(data.value);
-                if (data.value === true) {
-                    $("#toggleNotificationsAssigned").checked = true;
-                }
-                else {
-                    $("#toggleNotificationsAssigned").checked = false;
-                }
-            }
-        }); 
+        issueTrackerService.toggleNotificationsForAssigned(); 
     });
 });

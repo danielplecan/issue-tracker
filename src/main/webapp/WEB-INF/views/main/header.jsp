@@ -37,4 +37,3 @@
         </div>
     </div>                      
 </div>
-<script src="/resources/js/user-header.js" type="text/javascript"></script>

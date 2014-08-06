@@ -40,6 +40,7 @@ public class Comment implements Serializable{
     public static final String FIND_BY_ISSUE_ID = "findAllCommentsByIssue";
     public static final String FIND_BY_ID = "findCommentById";
     public static final String FIND_BETWEEN_INTERVAL = "findCommentsBetweenInterval";
+    public static final String V_ISSUE_PARAMETER = "v_issue";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

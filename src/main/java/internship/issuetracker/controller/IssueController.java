@@ -412,7 +412,7 @@ public class IssueController {
             responseMap.put("success", false);
         } else {
             List<Comment> comments = issueService.getCommentsByIssueId(issue);
-            if(comments == null) {
+            if(comments.isEmpty()) {
                 responseMap.put("success", false);
             } else {
                 responseMap.put("success", true);

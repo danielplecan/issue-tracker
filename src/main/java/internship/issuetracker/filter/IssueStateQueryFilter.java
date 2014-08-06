@@ -15,9 +15,9 @@ import javax.persistence.criteria.Root;
 public class IssueStateQueryFilter implements QueryFilter<Issue>{
     private final IssueState state;
     
-    public IssueStateQueryFilter(String state) {
+    public IssueStateQueryFilter(IssueState state) {
         //crw: the following code may be extracted into a static method of IssueState enum, say IssueState.from(String)
-        this.state = IssueState.fromString(state);
+        this.state = state;
     }
     
     @Override
