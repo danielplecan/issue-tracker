@@ -141,19 +141,31 @@ public class Issue implements Serializable {
     }
 
     public Date getDate() {
-        return date;
+        if(date != null) {
+            return new Date(date.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setDate(Date date) {
-        this.date = new Date(date.getTime());
+        if(date != null) {
+           this.date = new Date(date.getTime()); 
+        }
     }
 
     public Date getUpdateDate() {
-        return updateDate;
+        if(updateDate != null) {
+            return new Date(updateDate.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setUpdateDate(Date updateDate) {
-        this.updateDate = new Date(updateDate.getTime());
+        if(updateDate != null) {
+           this.updateDate = new Date(updateDate.getTime()); 
+        }
     }
 
     public String getDateFormat() {

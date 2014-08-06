@@ -9,13 +9,14 @@ import java.util.List;
  *
  * @author dplecan
  */
-public class CommentDTO{
+public class CommentDTO {
+
     private Long id;
     private String content;
-    private IssueState changeState; 
+    private IssueState changeState;
     private Date date;
     private List<Long> attachments;
-    
+
     public String getContent() {
         return content;
     }
@@ -33,11 +34,18 @@ public class CommentDTO{
     }
 
     public Date getDate() {
-        return date;
+        if(date != null) {
+            return new Date(date.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setDate(Date date) {
-        this.date = new Date(date.getTime());
+        if (date != null) {
+            this.date = new Date(date.getTime());
+        }
+
     }
 
     public List<Long> getAttachments() {
@@ -61,7 +69,7 @@ public class CommentDTO{
         comment.setChangeState(this.getChangeState());
         comment.setContent(this.getContent());
         comment.setDate(this.getDate());
-        
+
         return comment;
     }
 }
