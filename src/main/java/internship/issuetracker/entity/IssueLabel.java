@@ -27,7 +27,7 @@ import javax.persistence.Table;
 @Table(name="en_issue_labels")
 public class IssueLabel implements Serializable{
     
-    public static final String FIND_BY_ISSUE_ID = "findAllIssueLabelsByIssue";
+    public static final String FIND_BY_ISSUE_ID = "findAllIssueLabeslByIssue";
     
     public static final String REMOVE_BY_LABEL_ID = "removeIssueLabelsByLabelId";
     

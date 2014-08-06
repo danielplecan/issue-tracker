@@ -13,6 +13,7 @@ import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.QueryFilter;
 import internship.issuetracker.order.QueryOrder;
+import internship.issuetracker.util.IssueEditUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -410,12 +411,26 @@ public class IssueService {
     }
 
     public void sendNotificationForEdit(Issue issue, String link) {
+        
+        Map<String, Boolean> changes = IssueEditUtil.getChanges();
+        String text = " The following items has been modified: ";
+        if (changes.get("title") == true) {
+            text+=" title ";
+        }
+        if (changes.get("content") == true) {
+            text+=" content ";
+        }
+        if (changes.get("labels") == true) {
+            text+=" labels ";
+        }
+        
         if(!issue.getOwner().getId().equals(issue.getLastUpdatedBy().getId())){
             Map<String, Object> map = new HashMap<>();
             map.put("link", link + "/issue/" + issue.getId());
             map.put("linkText", "Click here to see the issue");
             String emailContent ="The issue you created, with the title ";
-            emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName();
+            emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName() + text;
+
             map.put("text", emailContent);
             mailService.sendEmail(issue.getOwner().getEmail(), "Issue-Tracker Notification", map);
         }
@@ -426,7 +441,7 @@ public class IssueService {
                     map.put("link", link + "/issue/" + issue.getId());
                     map.put("linkText", "Click here to see the issue");
                     String emailContent ="The issue you are assigned to, with the title ";
-                    emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName();
+                    emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName() + text;
                     map.put("text", emailContent);
                     mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
                 }
@@ -451,6 +466,14 @@ public class IssueService {
 
     public Issue editIssueFromIssueDTO(NewIssueDTO issueDTO, User currentUser) {
         Issue issue = em.find(Issue.class, issueDTO.getIssue().getId());
+        
+        List<Issue> issueList = new ArrayList<Issue>();
+        issueList.add(issue);
+        
+        List<IssueDTO> issueDTOList = getDTOsFromIssues(issueList);
+        
+        IssueEditUtil.storeChanges(issueDTO, issueDTOList.get(0));
+        
         issue.setTitle(issueDTO.getIssue().getTitle());
         issue.setContent(issueDTO.getIssue().getContent());
         issue.setLastUpdatedBy(currentUser);
