@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
@@ -13,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -21,13 +21,17 @@ import javax.validation.Valid;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
-@NamedQuery(name = RecoverPassword.FIND_BY_RECOVERY_HASH, query = "SELECT r from RecoverPassword r WHERE r.recoverPasswordHash = :v_recoverPasswordHash")
+@NamedQueries({
+    @NamedQuery(name = RecoverPassword.FIND_BY_RECOVERY_HASH, query = "SELECT r from RecoverPassword r WHERE r.recoverPasswordHash = :v_recoverPasswordHash"),
+    @NamedQuery(name = RecoverPassword.DELETE_BY_USRRNAME, query = "DELETE FROM RecoverPassword r WHERE r.user = :v_user")
+})
 
 @Entity
 @Table(name = "en_recovery")
 public class RecoverPassword implements Serializable {
-    
-     public static final String FIND_BY_RECOVERY_HASH = "findByRecoveryHash";
+
+    public static final String FIND_BY_RECOVERY_HASH = "findByRecoveryHash";
+    public static final String DELETE_BY_USRRNAME = "deleteByUsername";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

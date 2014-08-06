@@ -41,7 +41,8 @@ public class RecoverPasswordController {
     }
 
     @RequestMapping(value = {"/recovery-message"}, method = RequestMethod.GET)
-    public String recoveryMsssage() {
+    public String recoveryMsssage(Model model) {
+        model.addAttribute("text","Check your email in order to get the recovery hash");
         return "recovery-message";
     }
     
@@ -56,6 +57,7 @@ public class RecoverPasswordController {
             result.put("success",false);
             return result;
         }
+        recoverPasswordService.deleteRecoveryByUser(user);
         String recoveryHash = recoverPasswordService.createRecovery(userService.getUserByUsername(user.getUsername()));
         map.put("link", "http://" + request.getLocalAddr() + ":" + request.getLocalPort() + "/recover-password/" + recoveryHash);
         map.put("linkText", "Password recoverry hash ");
@@ -69,10 +71,11 @@ public class RecoverPasswordController {
     public String verifieRecoveryPassword(@PathVariable("hash") String hash, Model model,HttpServletRequest request) {
         User user = recoverPasswordService.getUserByRecoveryHash(hash);
         if (user != null) {
-            model.addAttribute("success", "true");
             request.getSession().setAttribute("userToChangePassword", user);
         } else {
-            model.addAttribute("success", "false");
+            model.addAttribute("text","Recovery hash is not valid");
+            return "recovery-message";
+            
         }
         return "change-password";
     }
@@ -82,6 +85,7 @@ public class RecoverPasswordController {
         Map<String, Object> result = new HashMap<>();
         User user =  (User) request.getSession().getAttribute("userToChangePassword");
         user.setPasswordHash(SecurityUtil.encryptPassword(password));
+        recoverPasswordService.deleteRecoveryByUser(user);
         userService.updateUser(user);
         return result;
     }

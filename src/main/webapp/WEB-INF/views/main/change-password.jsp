@@ -25,4 +25,5 @@
         </fieldset>
     </form>
 </div>
+<script src="/resources/js/registerValidationService.js" type="text/javascript"></script>
 <script src="/resources/js/change-password.js" type="text/javascript"></script>

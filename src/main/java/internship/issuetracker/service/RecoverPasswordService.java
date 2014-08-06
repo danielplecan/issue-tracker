@@ -11,6 +11,7 @@ import internship.issuetracker.entity.User;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,11 @@ public class RecoverPasswordService {
         }
 
         return resultList.get(0).getUser();   
+    }
+    
+    @Transactional
+    public void deleteRecoveryByUser(User user){
+        Query recoveryQuery = entityManager.createNamedQuery(RecoverPassword.DELETE_BY_USRRNAME);
+        recoveryQuery.setParameter("v_user", user).executeUpdate();
     }
 }

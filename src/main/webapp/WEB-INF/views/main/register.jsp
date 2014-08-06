@@ -52,4 +52,5 @@
         </form>
         <span class="col-lg-12 txt-center" id="loginLink">If you already have an account, please <a href="/login"> Login</a></span>
     </div>
+    <script src="/resources/js/registerValidationService.js" type="text/javascript"></script>
     <script src="/resources/js/register.js" type="text/javascript"></script>

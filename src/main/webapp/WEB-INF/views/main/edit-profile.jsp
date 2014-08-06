@@ -36,13 +36,13 @@
                 <label class="col-lg-3 control-label">New password</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="inputNewPassword" type="password" placeholder="New password" name="password" />
+                    <span id="mainPasswordError" class="text-warning errors" > </span>              
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-lg-3 control-label">Type it again</label>
                 <div class="col-lg-9">
                     <input  class="form-control" id="inputRetypePassword" type="password" placeholder="Retype password" />
-                    <label id="passwordMatchError" class="text-warning hidden" >Passwords don't match </label>
                     <span id="passwordError" class="text-warning errors"></span>
                 </div>
             </div>
@@ -55,4 +55,5 @@
         </fieldset>
     </form>
 </div>
+<script src="/resources/js/registerValidationService.js" type="text/javascript"></script>
 <script src="/resources/js/editProfile.js" type="text/javascript"></script>

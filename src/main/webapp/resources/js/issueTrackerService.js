@@ -12,6 +12,16 @@ issueTrackerService = (function() {
             data: loginData
         });
     };
+    self.register = function(registerData) {
+        return $.ajax({
+            url: location.origin + "/register",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            mimeType: "application/json",
+            data: JSON.stringify(registerData)
+        });
+    };
     self.recoverPassword = function(username){
         var recoverPasswordData = {};
         recoverPasswordData = {
