@@ -37,12 +37,23 @@ public class UserSettings implements Serializable{
     User user;
 
     @Basic(optional=false)
-    @Column(name="notifications")
+    @Column(name="notif_posted")
     Boolean notificationsForPostedIssues;
 
     @Column(name="theme")
     Long themePreference;
     
+    @Column(name="notif_assigned")
+    Boolean notificationsForAssignedIssues;
+
+    public Boolean isNotificationsForAssignedIssues() {
+        return notificationsForAssignedIssues;
+    }
+
+    public void setNotificationsForAssignedIssues(Boolean notificationsForAssignedIssues) {
+        this.notificationsForAssignedIssues = notificationsForAssignedIssues;
+    }
+
     public User getUser() {
         return user;
     }

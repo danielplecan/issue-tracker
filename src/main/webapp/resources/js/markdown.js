@@ -1031,9 +1031,7 @@ function strong_em( tag, md ) {
 }
 
 Markdown.dialects.Gruber.inline["**"] = strong_em("strong", "**");
-Markdown.dialects.Gruber.inline["__"] = strong_em("strong", "__");
-Markdown.dialects.Gruber.inline["*"]  = strong_em("em", "*");
-Markdown.dialects.Gruber.inline["_"]  = strong_em("em", "_");
+Markdown.dialects.Gruber.inline["//"]  = strong_em("em", "//");
 
 
 // Build default order from insertion order.

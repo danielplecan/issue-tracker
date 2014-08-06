@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -185,14 +186,17 @@ public class IssueController {
 
             List<User> targets = new ArrayList<>();
             targets.add(issue.getOwner());
+            issueService.sendNotificationForComment(comment, targets.get(0), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
             if (issue.getAssignee() != null) {
                 targets.add(issue.getAssignee());
+                issueService.sendNotificationForComment(comment, targets.get(1), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
             }
-            for (User user: targets) {
-                if(userSettingsService.getCurrentNotificationStatus(user.getUsername())){
-                    issueService.sendNotification(comment, user,"http://"+ request.getLocalAddr()+":"+request.getLocalPort());
-                }
-            }
+            
+//            for (User user: targets) {
+//                if(user.getSettings().isNotificationsForPostedIssues()){
+//                    issueService.sendNotification(comment, user,"http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+//                }
+//            }
 
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
@@ -283,6 +287,10 @@ public class IssueController {
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
             issueService.updateAssignee(issueId, assignedTo,currentUser);
+            
+            Issue targetIssue = issueService.getIssueById(issueId);
+            issueService.sendNotificationForAssign(targetIssue, currentUser, "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+            
             responseMap.put("success", true);
             responseMap.put("assignedTo", assignedTo);
         }
@@ -366,6 +374,8 @@ public class IssueController {
             responseMap.put("editedIssue", editedIssue);   
             responseMap.put("editedLabels",issueService.getLabelsByIssueId(editedIssue));
             responseMap.put("editedAttachments", issueService.getAttachmentsByIssueId(editedIssue));
+            
+            issueService.sendNotificationForEdit(editedIssue, "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
         }
         return responseMap;
     }
@@ -386,6 +396,30 @@ public class IssueController {
                 responseMap.put("success", true);
                 responseMap.put("attachments", attachments);
             }
+        }
+        
+        return responseMap;
+    }
+    
+    @RequestMapping(value = "/issue/{id}/get-all-data", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getDataForAnIssue(@PathVariable("id") Long issueId) {
+        Map<String, Object> responseMap = new HashMap<>();
+        
+        Issue issue = issueService.getIssueById(issueId);
+        
+        if (issue == null) {
+            responseMap.put("success", false);
+        } else {
+            List<Comment> comments = issueService.getCommentsByIssueId(issue);
+            if(comments == null) {
+                responseMap.put("success", false);
+            } else {
+                responseMap.put("success", true);
+                responseMap.put("comments", comments);
+            }
+            
+            responseMap.put("issue", issue);
         }
         
         return responseMap;

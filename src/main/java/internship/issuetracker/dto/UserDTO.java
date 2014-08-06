@@ -12,19 +12,19 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 public class UserDTO {
 
-    @NotBlank(message = "Name cannot be empty.")
+    @NotBlank(message = "Name must contain between 5 and 60 characters.")
     @Size(min = 5, max = 60, message = "Name must contain between 5 and 60 characters.")
     private String name;
 
-    @NotBlank(message = "Username cannot be empty.")
+    @NotBlank(message = "Username must contain between 5 and 20 characters.")
     @Size(min = 5, max = 20, message = "Username must contain between 5 and 20 characters.")
     private String username;
 
-    @NotBlank(message = "Email cannot be empty.")
+    @NotBlank(message = "Not a well-formed email adress.")
     @Email(message = "Not a well-formed email adress.")
     private String email;
 
-    @NotBlank(message = "Password cannot be empty.")
+    @NotBlank(message = "Password must contain between 5 and 20 characters.")
     @Size(min = 5, max = 20, message = "Password must contain between 5 and 20 characters.")
     private String password;
 

@@ -12,13 +12,14 @@
         <script src="/resources/js/bootstrap.js" type="text/javascript"></script>
         <script src="/resources/js/typeahead.bundle.js" type="text/javascript"></script>
         <script src="/resources/js/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="/resources/js/jquery-ui.min.tooltip.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.ui.widget.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.iframe-transport.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload-process.js" type="text/javascript"></script>
         <script src="/resources/js/jquery.fileupload-validate.js" type="text/javascript"></script>
-        
-        
+
+
         <script src="/resources/js/markdown.js" type="text/javascript"></script>
         <script src="/resources/js/to-markdown.js" type="text/javascript"></script>
         <script src="/resources/js/bootstrap-markdown.js" type="text/javascript"></script>
@@ -27,7 +28,7 @@
         <script src="/resources/js/autocomplete.js" type="text/javascript"></script>
         <script src="/resources/js/uploadWidget.js" type="text/javascript"></script>
         <script src="/resources/js/issue.js" type="text/javascript"></script>
-        
+
 
 
         <!-- ${theme} -->
@@ -41,13 +42,14 @@
                 <link id="colorTheme" href="/resources/css/theme/${sessionScope.theme}/styleColor.css" rel="stylesheet" type="text/css"/>
             </c:when>
             <c:otherwise>
-                <link href="/resources/css/theme/1/bootstrap.css" rel="stylesheet" type="text/css"/>
-                <link href="/resources/css/theme/1/styleColor.css" rel="stylesheet" type="text/css"/> 
+                <link href="/resources/css/theme/0/bootstrap.css" rel="stylesheet" type="text/css"/>
+                <link href="/resources/css/theme/0/styleColor.css" rel="stylesheet" type="text/css"/> 
             </c:otherwise>
         </c:choose>
 
-
+        <script src="/resources/js/bulbThemeSwitch.js" type="text/javascript"></script>
         <link href="/resources/css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/resources/css/jquery-ui.min.tooltip.css" rel="stylesheet" type="text/css"/>
         <link href="/resources/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>

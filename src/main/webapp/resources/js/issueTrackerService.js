@@ -1,5 +1,9 @@
 issueTrackerService = (function() {
     var self = {};
+    
+    if (!window.location.origin) {
+        window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+    }
 
     self.login = function(loginData) {
         return $.ajax({
@@ -54,7 +58,7 @@ issueTrackerService = (function() {
         return $.ajax({
             type: 'POST',
             url: location.origin + '/create-issue',
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(issueDTO)
         });
@@ -74,7 +78,7 @@ issueTrackerService = (function() {
         return $.ajax({
             type: 'POST',
             url: location.origin + '/edit-issue',
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(issueDTO)
         });
@@ -168,7 +172,7 @@ issueTrackerService = (function() {
         return $.ajax({
             type: 'POST',
             url: location.origin + '/create-label',
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(newLabel)
         });
@@ -178,7 +182,7 @@ issueTrackerService = (function() {
         return $.ajax({
             type: 'DELETE',
             url: location.origin + '/label/' + labelId + '/remove',
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/json",
             dataType: "json"
         });
     };
@@ -191,7 +195,7 @@ issueTrackerService = (function() {
         return $.ajax({
             type: 'PUT',
             url: location.origin + '/label/' + labelId + '/edit',
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(editedLabel)
         });
@@ -201,7 +205,7 @@ issueTrackerService = (function() {
         return $.ajax({
             type: 'POST',
             url: location.origin + '/issues/filter',
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(filterData)
         });
@@ -238,12 +242,40 @@ issueTrackerService = (function() {
         return $.ajax({
             type: 'DELETE',
             url: location.origin + '/attachment/remove-orphans',
-            contentType: "application/json; charset=utf-8",
+            contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(attachmentsData)
         });
 
     };
+    self.getAllLables = function() {
+        return $.ajax({
+            url: location.origin + '/getAllLabels',
+            dataType: 'json'
+        });
+    };
+    
+    self.changeTheme = function(theme) {
+        $.ajax({
+            type: 'POST',
+            url: location.origin + '/settings/changeTheme/' + theme,
+            dataType: "json",
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                }
+            }
+        });
+    };
+    
+    self.getAllDataForAnIssue = function(issueId) {
+        return $.ajax({
+            type: 'GET',
+            url: location.origin + '/issue/' + issueId + '/get-all-data',
+            dataType: 'json'
+        });
+    };
+    
     return self;
 })();
    

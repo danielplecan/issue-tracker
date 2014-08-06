@@ -14,38 +14,38 @@
             <fieldset>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-1">
-                        <input class="form-control" id="inputName" type="text" placeholder="Name" name="name" autofocus/>
+                        <input class="form-control" id="inputName" type="text" placeholder="Name" title="Name must contain between 5 and 60 characters." name="name" autofocus/>
                         <span id="nameError" class="text-warning errors"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-1">
-                        <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" />
+                        <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" title="Username must contain between 5 and 20 characters."/>
                         <span id="usernameError" class="text-warning errors"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-1">
-                        <input class="form-control" id="inputEmail" type="email" placeholder="Email" name="email" />
+                        <input class="form-control" id="inputEmail" type="email" placeholder="Email" name="email" title="Provide a valid email."/>
                         <span id="emailError" class="text-warning errors"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-1">
-                        <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
+                        <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" title="Password must contain between 5 and 20 characters." />
                         <span id="mainPasswordError" class="text-warning errors"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-1">
-                        <input  class="form-control" id="inputRetypePassword" type="password" placeholder="Retype password" />
+                        <input  class="form-control" id="inputRetypePassword" type="password" placeholder="Retype password" title="Retype the password."/>
                         <label id="passwordMatchError" class="text-warning hidden" >Passwords don't match </label>
                         <span id="passwordError" class="text-warning errors"></span>
                     </div>
                 </div>
                 <div class="form-group text-center">
                     <div class="col-lg-12">
-                        <button class="btn btn-primary" id="submitButton">Sign up</button>
+                        <button class="btn btn-primary" id="submitButton" >Sign up</button>
                     </div>
                 </div>
             </fieldset>

@@ -6,12 +6,10 @@
         <div class="panel panel-default  modal-content2">
             <div id="editIssueId" class="hidden">${issue.id}</div>           
             <div class="panel-heading">
-                 <button id="editTheIssueButton" class="btn btn-default" type="button" style="float:right;"><span class="glyphicon glyphicon-edit"/> Edit</button>
-                <h3>
-                    <div id="oldIssueTitle">
-                        <c:out value="${issue.title}"/>
-                    </div>
-                </h3>
+                <button id="editTheIssueButton" class="btn btn-default" type="button" style="float:right;"><span class="glyphicon glyphicon-edit"/> Edit</button>
+                <div id="oldIssueTitle">
+                    <c:out value="${issue.title}"/>
+                </div>
                 <div class="issueDateTime">
                     <div>Current State :
                         <c:choose>
@@ -21,25 +19,28 @@
                     </div>
                     <br>
                     <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>">&nbsp;<c:out value="${issue.owner.name}"/></a></span>
-                        &nbsp;<i>on</i>&nbsp;<span class="text-primary"> <c:out value="${issue.getDateFormat()}"/> </span></span>
-                    <span class="viewIssueLastUpdated">&nbsp;<i>Last updated</i>&nbsp;<span id="oldIssueLastUpdate" class="text-primary">&nbsp;<c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
+                        &nbsp;<i>on</i>&nbsp;<span class="text-primary textDate"> <c:out value="${issue.getDateFormat()}"/> </span></span>
+                    <span class="viewIssueLastUpdated">&nbsp;
+                        <i>Last updated by</i>&nbsp;
+                        <span class="text-primary"><a href="/profile/<c:out value="${issue.lastUpdatedBy.username}"/>"><c:out value="${issue.lastUpdatedBy.name}"/></a>,</span>
+                        <span id="oldIssueLastUpdate" class="text-primary textDate"><c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
                     </span>
                 </div>
             </div>      
             <div class="panel-body contentLine">
                 <c:choose>
                     <c:when test="${not empty issue.content}">                       
-                        <h4><div id="issueContent"><c:out value="${issue.content}"/></div></h4>                     
-                        </c:when>  
-                        <c:otherwise>
-                        <h4 class="hidden"><div  id="issueContent"></div></h4>  
-                        </c:otherwise>
-                    </c:choose>
-                    <c:choose>
-                        <c:when test="${labels != null}">
+                        <div id="issueContent"></div>                    
+                    </c:when>  
+                    <c:otherwise>
+                        <div class="hidden"><div id="issueContent"></div> </div> 
+                    </c:otherwise>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${labels != null}">
                         <div id="labelContainer">
                             <c:forEach var="label" items="${labels}">
-                                <span style="margin-right:3px;background-color:${label.color}" data-color="${label.color}" class="label label-warning"> <c:out value="${label.name}"/></span>
+                                <span style="margin-right:3px;background-color:${label.color}" data-color="${label.color}" data-id="${label.id}" class="label label-warning"> <c:out value="${label.name}"/></span>
                             </c:forEach>
                         </div>
                     </c:when>
@@ -100,97 +101,13 @@
                 </div>                
             </div>
         </div>
-        <legend>&nbsp;&nbsp;&nbsp;&nbsp; Comments</legend>
+        <div class="col-lg-10 col-lg-offset-1 commentsLabelTextSize">Comments<hr></div>
         <div id="allComments" class="list-group">
-            <c:forEach items="${comments}" var="comment">
-                <div class="fullCommentBody arrow_box col-lg-10 col-lg-offset-1" style="clear:both;" data-id="${comment.id}">
-                    <!--When the comment is not empty and state has been changed-->
-                    <c:choose>
-                        <c:when test="${not empty comment.changeState}">
-                            <c:choose>
-                                <c:when test = "${not empty comment.content}">
-                                    <c:choose>
-                                        <c:when test="${comment.changeState == 'OPEN'}">
-                                            <div class="commentStateChanged">
-                                                <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span> and said:</span>
-                                            </div>
-                                        </c:when>
-                                        <c:when test="${comment.changeState == 'CLOSED'}">
-                                            <div class="commentStateChanged">
-                                                <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor">closed</span> and said:</span>
-                                            </div>
-                                        </c:when>
-                                    </c:choose>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:choose>
-                                        <c:when test="${comment.changeState == 'OPEN'}">
-                                            <div class="commentStateChanged">
-
-                                                <span class="glyphicon glyphicon-ok-circle openColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="openColor">open</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
-                                                <div class="attachments stateChangeAttachment">
-                                                    <c:forEach items="${comment.attachments}" var="attachment">
-                                                        <a href="/attachment/download/<c:out value="${attachment.id}"/>">
-                                                            <span class="btn btn-default attachmentWidth">
-                                                                <span class="buttontext " >${attachment.originalName}</span>
-                                                            </span>
-                                                        </a>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-                                        </c:when>
-                                        <c:when test="${comment.changeState == 'CLOSED'}">
-                                            <div class="commentStateChanged">
-                                                <span class="glyphicon glyphicon-remove-circle closedColor"></span><span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> changed the state to <span class="closedColor"> closed</span> on <c:out value="${comment.getDateFormat()}"/>.</span>
-                                                <div class="attachments stateChangeAttachment">
-                                                    <c:forEach items="${comment.attachments}" var="attachment">
-                                                        <a href="/attachment/download/<c:out value="${attachment.id}"/>">
-                                                            <span class="btn btn-default attachmentWidth">
-                                                                <span class="buttontext " >${attachment.originalName}</span>
-                                                            </span>
-                                                        </a>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-                                        </c:when>
-                                    </c:choose>
-
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="commentStateChanged"><span class="glyphicon glyphicon-comment"></span> <a href="/profile/<c:out value="${comment.author.username}"/>"><c:out value="${comment.author.name}"/></a> said:</div>
-                        </c:otherwise>
-                    </c:choose>
-                    <c:choose>
-                        <c:when test = "${not empty comment.content}">
-                            <div class="commentBlockThing">
-                                <blockquote class="commentBlockquote">
-                                    <p class="commentContent"><c:out value="${comment.content}"/></p>
-
-                                    <div class="attachments">
-                                        <c:forEach items="${comment.attachments}" var="attachment">
-                                            <a href="/attachment/download/<c:out value="${attachment.id}"/>">
-                                                <span class="btn btn-default attachmentWidth">
-                                                    <span class="buttontext " >${attachment.originalName}</span>
-                                                </span>
-                                            </a>
-                                        </c:forEach>
-                                    </div>
-                                </blockquote>
-
-                                <span> - on <c:out value="${comment.getDateFormat()}"/></span>
-                            </div>
-                        </c:when>
-                    </c:choose>
-
-
-                </div>
-            </c:forEach>
+            
         </div>
         <div id="addComment" class="col-lg-10 col-lg-offset-1">
             <div id="innerCommentDiv"> 
-                <textarea id="textAreaComment" rows="4" class="form-control" data-provide="markdown" placeholder="Insert your comment here..."></textarea>        
+                <textarea id="textAreaComment" rows="4" class="form-control markdownArea" placeholder="Insert your comment here..."></textarea>        
             </div>
             <div id="commentFileUpload" class="well"></div>
             <span id="contentError" class="commentError text-warning"></span>
@@ -227,7 +144,7 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label" for="editIssueContent">Content</label>
                     <div class="col-lg-10">
-                        <textarea id="editIssueContent" rows="6" class="form-control">v<c:out value="${issue.content}"/></textarea>                          
+                        <textarea id="editIssueContent" rows="6" class="form-control markdownArea"></textarea>                          
                     </div>
                 </div>
                 <div class="form-group">
@@ -236,7 +153,7 @@
                         <div id="existingLabels" class="well"> 
                             <div id="modifiedIssueLabelsList" class="row">
                                 <c:forEach var="label" items="${labels}">
-                                    <span style="margin-right:3px;background-color:${label.color};color:black" data-color="${label.color}" data-id="${label.id}"class="label label-warning labelEditLabels"> <c:out value="${label.name}"/> <span class="glyphicon glyphicon-remove"></span></span>
+                                    <span style="margin-right:3px;background-color:${label.color};color:black" data-color="${label.color}" data-id="${label.id}" class="label label-warning labelEditLabels"> <c:out value="${label.name}"/> <span class="glyphicon glyphicon-remove"></span></span>
                                     </c:forEach>
                             </div>
                             <hr>
@@ -271,38 +188,7 @@
         </div>
     </div>
 </div>
-<style>
-    .centerButtonPanel {
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .commentStateChanged{
-        padding-top: 0px;
-    }
-    .attachmentsLine{
-        margin: 10px 0px 20px;
-        padding-left: 0px;
-    }
-    #labelContainer{
-        padding-left: 0px;
-    }
-    .stateChangeAttachment{
-        margin: 20px;
-    }
-
-    .fullCommentBody{
-        border: 1px solid #F7F7F7;
-        background-color: #FCFCFC;
-        margin-top: 30px;
-        padding-left: 5px;
-    }
-    .fullCommentBody:last-child{
-        margin-bottom: 30px;
-    }
-    .commentBlockquote{
-        margin: 10px 0px;
-        margin-left: 17px;
-    }
-</style>
 <script src="/resources/js/viewIssueColorLabels.js" type="text/javascript"></script>
 <script src="/resources/js/editIssue.js" type="text/javascript"></script>
+<script src="/resources/js/markdown-editor.js" type="text/javascript"></script>
+<script src="/resources/js/getIssueData.js" type="text/javascript"></script>

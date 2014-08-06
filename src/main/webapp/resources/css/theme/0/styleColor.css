@@ -1,23 +1,21 @@
-/*DARK STYLE*/
+/*LIGHT STYLE*/
 /*view issue*/
-
 .textDate{
-    color: #ffffff;
+    color: #158cba;
 }
 .textDate:hover{
-    color:#F2f2f2;
+    color:#158cba;
 }
 /*end view issue*/
-
-.disabledButton{
-    background-color: #669999;
-}
 .list-item-text{
     background-color: #FFFFFF;
+    border: 1px solid #F5F5F5;
+    border: 1px none black;
 }
 #issueContent{
-    border-left: 4px #E0E0E0 solid;
+    border-left: 4px #E6E6E6 solid;
 }
+
 /* creating labels (Ionut & Augustin)*/
 
 .label-add-new:hover{
@@ -47,22 +45,22 @@
 /*View All Issues (ionut)*/
 
 .theIssueTitleLink{
-    color:#c2c2c2;
+    color:#333333;
 }
 
 .theIssueContentPreview{
-    border-left: 4px #5C5C5C solid;
+    border-left: 4px #E6E6E6 solid;
 }
 
 .theIssueShowContent{
-    color:#5C5C5C;
+    color:#c2c2c2;
 }
 
-#allIssues > div:nth-child(odd)  {
-    background: none repeat scroll 0 0 #060606 !important;
+#allIssues > div:nth-child(even)  {
+    background: none repeat scroll 0 0 #e7e7e7 !important;
 }
 
-/*andreea*/
+/*andreea;*/
 
 .openColor{
     color:#53F01A;
@@ -71,25 +69,20 @@
 .closedColor{
     color:#FA2A2A;
 }
-.list-item-text{
-    background-color: black;
+/*stuff*/
+.panel-primary > .panel-heading{
+    background-color:#c2c2c2;
 }
 
-.list-group-item{
-    background-color:#2e3338;
-}
-#allIssues > div:nth-child(odd)  {
-    background: none repeat scroll 0 0 #272b30 !important;
-    border-color: #000;
-}
+/*comments*/
 .arrow_box {
     position: relative;
-    background: -webkit-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
-    background: -moz-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
-    background: -ms-linear-gradient(90deg, #272A2E 5%, #3e444c 100%);
-    background: linear-gradient(180deg, #272A2E 5%, #3e444c 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#272A2E', endColorstr='#3e444c');
-    border: 1px solid #343940;
+    background: -webkit-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+    background: -moz-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+    background: -ms-linear-gradient(90deg, #F5F5F5 5%, #FCFCFC 100%);
+    background: linear-gradient(180deg, #E8E8E8 5%, #F7F7F7 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F5F5', endColorstr='#FCFCFC');
+    border: 1px solid #f0f0f0;
 }
 .arrow_box:after, .arrow_box:before {
     right: 100%;
@@ -103,24 +96,23 @@
 }
 .arrow_box:after {
     border-color: rgba(252, 252, 252, 0);
-    border-right-color: #343940;
+    border-right-color: #f0f0f0;
     border-width: 20px;
     margin-top: -20px;
 }
 .arrow_box:before {
     border-color: rgba(252, 252, 252, 0);
-    border-right-color: #343940;
+    border-right-color: #f0f0f0;
     border-width: 21px;
     margin-top: -21px;
 }
 /*light bulb*/
-#lightBulbPic{
-    -webkit-filter: grayscale(100%);
-    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
-}
 #lightBulbPic:hover{
-    -webkit-filter: hue-rotate(230deg) brightness(1);
-    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'hue-rotate\'><feColorMatrix type=\'hueRotate\' values=\'250\'/></filter></svg>#hue-rotate");    
+    -webkit-filter: grayscale(100%);
+    -moz-filter:grayscale(100%); 
+    -ms-filter:grayscale(100%);
+    -o-filter:grayscale(100%);
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
 }
 .commentBlockquote{
     border-left: 4px solid #E6E6E6;
