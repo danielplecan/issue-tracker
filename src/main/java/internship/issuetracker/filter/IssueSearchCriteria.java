@@ -30,80 +30,56 @@ public class IssueSearchCriteria {
         for (String filter : filters.keySet()) {
             Object filterValue = filters.get(filter);
 
-            switch (filter.toLowerCase()) {
-                case "title":
-                    if (filterValue instanceof String) {
+            if (filterValue instanceof String) {
+                switch (filter) {
+                    case "title":
                         queryFilters.add(new IssueTitleQueryFilter((String) filterValue));
-                    }
-                    break;
-
-                case "content":
-                    if (filterValue instanceof String) {
+                        break;
+                    case "content":
                         queryFilters.add(new IssueContentQueryFilter((String) filterValue));
-                    }
-                    break;
-
-                case "state":
-                    if (filterValue instanceof String) {
+                        break;
+                    case "state":
                         IssueState state = IssueState.fromString((String) filterValue);
                         if (state != null) {
                             queryFilters.add(new IssueStateQueryFilter(state));
                         }
-                    }
-                    break;
-
-                case "assignee":
-                    if (filterValue instanceof String) {
+                        break;
+                    case "assignee":
                         queryFilters.add(new IssueAssigneeQueryFilter((String) filterValue));
-                    }
-                    break;
-
-                case "owner":
-                    if (filterValue instanceof String) {
+                        break;
+                    case "owner":
                         queryFilters.add(new IssueOwnerQueryFilter((String) filterValue));
-                    }
-                    break;
-
-                case "labels":
-                    if (filterValue instanceof List) {
+                        break;
+                }
+            } else if (filterValue instanceof List) {
+                switch (filter) {
+                    case "labels":
                         for (Object value : (List) filterValue) {
                             if (value instanceof String) {
                                 queryFilters.add(new IssueLabelQueryFilter(Long.parseLong((String) value)));
                             }
                         }
-                    }
-                    break;
-                default:
-                    break;
+                }
             }
         }
-        
+
         return queryFilters;
     }
 
     public QueryOrder<Issue> getQueryOrder() {
-
         for (String key : getOrders().keySet()) {
             Object orderValue = getOrders().get(key);
-            
-            switch(key) {
-                case "title":
-                    if(orderValue instanceof String) {
-                       return new IssueTitleQueryOrder(OrderType.fromString((String) orderValue)); 
-                    }
-                    break;
-                    
-                case "updateDate":
-                    if(orderValue instanceof String) {
-                       return new IssueUpdateDateQueryOrder(OrderType.fromString((String) orderValue)); 
-                    }
-                    break;
-                    
-                default:
-                    return null;
+
+            if (orderValue instanceof String) {
+                switch (key) {
+                    case "title":
+                        return new IssueTitleQueryOrder(OrderType.fromString((String) orderValue));
+                    case "updateDate":
+                        return new IssueUpdateDateQueryOrder(OrderType.fromString((String) orderValue));
+                }
             }
         }
-        
+
         return null;
     }
 
