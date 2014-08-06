@@ -18,10 +18,10 @@ issueTrackerService = (function() {
             data: JSON.stringify(registerData)
         });
     };
-    self.recoverPassword = function(username){
+    self.recoverPassword = function(information){
         var recoverPasswordData = {};
         recoverPasswordData = {
-            'username': username
+            'information': information
         };
         return $.ajax({
             url: location.origin + "/recover-password",

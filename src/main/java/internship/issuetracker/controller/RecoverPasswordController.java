@@ -48,10 +48,12 @@ public class RecoverPasswordController {
     
     @RequestMapping(method = RequestMethod.POST, value = "/recover-password")
     @ResponseBody
-    public Map<String, Object> recoverPassword(@RequestParam(value = "username") String username, HttpServletResponse response, HttpServletRequest request) {
+    public Map<String, Object> recoverPassword(@RequestParam(value = "information") String information, HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> map = new HashMap<>();
-        User user = userService.getUserByUsername(username);
+        User user = userService.getUserByUsername(information);
+        if(user==null) 
+            user=userService.getUserByEmail(information);
         
         if(user==null){
             result.put("success",false);
@@ -74,9 +76,9 @@ public class RecoverPasswordController {
             request.getSession().setAttribute("userToChangePassword", user);
         } else {
             model.addAttribute("text","Recovery hash is not valid");
-            return "recovery-message";
-            
+            return "recovery-message";   
         }
+        model.addAttribute("user",user.getUsername());
         return "change-password";
     }
     @RequestMapping(method = RequestMethod.POST,value = "/change-password")

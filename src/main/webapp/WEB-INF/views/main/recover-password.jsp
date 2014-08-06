@@ -1,13 +1,11 @@
 <div class="col-lg-4 col-lg-offset-4 Absolute-Center login-register-form">
-    <div>
-        <img src="/resources/img/logo.png" alt="Issue Tracker" class="col-lg-12 logo">
-    </div>
     <form id="registerForm" class="form-horizontal col-lg-12" method='POST'>
         <fieldset>
+            <legend class="col-lg-10 col-lg-offset-1">Enter the username or email of your account </legend>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <input class="form-control" id="inputUsername" type="text" placeholder="Username" name="username" />
-                    <span id="usernameError" class="text-warning errors"></span>
+                    <input class="form-control" id="inputUsernameEmail" type="text" placeholder="Username or e-mail" name="username" />
+                    <span id="usernameEmailError" class="text-warning errors"></span>
                 </div>
             </div>
             <div class="form-group text-center">
