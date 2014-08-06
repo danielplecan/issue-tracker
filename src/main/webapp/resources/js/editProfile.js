@@ -44,26 +44,45 @@ $(document).ready(function() {
         event.preventDefault();
         window.location.replace("/settings");
     });
-     $('#inputPassword').tooltip({
-            position: {
-                my: "left center",
-                at: "right+10 center",
-                using: function(position, feedback) {
-                    $(this).css(position);
-                    $("<div>")
-                            .addClass("arrow")
-                            .addClass(feedback.vertical)
-                            .addClass(feedback.horizontal)
-                            .appendTo(this);
-                }
-            }
-        });
-    flag=true;
+
+
+        
+    flagPassword=true;
     $('#changePasswordButton').click(function() {
-        if (flag==true) {
-            flag=false;
-            $('#passwordGroup').toggle("slow", function() {
-                flag=true;
+        if (flagPassword==true) {
+            flagPassword=false;
+            $('#passwordGroup').toggle(400, function() {
+                flagPassword=true;
+            });
+        }
+    });
+    
+    flagName=true;
+    $('#nameTitle').click(function() {
+        if (flagName==true) {
+            flagName=false;
+            $('#nameGroup').toggle(400, function() {
+                flagName=true;
+            });
+        }
+    });
+    
+    flagUsername=true;
+    $('#usernameTitle').click(function() {
+        if (flagUsername==true) {
+            flagUsername=false;
+            $('#usernameGroup').toggle(400, function() {
+                flagUsername=true;
+            });
+        }
+    });
+    
+     flagEmail=true;
+    $('#emailTitle').click(function() {
+        if (flagEmail==true) {
+            flagEmail=false;
+            $('#emailGroup').toggle(400, function() {
+                flagEmail=true;
             });
         }
     });
