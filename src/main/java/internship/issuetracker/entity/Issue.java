@@ -20,9 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 
 /**
  *

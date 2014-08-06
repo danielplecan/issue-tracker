@@ -3,7 +3,6 @@ package internship.issuetracker.filter;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueLabel;
 import internship.issuetracker.entity.IssueLabel_;
-import internship.issuetracker.entity.Issue_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;

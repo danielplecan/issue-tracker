@@ -2,8 +2,6 @@ package internship.issuetracker.service;
 
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.entity.User;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

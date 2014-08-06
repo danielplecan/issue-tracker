@@ -8,7 +8,6 @@ package internship.issuetracker.filter;
 
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.Issue_;
-import internship.issuetracker.entity.User;
 import internship.issuetracker.entity.User_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
