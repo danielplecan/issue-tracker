@@ -34,14 +34,16 @@ var labelWidgetElementsBuilder = (function() {
     };
 
     var createEditButton = function() {
-        var button = $('<button type=\"button\" class=\"btn btn-default btn-edit manageLabelsButton btn-sm\"><\/button>');
+        var button = $('<button type=\"button\" class=\"btn btn-default btn-edit\n\
+                        manageLabelsButton btn-sm\"><\/button>');
         $(button).append(createGlyphiconSpan('EDIT'));
         $(button).append('Edit');
         return button;
     };
 
     var createRemoveButton = function() {
-        var button = $('<button type=\"button\" class=\"btn btn-default btn-remove manageLabelsButton btn-sm\"><\/span><\/button>');
+        var button = $('<button type=\"button\" class=\"btn btn-default btn-remove\n\
+                        manageLabelsButton btn-sm\"><\/span><\/button>');
         $(button).append(createGlyphiconSpan('REMOVE'));
         $(button).append('Delete');
         return button;
@@ -83,10 +85,8 @@ var labelWidgetElementsBuilder = (function() {
         $(div).append(createNavBarRightDiv());
         return div;
     };
-    //SHOW LABEL PANEL
 
     //EDIT LABEL PANEL
-
     var createSmallColorButton = function(color) {
         var span = $('<span class=\"color-chooser-color color-square\"><\/span>');
         $(span).attr('data-color', color);
@@ -107,12 +107,14 @@ var labelWidgetElementsBuilder = (function() {
     };
 
     var createLabelInput = function() {
-        var input = $('<input type=\"text\" class=\"small-input-box form-control flLeft labelListEdit\" placeholder=\"label\">');
+        var input = $('<input type=\"text\" class=\"small-input-box form-control\n\
+                         flLeft labelListEdit\" placeholder=\"label\">');
         return input;
     };
 
     var createToggleButton = function() {
-        var input = $('<button class=\"toggle-color-picker color-chooser-color labelColorManageColors col-lg-1\"><\/button>');
+        var input = $('<button class=\"toggle-color-picker color-chooser-color\n\
+                        labelColorManageColors col-lg-1\"><\/button>');
         return input;
     };
 
@@ -125,14 +127,16 @@ var labelWidgetElementsBuilder = (function() {
     };
 
     var createSaveButton = function() {
-        var button = $('<button type=\"button\" class=\"btn btn-success btn-sm manageButton btn-save-edit-label\"><\/button>');
+        var button = $('<button type=\"button\" class=\"btn btn-success btn-sm  \n\
+                        manageButton btn-save-edit-label\"><\/button>');
         $(button).append(createGlyphiconSpan('SAVE'));
         $(button).append(' Save ');
         return button;
     };
 
     var createCancelButton = function() {
-        var button = $('<button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-cancel-edit-label\"><\/button>');
+        var button = $('<button type=\"button\" class=\"btn btn-danger btn-sm \n\
+                        manageButton btn-cancel-edit-label\"><\/button>');
         $(button).append(createGlyphiconSpan('CANCEL'));
         $(button).append(' Cancel ');
         return button;
@@ -153,7 +157,8 @@ var labelWidgetElementsBuilder = (function() {
     };
 
     var createErrorDiv = function() {
-        var div = $('<div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>');
+        var div = $('<div class=\"col-lg-12 errorMessageManageLabels commentError \n\
+                        text-warning commentContent\"><\/div>');
         return div;
     };
 
@@ -164,21 +169,19 @@ var labelWidgetElementsBuilder = (function() {
         $(div).append(createErrorDiv());
         return div;
     };
-    //EDIT LABEL PANEL
-
 
     //DELETE LABEL PANEL
-
-
     var createDeleteConfirmButton = function() {
-        var button = $('<button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-delete-edit-label\"><\/button>');
+        var button = $('<button type=\"button\" class=\"btn btn-danger btn-sm\n\
+                        manageButton btn-delete-edit-label\"><\/button>');
         $(button).append(createGlyphiconSpan('DELETECONFIRM'));
         $(button).append(' Delete ');
         return button;
     };
 
     var createDeleteCancelButton = function() {
-        var button = $('<button type=\"button\" class=\"btn btn-default btn-sm manageButton btn-cancel-delete-label\"><\/button>');
+        var button = $('<button type=\"button\" class=\"btn btn-default btn-sm \n\
+                        manageButton btn-cancel-delete-label\"><\/button>');
         $(button).append(createGlyphiconSpan('DELETECANCEL'));
         $(button).append(' Cancel ');
         return button;
@@ -227,60 +230,6 @@ var labelWidgetElementsBuilder = (function() {
 
     return self;
 })();
-
-
-//
-//function createLabelListElement(label) {
-//    var li = $('<div class=\"labelListThing col-lg-12\">\r\n\n\
-//                <div class=\"labelPanel editLabelPane\">\r\n\n\
-//                    <div class=\"showLabelPane\" data-id=\"' + label.id + '\" data-color=\"' + label.color + '\">\r\n\n\
-//                        <div class=\"navbar-left\">\r\n\n\
-//                            <form class=\"navbar-form navbar-left labelListEdit\">\r\n\n\
-//                                <span class=\"labelName theLabelListLabel label theLabelListText\" style=\"min-width:100px; background-color: ' + label.color + '\"><\/span>\r\n\n\
-//                            <\/form>\r\n\n\
-//                        <\/div>\r\n\n\
-//                        <div class=\"navbar-right\">\r\n\n\
-//                            <button type=\"button\" class=\"btn btn-default btn-edit manageLabelsButton btn-sm\"><span class=\"glyphicon glyphicon-pencil\"><\/span> Edit<\/button>\r\n\n\
-//                            <button type=\"button\" class=\"btn btn-default btn-remove manageLabelsButton btn-sm\"><span class=\"glyphicon glyphicon-remove\"><\/span> Delete<\/button>\r\n\n\
-//                        <\/div>\r\n\n\
-//                    <\/div>\r\n\n\
-//                            \r\n\n\
-//                    <div class=\"editLabelPane hidden\">\r\n\n\
-//                        <div class=\"navbar-left \">\r\n\n\
-//                            <div class=\"navbar-form navbar-left labelListEdit\">\r\n\n\
-//                                <input type=\"text\" class=\"small-input-box form-control flLeft labelListEdit\" placeholder=\"label\">\r\n\n\
-//                                <button class=\"toggle-color-picker color-chooser-color labelColorManageColors col-lg-1\"><\/button>\r\n\n\
-//                                <div class=\"theColorsList\" style=\"display: none\">\r\n\n\
-//                                    <span class=\"color-chooser-color color-square\" data-color=\"#FF8F8F\" style=\"background-color:#FF8F8F\"><\/span>\r\n\n\
-//                                    <span class=\"color-chooser-color color-square\" data-color=\"#FFC69E\" style=\"background-color:#FFC69E\"><\/span>\r\n\n\
-//                                    <span class=\"color-chooser-color color-square\" data-color=\"#FFF4C4\" style=\"background-color:#FFF4C4\"><\/span>\r\n\n\
-//                                    <span class=\"color-chooser-color color-square\" data-color=\"#E6FAFF\" style=\"background-color:#E6FAFF\"><\/span>\r\n\n\
-//                                    <span class=\"color-chooser-color color-square\" data-color=\"#D8FFC4\" style=\"background-color:#D8FFC4\"><\/span>\r\n\n\
-//                                    <span class=\"color-chooser-color color-square\" data-color=\"#E6E6E6\" style=\"background-color:#E6E6E6\"><\/span>\r\n\n\
-//                                    <span class=\"color-chooser-color color-square\" data-color=\"#B6BDCC\" style=\"background-color:#B6BDCC\"><\/span>\r\n\n\
-//                                <\/div>\r\n\n\
-//                            <\/div>\r\n\n\
-//                        <\/div>\r\n\n\
-//                        <div class=\"navbar-right\">\r\n\n\
-//                            <button type=\"button\" class=\"btn btn-success btn-sm manageButton btn-save-edit-label\"><span class=\"glyphicon glyphicon-ok-circle\"><\/span> Save<\/button>\r\n\n\
-//                            <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-cancel-edit-label\"><span class=\"glyphicon glyphicon-remove-circle\"><\/span> Cancel<\/button>\r\n\n\
-//                        <\/div>\r\n\n\
-//                        <div class=\"col-lg-12 errorMessageManageLabels commentError text-warning commentContent\"><\/div>\r\n\n\
-//                    <\/div>\r\n\n\
-//                    <div class=\"deleteLabelPanel\" style=\"display: none\">\r\n\n\
-//                        <div class=\"navbar-left leftWarningDeleteLabel\">\r\n\n\
-//                            <span>Are you sure you want to permanently delete the label?<\/span>\r\n\n\
-//                        <\/div>\r\n\n\
-//                        <div class=\"navbar-right\">\r\n\n\
-//                            <button type=\"button\" class=\"btn btn-danger btn-sm manageButton btn-delete-edit-label\"><span class=\"glyphicon glyphicon-remove-sign\"><\/span> Delete<\/button>\r\n\n\
-//                            <button type=\"button\" class=\"btn btn-default btn-sm manageButton btn-cancel-delete-label\"><span class=\"glyphicon glyphicon-minus-sign\"><\/span> Cancel<\/button>\r\n\n\
-//                        <\/div>\r\n\n\
-//                    <\/div>\r\n\n\
-//                <\/div>\r\n\n\
-//            <\/div>');
-//    $(li).find('.labelName').text(label.name);
-//    return li;
-//}
 
 var listOfLabels = function() {
     function scrollToElement(selector, time, verticalOffset) {
@@ -379,7 +328,7 @@ function addFunctionalityToTopPanel(topPanel) {
                 labelWidgetElementsBuilder.setLabel(data.label);
                 var newLabelPanel = labelWidgetElementsBuilder.createLabelListThingDiv();
                 console.log(newLabelPanel);
-                
+
                 clearInput();
                 listOfLabels().positionElement($(newLabelPanel));
             } else {
