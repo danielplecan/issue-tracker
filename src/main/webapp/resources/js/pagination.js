@@ -4,9 +4,9 @@ var pager = function() {
     var pageNumber;
     var numberOfPages;
     var filterData;
-    var theState = "All";
-    var theOrder = "updateDate";
-    var theSort = "DESC";
+    var theState = $('#filterByStateSelect').val();
+    var theOrder = $('#orderByFirstSelect').val();//orderby title
+    var theSort = $('#orderBySecondSelect').val();//asc/desc
     var labelIdList = [];
     var authorId = '';
     var assigneeId = '';
@@ -59,12 +59,12 @@ var pager = function() {
 
             authorId = datum.id;
         });
-        $('#assigneeLabel').delegate('.assigneeLabelX','click',function(){
+        $('#assigneeLabel').delegate('.assigneeLabelX', 'click', function() {
             $('#assigneeLabel').hide();
             assigneeId = '';
         });
-            
-        $('#autorLabel').delegate('.autorLabelX','click',function(){
+
+        $('#autorLabel').delegate('.autorLabelX', 'click', function() {
             $('#autorLabel').hide();
             assigneeId = '';
         });
@@ -84,13 +84,23 @@ var pager = function() {
             labelIdList.pop();
         }
         labelIdList = $("#e8_2").select2("val");
+        var longLabelIdList=[];
+        $(labelIdList).each(function(index,elem) {
+            longLabelIdList.push(parseInt(elem));
+        });
+        
+
         order[theOrder] = theSort;
         filter["state"] = theState;
-        filter["labels"] = labelIdList;
+        filter["labels"] = longLabelIdList;
         filterData["filters"] = filter;
         filterData["pageNumber"] = pageNumber;
         filterData["numberOfItemsPerPage"] = 6;
         filterData["orders"] = order;
+
+        $('#orderByFirstSelect').val();//orderby title
+        $('#orderBySecondSelect').val();//orderby asc
+        //state
 
     };
     return{

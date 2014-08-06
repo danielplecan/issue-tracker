@@ -8,18 +8,18 @@
         <div class="col-lg-12">
             <div class="col-lg-4 filterInput advancedFilterInput">
                 <span class="col-lg-12 advancedFilterInputTitle">Title</span>
-                <input class="col-lg-12 form-control" placeholder="titile" id="searchFieldTitle" type="text">           
+                <input class="col-lg-12 form-control" placeholder="Title" id="searchFieldTitle" type="text">           
             </div>
             <div class="col-lg-4 filterInput advancedFilterInput">
                 <span class="col-lg-12 advancedFilterInputTitle">Order By</span>
                 <div class="col-lg-6">
                     <select id="orderByFirstSelect" class="form-control orderBySelect1"> 
-                        <option value="updatedDate" selected="selected">Updated Date</option>                   
+                        <option value="updateDate" selected="selected">Update Date</option>                   
                         <option value="title">Title</option>
                     </select>               
                 </div>
                 <div class="col-lg-6 advancedFilterInput">
-                    <select id="test" class="form-control orderBySelect2"> 
+                    <select id="orderBySecondSelect" class="form-control orderBySelect2"> 
                         <option value="desc" selected="selected">Descendent</option>
                         <option value="asc">Ascendent</option>
                     </select>               
@@ -38,18 +38,18 @@
             </div>
             <div class="col-lg-5 col-lg-offset-1 filterInput advancedFilterInput">
                 <span class="col-lg-12 advancedFilterInputTitle">State</span>
-                <select id="test" class="form-control"> 
+                <select id="filterByStateSelect" class="form-control"> 
                     <option value="all" selected="selected">All</option>
-                    <option value="closed" selected="selected">Closed</option>
-                    <option value="opened" selected="selected">Opened</option>                
+                    <option value="open">Open</option> 
+                    <option value="closed">Closed</option>                  
                 </select>    
             </div>
             <div class="col-lg-6 filterInput advancedFilterInput">
-                <span class="col-lg-12 advancedFilterInputTitle">Posted By <span id="autorLabel" class="hidden">ionut<span class="glyphicon glyphicon-remove autorLabelX"></span></span></span>
+                <span class="col-lg-12 advancedFilterInputTitle">Posted By <span id="autorLabel" style="display:none"><span class="glyphicon glyphicon-remove autorLabelX"></span></span></span>               
                 <input class="form-control typeaheadOwners" id="searchFieldAuthor" placeholder="Author" type="text">    
             </div>
             <div class="col-lg-6 filterInput advancedFilterInput">
-                <span class="col-lg-12 advancedFilterInputTitle">Assigned to <span id="autorLabel" class="hidden">ionut<span class="glyphicon glyphicon-remove autorLabelX"></span></span></span>
+                <span class="col-lg-12 advancedFilterInputTitle">Assigned to <span id="assigneeLabel" style="display:none"><span class="glyphicon glyphicon-remove assigneeLabelX"></span></span></span>
                 <input class="form-control typeaheadAssignees" id="searchFieldAsignee" placeholder="Asignee" type="text">           
             </div>
             <div class="col-lg-11 filterInput advancedFilterInput">
@@ -237,7 +237,7 @@
     .advancedFilterMargin{
         margin-top: 40px;
     }   
-    .col-lg-6.filterInput.advancedFilterInput {
+    .col-lg-6.filterInput.advancedFilterInput, .col-lg-5.filterInput.advancedFilterInput {
         margin-bottom: 16px;
     }
     .advancedFilterInputTitle {
@@ -249,7 +249,7 @@
     }
     .form-control.orderBySelect2{
         padding-left: 2px;
-        width: 113px;
+        width: 113px;       
     }
     .searchAndAdvancedSearchBtns{
         margin-top: 23px;
@@ -266,6 +266,20 @@
     }
     #searchButtonFilter{
         width:200px;
+    }
+    .asigneeLabelX, .autorLabelX{
+        cursor: pointer;
+    }
+    #autorLabel, #asigneeLabel{
+        color: white;
+    }
+    .twitter-typeahead {
+        width: 335px;
+    }
+    @media (max-width: 1183px)  {
+        .twitter-typeahead {
+            width:100%;
+        }
     }
 </style>
 <script>
@@ -286,6 +300,8 @@
     });
 
     attachTooltips($('.advancedSearchIcon'));
+
+
 
 
 
