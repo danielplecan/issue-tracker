@@ -16,7 +16,7 @@ import java.util.Map;
 public class IssueEditUtil {
     private IssueEditUtil() {}
     
-    public static Map<String, Boolean> changes = new HashMap<>();
+    private final static Map<String, Boolean> changes = new HashMap<>();
     
     public static Map<String, Boolean> getChanges() {
         return changes;
