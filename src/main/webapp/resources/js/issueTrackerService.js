@@ -281,6 +281,42 @@ issueTrackerService = (function() {
             dataType: 'json'
         });
     };
+    
+    self.toggleNotificationsForPosted = function() {
+        return $.ajax({
+            type: 'POST',
+            url: '/settings/toggleNotifications',
+            dataType: "json",
+            success: function(data) {
+                
+                $("#test").text(data.value);
+                if (data.value === true) {
+                    $("#toggleNotifications").checked = true;
+                }
+                else {
+                    $("#toggleNotifications").checked = false;
+                }
+            }
+        });
+    }
+    
+    self.toggleNotificationsForAssigned = function() {
+        return $.ajax({
+            type: 'POST',
+            url: '/settings/toggleNotificationsAssigned',
+            dataType: "json",
+            success: function(data) {
+                
+                $("#test").text(data.value);
+                if (data.value === true) {
+                    $("#toggleNotificationsAssigned").checked = true;
+                }
+                else {
+                    $("#toggleNotificationsAssigned").checked = false;
+                }
+            }
+        }); 
+    }
 
     return self;
 })();

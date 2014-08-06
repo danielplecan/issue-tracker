@@ -4,7 +4,7 @@
     <div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" id="toggleNotifications" class="toggleBox"> Notifications for owned issues
+                <input type="checkbox" id="toggleNotificationsPosted" class="toggleBox"> Notifications for owned issues
             </label>
         </div>
         <div class="checkbox">

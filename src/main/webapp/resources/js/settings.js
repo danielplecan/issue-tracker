@@ -76,39 +76,11 @@ $(document).ready( function() {
         previewTheme(initialTheme);
     }
    
-    $("#toggleNotifications").click(function() {
-        $.ajax({
-            type: 'POST',
-            url: '/settings/toggleNotifications',
-            dataType: "json",
-            success: function(data) {
-                
-                $("#test").text(data.value);
-                if (data.value === true) {
-                    $("#toggleNotifications").checked = true;
-                }
-                else {
-                    $("#toggleNotifications").checked = false;
-                }
-            }
-        }); 
+    $("#toggleNotificationsPosted").click(function() {
+        issueTrackerService.toggleNotificationsForPosted(); 
     });
     
     $("#toggleNotificationsAssigned").click(function() {
-        $.ajax({
-            type: 'POST',
-            url: '/settings/toggleNotificationsAssigned',
-            dataType: "json",
-            success: function(data) {
-                
-                $("#test").text(data.value);
-                if (data.value === true) {
-                    $("#toggleNotificationsAssigned").checked = true;
-                }
-                else {
-                    $("#toggleNotificationsAssigned").checked = false;
-                }
-            }
-        }); 
+        issueTrackerService.toggleNotificationsForAssigned(); 
     });
 });
