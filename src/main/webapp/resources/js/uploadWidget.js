@@ -17,13 +17,20 @@ function uploadWidget(container) {
     $(actionPanel).append($("<hr />"));
 
     $(addButton).click(function() {
+        $(errorSpan).empty();
+        
+        if(files.length === 10) {
+            $(errorSpan).text("You can not attach more than 10 files.");
+            return;
+        }
+        
         var progressBar = null;
         var progressContent = null;
         var fileButton = null;
         var fileContent = null;
         var removeButton = null;
 
-        $(errorSpan).empty();
+        
         
         $(fileInput).remove();
         fileInput = $("<input type='file' accept='image/*' name='file' data-url='/upload' />");
