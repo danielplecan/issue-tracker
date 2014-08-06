@@ -1,47 +1,71 @@
 function passwordsMatch() {
-    return $('#inputNewPassword').val()!==""?$('#inputNewPassword').val() === $('#inputRetypePassword').val():true;
+    return $('#inputNewPassword').val() !== "" ? $('#inputNewPassword').val() === $('#inputRetypePassword').val() : true;
 }
 
-function createEditData(){
+function createEditData() {
     var serialized = $("#editForm").serializeArray();
     var user = {};
-    $.each(serialized, function(index, item){
+    $.each(serialized, function(index, item) {
         user[item.name] = item.value;
     });
-    
+
     return user;
 }
 
 $(document).ready(function() {
     var submitButton = $("#submitButton");
     var cancelButton = $("#cancelButton");
-    
+
     submitButton.click(function(event) {
         event.preventDefault();
         $(".errors").empty();
-        
-        if(passwordsMatch()) {
+
+        if (passwordsMatch()) {
             $("#passwordMatchError").attr("class", "hidden");
-            
+
             var editData = createEditData();
-            
+
             issueTrackerService.edit(editData).done(function(data) {
                 if (data.success) {
-                    window.location.replace("/profile/"+data.username);
+                    window.location.replace("/profile/" + data.username);
                 }
                 else {
-                   $.each(data.errors, function(key, value) {
+                    $.each(data.errors, function(key, value) {
                         $("#" + key + "Error").append(value);
-                    }) 
-                };
+                    })
+                }
+                ;
             });
         }
     });
-    
-    
-    cancelButton.click( function(event) {
+
+
+    cancelButton.click(function(event) {
         event.preventDefault();
         window.location.replace("/settings");
+    });
+     $('#inputPassword').tooltip({
+            position: {
+                my: "left center",
+                at: "right+10 center",
+                using: function(position, feedback) {
+                    $(this).css(position);
+                    $("<div>")
+                            .addClass("arrow")
+                            .addClass(feedback.vertical)
+                            .addClass(feedback.horizontal)
+                            .appendTo(this);
+                }
+            }
+        });
+    flag=true;
+    $('#changePasswordButton').click(function() {
+        if (flag==true) {
+            flag=false;
+            $('#passwordGroup').toggle("slow", function() {
+                flag=true;
+            });
+        }
     });
     
     $('#inputUsername').on('blur', function() {
@@ -61,7 +85,7 @@ $(document).ready(function() {
             }
             if (hasErrors)
                 return;
-            if (username.length === 0) 
+            if (username.length === 0)
                 $('#usernameError').text('');
         }, 150);
     });
@@ -94,28 +118,28 @@ $(document).ready(function() {
             } else {
                 $('#mainPasswordError').text('');
             }
-            
+
             var password2 = $('#inputRetypePassword').val();
             if (!registerValidationService.passwordsMatch(password, password2)) {
-                $('#passwordError').text('Passwords don\'t match.');
+                $('#newPasswordError').text('Passwords don\'t match.');
             } else {
-                $('#passwordError').text('');
+                $('#newPasswordError').text('');
             }
         }, 150);
     });
-     $('#inputRetypePassword').on("input", function() {
+    $('#inputRetypePassword').on("input", function() {
         var password1 = $(this).val();
         var password2 = $('#inputNewPassword').val();
 
         setTimeout(function() {
             if (!registerValidationService.passwordsMatch(password1, password2)) {
-                $('#passwordError').text('Passwords don\'t match.');
+                $('#newPasswordError').text('Passwords don\'t match.');
             } else {
-                $('#passwordError').text('');
+                $('#newPasswordError').text('');
             }
         }, 150);
     });
-    
+
 });
 
 

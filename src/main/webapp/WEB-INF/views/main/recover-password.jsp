@@ -18,4 +18,5 @@
         </fieldset>
     </form>
 </div>
+<script src="/resources/js/issueTrackerService.js" type="text/javascript"></script>
 <script src="/resources/js/recover-password.js" type="text/javascript"></script>
