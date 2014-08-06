@@ -518,13 +518,13 @@ public class IssueService {
 
     public void removeAllLabelsFromAnIssue(Long issueId) {
         Query query = em.createNamedQuery(IssueLabel.REMOVE_BY_ISSUE_ID);
-        query.setParameter(Comment.V_ISSUE_PARAMETER, issueId);
+        query.setParameter("v_issue_id", issueId);
         query.executeUpdate();
     }
 
     public void removeAllAttachmentsFromAnIssue(Long issueId) {
         Query query = em.createNamedQuery(IssueAttachment.REMOVE_BY_ISSUE_ID);
-        query.setParameter(Comment.V_ISSUE_PARAMETER, issueId);
+        query.setParameter("v_issue_id", issueId);
         query.executeUpdate();
     }
 }
