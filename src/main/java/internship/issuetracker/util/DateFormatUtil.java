@@ -18,7 +18,8 @@ import org.joda.time.Interval;
  */
 public class DateFormatUtil {
     
-    private DateFormatUtil() {}
+    private DateFormatUtil() {
+    }
     
     public static String getDateFormat2(Date date) {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
