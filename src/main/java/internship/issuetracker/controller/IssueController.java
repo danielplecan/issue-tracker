@@ -186,12 +186,6 @@ public class IssueController {
                 issueService.sendNotificationForComment(comment, targets.get(1), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
             }
             
-//            for (User user: targets) {
-//                if(user.getSettings().isNotificationsForPostedIssues()){
-//                    issueService.sendNotification(comment, user,"http://"+ request.getLocalAddr()+":"+request.getLocalPort());
-//                }
-//            }
-
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
             responseMap.put("comments", listComments);
