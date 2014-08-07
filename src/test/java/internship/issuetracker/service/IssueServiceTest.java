@@ -95,7 +95,7 @@ public class IssueServiceTest {
         issueDto.setAttachments(attachments);
         return issueDto;
     }
-    
+
     private boolean equalsIssues(Issue i1, Issue i2) {
         return (i1.getId().equals(i2.getId()) && i1.getTitle().equals(i2.getTitle())
                 && i1.getOwner().getId().equals(i2.getOwner().getId())
@@ -306,46 +306,8 @@ public class IssueServiceTest {
         User assignee = createUser("vero0", "VERO", "VERO0@mail6", "12345");
         User user = createUser("cosmi1", "cosmi", "cosmi1@mail6", "12345");
 
-        boolean result= issueService.updateAssignee(134732, assignee, user);
+        boolean result = issueService.updateAssignee(134732, assignee, user);
         assertEquals(false, result);
-    }
-    
-    @Test
-    public void testGetIssuesOrderedByDate() {
-
-        User user = createUser("cosmina", "cosmina", "cosmina@mail6", "12345");
-        IssueState state = IssueState.OPEN;
-        
-        Issue issue1 =  new Issue();
-        issue1.setTitle("title00");
-        issue1.setDate(new Date(12345234L));
-        issue1.setUpdateDate(new Date(12345321L));
-        issue1.setState(state);
-        
-        Issue issue2 =  new Issue();
-        issue2.setTitle("title001");
-        issue2.setDate(new Date(12345235L));
-        issue2.setUpdateDate(new Date(12345321L));
-        issue2.setState(state);
-        
-        Issue issue3 =  new Issue();
-        issue3.setTitle("title002");
-        issue3.setDate(new Date(12345236L));
-        issue3.setUpdateDate(new Date(12345321L));
-        issue3.setState(state);
-        
-        NewIssueDTO issueDto1 = createIssueDTO(issue1, new ArrayList<Long>(), new ArrayList<Long>());
-        NewIssueDTO issueDto2 = createIssueDTO(issue2, new ArrayList<Long>(), new ArrayList<Long>());
-        NewIssueDTO issueDto3 = createIssueDTO(issue3, new ArrayList<Long>(), new ArrayList<Long>());
-        Long id1 = issueService.createIssueFromIssueDTO(issueDto1, user);
-        Long id2 = issueService.createIssueFromIssueDTO(issueDto2, user);
-        Long id3 = issueService.createIssueFromIssueDTO(issueDto3, user);
-
-        List<Issue> resultList = issueService.getIssuesOrderedByDate();
-        boolean firstPosition = (id1.equals(resultList.get(0).getId()));
-        boolean secondPosition = (id2.equals(resultList.get(1).getId()));
-        boolean thirdPosition = (id3.equals(resultList.get(2).getId()));
-        assertEquals(true,firstPosition&&secondPosition&&thirdPosition);
     }
 
     @Test
@@ -417,7 +379,7 @@ public class IssueServiceTest {
         Label label = createlabel(labelColor, labelName);
         label = issueService.createLabel(label);
         Label result = issueService.getLabelByName(labelName);
-        assertEquals(result.getId(),label.getId());;
+        assertEquals(result.getId(), label.getId());;
     }
 
     /**
@@ -473,7 +435,6 @@ public class IssueServiceTest {
     }
 
     //AUGUSTIN
-
     @Test
     public void testUpdateIssueStateFalse() {
         String content = "content8";
