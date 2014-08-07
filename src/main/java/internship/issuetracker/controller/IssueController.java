@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,11 +58,6 @@ public class IssueController {
     @Autowired
     private LabelForEditValidator labelForEditValidator;
 
-    @Autowired
-    private UserSettingsService userSettingsService;
-
-    @Autowired
-    private MailService mailService;
     @Autowired
     private FileUploadService fileUploadService;
 
@@ -192,12 +186,6 @@ public class IssueController {
                 issueService.sendNotificationForComment(comment, targets.get(1), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
             }
             
-//            for (User user: targets) {
-//                if(user.getSettings().isNotificationsForPostedIssues()){
-//                    issueService.sendNotification(comment, user,"http://"+ request.getLocalAddr()+":"+request.getLocalPort());
-//                }
-//            }
-
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
             responseMap.put("success", true);
             responseMap.put("comments", listComments);

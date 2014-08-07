@@ -210,7 +210,7 @@ public class IssueService {
         List<IssueLabel> resultList = userQuery.getResultList();
 
         if (resultList == null || resultList.isEmpty()) {
-            return null;
+            return new ArrayList();
         }
 
         List<Label> finalList = new ArrayList<>();
@@ -409,7 +409,7 @@ public class IssueService {
 
     public void sendNotificationForEdit(Issue issue, String link) {
 
-        Map<String, Boolean> changes = IssueEditUtil.getChanges();
+        Map<String, Boolean> changes = IssueEditUtil.getCHANGES();
         String text = " The following items has been modified: ";
         if (changes.get("title") == true) {
             text += " title ";
@@ -518,13 +518,13 @@ public class IssueService {
 
     public void removeAllLabelsFromAnIssue(Long issueId) {
         Query query = em.createNamedQuery(IssueLabel.REMOVE_BY_ISSUE_ID);
-        query.setParameter(Comment.V_ISSUE_PARAMETER, issueId);
+        query.setParameter("v_issue_id", issueId);
         query.executeUpdate();
     }
 
     public void removeAllAttachmentsFromAnIssue(Long issueId) {
         Query query = em.createNamedQuery(IssueAttachment.REMOVE_BY_ISSUE_ID);
-        query.setParameter(Comment.V_ISSUE_PARAMETER, issueId);
+        query.setParameter("v_issue_id", issueId);
         query.executeUpdate();
     }
 }

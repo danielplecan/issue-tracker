@@ -44,6 +44,9 @@
                             </c:forEach>
                         </div>
                     </c:when>
+                    <c:otherwise>
+                        <div id="labelContainer"></div>
+                    </c:otherwise>
                 </c:choose>
                 <div id="attachmentsContainer" class="container attachmentsLine">
                     <c:forEach items="${attachments}" var="attachment">

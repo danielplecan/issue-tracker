@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -21,15 +20,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private UserService userService;
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
         
         User authenticatedUser;
         if((authenticatedUser = userService.loginUser(username, password)) != null ) {
-            if(!authenticatedUser.isActive())
-            throw new AuthenticationCredentialsNotFoundException("not activated");
-            Authentication confirmedAuthentication = new UsernamePasswordAuthenticationToken(authenticatedUser, password, new ArrayList<GrantedAuthority>());
+            if(!authenticatedUser.isActive()) {
+                throw new AuthenticationCredentialsNotFoundException("not activated");
+            }
+            
+            Authentication confirmedAuthentication;
+            confirmedAuthentication = new UsernamePasswordAuthenticationToken(authenticatedUser, password, new ArrayList<GrantedAuthority>());
             return confirmedAuthentication;
         } else {
             throw new AuthenticationCredentialsNotFoundException("wrong credentials.");

@@ -8,7 +8,6 @@ package internship.issuetracker.filter;
 
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.Issue_;
-import internship.issuetracker.entity.User;
 import internship.issuetracker.entity.User_;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,26 +21,26 @@ import javax.persistence.criteria.Root;
 public class IssueAssigneeQueryFilter implements QueryFilter<Issue> {
     
     
-    private String assigneeUsername;
+    private Long assigneeId;
     
-    public IssueAssigneeQueryFilter(String assigneeUsername) {
-        this.assigneeUsername = assigneeUsername;
+    public IssueAssigneeQueryFilter(Long assigneeId) {
+        this.assigneeId = assigneeId;
     }
 
     @Override
     public Predicate buildPredicate(CriteriaBuilder criteriaBuilder, CriteriaQuery<Issue> criteriaQuery, Root<Issue> root) {
-        if(assigneeUsername == null || assigneeUsername.isEmpty()) {
+        if(assigneeId == null) {
             return criteriaBuilder.and();
         }
-        return criteriaBuilder.like(root.get(Issue_.assignee).get(User_.username), "%" + assigneeUsername + "%");
+        return criteriaBuilder.equal(root.get(Issue_.assignee).get(User_.id), assigneeId);
     }
 
-    public String getAssignee() {
-        return assigneeUsername;
+    public Long getAssigneeId() {
+        return assigneeId;
     }
 
-    public void setAssignee(String assigneeUsername) {
-        this.assigneeUsername = assigneeUsername;
+    public void setAssigneeId(Long assigneeId) {
+        this.assigneeId = assigneeId;
     }
     
 }

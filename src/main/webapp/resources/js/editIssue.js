@@ -8,12 +8,14 @@
         $(this).hide();
         $("#newLabelInput").show();
         $("#cancelAddNewLabel").show();
+
         if (theLabels.length === 0) {
             issueTrackerService.getAllLables().done(function(data) {
                 theLabels = data.labels;
                 $("#newLabelInput").keyup();
             });
         }
+         $("#newLabelInput").keyup();
     });
 
     $("#cancelAddNewLabel").click(function() {
@@ -103,8 +105,7 @@
                         var oldLabel = createNewLabel(entry.name, entry.id, entry.color, "label label-warning", "black", false);
                         $('#labelContainer').append(oldLabel);
                     }
-                }
-
+                }               
                 if (data.editedAttachments !== null) {
                     for (var i = 0; i < data.editedAttachments.length; i++) {
                         $('#attachmentsContainer').append(createAtachment(data.editedAttachments[i]));

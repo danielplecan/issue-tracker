@@ -20,9 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 
 /**
  *
@@ -144,19 +141,31 @@ public class Issue implements Serializable {
     }
 
     public Date getDate() {
-        return date;
+        if(date != null) {
+            return new Date(date.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        if(date != null) {
+           this.date = new Date(date.getTime()); 
+        }
     }
 
     public Date getUpdateDate() {
-        return updateDate;
+        if(updateDate != null) {
+            return new Date(updateDate.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+        if(updateDate != null) {
+           this.updateDate = new Date(updateDate.getTime()); 
+        }
     }
 
     public String getDateFormat() {

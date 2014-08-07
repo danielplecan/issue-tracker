@@ -89,11 +89,18 @@ public class Comment implements Serializable{
     }
 
     public Date getDate() {
-        return date;
+        if(date != null) {
+            return new Date(date.getTime());
+        } else {
+            return null;
+        }
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        if(date != null) {
+           this.date = new Date(date.getTime()); 
+        }
+        
     }
 
     public User getAuthor() {
