@@ -61,12 +61,14 @@ var pager = function() {
         });
         $('#assigneeLabel').delegate('.assigneeLabelX', 'click', function() {
             $('#assigneeLabel').hide();
+            $('#searchFieldAsignee').val('');
             assigneeId = '';
         });
 
         $('#autorLabel').delegate('.autorLabelX', 'click', function() {
             $('#autorLabel').hide();
-            assigneeId = '';
+            $('#searchFieldAuthor').val('');
+            authorId = '';
         });
     };
 
