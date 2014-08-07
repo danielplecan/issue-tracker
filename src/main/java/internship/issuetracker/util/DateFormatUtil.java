@@ -19,12 +19,22 @@ public class DateFormatUtil {
 
     static class TimeUtils {
 
+        private boolean agoFlag;
+        private StringBuilder result;
+        private final Date oldDate;
         private final long days;
         private final long hours;
         private final long minutes;
         private final long seconds;
+        private boolean timeFlag;
 
-        public TimeUtils(Interval interval) {
+        public TimeUtils(Interval interval, Date date) {
+            result = new StringBuilder();
+            agoFlag = true;
+            timeFlag = false;
+
+            oldDate = date;
+
             days = interval.toDuration().getStandardDays();
 
             hours = interval.toDuration().getStandardHours() - days * 24;
@@ -34,22 +44,81 @@ public class DateFormatUtil {
 
             seconds = interval.toDuration().getStandardSeconds()
                     - days * 24 * 60 * 60 - hours * 60 * 60 - minutes * 60;
+
         }
 
-        public long getDays() {
-            return days;
+        public StringBuilder getResult() {
+            return result;
         }
 
-        public long getHours() {
-            return hours;
+        public boolean getAgoFlag() {
+            return agoFlag;
         }
 
-        public long getMinutes() {
-            return minutes;
+        public void appendDays() {
+            if (days == 1) {
+                result.append(" 1 day ");
+                timeFlag = true;
+            } else if (days > 1 && days < 14) {
+                result.append(days).append(" days  ");
+                timeFlag = true;
+            } else if (days >= 14) {
+                result.append(getDateFormat2(oldDate));
+                agoFlag = false;
+                timeFlag = true;
+            }
         }
 
-        public long getSeconds() {
-            return seconds;
+        public void appendHours() {
+            if(timeFlag) {
+                return;
+            }
+            
+            if (hours == 1) {
+                result.append(" 1 hour ");
+                timeFlag = true;
+            } else if (hours > 1) {
+                result.append(hours).append(" hours ");
+                timeFlag = true;
+            }
+        }
+
+        public void appendMinutes() {
+            if(timeFlag) {
+                return;
+            }
+            
+            if (minutes == 1) {
+                result.append(" 1 minute ");
+                timeFlag = true;
+            } else if (minutes > 1) {
+                result.append(minutes).append(" minutes ");
+                timeFlag = true;
+            }
+        }
+
+        public void appendSeconds() {
+            if(timeFlag) {
+                return;
+            }
+            
+            if (seconds == 1) {
+                result.append(" 1 second ");
+                timeFlag = true;
+            } else if (seconds < 1) {
+                result.append(" just now ");
+                agoFlag = false;
+                timeFlag = true;
+            } else {
+                result.append(seconds).append(" seconds ");
+            }
+        }
+
+        public void createDate() {
+            appendDays();
+            appendHours();
+            appendMinutes();
+            appendSeconds();
         }
     }
 
@@ -69,39 +138,10 @@ public class DateFormatUtil {
         return date.toString();
     }
 
-    public static boolean createDate(StringBuilder result, TimeUtils time, Date oldDate) {
-        boolean agoFlag = true;
-        if (time.getDays() == 1) {
-            result.append(" 1 day ");
-        } else if (time.getDays() > 1 && time.getDays() < 14) {
-            result.append(time.getDays()).append(" days  ");
-        } else if (time.getDays() >= 14) {
-            result.append(getDateFormat2(oldDate));
-            agoFlag = false;
-        } else if (time.getHours() == 1) {
-            result.append(" 1 hour ");
-        } else if (time.getHours() > 1) {
-            result.append(time.getHours()).append(" hours ");
-        } else if (time.getMinutes() == 1) {
-            result.append(" 1 minute ");
-        } else if (time.getMinutes() > 1) {
-            result.append(time.getMinutes()).append(" minutes ");
-        } else if (time.getSeconds() == 1) {
-            result.append(" 1 second ");
-        } else if (time.getSeconds() < 1) {
-            result.append(" just now ");
-            agoFlag = false;
-        } else {
-            result.append(time.getSeconds()).append(" seconds ");
-        }
-        return agoFlag;
-    }
-            
     public static String getFriendlyInterval(Date oldDate) {
         Interval interval = new Interval(new DateTime(oldDate), new DateTime(new Date()));
-        StringBuilder result = new StringBuilder();
-        TimeUtils time = new TimeUtils(interval);
-        boolean agoFlag = createDate(result, time, oldDate);
-        return appendAgo(result, agoFlag);
+        TimeUtils time = new TimeUtils(interval, oldDate);
+        time.createDate();
+        return appendAgo(time.getResult(), time.getAgoFlag());
     }
 }

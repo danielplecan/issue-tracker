@@ -21,7 +21,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a id="themes" href="#" data-toggle="dropdown" class="dropdown-toggle">
-                        ${sessionScope.user.name}
+                        ${sessionScope.user.username}
                         <span class="caret">
                         </span>
                     </a>

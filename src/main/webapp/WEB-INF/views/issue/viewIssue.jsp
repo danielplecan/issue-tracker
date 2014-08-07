@@ -18,11 +18,11 @@
                         </c:choose>
                     </div>
                     <br>
-                    <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>"><c:out value="${issue.owner.name}"/></a></span>
+                    <span><i>Posted by </i>&nbsp;<span class="text-primary"><a href="/profile/<c:out value="${issue.owner.username}"/>"><c:out value="${issue.owner.username}"/></a></span>
                         &nbsp;<i>on</i>&nbsp;<span class="text-primary textDate"> <c:out value="${issue.getDateFormat()}"/> </span></span>
                     <span class="viewIssueLastUpdated">&nbsp;
                         <i>Last updated by</i>&nbsp;
-                        <span class="text-primary"><a href="/profile/<c:out value="${issue.lastUpdatedBy.username}"/>"><c:out value="${issue.lastUpdatedBy.name}"/></a>,</span>
+                        <span class="text-primary"><a href="/profile/<c:out value="${issue.lastUpdatedBy.username}"/>"><c:out value="${issue.lastUpdatedBy.username}"/></a>,</span>
                         <span id="oldIssueLastUpdate" class="text-primary textDate"><c:out value="${issue.getLastUpdateDate()}"/>&nbsp;</span>
                     </span>
                 </div>
