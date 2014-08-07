@@ -62,6 +62,8 @@
                     </c:forEach>
                 </select>       
             </div>
+            <div class="col-lg-11 searchBottom">                
+            </div>
         </div>
     </section>
     <section class="well col-sm-10 col-sm-offset-1 hidden">
@@ -96,9 +98,6 @@
                     <button id="sortDesc" class="btn btn-default btn-sm typeOfSort secondColButton">Desc <span class="glyphicon glyphicon-ok"></span></button>
                 </div>
             </div>
-        </div>     
-        <div class="col-lg-12 txt-center">                     
-            <button id="searchButtonFilter" class="btn btn-primary">Search</button>
         </div>
     </section>
     <aside class="col-lg-10 col-lg-offset-1 hidden">
@@ -180,108 +179,6 @@
         </ul>
     </div>
 </div>
-<style>
-    .clearFormGroup{
-        clear:both;
-        padding: 0;
-    }
-    .formLeft{
-        float:left;
-        left: 0;
-        position: relative;
-        padding-right: 0px;
-    }
-    .formRight{
-        float: right;
-        right: 0;
-        position: relative;
-        padding: 0px;
-    }
-    .select2-choices{
-        margin-left:20px;
-    }
-    .advancedSearchIcon{
-        font-size:33px;
-        float:right;
-        cursor: pointer;
-    }
-    .form-control::-webkit-input-placeholder { /* WebKit browsers */
-        color:    gray;
-    }
-    .form-control:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-        color:   gray;
-        opacity:  1;
-    }
-    .form-control::-moz-placeholder { /* Mozilla Firefox 19+ */
-        color:   gray;
-        opacity:  1;
-    }
-    .form-control:-ms-input-placeholder { /* Internet Explorer 10+ */
-        color:    gray;
-    }
-    .form-control, .select2-container-multi .select2-choices {
-        background-color: #CFCFCF;
-        background-image: none;
-        border: 1px solid #cccccc;
-        border-radius: 4px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-        color: black;
-        display: block;
-        font-size: 14px;
-        height: 38px;
-        line-height: 1.42857;
-        padding: 8px 12px;
-        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-        width: 100%;
-    }
-    .advancedFilterMargin{
-        margin-top: 40px;
-    }   
-    .col-lg-6.filterInput.advancedFilterInput, .col-lg-5.filterInput.advancedFilterInput {
-        margin-bottom: 16px;
-    }
-    .advancedFilterInputTitle {
-        margin-bottom: 4px;
-    }
-    .form-control.orderBySelect1{
-        padding-left: 2px;
-        width: 125px;
-    }
-    .form-control.orderBySelect2{
-        padding-left: 2px;
-        width: 113px;       
-    }
-    .searchAndAdvancedSearchBtns{
-        margin-top: 23px;
-    }
-    @media (max-width: 1280px)  {
-        .form-control.orderBySelect1{
-            padding-left: 2px;
-            width: 100%;
-        }
-        .form-control.orderBySelect2{
-            padding-left: 2px;
-            width: 100%;
-        }
-    }
-    #searchButtonFilter{
-        width:200px;
-    }
-    .asigneeLabelX, .autorLabelX{
-        cursor: pointer;
-    }
-    #autorLabel, #asigneeLabel{
-        color: white;
-    }
-    .twitter-typeahead {
-        width: 335px;
-    }
-    @media (max-width: 1183px)  {
-        .twitter-typeahead {
-            width:100%;
-        }
-    }
-</style>
 <script>
     $(document).ready(function() {
         $("#e8_2").select2({placeholder: "Labels"});
@@ -289,6 +186,11 @@
         $("#showLabelsInput").click(function() {
             $("#showLabelsInputDiv").show();
         })
+    });
+    $(document).keypress(function(e) {
+        if (e.which == 13) {
+            $('#searchButtonFilter').click();
+        }
     });
 
     $('.advancedSearchIcon').click(function() {
@@ -301,15 +203,7 @@
 
     attachTooltips($('.advancedSearchIcon'));
 
-
-
-
-
 </script>
-
-
-
-
 
 <script src="/resources/js/createIssue.js" type="text/javascript"></script>
 <script src="/resources/js/issuesCreator.js" type="text/javascript"></script>
