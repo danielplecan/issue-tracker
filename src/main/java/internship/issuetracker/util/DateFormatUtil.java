@@ -32,8 +32,13 @@ public class DateFormatUtil {
             result = new StringBuilder();
             agoFlag = true;
             timeFlag = false;
-
-            oldDate = date;
+            
+            if(date != null) {
+                oldDate = new Date(date.getTime());
+            } else {
+                oldDate = null;
+            }
+            
 
             days = interval.toDuration().getStandardDays();
 
