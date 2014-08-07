@@ -98,9 +98,10 @@ public class IssueServiceTest {
         if (firstList.size() != secondList.size()) {
             return false;
         }
-        for( int i = 0; i< firstList.size(); i++){
-            if(!equalsIssues(firstList.get(i),secondList.get(i)))
+        for (int i = 0; i < firstList.size(); i++) {
+            if (!equalsIssues(firstList.get(i), secondList.get(i))) {
                 return false;
+            }
         }
         return true;
     }
@@ -288,8 +289,7 @@ public class IssueServiceTest {
     }
 
     /**
-     * Test of updateAssignee method, of class IssueService.
-     * veronica
+     * Test of updateAssignee method, of class IssueService. veronica
      */
     @Test
     public void testUpdateAssignee() {
@@ -389,7 +389,7 @@ public class IssueServiceTest {
 
         List<Issue> expResult = new ArrayList<>();
         List<IssueDTO> result = issueService.getDTOsFromIssues(issues);
-        for(IssueDTO issueDTO : result ){
+        for (IssueDTO issueDTO : result) {
             expResult.add(issueDTO.getIssue());
         }
         assertEquals(equalsListsOfIssues(issues, expResult), true);
@@ -410,21 +410,7 @@ public class IssueServiceTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
-    /**
-     * cosmina
-     */
-    @Ignore
-    @Test
-    public void testUpdateLabel() {
-        Label label = null;
-        IssueService instance = new IssueService();
-        Label expResult = null;
-        Label result = instance.updateLabel(label);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+
 
     /**
      * Test of findUsersIssuesOwnersByNamePrefix method, of class IssueService.
@@ -450,9 +436,9 @@ public class IssueServiceTest {
         Long id1 = issueService.createIssueFromIssueDTO(issueDto, user);
         String usernamePrefix = "x";
         List<User> result = issueService.findUsersIssuesOwnersByNamePrefix(usernamePrefix);
-        assertEquals(result.get(0).getId(),user.getId());
+        assertEquals(result.get(0).getId(), user.getId());
     }
-    
+
     /**
      * Test of findUsersAssigneesByNamePrefix method, of class IssueService.
      */
@@ -475,9 +461,9 @@ public class IssueServiceTest {
         Long id1 = issueService.createIssueFromIssueDTO(issueDto, user);
         String usernamePrefix = "b";
         List<User> result = issueService.findUsersAssigneesByNamePrefix(usernamePrefix);
-        assertEquals(result.get(0).getId(),userx.getId());
+        assertEquals(result.get(0).getId(), userx.getId());
     }
-    
+
     /**
      * ionut
      */
@@ -521,5 +507,259 @@ public class IssueServiceTest {
         instance.removeAllAttachmentsFromAnIssue(issueId);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    //AUGUSTIN
+    @Test
+    public void testUpdateIssueStateFalse() {
+        String content = "content8";
+        String title = "title8";
+        IssueState state = IssueState.CLOSED;
+        User lastUpdateBy = createUser("agust668", "dbzklm", "ag668@gmail", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+        User user = createUser("nicu668", "name", "n@mail668", "12345");
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        boolean succes = issueService.updateIssueState(10001, IssueState.CLOSED);
+
+        assertEquals(false, succes);
+    }
+
+    @Test
+    public void testUpdateIssueStateTrue() {
+        String content = "content8";
+        String title = "title8";
+        User user = createUser("nicu6611", "name", "n@mai6611", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        boolean succes = issueService.updateIssueState(issueId, IssueState.CLOSED);
+
+        assertEquals(true, succes);
+    }
+
+    @Test
+    public void testChangeStateOfAnIssueToNewStateFalse() {
+        String content = "content4";
+        String title = "title4";
+        User lastUpdateBy = createUser("agust669", "dbzklm", "ag669@gmail", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+        User user = createUser("nicu669", "name", "n@mail669", "12345");
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        issueService.updateIssueState(issueId, IssueState.CLOSED);
+
+        Issue issue = issueService.getIssueById(issueId);
+
+        assertEquals(false, issueService.changeStateOfAnIssueToNewState(issue, IssueState.CLOSED));
+    }
+
+    @Test
+    public void testChangeStateOfAnIssueToNewStateTrue() {
+        String content = "content4";
+        String title = "title4";
+        IssueState state = IssueState.OPEN;
+        User user = createUser("nicu6610", "name", "n@mail6610", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        issueService.updateIssueState(issueId, IssueState.CLOSED);
+
+        Issue issue = issueService.getIssueById(issueId);
+
+        assertEquals(true, issueService.changeStateOfAnIssueToNewState(issue, IssueState.OPEN));
+    }
+
+    @Test
+    public void testChangeStateOfIssueFalse() {
+        String content = "content4";
+        String title = "title4";
+        IssueState state = IssueState.OPEN;
+        User user = createUser("nicu6612", "name", "n@mail6612", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        boolean result = issueService.changeStateOfIssue(issueId, null, user);
+
+        assertEquals(false, result);
+
+    }
+
+    @Test
+    public void testChangeStateOfIssueFalse2() {
+        String content = "content4";
+        String title = "title4";
+        IssueState state = IssueState.OPEN;
+        User user = createUser("nicu6614", "name", "n@mail6614", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        boolean result = issueService.changeStateOfIssue(issueId, IssueState.OPEN, user);
+
+        assertEquals(false, result);
+
+    }
+
+    @Test
+    public void testChangeStateOfIssueTrue() {
+        String content = "content4";
+        String title = "title4";
+        User user = createUser("nicu6615", "name", "n@mail6615", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        boolean result = issueService.changeStateOfIssue(issueId, IssueState.CLOSED, user);
+
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testChangeStateOfIssueTrue2() {
+        String content = "content4";
+        String title = "title4";
+        User user = createUser("nicu6616", "name", "n@mail6616", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.CLOSED,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        boolean result = issueService.changeStateOfIssue(issueId, IssueState.OPEN, user);
+
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testRemoveLabelTrue() {
+        String labelName = "sanasara";
+        String labelColor = "#FF3300";
+
+        Label label = createlabel(labelColor, labelName);
+        label = issueService.createLabel(label);
+
+        boolean result = issueService.removeLabel(label.getId());
+
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testRemoveLabelFalse() {
+        String labelName = "tldr2";
+        String labelColor = "#FF3300";
+
+        Label label = createlabel(labelColor, labelName);
+        issueService.createLabel(label);
+
+        boolean result = issueService.removeLabel((long) -1);
+
+        assertEquals(false, result);
+    }
+
+    @Test
+    public void testGetMissedCommentsNegativeCommentId() {
+        String content = "content6";
+        String title = "title56";
+        User user = createUser("nicu6617", "name", "n@mai66l7", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        issueService.addComment(user, issueId, createSimpleComment("comment 1"));
+        issueService.addComment(user, issueId, createSimpleComment("comment 2"));
+        issueService.addComment(user, issueId, createSimpleComment("comment 3"));
+        List<Comment> commentList = issueService.getMissedComments(issueId, -5);
+
+        assertEquals(commentList.size(), 3);
+    }
+
+    @Test
+    public void testGetMissedCommentsUnexistentCommentId() {
+        String content = "content6";
+        String title = "title56";
+        User user = createUser("nicu6621", "name", "n@mai6621", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        issueService.addComment(user, issueId, createSimpleComment("comment 1"));
+        issueService.addComment(user, issueId, createSimpleComment("comment 2"));
+        issueService.addComment(user, issueId, createSimpleComment("comment 3"));
+        List<Comment> commentList = issueService.getMissedComments(issueId, 1001);
+
+        assertEquals(commentList.size(), 3);
+    }
+
+    @Test
+    public void testGetMissedCommentsIssueIdMismatch() {
+        String content = "content6";
+        String title = "title56";
+        User user = createUser("nicu6620", "name", "n@mai6620", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+        NewIssueDTO issueDto2 = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+        Long issueId2 = issueService.createIssueFromIssueDTO(issueDto2, user);
+
+        issueService.addComment(user, issueId, createSimpleComment("comment 1"));
+        issueService.addComment(user, issueId, createSimpleComment("comment 2"));
+        Comment comment = issueService.addComment(user, issueId, createSimpleComment("comment 3"));
+        List<Comment> commentList = issueService.getMissedComments(issueId2, comment.getId());
+
+        assertEquals(commentList.size(), 0);
+    }
+
+    @Test
+    public void testGetMissedCommentsTrue() {
+        String content = "content6";
+        String title = "title56";
+        User user = createUser("nicu6622", "name", "n@mai6622", "12345");
+        NewIssueDTO issueDto = createIssueDTO(title, content, IssueState.OPEN,
+                new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        issueService.addComment(user, issueId, createSimpleComment("comment 1"));
+        Comment comment = issueService.addComment(user, issueId, createSimpleComment("comment 2"));
+        issueService.addComment(user, issueId, createSimpleComment("comment 3"));
+        List<Comment> commentList = issueService.getMissedComments(issueId, comment.getId());
+
+        assertEquals(0, 0);
+    }
+
+    @Test
+    public void testUpdateLabel() {
+        String labelName = "mdka";
+        String labelColor = "#FF3300";
+
+        Label label = createlabel(labelColor, labelName);
+        issueService.createLabel(label);
+
+        String newLabelName = "interesting";
+        String newLabelColor = "#FFFFFF";
+
+        label.setName(newLabelName);
+        label.setColor(newLabelColor);
+
+        issueService.updateLabel(label);
+
+        assertEquals(newLabelName, label.getName());
+        assertEquals(newLabelColor, label.getColor());
     }
 }
