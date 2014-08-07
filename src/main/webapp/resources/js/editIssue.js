@@ -2,7 +2,6 @@
 
     var theLabels = [];
     var widget = uploadWidget($("#existingFiles"));
-    widget.initialize($('#editIssueId').text());
 
     $("#addNewLabelToAnIssue").click(function() {
         $(this).hide();
@@ -37,7 +36,7 @@
             });
 
             if (entry.name.indexOf(inputValue) > -1 && exists === false) {
-                var newLabel = createNewLabel(entry.name, entry.id, entry.color, "label label-default labelEditLabels", "black", false)
+                var newLabel = createNewLabel(entry.name, entry.id, entry.color, "label label-default labelEditLabels", "black", false);
                 $("#labelsSugestions").append(newLabel);
             }
         });
@@ -45,7 +44,7 @@
 
     $("#labelsSugestions").delegate("span", "click", function() {
         var $this = $(this);
-        var newLabel = createNewLabel($this.text(), $this.data('id'), $this.data('color'), "label label-warning labelEditLabels", "black", true)
+        var newLabel = createNewLabel($this.text(), $this.data('id'), $this.data('color'), "label label-warning labelEditLabels", "black", true);
         $("#modifiedIssueLabelsList").append(newLabel);
         $this.remove();
     });
@@ -57,6 +56,10 @@
     });
 
     $("#editTheIssueButton").click(function() {
+        widget.reset();
+        widget.initialize($('#editIssueId').text());
+        
+        
         $('#editIssueTitle').val($('#oldIssueTitle').text().trim());
 //        $('#editIssueContent').val($('#issueContent').text().trim());
         $('#viewTheIssue').hide("slow");
@@ -151,7 +154,7 @@
     }
 
     function createNewLabel(text, id, color, labelClass, textColor, removeButton) {
-        var label = $('<span/>')
+        var label = $('<span/>');
         label.addClass(labelClass);
         label.text(text);
         label.attr("data-color", color);

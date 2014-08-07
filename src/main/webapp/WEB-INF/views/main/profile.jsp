@@ -5,7 +5,7 @@
     </div>
     <table class="table table-striped col-lg-4">
         <tr>
-            <td >Username: <span id="username">${user.username}<span/></td>
+            <td >Username: <span data-usernameid="${user.id}" id="username">${user.username}<span/></td>
         </tr>
         <tr>
             <td>Name: ${user.name}</td>
