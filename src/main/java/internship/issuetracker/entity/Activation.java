@@ -1,6 +1,7 @@
 package internship.issuetracker.entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotBlank;
 
 @NamedQuery(name = Activation.FIND_BY_ACTIVATION_HASH, query = "SELECT a from Activation a WHERE a.activationHash = :v_activationHash")
