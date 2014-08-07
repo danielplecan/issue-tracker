@@ -158,11 +158,6 @@ public class IssueService {
         return issueQuery.getResultList();
     }
 
-    public List<Issue> getIssuesOrderedByDate() {
-        TypedQuery<Issue> issueQuery = em.createNamedQuery(Issue.ORDERED_ISSUES, Issue.class);
-        return issueQuery.getResultList();
-    }
-
     /**
      * Method for creating a comment
      *
