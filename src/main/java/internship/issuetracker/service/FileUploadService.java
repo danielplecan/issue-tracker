@@ -21,71 +21,70 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 public class FileUploadService {
+
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     @Transactional
     public Long uploadFile(MultipartFile file) throws FileUploadException, IOException {
-       String generatedName = UUID.randomUUID().toString();
-       saveFile(file, generatedName);
-       return persistFileEntity(file, generatedName);
+        String generatedName = UUID.randomUUID().toString();
+        saveFile(file, generatedName);
+        return persistFileEntity(file, generatedName);
     }
-    
+
     private void saveFile(MultipartFile file, String generatedName) throws FileUploadException, IOException {
-        if(file.isEmpty()) {
+        if (file.isEmpty()) {
             throw new FileUploadException("Uploading has failed. The file was empty.");
         }
-        
+
         String directoryPath = UploadedFile.LOCATION;
         File directory = new File(directoryPath);
-        
-        if (!directory.exists()) {
-            if(!directory.mkdirs()) {
-                throw new FileUploadException("Directories creation has failed. Check privileges.");
-            }
+
+        if ((!directory.exists()) && (!directory.mkdirs())) {
+            throw new FileUploadException("Directories creation has failed. Check privileges.");
         }
-        
+
         File serverFile = new File(directory.getAbsolutePath() + File.separator + generatedName);
         file.transferTo(serverFile);
     }
-    
+
     @Transactional
     private Long persistFileEntity(MultipartFile file, String generatedName) {
         UploadedFile uploadedFile = new UploadedFile();
-        
+
         uploadedFile.setOriginalName(file.getOriginalFilename());
         uploadedFile.setTargetName(generatedName);
         uploadedFile.setMimeType(file.getContentType());
         uploadedFile.setSize(file.getSize());
-        
+
         entityManager.persist(uploadedFile);
-        
+
         return uploadedFile.getId();
     }
-    
+
     @Transactional
     public boolean removeFile(Long fileId) {
         UploadedFile uploadedFile = entityManager.find(UploadedFile.class, fileId);
-        if(uploadedFile == null) {
+        if (uploadedFile == null) {
             return false;
         }
-        
+
         File file = new File(UploadedFile.LOCATION + File.separator + uploadedFile.getTargetName());
-        
-        if(!file.delete()) {
+
+        if (!file.delete()) {
             return false;
         }
-        
+
         entityManager.remove(uploadedFile);
-        
+
         return true;
     }
-    
+
     @Transactional
     public UploadedFile getUploadedFileEntity(Long fileId) {
         return entityManager.find(UploadedFile.class, fileId);
     }
-    
+
     public File getFile(UploadedFile uploadedFile) {
         return new File(UploadedFile.LOCATION + File.separator + uploadedFile.getTargetName());
     }
@@ -93,24 +92,24 @@ public class FileUploadService {
     @Transactional
     public List<UploadedFile> getAttachmentsByIds(List<Long> attachments) {
         List<UploadedFile> files = new ArrayList<>();
-        for(Long attachment : attachments) {
+        for (Long attachment : attachments) {
             UploadedFile file = entityManager.find(UploadedFile.class, attachment);
-            if(file != null) {
+            if (file != null) {
                 files.add(file);
             }
         }
-        
+
         return files;
     }
-    
+
     @Transactional
     public void removeOrphanAttachments(List<Long> attachments) {
-        for(Long attachment : attachments) {
+        for (Long attachment : attachments) {
             TypedQuery<IssueAttachment> query = entityManager.createNamedQuery(IssueAttachment.FIND_ORPHAN_ATTACHMENT, IssueAttachment.class);
             query.setParameter("attachment_id", attachment);
-            
+
             List<IssueAttachment> resultList = query.getResultList();
-            if(resultList == null || resultList.isEmpty()) {
+            if (resultList == null || resultList.isEmpty()) {
                 this.removeFile(attachment);
             }
         }
