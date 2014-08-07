@@ -511,7 +511,7 @@ td {
 .tt-dropdown-menu {
     text-align: left;
     width: 335px;
-    margin-top: 12px;
+    margin-top: 2px;
     padding: 8px 0;
    
     border: 1px solid #ccc;
@@ -522,6 +522,9 @@ td {
     -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    height:150px;
+    overflow-y: scroll;
+    
 }
 
 .typeahead, .typeaheadOwners, .typeaheadAssignees {
@@ -547,6 +550,7 @@ td {
 .tt-suggestion.tt-cursor {
     color: #fff;
     background-color: #0097cf;
+    cursor:pointer;
 }
 
 /*/issues*/
