@@ -14,8 +14,6 @@ import java.util.Map;
  */
 
 public class IssueEditUtil {
-    private IssueEditUtil() {
-    }
     
     private final static Map<String, Boolean> CHANGES = new HashMap<>();
     
@@ -39,8 +37,8 @@ public class IssueEditUtil {
         List<Label> labels = issue2.getLabels();
         if(labels != null) {
             for (Label label : labels) {
-            issue2Labels.add(label.getId());
-        }
+                issue2Labels.add(label.getId());
+            }
         }
         
         
