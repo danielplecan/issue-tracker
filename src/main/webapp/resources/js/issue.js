@@ -229,7 +229,7 @@ $(document).ready(function() {
 
 //comments
     function createCommentData() {
-        var commentContent = $("#textAreaComment").val();
+        var commentContent = $("#textAreaComment").val().trim();
         var lastComment = $("#allComments .fullCommentBody").last();
         var comment = {};
         if ($("#allComments .fullCommentBody").size() === 0) {
