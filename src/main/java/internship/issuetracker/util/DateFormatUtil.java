@@ -17,10 +17,10 @@ import org.joda.time.Interval;
  */
 public class DateFormatUtil {
 
-    static class TimeUtils {
+    public static class TimeUtils {
 
         private boolean agoFlag;
-        private StringBuilder result;
+        private final StringBuilder result;
         private final Date oldDate;
         private final long days;
         private final long hours;
@@ -60,7 +60,7 @@ public class DateFormatUtil {
                 result.append(" 1 day ");
                 timeFlag = true;
             } else if (days > 1 && days < 14) {
-                result.append(days).append(" days  ");
+                result.append(days).append(" days ");
                 timeFlag = true;
             } else if (days >= 14) {
                 result.append(getDateFormat2(oldDate));
