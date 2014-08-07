@@ -42,21 +42,22 @@ public class RecoverPasswordController {
 
     @RequestMapping(value = {"/recovery-message"}, method = RequestMethod.GET)
     public String recoveryMsssage(Model model) {
-        model.addAttribute("text","Check your email in order to get the recovery hash");
+        model.addAttribute("text", "Check your email in order to get the recovery hash");
         return "recovery-message";
     }
-    
+
     @RequestMapping(method = RequestMethod.POST, value = "/recover-password")
     @ResponseBody
     public Map<String, Object> recoverPassword(@RequestParam(value = "information") String information, HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> map = new HashMap<>();
         User user = userService.getUserByUsername(information);
-        if(user==null) 
-            user=userService.getUserByEmail(information);
-        
-        if(user==null){
-            result.put("success",false);
+        if (user == null) {
+            user = userService.getUserByEmail(information);
+        }
+
+        if (user == null) {
+            result.put("success", false);
             return result;
         }
         recoverPasswordService.deleteRecoveryByUser(user);
@@ -65,27 +66,28 @@ public class RecoverPasswordController {
         map.put("linkText", "Password recoverry hash ");
         map.put("text", "");
         mailService.sendEmail(user.getEmail(), "Password recovery", map);
-        result.put("success",true);
+        result.put("success", true);
         return result;
     }
 
     @RequestMapping(value = "/recover-password/{hash}", method = RequestMethod.GET)
-    public String verifieRecoveryPassword(@PathVariable("hash") String hash, Model model,HttpServletRequest request) {
+    public String verifieRecoveryPassword(@PathVariable("hash") String hash, Model model, HttpServletRequest request) {
         User user = recoverPasswordService.getUserByRecoveryHash(hash);
         if (user != null) {
             request.getSession().setAttribute("userToChangePassword", user);
         } else {
-            model.addAttribute("text","Recovery hash is not valid");
-            return "recovery-message";   
+            model.addAttribute("text", "Recovery hash is not valid");
+            return "recovery-message";
         }
-        model.addAttribute("user",user.getUsername());
+        model.addAttribute("user", user.getUsername());
         return "change-password";
     }
-    @RequestMapping(method = RequestMethod.POST,value = "/change-password")
+
+    @RequestMapping(method = RequestMethod.POST, value = "/change-password")
     @ResponseBody
-    public Map<String, Object> changePassword(@RequestParam(value = "password") String password,HttpServletRequest request) {
+    public Map<String, Object> changePassword(@RequestParam(value = "password") String password, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
-        User user =  (User) request.getSession().getAttribute("userToChangePassword");
+        User user = (User) request.getSession().getAttribute("userToChangePassword");
         user.setPasswordHash(SecurityUtil.encryptPassword(password));
         recoverPasswordService.deleteRecoveryByUser(user);
         userService.updateUser(user);
