@@ -396,14 +396,19 @@ public class IssueService {
     }
 
     public void sendNotificationForAssign(Issue issue, User loggedUser, String link) {
-        if (!issue.getAssignee().getId().equals(loggedUser.getId())) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("link", link + "/issue/" + issue.getId());
-            map.put("linkText", "Click here to see the issue");
-            String emailContent = "You were assigned on the issue with the title ";
-            emailContent += issue.getTitle();
-            map.put("text", emailContent);
-            mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
+        if (issue.getAssignee() == null) {
+            return;
+        }
+        else {
+            if (!issue.getAssignee().getId().equals(loggedUser.getId())) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("link", link + "/issue/" + issue.getId());
+                map.put("linkText", "Click here to see the issue");
+                String emailContent = "You were assigned on the issue with the title ";
+                emailContent += issue.getTitle();
+                map.put("text", emailContent);
+                mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
+            }
         }
     }
 
