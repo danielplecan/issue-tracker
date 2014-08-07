@@ -208,7 +208,7 @@ public class IssueService {
         List<IssueLabel> resultList = userQuery.getResultList();
 
         if (resultList == null || resultList.isEmpty()) {
-            return new ArrayList();
+            return new ArrayList<>();
         }
 
         List<Label> finalList = new ArrayList<>();
