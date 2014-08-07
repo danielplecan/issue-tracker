@@ -44,7 +44,7 @@ public class UserSettingsService {
         em.merge(currentUserSettings);
         return currentUserSettings.isNotificationsForPostedIssues();
     }
-    
+
     public boolean toggleNotificationsForAssigned(String username) {
         User targetUser = userService.getUserByUsername(username);
 
@@ -66,7 +66,7 @@ public class UserSettingsService {
         UserSettings currentUserSettings = targetUser.getSettings();
         return currentUserSettings.isNotificationsForAssignedIssues();
     }
-    
+
     public Long getCurrentThemePreference(String username) {
         User targetUser = userService.getUserByUsername(username);
         UserSettings currentUserSettings = targetUser.getSettings();
@@ -76,15 +76,14 @@ public class UserSettingsService {
 
     public boolean changeUserThemePreference(String username, Long theme) {
         User targetUser = userService.getUserByUsername(username);
-        if (targetUser == null || theme > 2L){
+        if (targetUser == null || theme > 2L) {
             return false;
-        }
-        else {
-        UserSettings currentUserSettings = targetUser.getSettings();
-        currentUserSettings.setTheme(theme);
+        } else {
+            UserSettings currentUserSettings = targetUser.getSettings();
+            currentUserSettings.setTheme(theme);
 
-        em.merge(currentUserSettings);
-        return true;
+            em.merge(currentUserSettings);
+            return true;
         }
     }
 
