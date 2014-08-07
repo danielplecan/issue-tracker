@@ -47,12 +47,10 @@ public class IssueService {
 
     @Autowired
     private FileUploadService fileUploadService;
-    
 
     /**
      *
-     * @param issueDto encapsulates an issue, and a list of id for existing
-     * labels
+     * @param issueDto encapsulates an issue, and a list of id for existing labels
      * @param owner
      * @return the id of the created issue
      */
@@ -245,7 +243,7 @@ public class IssueService {
         return labelQuery.getResultList();
     }
 
-    public FilterResult filterIssues(List<QueryFilter<Issue>> filters, QueryOrder order, Integer pageNumber, Integer itemsPerPage) {
+    public FilterResult filterIssues(List<QueryFilter<Issue>> filters, QueryOrder<Issue> order, Integer pageNumber, Integer itemsPerPage) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Issue> criteriaQuery = criteriaBuilder.createQuery(Issue.class);
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
@@ -255,7 +253,9 @@ public class IssueService {
 
         criteriaQuery.where(predicatesArray);
         criteriaQuery.select(root);
-        criteriaQuery.orderBy(order.buildOrder(criteriaBuilder, criteriaQuery, root));
+        if (order != null) {
+            criteriaQuery.orderBy(order.buildOrder(criteriaBuilder, criteriaQuery, root));
+        }
 
         countQuery.select(criteriaBuilder.count(countQuery.from(Issue.class)));
         countQuery.where(predicatesArray);

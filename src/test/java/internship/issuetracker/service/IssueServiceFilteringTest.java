@@ -4,16 +4,10 @@ import internship.issuetracker.dto.NewIssueDTO;
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.entity.Issue;
 import internship.issuetracker.entity.IssueState;
+import internship.issuetracker.entity.Label;
 import internship.issuetracker.entity.User;
 import internship.issuetracker.filter.FilterResult;
-import internship.issuetracker.filter.IssueContentQueryFilter;
 import internship.issuetracker.filter.IssueSearchCriteria;
-import internship.issuetracker.filter.IssueStateQueryFilter;
-import internship.issuetracker.filter.IssueTitleQueryFilter;
-import internship.issuetracker.filter.QueryFilter;
-import internship.issuetracker.order.IssueTitleQueryOrder;
-import internship.issuetracker.order.OrderType;
-import internship.issuetracker.order.QueryOrder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,6 +48,7 @@ public class IssueServiceFilteringTest {
     public void setUp() throws Exception {
         if (!initializationHasRun) {
             registerUser();
+            addLabels();
             addIssues();
             initializationHasRun = true;
         }
@@ -173,6 +168,49 @@ public class IssueServiceFilteringTest {
                 searchCriteria.getQueryOrder(), searchCriteria.getPageNumber(), searchCriteria.getNumberOfItemsPerPage());
         assertTrue(filteredIssues.getTotalResultCount() == 2);
     }
+    
+    @Test
+    public void testLabelsFilterOne() {
+        IssueSearchCriteria searchCriteria = new IssueSearchCriteria();
+        Map<String, Object> filters = new HashMap<>();
+        Map<String, Object> orders = new HashMap<>();
+        
+        List<Integer> labelsIdList = new ArrayList<>();
+        labelsIdList.add(issueService.getLabelByName("label2").getId().intValue());
+        filters.put("labels", labelsIdList);
+        orders.put("updateDate", "ASC");
+
+        searchCriteria.setFilters(filters);
+        searchCriteria.setOrders(orders);
+        searchCriteria.setNumberOfItemsPerPage(5);
+        searchCriteria.setPageNumber(1);
+
+        FilterResult filteredIssues = issueService.filterIssues(searchCriteria.getQueryFilters(), 
+                searchCriteria.getQueryOrder(), searchCriteria.getPageNumber(), searchCriteria.getNumberOfItemsPerPage());
+        assertTrue(filteredIssues.getTotalResultCount() == 2);
+    }
+    
+    @Test
+    public void testLabelsFilterTwo() {
+        IssueSearchCriteria searchCriteria = new IssueSearchCriteria();
+        Map<String, Object> filters = new HashMap<>();
+        Map<String, Object> orders = new HashMap<>();
+        
+        List<Integer> labelsIdList = new ArrayList<>();
+        labelsIdList.add(issueService.getLabelByName("label2").getId().intValue());
+        labelsIdList.add(issueService.getLabelByName("label4").getId().intValue());
+        filters.put("labels", labelsIdList);
+        orders.put("updateDate", "ASC");
+
+        searchCriteria.setFilters(filters);
+        searchCriteria.setOrders(orders);
+        searchCriteria.setNumberOfItemsPerPage(5);
+        searchCriteria.setPageNumber(1);
+
+        FilterResult filteredIssues = issueService.filterIssues(searchCriteria.getQueryFilters(), 
+                searchCriteria.getQueryOrder(), searchCriteria.getPageNumber(), searchCriteria.getNumberOfItemsPerPage());
+        assertTrue(filteredIssues.getTotalResultCount() == 1);
+    }
 
     @Test
     public void testMixedFiltering() {
@@ -184,7 +222,7 @@ public class IssueServiceFilteringTest {
         filters.put("title", "title5");
         filters.put("state", "closed");
         filters.put("unexisting", "unexistingvalue");
-        orders.put("updateDate", "ASC");
+        orders.put("updateeDate", "ASC");
 
         searchCriteria.setFilters(filters);
         searchCriteria.setOrders(orders);
@@ -216,6 +254,8 @@ public class IssueServiceFilteringTest {
 
     @Transactional
     public final void addIssues() {
+        
+        
         Issue issue1 = new Issue();
         issue1.setTitle("title1");
         issue1.setContent("content1");
@@ -258,15 +298,24 @@ public class IssueServiceFilteringTest {
         NewIssueDTO newIssueDTO5 = new NewIssueDTO();
 
         newIssueDTO1.setIssue(issue1);
-        newIssueDTO1.setLabelIdList(new ArrayList<Long>());
+        List<Long> labelIdList1 = new ArrayList<>();
+        labelIdList1.add(issueService.getLabelByName("label1").getId());
+        labelIdList1.add(issueService.getLabelByName("label2").getId());
+        newIssueDTO1.setLabelIdList(labelIdList1);
         newIssueDTO1.setAttachments(new ArrayList<Long>());
 
         newIssueDTO2.setIssue(issue2);
-        newIssueDTO2.setLabelIdList(new ArrayList<Long>());
+        List<Long> labelIdList2 = new ArrayList<>();
+        labelIdList2.add(issueService.getLabelByName("label3").getId());
+        labelIdList2.add(issueService.getLabelByName("label4").getId());
+        newIssueDTO2.setLabelIdList(labelIdList2);
         newIssueDTO2.setAttachments(new ArrayList<Long>());
 
         newIssueDTO3.setIssue(issue3);
-        newIssueDTO3.setLabelIdList(new ArrayList<Long>());
+        List<Long> labelIdList3 = new ArrayList<>();
+        labelIdList3.add(issueService.getLabelByName("label2").getId());
+        labelIdList3.add(issueService.getLabelByName("label4").getId());
+        newIssueDTO3.setLabelIdList(labelIdList3);
         newIssueDTO3.setAttachments(new ArrayList<Long>());
 
         newIssueDTO4.setIssue(issue4);
@@ -282,5 +331,28 @@ public class IssueServiceFilteringTest {
         issueService.createIssueFromIssueDTO(newIssueDTO3, getUser());
         issueService.createIssueFromIssueDTO(newIssueDTO4, getUser());
         issueService.createIssueFromIssueDTO(newIssueDTO5, getUser());
+    }
+    @Transactional
+    public final void addLabels() {
+        Label label1 = new Label();
+        label1.setName("label1");
+        label1.setColor("#aabbcc");
+        
+        Label label2 = new Label();
+        label2.setName("label2");
+        label2.setColor("#aabbcc");
+        
+        Label label3 = new Label();
+        label3.setName("label3");
+        label3.setColor("#aabbcc");
+        
+        Label label4 = new Label();
+        label4.setName("label4");
+        label4.setColor("#aabbcc");
+        
+        issueService.createLabel(label1);
+        issueService.createLabel(label2);
+        issueService.createLabel(label3);
+        issueService.createLabel(label4);
     }
 }
