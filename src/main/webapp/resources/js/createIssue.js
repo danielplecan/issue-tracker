@@ -34,8 +34,8 @@ var createIssueValidator = (function() {
 
 //VALIDATES A FORM FOR CREATING AN ISSUE
 function validateIssueForm(form) {
-    var title = $(form).find('#textArea1').val();
-    var content = $(form).find('#textArea2').val();
+    var title = $(form).find('#textArea1').val().trim();
+    var content = $(form).find('#textArea2').val().trim();
     var service = createIssueValidator;
     var hasErrors = false;
 
@@ -111,8 +111,8 @@ $(document).ready(function() {
 
         var attachments = widget.getUploadedFiles();
 
-        issueTrackerService.createIssue($('#textArea1').val(),
-                $('#textArea2').val(), labelIdList, attachments).done(function(data) {
+        issueTrackerService.createIssue($('#textArea1').val().trim(),
+                $('#textArea2').val().trim(), labelIdList, attachments).done(function(data) {
             if (data.success) {
                 window.location.replace(data.url);
             }
