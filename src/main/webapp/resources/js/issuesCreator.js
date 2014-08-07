@@ -62,13 +62,13 @@ var issuesCreator = function() {
     var createPostedUserSpan = function(name, username) {
         var span = $("<span></span>");
         var a = $('<a/>');
-        a.attr('href','/profile/'+username);
-        a.text(name);
+        a.attr('href', '/profile/' + username);
+        a.text(username);
         span.append(a);
         span.addClass("text-primary");
         return span;
     };
-     var createDateSpan = function(text) {
+    var createDateSpan = function(text) {
         var span = $("<span class=\"textDate\"></span>");
         span.text(text);
         span.addClass("text-primary");
@@ -77,7 +77,7 @@ var issuesCreator = function() {
     var createPostedDetailsSpan = function(text) {
         var span = $("<span></span>");
         var a = $('<a/>');
-        a.attr('href','/profile/'+text);
+        a.attr('href', '/profile/' + text);
         a.text(text);
         span.append(a);
         span.addClass("text-primary");
@@ -99,7 +99,7 @@ var issuesCreator = function() {
         issueDateTime.append("<i>Last updated by </i>");
         issueDateTime.append(createPostedUserSpan(issue.lastUpdatedBy.name, issue.lastUpdatedBy.username));
         issueDateTime.append("<i>, </i>");
-        issueDateTime.append(createDateSpan(issue.lastUpdateDate));       
+        issueDateTime.append(createDateSpan(issue.lastUpdateDate));
         return issueDateTime;
     };
     var createIssueDetailsDiv = function(issue) {
@@ -160,10 +160,10 @@ var issuesCreator = function() {
         addAllIssues: function(issues, totalResult) {
             allIssuesDiv = $("#allIssues");
             allIssuesDiv.empty();
+            noResultMessage(totalResult <= 0 ? "No results were found" : totalResult + " in total");
             $.each(issues, function(index, item) {
                 allIssuesDiv.append(addIssue(item));
             });
-            noResultMessage(totalResult <= 0 ? "No results were found" : totalResult + " in total");
         }
     };
 };

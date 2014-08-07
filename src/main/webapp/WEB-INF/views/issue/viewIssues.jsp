@@ -163,11 +163,8 @@
             </div>
         </div>
     </aside>
-
-    <div id="allIssues"> 
-    </div>
-
-    <div class="col-xs-12 txt-center">
+    
+     <div class="col-xs-12 txt-center">
         <ul class="pager" style="display: inline-block">
             <li class="firstButton first disabled"><a >«</a></li>
             <li class="prevButton first disabled"><a>Prev</a></li>
@@ -178,6 +175,9 @@
             <li class="lastButton last"><a>»</a></li>
         </ul>
     </div>
+    <div id="allIssues"> 
+    </div>
+
 </div>
 <script>
     $(document).ready(function() {
