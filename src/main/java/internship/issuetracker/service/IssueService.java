@@ -398,8 +398,7 @@ public class IssueService {
     public void sendNotificationForAssign(Issue issue, User loggedUser, String link) {
         if (issue.getAssignee() == null) {
             return;
-        }
-        else {
+        } else {
             if (!issue.getAssignee().getId().equals(loggedUser.getId())) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("link", link + "/issue/" + issue.getId());
