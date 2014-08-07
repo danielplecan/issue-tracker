@@ -69,12 +69,8 @@ public class DateFormatUtil {
         return date.toString();
     }
 
-    public static String getFriendlyInterval(Date oldDate) {
-        Interval interval = new Interval(new DateTime(oldDate), new DateTime(new Date()));
-        StringBuilder result = new StringBuilder();
-        TimeUtils time = new TimeUtils(interval);
+    public static boolean createDate(StringBuilder result, TimeUtils time, Date oldDate) {
         boolean agoFlag = true;
-
         if (time.getDays() == 1) {
             result.append(" 1 day ");
         } else if (time.getDays() > 1 && time.getDays() < 14) {
@@ -98,7 +94,14 @@ public class DateFormatUtil {
         } else {
             result.append(time.getSeconds()).append(" seconds ");
         }
-
+        return agoFlag;
+    }
+            
+    public static String getFriendlyInterval(Date oldDate) {
+        Interval interval = new Interval(new DateTime(oldDate), new DateTime(new Date()));
+        StringBuilder result = new StringBuilder();
+        TimeUtils time = new TimeUtils(interval);
+        boolean agoFlag = createDate(result, time, oldDate);
         return appendAgo(result, agoFlag);
     }
 }
