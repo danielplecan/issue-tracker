@@ -375,6 +375,7 @@ td {
     width: 24px;
     height: 24px;      
     margin: 0.9px;
+    border-radius: 2px;
 }
 .label-line{
     width:100%;
@@ -512,7 +513,7 @@ td {
     width: 300px;
     margin-top: 12px;
     padding: 8px 0;
-    background-color: #fff;
+   
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, 0.2);
     -webkit-border-radius: 8px;
@@ -532,7 +533,7 @@ td {
        -moz-border-radius: 8px;
        border-radius: 8px;*/
     outline: none;
-    background-color: #fff;
+   
 }
 
 .typeahead:focus {
@@ -800,3 +801,95 @@ td {
 #issueContent > p, .theIssueContentPreview > p, .md-preview > p, .commentContent > p{
     width: 100%;
 }
+    .clearFormGroup{
+        clear:both;
+        padding: 0;
+    }
+    .formLeft{
+        float:left;
+        left: 0;
+        position: relative;
+        padding-right: 0px;
+    }
+    .formRight{
+        float: right;
+        right: 0;
+        position: relative;
+        padding: 0px;
+    }
+    .select2-choices{
+        margin-left:20px;
+    }
+    .advancedSearchIcon{
+        font-size:33px;
+        float:right;
+        cursor: pointer;
+    }
+    .form-control::-webkit-input-placeholder { /* WebKit browsers */
+        color:    gray;
+    }
+    .form-control:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:   gray;
+        opacity:  1;
+    }
+    .form-control::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:   gray;
+        opacity:  1;
+    }
+    .form-control:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color:    gray;
+    }
+    .form-control, .select2-container-multi .select2-choices {      
+        border-radius: 4px;       
+        color: black;
+        display: block;
+        font-size: 14px;
+        height: 38px;
+        line-height: 1.42857;
+        padding: 8px 12px;
+        width: 100%;
+    }
+    .advancedFilterMargin{
+        margin-top: 40px;
+    }   
+    .col-lg-6.filterInput.advancedFilterInput, .col-lg-5.filterInput.advancedFilterInput {
+        margin-bottom: 16px;
+    }
+    .advancedFilterInputTitle {
+        margin-bottom: 4px;
+    }
+    .form-control.orderBySelect1{
+        padding-left: 2px;
+        width: 125px;
+    }
+    .form-control.orderBySelect2{
+        padding-left: 2px;
+        width: 113px;       
+    }
+    .searchAndAdvancedSearchBtns{
+        margin-top: 23px;
+    }
+    @media (max-width: 1280px)  {
+        .form-control.orderBySelect1{
+            padding-left: 2px;
+            width: 100%;
+        }
+        .form-control.orderBySelect2{
+            padding-left: 2px;
+            width: 100%;
+        }
+    }
+    #searchButtonFilter{
+        width:200px;
+    }
+    .asigneeLabelX, .autorLabelX{
+        cursor: pointer;
+    }
+    .twitter-typeahead {
+        width: 335px;
+    }
+    @media (max-width: 1183px)  {
+        .twitter-typeahead {
+            width:100%;
+        }
+    }

@@ -88,7 +88,7 @@ $(document).ready(function() {
     var userFilter = {};
 
     order["updateDate"] = "DESC";
-    userFilter["owner"] = $('#username').text();
+    userFilter["owner"] = $('#username').data("usernameid");
     filterData["filters"] = userFilter;
     filterData["numberOfItemsPerPage"] = 2147483647;
     filterData["pageNumber"] = 1;
