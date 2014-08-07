@@ -17,6 +17,10 @@ public class IssueEditUtil {
     
     private final static Map<String, Boolean> CHANGES = new HashMap<>();
     
+    private IssueEditUtil() {
+        
+    }
+    
     public static Map<String, Boolean> getCHANGES() {
         return CHANGES;
     }
