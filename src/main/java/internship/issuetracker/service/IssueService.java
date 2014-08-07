@@ -436,8 +436,8 @@ public class IssueService {
             mailService.sendEmail(issue.getOwner().getEmail(), "Issue-Tracker Notification", map);
         }
         if (issue.getAssignee() != null) {
-            if (!issue.getAssignee().getId().equals(issue.getOwner().getId())) {
-                if (!issue.getAssignee().getId().equals(issue.getLastUpdatedBy().getId())) {
+            if (!assigneeIsSameAsOwner(issue)) {
+                if (!isLastUpdatedByAssignee(issue)) {
                     Map<String, Object> map = new HashMap<>();
                     map.put("link", link + "/issue/" + issue.getId());
                     map.put("linkText", "Click here to see the issue");
@@ -449,6 +449,22 @@ public class IssueService {
             }
         }
 
+    }
+    
+    /**
+     *Utility method
+     */
+    
+    private boolean assigneeIsSameAsOwner(Issue issue) {
+        return issue.getAssignee().getId().equals(issue.getOwner().getId());
+    }
+    
+    /**
+     *Utility method
+     */
+    
+    private boolean isLastUpdatedByAssignee(Issue issue) {
+        return issue.getAssignee().getId().equals(issue.getLastUpdatedBy().getId());
     }
 
     public List<User> findUsersIssuesOwnersByNamePrefix(String usernamePrefix) {
