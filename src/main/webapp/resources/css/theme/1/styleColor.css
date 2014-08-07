@@ -125,3 +125,69 @@
 .commentBlockquote{
     border-left: 4px solid #E6E6E6;
 }
+.form-control::-webkit-input-placeholder { /* WebKit browsers */
+    color:    gray;
+}
+.form-control:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:   gray;
+    opacity:  1;
+}
+.form-control::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:   gray;
+    opacity:  1;
+}
+.form-control:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    gray;
+}
+.form-control, .select2-container-multi .select2-choices, .form-control2 {
+    background-color: #CFCFCF;
+    background-image: none;
+    border: 1px solid #cccccc;    
+    color: black;   
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;    
+}
+#autorLabel, #asigneeLabel{
+    color: white;
+}
+/*cosmina's autocomplete]'*/
+.tt-dropdown-menu {   
+    background-color: #cfcfcf;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    color:black;
+}
+
+.typeahead, .typeaheadOwners, .typeaheadAssignees {
+    width: 300px;
+    padding: 8px 12px;
+    line-height: 30px;
+    /*    border: 2px solid #ccc;
+      -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+       border-radius: 8px;*/
+    outline: none;
+    background-color: #cfcfcf;
+}
+
+.tt-suggestion.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
+}
+.select2-container-multi .select2-choices { 
+    background-color: #cfcfcf;
+    border: 1px solid #cccccc;   
+}
+.select2-container-multi .select2-choices {
+
+    background-color: #cfcfcf;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(15%, #cfcfcf));
+    background-image: -webkit-linear-gradient(top, #cfcfcf 15%);
+    background-image: -moz-linear-gradient(top, #cfcfcf 15%);
+    background-image: linear-gradient(to bottom, #cfcfcf 15%);
+}

@@ -81,7 +81,7 @@ var pager = function() {
         filter["title"] = $("#searchFieldTitle").val();
         filter["assignee"] = assigneeId;
         filter["owner"] = authorId;
-        
+
         theState = $('#filterByStateSelect').val();
         theOrder = $('#orderByFirstSelect').val();//orderby title
         theSort = $('#orderBySecondSelect').val();//asc/desc
@@ -90,11 +90,11 @@ var pager = function() {
             labelIdList.pop();
         }
         labelIdList = $("#e8_2").select2("val");
-        var longLabelIdList=[];
-        $(labelIdList).each(function(index,elem) {
+        var longLabelIdList = [];
+        $(labelIdList).each(function(index, elem) {
             longLabelIdList.push(parseInt(elem));
         });
-        
+
 
         order[theOrder] = theSort;
         filter["state"] = theState;
@@ -135,74 +135,6 @@ var pager = function() {
             ReloadIssuesOnPage();
         },
         initializePagination: function() {
-            $("#stateOpen").click(function() {
-                theState = "Open";
-            });
-            $("#stateClosed").click(function() {
-                theState = "Closed";
-            });
-            $("#stateAll").click(function() {
-                theState = "All";
-            });
-
-            $("#orderTitle").click(function() {
-                theOrder = "title";
-            });
-            $("#orderUpdateDate").click(function() {
-                theOrder = "updateDate";
-            });
-            $("#sortAsc").click(function() {
-                theSort = "ASC";
-            });
-            $("#sortDesc").click(function() {
-                theSort = "DESC";
-            });
-
-            $(".labelsFilterList li").click(function() {
-                var $this = $(this);
-
-                if (this.style.backgroundColor !== "") {
-                    this.style.backgroundColor = "";
-                    $this.removeClass("thisLabelIsSelected");
-                }
-                else {
-                    $this.css("background-color", $this.data("color"));
-                    $this.addClass("thisLabelIsSelected");
-                }
-            });
-
-            $(".typeOfState").click(function() {
-                $(".typeOfState").find('span').remove();
-                $(this).append('<span class="glyphicon glyphicon-ok"/>');
-            });
-
-            $(".typeOfOrder").click(function() {
-                $(".typeOfOrder").find('span').remove();
-                $(this).append('<span class="glyphicon glyphicon-ok"/>');
-            });
-            $(".typeOfSort").click(function() {
-                $(".typeOfSort").find('span').remove();
-                $(this).append('<span class="glyphicon glyphicon-ok"/>');
-            });
-
-            var stopToggle = false;
-            $(".panel-heading").click(function() {
-
-                if (!stopToggle) {
-                    stopToggle = true;
-                    $("#panelBody").toggle(600, function() {
-                        if ($("#panelBody").is(':visible')) {
-                            document.getElementById('header-arrow').innerHTML = '&#x21d1';
-                            $("#searchFieldTitle").focus();
-                        }
-                        else {
-                            document.getElementById('header-arrow').innerHTML = '&#x21d3';
-                        }
-                        stopToggle = false;
-                    });
-                }
-            });
-
             pageNumber = 1;
             onOptionAutocompleteSelected();
             createFilterData();
