@@ -155,7 +155,7 @@ $(document).ready(function() {
     autocomplete.getAllUsersForAssignTo();
     $('#changeAssignButton').click(function() {
         $('#assignTo').val('');
-        $('#scrollable-dropdown-menu').show('slow');
+        $('#scrollable-dropdown-menu').show();
         $('#changeAssignButton').hide();
         $('#assignButton').hide();
         $('#cancelAssignButton').show();

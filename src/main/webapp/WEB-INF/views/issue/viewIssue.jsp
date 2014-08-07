@@ -57,7 +57,7 @@
                         </a>
                     </c:forEach>
                 </div>
-                <div class='col-lg-10'>
+                <div>
                     <span><i>Assigned to: </i>&nbsp;
                         <span id = "assignedName">
                             <c:choose>
@@ -91,7 +91,7 @@
                             </c:when>
                         </c:choose>
                     </span>
-                    <div class="col-lg-12" id="scrollable-dropdown-menu" style="display:none;">
+                    <div id="scrollable-dropdown-menu" style="display:none;">
                         <input class="form-control typeahead" id="assignTo" placeholder="Assign to" />
                         <span id = "assigneeSpan" class="help-block"></span>
                         <button id="assignButton" type="button" class="btn btn-default btn-xs" data-container="body" style="display:none;">
