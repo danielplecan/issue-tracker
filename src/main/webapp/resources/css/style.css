@@ -857,6 +857,10 @@ td {
     }
     .advancedFilterInputTitle {
         margin-bottom: 4px;
+        padding-left: 2px;
+    }
+    .orderByAdvancedFilterInputTitle{
+        padding-left: 16px;
     }
     .form-control.orderBySelect1{
         padding-left: 2px;

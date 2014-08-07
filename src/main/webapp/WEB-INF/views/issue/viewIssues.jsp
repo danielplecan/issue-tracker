@@ -11,7 +11,7 @@
                 <input class="col-lg-12 form-control" placeholder="Title" id="searchFieldTitle" type="text">           
             </div>
             <div class="col-lg-4 filterInput advancedFilterInput">
-                <span class="col-lg-12 advancedFilterInputTitle">Order By</span>
+                <span class="col-lg-12 advancedFilterInputTitle orderByAdvancedFilterInputTitle">Order By</span>
                 <div class="col-lg-6">
                     <select id="orderByFirstSelect" class="form-control orderBySelect1"> 
                         <option value="updateDate" selected="selected">Update Date</option>                   
