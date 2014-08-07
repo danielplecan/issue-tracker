@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package internship.issuetracker.util;
 
 import java.text.DateFormat;
@@ -17,58 +16,89 @@ import org.joda.time.Interval;
  * @author atataru
  */
 public class DateFormatUtil {
-    
-    private DateFormatUtil() {
+
+    static class TimeUtils {
+
+        private final long days;
+        private final long hours;
+        private final long minutes;
+        private final long seconds;
+
+        public TimeUtils(Interval interval) {
+            days = interval.toDuration().getStandardDays();
+
+            hours = interval.toDuration().getStandardHours() - days * 24;
+
+            minutes = interval.toDuration().getStandardMinutes()
+                    - days * 24 * 60 - hours * 60;
+
+            seconds = interval.toDuration().getStandardSeconds()
+                    - days * 24 * 60 * 60 - hours * 60 * 60 - minutes * 60;
+        }
+
+        public long getDays() {
+            return days;
+        }
+
+        public long getHours() {
+            return hours;
+        }
+
+        public long getMinutes() {
+            return minutes;
+        }
+
+        public long getSeconds() {
+            return seconds;
+        }
     }
-    
+
+    private DateFormatUtil() {
+
+    }
+
     public static String getDateFormat2(Date date) {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return dateFormat.format(date);
     }
-    
+
+    public static String appendAgo(StringBuilder date, boolean needsAgo) {
+        if (needsAgo) {
+            date.append("ago");
+        }
+        return date.toString();
+    }
+
     public static String getFriendlyInterval(Date oldDate) {
-        DateTime oldTimeInstant = new DateTime(oldDate);
-        DateTime newTimeInstant = new DateTime(new Date());
-        Interval interval = new Interval(oldTimeInstant, newTimeInstant);
+        Interval interval = new Interval(new DateTime(oldDate), new DateTime(new Date()));
         StringBuilder result = new StringBuilder();
-
-        long days = interval.toDuration().getStandardDays();
-
-        long hours = interval.toDuration().getStandardHours() - days * 24;
-
-        long minutes = interval.toDuration().getStandardMinutes() - days * 24 * 60 - hours * 60;
-
-        long seconds = interval.toDuration().getStandardSeconds() - days * 24 * 60 * 60 - hours * 60 * 60 - minutes * 60;
-
+        TimeUtils time = new TimeUtils(interval);
         boolean agoFlag = true;
 
-        if (days == 1) {
+        if (time.getDays() == 1) {
             result.append(" 1 day ");
-        } else if (days > 1 && days < 14) {
-            result.append(days).append(" days  ");
-        } else if (days >= 14) {
+        } else if (time.getDays() > 1 && time.getDays() < 14) {
+            result.append(time.getDays()).append(" days  ");
+        } else if (time.getDays() >= 14) {
             result.append(getDateFormat2(oldDate));
-            return result.toString();
-        } else if (hours == 1) {
+            agoFlag = false;
+        } else if (time.getHours() == 1) {
             result.append(" 1 hour ");
-        } else if (hours > 1) {
-            result.append(hours).append(" hours ");
-        } else if (minutes == 1) {
+        } else if (time.getHours() > 1) {
+            result.append(time.getHours()).append(" hours ");
+        } else if (time.getMinutes() == 1) {
             result.append(" 1 minute ");
-        } else if (minutes > 1) {
-            result.append(minutes).append(" minutes ");
-        } else if (seconds == 1) {
+        } else if (time.getMinutes() > 1) {
+            result.append(time.getMinutes()).append(" minutes ");
+        } else if (time.getSeconds() == 1) {
             result.append(" 1 second ");
-        } else if (seconds < 1) {
+        } else if (time.getSeconds() < 1) {
             result.append(" just now ");
             agoFlag = false;
         } else {
-            result.append(seconds).append(" seconds ");
+            result.append(time.getSeconds()).append(" seconds ");
         }
 
-        if (agoFlag) {
-            result.append("ago");
-        }
-        return result.toString();
+        return appendAgo(result, agoFlag);
     }
 }
