@@ -27,6 +27,9 @@ public class UserServiceTest {
     @Autowired
     UserService userService;
     
+    @Autowired 
+    ActivationService activationService;
+    
     public UserServiceTest() {
     }
     
@@ -73,7 +76,23 @@ public class UserServiceTest {
         
         assertArrayEquals(expecteds, actuals);
     }
-
+    /**
+     * Test if activation hash was stored in the data base.
+     */
+    @Test
+    public void testIfAccountIsActiveAfterRegister() {
+        System.out.println("registerUser");
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName("userA");
+        userDTO.setEmail("userA@email.com");
+        userDTO.setUsername("usernameA");
+        userDTO.setPassword("12345");
+        
+        userService.registerUser(userDTO);
+        User result = userService.getUserByEmail(userDTO.getEmail());
+             
+        assertEquals(result.isActive(),false);
+    }
     /**
      * Test of usernameExists method, of class UserService.
      */

@@ -30,7 +30,7 @@ public class UserSettingsService {
             userSettings.setUser(targetUser);
             userSettings.setNotificationsForPostedIssues(Boolean.FALSE);
             userSettings.setNotificationsForAssignedIssues(Boolean.FALSE);
-            userSettings.setTheme(1L);
+            userSettings.setTheme(0L);
             em.persist(userSettings);
         }
     }

@@ -18,7 +18,7 @@ public class HomeController {
     
     @RequestMapping(value = {"/", ""})
     public String home(HttpSession session) {
-        return "home";
+        return "redirect:/issues";
     }
 
     @RequestMapping(value = "/not-found")
