@@ -29,8 +29,7 @@ public class IssueSearchCriteria {
 
         for (String filter : filters.keySet()) {
             Object filterValue = filters.get(filter);
-
-            if (filterValue instanceof String) {
+            try {
                 switch (filter) {
                     case "title":
                         queryFilters.add(new IssueTitleQueryFilter((String) filterValue));
@@ -44,42 +43,30 @@ public class IssueSearchCriteria {
                             queryFilters.add(new IssueStateQueryFilter(state));
                         }
                         break;
-                    default:
-                        break;
-                }
-            } else if (filterValue instanceof List) {
-                switch (filter) {
                     case "labels":
                         for (Object value : (List) filterValue) {
-                            if (value instanceof Integer) {
-                                queryFilters.add(new IssueLabelQueryFilter(((Integer) value).longValue()));
-                            }
+                            queryFilters.add(new IssueLabelQueryFilter(((Integer) value).longValue()));
                         }
                         break;
-                    default:
-                        break;
-                }
-            } else if (filterValue instanceof Integer) {
-                switch (filter) {
                     case "assignee":
                         queryFilters.add(new IssueAssigneeQueryFilter(((Integer) filterValue).longValue()));
                         break;
                     case "owner":
                         queryFilters.add(new IssueOwnerQueryFilter(((Integer) filterValue).longValue()));
                         break;
+                    default:
+                        break;
                 }
-
+            } catch (ClassCastException exception) {
             }
         }
-
         return queryFilters;
     }
 
     public QueryOrder<Issue> getQueryOrder() {
         for (String key : getOrders().keySet()) {
             Object orderValue = getOrders().get(key);
-
-            if (orderValue instanceof String) {
+            try {
                 switch (key) {
                     case "title":
                         return new IssueTitleQueryOrder(OrderType.fromString((String) orderValue));
@@ -88,6 +75,8 @@ public class IssueSearchCriteria {
                     default:
                         return null;
                 }
+            } catch (ClassCastException exception) {
+                return null;
             }
         }
 
