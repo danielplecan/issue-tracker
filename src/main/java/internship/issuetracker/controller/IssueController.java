@@ -156,7 +156,6 @@ public class IssueController {
 
     @RequestMapping(value = "/issues", method = RequestMethod.GET)
     public String viewAllIssues(Model model) {
-        Map<Long, List<Label>> labelsForIssue = new HashMap<>();
         model.addAttribute("allLabels", issueService.getAllLabels());
         return ISSUES;
     }
@@ -385,7 +384,7 @@ public class IssueController {
             responseMap.put(SUCCESS, false);
         } else {
             List<UploadedFile> attachments = issueService.getAttachmentsByIssueId(issue);
-            if (attachments == null) {
+            if (attachments.isEmpty()) {
                 responseMap.put(SUCCESS, false);
             } else {
                 responseMap.put(SUCCESS, true);
