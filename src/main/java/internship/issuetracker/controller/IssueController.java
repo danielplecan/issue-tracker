@@ -12,9 +12,7 @@ import internship.issuetracker.filter.FilterResult;
 import internship.issuetracker.filter.IssueSearchCriteria;
 import internship.issuetracker.service.FileUploadService;
 import internship.issuetracker.service.IssueService;
-import internship.issuetracker.service.MailService;
 import internship.issuetracker.service.UserService;
-import internship.issuetracker.service.UserSettingsService;
 import internship.issuetracker.util.SerializationUtil;
 import internship.issuetracker.validator.CommentValidator;
 import internship.issuetracker.validator.LabelForEditValidator;
@@ -46,6 +44,18 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Controller
 public class IssueController {
 
+    private static final String LABELS = "labels";
+    private static final String ISSUE = "issue";
+    private static final String NOT_FOUND = "not-found";
+    private static final String COMMENTS = "comments";
+    private static final String RESULT = "result";
+    private static final String ISSUES = "issues";
+    private static final String HTTP = "http://";
+    private static final String ERRORS = "errors";
+    private static final String ATTACHMENTS = "attachments";
+    private static final String SUCCESS = "success";
+    private static final String LABEL = "label";
+
     @Autowired
     private IssueService issueService;
 
@@ -65,29 +75,30 @@ public class IssueController {
     public String viewIssue(@PathVariable("id") Long id, Model model) {
         Issue result = issueService.getIssueById(id);
         if (result == null) {
-            return "not-found";
+            return NOT_FOUND;
         }
 
-        model.addAttribute("issue", result);
+        model.addAttribute(ISSUE, result);
 
         List<Label> labels = issueService.getLabelsByIssueId(result);
-        model.addAttribute("labels", labels);
+        model.addAttribute(LABELS, labels);
 
         List<Comment> comments = issueService.getCommentsByIssueId(result);
-        model.addAttribute("comments", comments);
-        
+        model.addAttribute(COMMENTS, comments);
+
         List<UploadedFile> attachments = issueService.getAttachmentsByIssueId(result);
-        model.addAttribute("attachments", attachments);
-        return "issue";
+        model.addAttribute(ATTACHMENTS, attachments);
+        return ISSUE;
     }
+    
 
     //crw: createIssue and createAnIssue methods might be puzzling, so you may consider renaming them
     //crw: one recommendation is to rename these methods with get<PageName> or setup<PageName>
     //crw: for example, the method bellow does not create an issue, instead it prepares the create-issue page
     @RequestMapping(value = {"/create-issue"}, method = RequestMethod.GET)
     public String getCreateIssuePage(Model model) {
-        model.addAttribute("issue", new Issue());
-        model.addAttribute("labels", issueService.getAllLabels());
+        model.addAttribute(ISSUE, new Issue());
+        model.addAttribute(LABELS, issueService.getAllLabels());
         return "create-issue";
     }
 
@@ -101,13 +112,13 @@ public class IssueController {
         response.setStatus(HttpServletResponse.SC_OK);
 
         if (bindingResult.hasErrors()) {
-            responseMap.put("success", false);
-            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            responseMap.put(SUCCESS, false);
+            responseMap.put(ERRORS, SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             User author = (User) request.getSession().getAttribute("user");
             long newResourceId = issueService.createIssueFromIssueDTO(issueDto, author);
 
-            responseMap.put("success", true);
+            responseMap.put(SUCCESS, true);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(
@@ -117,6 +128,7 @@ public class IssueController {
         }
         return responseMap;
     }
+    
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/change-state/close")
     @ResponseBody
@@ -124,9 +136,8 @@ public class IssueController {
             HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
         User currentUser = (User) request.getSession().getAttribute("user");
-        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.CLOSED, currentUser));
+        result.put(SUCCESS, issueService.changeStateOfIssue(issueId, IssueState.CLOSED, currentUser));
         response.setStatus(HttpServletResponse.SC_OK);
-
 
         return result;
     }
@@ -137,7 +148,7 @@ public class IssueController {
             HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
         User currentUser = (User) request.getSession().getAttribute("user");
-        result.put("success", issueService.changeStateOfIssue(issueId, IssueState.OPEN,currentUser));
+        result.put(SUCCESS, issueService.changeStateOfIssue(issueId, IssueState.OPEN, currentUser));
         response.setStatus(HttpServletResponse.SC_OK);
 
         return result;
@@ -145,18 +156,11 @@ public class IssueController {
 
     @RequestMapping(value = "/issues", method = RequestMethod.GET)
     public String viewAllIssues(Model model) {
-
-        List<Issue> issues = issueService.getIssuesOrderedByDate();
         Map<Long, List<Label>> labelsForIssue = new HashMap<>();
-        for (Issue is : issues) {
-            List<Label> labels = issueService.getLabelsByIssueId(is);
-            labelsForIssue.put(is.getId(), labels);
-        }
-        model.addAttribute("issues", issues);
-        model.addAttribute("labels", labelsForIssue);
         model.addAttribute("allLabels", issueService.getAllLabels());
-        return "issues";
+        return ISSUES;
     }
+    
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-comment")
     @ResponseBody
@@ -167,12 +171,12 @@ public class IssueController {
         CommentValidator validator = new CommentValidator();
         validator.validate(commentDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            responseMap.put("success", false);
-            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            responseMap.put(SUCCESS, false);
+            responseMap.put(ERRORS, SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
             long lastKnowCommentId = commentDTO.getId();
-            
+
             Comment comment = commentDTO.getCommentFromDTO();
             comment.setAttachments(fileUploadService.getAttachmentsByIds(commentDTO.getAttachments()));
             issueService.addComment(currentUser, issueId, comment);
@@ -180,19 +184,20 @@ public class IssueController {
 
             List<User> targets = new ArrayList<>();
             targets.add(issue.getOwner());
-            issueService.sendNotificationForComment(comment, targets.get(0), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+            issueService.sendNotificationForComment(comment, targets.get(0), HTTP + request.getLocalAddr() + ":" + request.getLocalPort());
             if (issue.getAssignee() != null) {
                 targets.add(issue.getAssignee());
-                issueService.sendNotificationForComment(comment, targets.get(1), "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+                issueService.sendNotificationForComment(comment, targets.get(1), HTTP + request.getLocalAddr() + ":" + request.getLocalPort());
             }
-            
+
             List<Comment> listComments = issueService.getMissedComments(issueId, lastKnowCommentId);
-            responseMap.put("success", true);
-            responseMap.put("comments", listComments);
+            responseMap.put(SUCCESS, true);
+            responseMap.put(COMMENTS, listComments);
         }
 
         return responseMap;
     }
+    
 
     @RequestMapping(method = RequestMethod.POST, value = "/issues/filter")
     @ResponseBody
@@ -215,13 +220,13 @@ public class IssueController {
         //crw: that is, call the validator inside issueService.createLabel method
         labelValidator.validate(label, bindingResult);
         if (bindingResult.hasErrors()) {
-            responseMap.put("success", false);
-            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            responseMap.put(SUCCESS, false);
+            responseMap.put(ERRORS, SerializationUtil.extractFieldErrors(bindingResult));
         } else {
 
             Label returnedLabel = issueService.createLabel(label);
-            responseMap.put("success", true);
-            responseMap.put("label", returnedLabel);
+            responseMap.put(SUCCESS, true);
+            responseMap.put(LABEL, returnedLabel);
         }
         return responseMap;
     }
@@ -234,9 +239,9 @@ public class IssueController {
         response.setStatus(HttpServletResponse.SC_OK);
 
         if (issueService.removeLabel(labelId)) {
-            responseMap.put("success", true);
+            responseMap.put(SUCCESS, true);
         } else {
-            responseMap.put("success", false);
+            responseMap.put(SUCCESS, false);
         }
         return responseMap;
     }
@@ -253,15 +258,16 @@ public class IssueController {
         label.setId(labelId);
         labelForEditValidator.validate(label, bindingResult);
         if (bindingResult.hasErrors()) {
-            responseMap.put("success", false);
-            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            responseMap.put(SUCCESS, false);
+            responseMap.put(ERRORS, SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             issueService.updateLabel(label);
-            responseMap.put("success", true);
-            responseMap.put("label", label);
+            responseMap.put(SUCCESS, true);
+            responseMap.put(LABEL, label);
         }
         return responseMap;
     }
+    
 
     @RequestMapping(method = RequestMethod.POST, value = "/issue/{id}/add-assignee")
     @ResponseBody
@@ -271,15 +277,15 @@ public class IssueController {
         Map<String, Object> responseMap = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
-            responseMap.put("success", false);
+            responseMap.put(SUCCESS, false);
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
-            issueService.updateAssignee(issueId, assignedTo,currentUser);
-            
+            issueService.updateAssignee(issueId, assignedTo, currentUser);
+
             Issue targetIssue = issueService.getIssueById(issueId);
-            issueService.sendNotificationForAssign(targetIssue, currentUser, "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
-            
-            responseMap.put("success", true);
+            issueService.sendNotificationForAssign(targetIssue, currentUser, HTTP + request.getLocalAddr() + ":" + request.getLocalPort());
+
+            responseMap.put(SUCCESS, true);
             responseMap.put("assignedTo", assignedTo);
         }
         return responseMap;
@@ -292,21 +298,22 @@ public class IssueController {
         Map<String, Object> responseMap = new HashMap<>();
 
         List<User> assignees = userService.findUsersWithUsernameStartingWith(assignedTo);
-        responseMap.put("success", true);
-        responseMap.put("result", assignees);
+        responseMap.put(SUCCESS, true);
+        responseMap.put(RESULT, assignees);
         return responseMap;
     }
+    
 
     @RequestMapping(value = {"/edit-issue/{id}"}, method = RequestMethod.GET)
     public String getEditIssuePage(@PathVariable("id") Long id, Model model) {
         Issue resultIssue = issueService.getIssueById(id);
         if (resultIssue == null) {
-            return "not-found";
+            return NOT_FOUND;
         }
 
-        model.addAttribute("issue", resultIssue);
+        model.addAttribute(ISSUE, resultIssue);
         List<Label> labels = issueService.getLabelsByIssueId(resultIssue);
-        model.addAttribute("labels", labels);
+        model.addAttribute(LABELS, labels);
 
         return "edit-issue";
     }
@@ -315,8 +322,8 @@ public class IssueController {
     @ResponseBody
     public Map<String, Object> getEditIssuePage(Model model) {
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("success", true);
-        responseMap.put("labels", issueService.getAllLabels());
+        responseMap.put(SUCCESS, true);
+        responseMap.put(LABELS, issueService.getAllLabels());
         return responseMap;
     }
 
@@ -327,22 +334,22 @@ public class IssueController {
         Map<String, Object> responseMap = new HashMap<>();
 
         List<User> owners = issueService.findUsersIssuesOwnersByNamePrefix(ownedBy);
-        responseMap.put("success", true);
-        responseMap.put("result", owners);
+        responseMap.put(SUCCESS, true);
+        responseMap.put(RESULT, owners);
         return responseMap;
     }
-  
+
     @RequestMapping(method = RequestMethod.GET, value = "/issues/getFilterAssignees")
     @ResponseBody
     public Map<String, Object> getFilterAssignees(@RequestParam(value = "assignedTo") String assignedTo,
             HttpServletRequest request) {
         Map<String, Object> responseMap = new HashMap<>();
         List<User> assignees = issueService.findUsersAssigneesByNamePrefix(assignedTo);
-        responseMap.put("success", true);
-        responseMap.put("result", assignees);
+        responseMap.put(SUCCESS, true);
+        responseMap.put(RESULT, assignees);
         return responseMap;
     }
-    
+
     @RequestMapping(method = RequestMethod.POST, value = "/edit-issue")
     @ResponseBody
     public Map<String, Object> editIssue(@RequestBody @Valid NewIssueDTO issueDto, BindingResult bindingResult,
@@ -352,64 +359,65 @@ public class IssueController {
         response.setStatus(HttpServletResponse.SC_OK);
 
         if (bindingResult.hasErrors()) {
-            responseMap.put("success", false);
-            responseMap.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            responseMap.put(SUCCESS, false);
+            responseMap.put(ERRORS, SerializationUtil.extractFieldErrors(bindingResult));
         } else {
             User currentUser = (User) request.getSession().getAttribute("user");
-            Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto,currentUser);
+            Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto, currentUser);
 
-            responseMap.put("success", true);
-            responseMap.put("editedIssue", editedIssue);   
-            responseMap.put("editedLabels",issueService.getLabelsByIssueId(editedIssue));
+            responseMap.put(SUCCESS, true);
+            responseMap.put("editedIssue", editedIssue);
+            responseMap.put("editedLabels", issueService.getLabelsByIssueId(editedIssue));
             responseMap.put("editedAttachments", issueService.getAttachmentsByIssueId(editedIssue));
-            
-            issueService.sendNotificationForEdit(editedIssue, "http://"+ request.getLocalAddr()+":"+request.getLocalPort());
+
+            issueService.sendNotificationForEdit(editedIssue, HTTP + request.getLocalAddr() + ":" + request.getLocalPort());
         }
         return responseMap;
     }
-    
+
     @RequestMapping(value = "/issue/{id}/get-attachments", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getAttachmentsForIssue(@PathVariable("id") Long issueId) {
         Map<String, Object> responseMap = new HashMap<>();
         Issue issue = issueService.getIssueById(issueId);
-        
+
         if (issue == null) {
-            responseMap.put("success", false);
+            responseMap.put(SUCCESS, false);
         } else {
             List<UploadedFile> attachments = issueService.getAttachmentsByIssueId(issue);
-            if(attachments == null) {
-                responseMap.put("success", false);
+            if (attachments == null) {
+                responseMap.put(SUCCESS, false);
             } else {
-                responseMap.put("success", true);
-                responseMap.put("attachments", attachments);
+                responseMap.put(SUCCESS, true);
+                responseMap.put(ATTACHMENTS, attachments);
             }
         }
-        
+
         return responseMap;
     }
-    
+
     @RequestMapping(value = "/issue/{id}/get-all-data", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getDataForAnIssue(@PathVariable("id") Long issueId) {
         Map<String, Object> responseMap = new HashMap<>();
-        
+
         Issue issue = issueService.getIssueById(issueId);
-        
+
         if (issue == null) {
-            responseMap.put("success", false);
+            responseMap.put(SUCCESS, false);
         } else {
             List<Comment> comments = issueService.getCommentsByIssueId(issue);
-            if(comments.isEmpty()) {
-                responseMap.put("success", false);
+            if (comments.isEmpty()) {
+                responseMap.put(SUCCESS, false);
             } else {
-                responseMap.put("success", true);
-                responseMap.put("comments", comments);
+                responseMap.put(SUCCESS, true);
+                responseMap.put(COMMENTS, comments);
             }
-            
-            responseMap.put("issue", issue);
+
+            responseMap.put(ISSUE, issue);
         }
-        
+
         return responseMap;
     }
+
 }
