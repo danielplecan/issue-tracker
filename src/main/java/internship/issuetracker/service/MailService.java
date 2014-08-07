@@ -70,7 +70,7 @@ public class MailService {
         try {
             this.mailSender.send(preparator);
         } catch (MailSendException e) {
-            e.getStackTrace();
+            Logger.getLogger(MailService.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 }
