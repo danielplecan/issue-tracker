@@ -226,7 +226,7 @@ public class IssueService {
         List<IssueAttachment> resultList = userQuery.getResultList();
 
         if (resultList == null || resultList.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
 
         List<UploadedFile> finalList = new ArrayList<>();
@@ -297,8 +297,7 @@ public class IssueService {
                 predicates.add(predicate);
             }
         }
-        Predicate[] predicatesArray = predicates.toArray(new Predicate[0]);
-        return predicatesArray;
+        return predicates.toArray(new Predicate[0]);
     }
 
     public Label createLabel(Label label) {
