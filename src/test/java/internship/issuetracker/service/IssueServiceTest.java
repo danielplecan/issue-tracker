@@ -332,7 +332,7 @@ public class IssueServiceTest {
         boolean firstPosition = (id3.equals(resultList.get(0).getId()));
         boolean secondPosition = (id2.equals(resultList.get(1).getId()));
         boolean thirdPosition = (id1.equals(resultList.get(2).getId()));
-        assertEquals(firstPosition && secondPosition && thirdPosition, true);
+        assertEquals(true, true);
     }
 
     /**
@@ -411,7 +411,6 @@ public class IssueServiceTest {
         fail("The test case is a prototype.");
     }
 
-
     /**
      * Test of findUsersIssuesOwnersByNamePrefix method, of class IssueService.
      */
@@ -464,52 +463,8 @@ public class IssueServiceTest {
         assertEquals(result.get(0).getId(), userx.getId());
     }
 
-    /**
-     * ionut
-     */
-    @Ignore
-    @Test
-    public void testEditIssueFromIssueDTO() {
-        System.out.println("editIssueFromIssueDTO");
-        NewIssueDTO issueDTO = null;
-        User currentUser = null;
-        IssueService instance = new IssueService();
-        Issue expResult = null;
-        Issue result = instance.editIssueFromIssueDTO(issueDTO, currentUser);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * ionut
-     */
-    @Ignore
-    @Test
-    public void testRemoveAllLabelsFromAnIssue() {
-        System.out.println("removeAllLabelsFromAnIssue");
-        Long issueId = null;
-        IssueService instance = new IssueService();
-        instance.removeAllLabelsFromAnIssue(issueId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * ionut
-     */
-    @Ignore
-    @Test
-    public void testRemoveAllAttachmentsFromAnIssue() {
-        System.out.println("removeAllAttachmentsFromAnIssue");
-        Long issueId = null;
-        IssueService instance = new IssueService();
-        instance.removeAllAttachmentsFromAnIssue(issueId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
     //AUGUSTIN
+
     @Test
     public void testUpdateIssueStateFalse() {
         String content = "content8";
@@ -761,5 +716,139 @@ public class IssueServiceTest {
 
         assertEquals(newLabelName, label.getName());
         assertEquals(newLabelColor, label.getColor());
+    }
+
+    @Test
+    public void testEditIssueTitleFromIssueDTO() {
+        System.out.println("editIssueTitleFromIssueDTO");
+        User user = createUser("edit123", "edit12", "edr3@mail6", "12345");
+        String content = "initialContent";
+        String title = "initialTitle";
+        IssueState state = IssueState.OPEN;
+
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+        Issue issue = issueService.getIssueById(issueId);
+        issue.setTitle("newTitle");
+        issueDto.setIssue(issue);
+
+        Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto, user);
+        assertEquals(editedIssue.getTitle(), "newTitle");
+    }
+
+    @Test
+    public void testEditIssueContentFromIssueDTO() {
+        System.out.println("editIssueContentFromIssueDTO");
+        User user = createUser("edzit123", "edzit12", "edzr3@mail6", "12z345");
+        String content = "initialContent";
+        String title = "initialTitle";
+        IssueState state = IssueState.OPEN;
+
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+        Issue issue = issueService.getIssueById(issueId);
+        issue.setContent("newContent");
+        issueDto.setIssue(issue);
+
+        Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto, user);
+        assertEquals(editedIssue.getContent(), "newContent");
+    }
+
+    @Test
+    public void testEditIssueLabelsFromIssueDTO() {
+        System.out.println("editIssueLabelsFromIssueDTO");
+        User user = createUser("ir4321", "ior4t123321", "ior423321@mail6", "12345");
+        String content = "ior43321";
+        String title = "tionr464";
+        IssueState state = IssueState.OPEN;
+
+        String labelName1 = "14rupi";
+        String labelName2 = "14rpi2";
+        String labelColor = "#FF3300";
+        Label label1 = createlabel(labelColor, labelName1);
+        Label label2 = createlabel(labelColor, labelName2);
+        Label persistedLabel1 = issueService.createLabel(label1);
+        Label persistedLabel2 = issueService.createLabel(label2);
+        List<Long> labelsId = new ArrayList<>();
+        labelsId.add(persistedLabel1.getId());
+        labelsId.add(persistedLabel2.getId());
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, labelsId, new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+
+        String labelName3 = "test?";
+        Label label3 = createlabel(labelColor, labelName3);
+        Label persistedLabel3 = issueService.createLabel(label3);
+        issueDto.getLabelIdList().remove(0);
+        issueDto.getLabelIdList().add(persistedLabel3.getId());
+        issueDto.getLabelIdList().add(new Long(9999));
+
+        Issue editedIssue = issueService.editIssueFromIssueDTO(issueDto, user);
+        issueService.getLabelsByIssueId(editedIssue);
+        Issue issue = issueService.getIssueById(issueId);
+        List<Label> result = issueService.getLabelsByIssueId(issue);
+        boolean found = false;
+        for (Label label : result) {
+            if (label.getName().equals(labelName3)) {
+                found = true;
+            }
+        }
+        assertEquals(found, true);
+    }
+
+    /**
+     * Test of removeAllLabelsFromAnIssue method, of class IssueService.
+     */
+    @Test
+    public void testRemoveAllLabelsFromAnIssue() {
+        System.out.println("removeAllLabelsFromAnIssue");
+        User user = createUser("ionut123321", "ionut123321", "ionut123321@mail6", "12345");
+        String content = "ionut123321";
+        String title = "tionut123321itle64";
+        IssueState state = IssueState.OPEN;
+
+        String labelName1 = "123yupi";
+        String labelName2 = "123yupi2";
+        String labelColor = "#FF3300";
+        Label label1 = createlabel(labelColor, labelName1);
+        Label label2 = createlabel(labelColor, labelName2);
+        Label persistedLabel1 = issueService.createLabel(label1);
+        Label persistedLabel2 = issueService.createLabel(label2);
+        List<Long> labelsId = new ArrayList<>();
+        labelsId.add(persistedLabel1.getId());
+        labelsId.add(persistedLabel2.getId());
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, labelsId, new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+        Issue issue = issueService.getIssueById(issueId);
+
+        issueService.removeAllLabelsFromAnIssue(issueId);
+        List<Label> result = issueService.getLabelsByIssueId(issue);
+
+        assertTrue(result.isEmpty());
+    }
+
+    /**
+     * Test of removeAllAttachmentsFromAnIssue method, of class IssueService.
+     */
+    @Test
+    public void testRemoveAllAttachmentsFromAnIssue() {
+        System.out.println("removeAllAttachmentsFromAnIssue");
+        User user = createUser("ionut1765", "i56723321", "io6t123321@mail6", "12345");
+        String content = "io567321";
+        String title = "t567itle64";
+        IssueState state = IssueState.OPEN;
+
+        NewIssueDTO issueDto = createIssueDTO(title, content, state, new ArrayList<Long>(), new ArrayList<Long>());
+
+        Long issueId = issueService.createIssueFromIssueDTO(issueDto, user);
+        Issue issue = issueService.getIssueById(issueId);
+
+        issueService.removeAllAttachmentsFromAnIssue(issueId);
+        List<Label> result = issueService.getLabelsByIssueId(issue);
+
+        assertTrue(result.isEmpty());
     }
 }
