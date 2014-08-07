@@ -14,6 +14,9 @@ import org.springframework.validation.Validator;
  * @author atataru
  */
 public class CommentValidator implements Validator {
+    private static final String CONTENT_FIELD = "content";
+    private static final String COMMENT_SIZE_ERROR_MESSAGE = "A comment must contain between 3 and 500 characters.";
+    private static final String COMMENT_SIZE = "commentSize";
 
     @Override
     public boolean supports(Class<?> type) {
@@ -26,14 +29,15 @@ public class CommentValidator implements Validator {
         int contentSize = comment.getContent().length();
         if (comment.getChangeState() == null) {
             if (contentSize < 3 || contentSize > 500) {
-                errors.rejectValue("content", "commentSize", "A comment must contain between 3 and 500 characters.");
+                errors.rejectValue(CONTENT_FIELD, COMMENT_SIZE, COMMENT_SIZE_ERROR_MESSAGE);
             }
         } else {
             if (contentSize > 0 && contentSize <3) {
-                errors.rejectValue("content", "commentSize", "A comment must contain between 3 and 500 characters.");
+                errors.rejectValue(CONTENT_FIELD, COMMENT_SIZE, COMMENT_SIZE_ERROR_MESSAGE);
             } else if (contentSize > 500) {
-                errors.rejectValue("content", "commentSize", "A comment must contain between 3 and 500 characters.");
+                errors.rejectValue(CONTENT_FIELD, COMMENT_SIZE, COMMENT_SIZE_ERROR_MESSAGE);
             }
         }
     }
+    
 }

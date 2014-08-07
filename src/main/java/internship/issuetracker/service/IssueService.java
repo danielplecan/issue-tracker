@@ -38,6 +38,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class IssueService {
+    private static final String ISSUE_MESSAGE = "Click here to see the issue";
+    private static final String ISSUE_LINK = "/issue/";
+    private static final String ISSUE_NOTIFICATION = "Issue-Tracker Notification";
+    private static final String LINK_TEXT = "linkText";
 
     @PersistenceContext
     private EntityManager em;
@@ -373,21 +377,22 @@ public class IssueService {
     public void sendNotificationForComment(Comment comment, User target, String link) {
         if (!comment.getAuthor().getId().equals(target.getId())) {
             Map<String, Object> map = new HashMap<>();
-            map.put("link", link + "/issue/" + comment.getIssue().getId());
-            map.put("linkText", "Click here to see the issue");
+            map.put("link", link + ISSUE_LINK + comment.getIssue().getId());
+            map.put(LINK_TEXT, ISSUE_MESSAGE);
             if (comment.getChangeState() == null) {
                 String emailContent = comment.getAuthor().getName() + " commented on the issue with the title ";
                 emailContent += comment.getIssue().getTitle();
                 map.put("text", emailContent);
-                mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", map);
+                mailService.sendEmail(target.getEmail(), ISSUE_NOTIFICATION, map);
             } else {
                 String emailContent = comment.getAuthor().getName() + " changed the state of the issue with the title ";
                 emailContent += comment.getIssue().getTitle() + " to " + comment.getChangeState();
                 map.put("text", emailContent);
-                mailService.sendEmail(target.getEmail(), "Issue-Tracker Notification", map);
+                mailService.sendEmail(target.getEmail(), ISSUE_NOTIFICATION, map);
             }
         }
     }
+    
 
     public void sendNotificationForAssign(Issue issue, User loggedUser, String link) {
         if (issue.getAssignee() == null) {
@@ -395,15 +400,16 @@ public class IssueService {
         } else {
             if (!issue.getAssignee().getId().equals(loggedUser.getId())) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("link", link + "/issue/" + issue.getId());
-                map.put("linkText", "Click here to see the issue");
+                map.put("link", link + ISSUE_LINK + issue.getId());
+                map.put(LINK_TEXT, ISSUE_MESSAGE);
                 String emailContent = "You were assigned on the issue with the title ";
                 emailContent += issue.getTitle();
                 map.put("text", emailContent);
-                mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
+                mailService.sendEmail(issue.getAssignee().getEmail(), ISSUE_NOTIFICATION, map);
             }
         }
     }
+    
 
     public void sendNotificationForEdit(Issue issue, String link) {
 
@@ -421,22 +427,22 @@ public class IssueService {
 
         if (!issue.getOwner().getId().equals(issue.getLastUpdatedBy().getId())) {
             Map<String, Object> map = new HashMap<>();
-            map.put("link", link + "/issue/" + issue.getId());
-            map.put("linkText", "Click here to see the issue");
+            map.put("link", link + ISSUE_LINK + issue.getId());
+            map.put(LINK_TEXT, ISSUE_MESSAGE);
             String emailContent = "The issue you created, with the title ";
             emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName() + text;
 
             map.put("text", emailContent);
-            mailService.sendEmail(issue.getOwner().getEmail(), "Issue-Tracker Notification", map);
+            mailService.sendEmail(issue.getOwner().getEmail(), ISSUE_NOTIFICATION, map);
         }
         if ((issue.getAssignee() != null) && (!assigneeIsSameAsOwner(issue)) && (!isLastUpdatedByAssignee(issue))) {
             Map<String, Object> map = new HashMap<>();
-            map.put("link", link + "/issue/" + issue.getId());
-            map.put("linkText", "Click here to see the issue");
+            map.put("link", link + ISSUE_LINK + issue.getId());
+            map.put(LINK_TEXT, ISSUE_MESSAGE);
             String emailContent = "The issue you are assigned to, with the title ";
             emailContent += issue.getTitle() + " has been edited by " + issue.getLastUpdatedBy().getName() + text;
             map.put("text", emailContent);
-            mailService.sendEmail(issue.getAssignee().getEmail(), "Issue-Tracker Notification", map);
+            mailService.sendEmail(issue.getAssignee().getEmail(), ISSUE_NOTIFICATION, map);
         }
 
     }

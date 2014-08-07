@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class RecoverPasswordController {
+    private static final String USER_TO_CHANGE_PASSWORD = "userToChangePassword";
+    private static final String RECOVERY_MESSAGE_PAGE = "recovery-message";
+    private static final String SUCCESS = "success";
 
     @Autowired
     MailService mailService;
@@ -43,7 +46,7 @@ public class RecoverPasswordController {
     @RequestMapping(value = {"/recovery-message"}, method = RequestMethod.GET)
     public String recoveryMsssage(Model model) {
         model.addAttribute("text", "Check your email in order to get the recovery hash");
-        return "recovery-message";
+        return RECOVERY_MESSAGE_PAGE;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/recover-password")
@@ -57,7 +60,7 @@ public class RecoverPasswordController {
         }
 
         if (user == null) {
-            result.put("success", false);
+            result.put(SUCCESS, false);
             return result;
         }
         recoverPasswordService.deleteRecoveryByUser(user);
@@ -66,28 +69,30 @@ public class RecoverPasswordController {
         map.put("linkText", "Password recoverry hash ");
         map.put("text", "");
         mailService.sendEmail(user.getEmail(), "Password recovery", map);
-        result.put("success", true);
+        result.put(SUCCESS, true);
         return result;
     }
+    
 
     @RequestMapping(value = "/recover-password/{hash}", method = RequestMethod.GET)
     public String verifieRecoveryPassword(@PathVariable("hash") String hash, Model model, HttpServletRequest request) {
         User user = recoverPasswordService.getUserByRecoveryHash(hash);
         if (user != null) {
-            request.getSession().setAttribute("userToChangePassword", user);
+            request.getSession().setAttribute(USER_TO_CHANGE_PASSWORD, user);
         } else {
             model.addAttribute("text", "Recovery hash is not valid");
-            return "recovery-message";
+            return RECOVERY_MESSAGE_PAGE;
         }
         model.addAttribute("user", user.getUsername());
         return "change-password";
     }
+    
 
     @RequestMapping(method = RequestMethod.POST, value = "/change-password")
     @ResponseBody
     public Map<String, Object> changePassword(@RequestParam(value = "password") String password, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
-        User user = (User) request.getSession().getAttribute("userToChangePassword");
+        User user = (User) request.getSession().getAttribute(USER_TO_CHANGE_PASSWORD);
         user.setPasswordHash(SecurityUtil.encryptPassword(password));
         recoverPasswordService.deleteRecoveryByUser(user);
         userService.updateUser(user);

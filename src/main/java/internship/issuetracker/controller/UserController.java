@@ -28,6 +28,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserController {
+    private static final String ERRORS = "errors";
+    private static final String VALUE = "value";
+    private static final String SUCCESS = "success";
+    private static final String USERNAME = "username";
 
     @Autowired
     private EditUserValidator editUserValidator;
@@ -37,7 +41,7 @@ public class UserController {
     UserSettingsService userSettingsService;
 
     @RequestMapping(value = "/profile/{username}")
-    public String profile(@PathVariable("username") String username, Model model) {
+    public String profile(@PathVariable(USERNAME) String username, Model model) {
         User target = userService.getUserByUsername(username);
         if (target != null) {
             model.addAttribute("user", target);
@@ -64,10 +68,11 @@ public class UserController {
         Map<String, Object> responseMap = new HashMap<>();
         User currentUser = (User) request.getSession().getAttribute("user");
 
-        responseMap.put("success", true);
-        responseMap.put("value", userSettingsService.toggleNotificationsForPosted(currentUser.getUsername()));
+        responseMap.put(SUCCESS, true);
+        responseMap.put(VALUE, userSettingsService.toggleNotificationsForPosted(currentUser.getUsername()));
         return responseMap;
     }
+    
     
     @RequestMapping(value = "/settings/toggleNotificationsAssigned", method = RequestMethod.POST)
     @ResponseBody
@@ -76,8 +81,8 @@ public class UserController {
         Map<String, Object> responseMap = new HashMap<>();
         User currentUser = (User) request.getSession().getAttribute("user");
 
-        responseMap.put("success", true);
-        responseMap.put("value", userSettingsService.toggleNotificationsForAssigned(currentUser.getUsername()));
+        responseMap.put(SUCCESS, true);
+        responseMap.put(VALUE, userSettingsService.toggleNotificationsForAssigned(currentUser.getUsername()));
         return responseMap;
     }
 
@@ -90,7 +95,7 @@ public class UserController {
 
         session.setAttribute("theme", theme);
 
-        responseMap.put("success", userSettingsService.changeUserThemePreference(currentUser.getUsername(), theme));
+        responseMap.put(SUCCESS, userSettingsService.changeUserThemePreference(currentUser.getUsername(), theme));
         return responseMap;
     }
 
@@ -99,11 +104,12 @@ public class UserController {
 
         User user = (User) request.getSession().getAttribute("user");
         model.addAttribute("name", user.getName());
-        model.addAttribute("username", user.getUsername());
+        model.addAttribute(USERNAME, user.getUsername());
         model.addAttribute("email", user.getEmail());
 
         return "edit-profile";
     }
+    
 
     @RequestMapping(value = "/edit-profile", method = RequestMethod.POST)
     @ResponseBody
@@ -117,25 +123,26 @@ public class UserController {
         editUserValidator.setOldUser(user);
         editUserValidator.validate(editedUser, bindingResult);
         if (bindingResult.hasErrors()) {
-            result.put("success", false);
-            result.put("errors", SerializationUtil.extractFieldErrors(bindingResult));
+            result.put(SUCCESS, false);
+            result.put(ERRORS, SerializationUtil.extractFieldErrors(bindingResult));
         } else {
 
             user = userService.loginUser(user.getUsername(), editedUser.getOldPassword());
 
             if (user == null) {
-                result.put("success", false);
+                result.put(SUCCESS, false);
                 Map<String, Object> passwordError = new HashMap<>();
                 passwordError.put("oldPassword", "wrong password");
-                result.put("errors", passwordError);
+                result.put(ERRORS, passwordError);
                 return result;
             }
 
             user = userService.updateUser(user, editedUser.getUserFromDTO());
             request.getSession().setAttribute("user", user);
-            result.put("success", true);
-            result.put("username",user.getUsername());
+            result.put(SUCCESS, true);
+            result.put(USERNAME,user.getUsername());
         }
         return result;
     }
+    
 }
