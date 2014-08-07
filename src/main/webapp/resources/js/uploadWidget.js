@@ -180,10 +180,9 @@ function uploadWidget(container) {
                 files.pop();
             }
             filesPanel.empty();
+            $(errorSpan).empty();
         },
         initialize: function(issueId) {
-//            reset();
-            
             issueTrackerService.getAttachmentsForIssue(issueId).done(function(data) {
                 if (data.success) {
                     for (var index = 0; index < data.attachments.length; index++) {
