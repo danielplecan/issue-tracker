@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
  * @author dplecan
  */
 public class IssueSearchCriteria {
-    private static final Logger logger = Logger.getLogger(IssueSearchCriteria.class);
+    private static final Logger LOGGER = Logger.getLogger(IssueSearchCriteria.class);
 
     private Map<String, Object> filters;
 
@@ -60,7 +60,7 @@ public class IssueSearchCriteria {
                         break;
                 }
             } catch (ClassCastException exception) {
-                logger.log(org.apache.log4j.Level.ERROR, "Invalid value provided to filter API", exception);
+                LOGGER.log(org.apache.log4j.Level.ERROR, "Invalid value provided to filter API", exception);
             }
         }
         return queryFilters;
@@ -79,7 +79,7 @@ public class IssueSearchCriteria {
                         return null;
                 }
             } catch (ClassCastException exception) {
-                logger.log(org.apache.log4j.Level.ERROR, "Invalid value provided to filter API", exception);
+                LOGGER.log(org.apache.log4j.Level.ERROR, "Invalid value provided to filter API", exception);
                 return null;
             }
         }

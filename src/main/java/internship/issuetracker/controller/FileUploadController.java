@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class FileUploadController {
-    private static final Logger logger = Logger.getLogger(FileUploadController.class);
+    private static final Logger LOGGER = Logger.getLogger(FileUploadController.class);
     
     @Autowired
     private FileUploadService fileUploadService;
@@ -52,7 +52,7 @@ public class FileUploadController {
             responseMap.put("success", true);
             responseMap.put("fileId", fileId);
         } catch (IOException | FileUploadException exception) {
-            logger.log(org.apache.log4j.Level.ERROR, "Upload has failed", exception);
+            LOGGER.log(org.apache.log4j.Level.ERROR, "Upload has failed", exception);
             responseMap.put("success", false);
             responseMap.put("error", exception.getMessage());
         }
@@ -78,7 +78,7 @@ public class FileUploadController {
             response.setHeader("Content-disposition", "attachment; filename=\"" + uploadedFile.getOriginalName() + "\"");
             FileCopyUtils.copy(inputStream, response.getOutputStream());
         } catch (IOException exception) {
-            logger.log(org.apache.log4j.Level.ERROR, "Download has failed", exception);
+            LOGGER.log(org.apache.log4j.Level.ERROR, "Download has failed", exception);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
