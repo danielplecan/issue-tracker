@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -30,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class FileUploadController {
+    private static final Logger logger = Logger.getLogger(FileUploadController.class);
+    
     @Autowired
     private FileUploadService fileUploadService;
     
@@ -49,6 +52,7 @@ public class FileUploadController {
             responseMap.put("success", true);
             responseMap.put("fileId", fileId);
         } catch (IOException | FileUploadException exception) {
+            logger.log(org.apache.log4j.Level.ERROR, "Upload has failed", exception);
             responseMap.put("success", false);
             responseMap.put("error", exception.getMessage());
         }
@@ -74,6 +78,7 @@ public class FileUploadController {
             response.setHeader("Content-disposition", "attachment; filename=\"" + uploadedFile.getOriginalName() + "\"");
             FileCopyUtils.copy(inputStream, response.getOutputStream());
         } catch (IOException exception) {
+            logger.log(org.apache.log4j.Level.ERROR, "Download has failed", exception);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
