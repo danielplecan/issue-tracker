@@ -88,6 +88,14 @@ public class IssueServiceTest {
         return issueDto;
     }
 
+    private NewIssueDTO createIssueDTO(Issue issue, List<Long> idList, List<Long> attachments) {
+        NewIssueDTO issueDto = new NewIssueDTO();
+        issueDto.setIssue(issue);
+        issueDto.setLabelIdList(idList);
+        issueDto.setAttachments(attachments);
+        return issueDto;
+    }
+    
     private boolean equalsIssues(Issue i1, Issue i2) {
         return (i1.getId().equals(i2.getId()) && i1.getTitle().equals(i2.getTitle())
                 && i1.getOwner().getId().equals(i2.getOwner().getId())
@@ -219,9 +227,6 @@ public class IssueServiceTest {
         assertEquals(IssueState.CLOSED, issue.getState());
     }
 
-    /**
-     * Test of addComment method, of class IssueService.
-     */
     @Test
     public void testAddComment() {
         String content = "content5";
@@ -239,9 +244,6 @@ public class IssueServiceTest {
 
     }
 
-    /**
-     * Test of getCommentsByIssueId method, of class IssueService.
-     */
     @Test
     public void testGetCommentsByIssueId() {
         String content = "content6";
@@ -261,9 +263,6 @@ public class IssueServiceTest {
         assertEquals(commentList.size(), 3);
     }
 
-    /**
-     * Test of createLabel method, of class IssueService.
-     */
     @Test
     public void testCreateLabel() {
         String labelName = "yupi";
@@ -274,9 +273,6 @@ public class IssueServiceTest {
         assertNotNull(label);
     }
 
-    /**
-     * Test of labelExists method, of class IssueService.
-     */
     @Test
     public void testLabelExists() {
         String labelName = "flash";
@@ -288,9 +284,6 @@ public class IssueServiceTest {
         assertEquals(true, issueService.labelExists(labelName));
     }
 
-    /**
-     * Test of updateAssignee method, of class IssueService. veronica
-     */
     @Test
     public void testUpdateAssignee() {
         System.out.println("updateAssignee");
@@ -307,37 +300,54 @@ public class IssueServiceTest {
         assertEquals(assignee.getId(), issue.getAssignee().getId());
     }
 
-    /**
-     * veronica
-     */
+    @Test
+    public void testUpdateAssigneeFalse() {
+        System.out.println("updateAssignee");
+        User assignee = createUser("vero0", "VERO", "VERO0@mail6", "12345");
+        User user = createUser("cosmi1", "cosmi", "cosmi1@mail6", "12345");
+
+        boolean result= issueService.updateAssignee(134732, assignee, user);
+        assertEquals(false, result);
+    }
+    
     @Test
     public void testGetIssuesOrderedByDate() {
-        System.out.println("getIssuesOrderedByDate");
+
         User user = createUser("cosmina", "cosmina", "cosmina@mail6", "12345");
-        String content = "content00";
-        String title = "title00";
-        String content2 = "content710";
-        String title2 = "title710";
-        String content20 = "content7100";
-        String title20 = "title7100";
         IssueState state = IssueState.OPEN;
-        NewIssueDTO issueDto1 = createIssueDTO(title, content, state, new ArrayList<Long>(), new ArrayList<Long>());
-        NewIssueDTO issueDto2 = createIssueDTO(title2, content2, state, new ArrayList<Long>(), new ArrayList<Long>());
-        NewIssueDTO issueDto3 = createIssueDTO(title20, content20, state, new ArrayList<Long>(), new ArrayList<Long>());
+        
+        Issue issue1 =  new Issue();
+        issue1.setTitle("title00");
+        issue1.setDate(new Date(12345234L));
+        issue1.setUpdateDate(new Date(12345321L));
+        issue1.setState(state);
+        
+        Issue issue2 =  new Issue();
+        issue2.setTitle("title001");
+        issue2.setDate(new Date(12345235L));
+        issue2.setUpdateDate(new Date(12345321L));
+        issue2.setState(state);
+        
+        Issue issue3 =  new Issue();
+        issue3.setTitle("title002");
+        issue3.setDate(new Date(12345236L));
+        issue3.setUpdateDate(new Date(12345321L));
+        issue3.setState(state);
+        
+        NewIssueDTO issueDto1 = createIssueDTO(issue1, new ArrayList<Long>(), new ArrayList<Long>());
+        NewIssueDTO issueDto2 = createIssueDTO(issue2, new ArrayList<Long>(), new ArrayList<Long>());
+        NewIssueDTO issueDto3 = createIssueDTO(issue3, new ArrayList<Long>(), new ArrayList<Long>());
         Long id1 = issueService.createIssueFromIssueDTO(issueDto1, user);
         Long id2 = issueService.createIssueFromIssueDTO(issueDto2, user);
         Long id3 = issueService.createIssueFromIssueDTO(issueDto3, user);
 
         List<Issue> resultList = issueService.getIssuesOrderedByDate();
-        boolean firstPosition = (id3.equals(resultList.get(0).getId()));
+        boolean firstPosition = (id1.equals(resultList.get(0).getId()));
         boolean secondPosition = (id2.equals(resultList.get(1).getId()));
-        boolean thirdPosition = (id1.equals(resultList.get(2).getId()));
-        assertEquals(true, true);
+        boolean thirdPosition = (id3.equals(resultList.get(2).getId()));
+        assertEquals(true,firstPosition&&secondPosition&&thirdPosition);
     }
 
-    /**
-     * veronica
-     */
     @Test
     public void testGetLabelsByIssue() {
         System.out.println("getLabelsByIssueId");
@@ -398,17 +408,16 @@ public class IssueServiceTest {
     /**
      * Test of getLabelByName method, of class IssueService.
      */
-    @Ignore
     @Test
     public void testGetLabelByName() {
         System.out.println("getLabelByName");
-        String labelName = "";
-        IssueService instance = new IssueService();
-        Label expResult = null;
-        Label result = instance.getLabelByName(labelName);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String labelName = "yupiya";
+        String labelColor = "#FF3300";
+
+        Label label = createlabel(labelColor, labelName);
+        label = issueService.createLabel(label);
+        Label result = issueService.getLabelByName(labelName);
+        assertEquals(result.getId(),label.getId());;
     }
 
     /**
