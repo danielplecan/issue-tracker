@@ -110,9 +110,11 @@ $(document).ready(function() {
         });
 
         var attachments = widget.getUploadedFiles();
-
-        issueTrackerService.createIssue($('#textArea1').val().trim(),
-                $('#textArea2').val().trim(), labelIdList, attachments).done(function(data) {
+        var title = $('#textArea1').val().trim();
+        var content = $('#textArea2').val().trim();
+        
+        issueTrackerService.createIssue(title,
+                content, labelIdList, attachments).done(function(data) {
             if (data.success) {
                 window.location.replace(data.url);
             }
