@@ -40,7 +40,9 @@ public class FileUploadService {
         File directory = new File(directoryPath);
         
         if (!directory.exists()) {
-            directory.mkdirs();
+            if(!directory.mkdirs()) {
+                throw new FileUploadException("Directories creation has failed. Check privileges.");
+            }
         }
         
         File serverFile = new File(directory.getAbsolutePath() + File.separator + generatedName);
@@ -69,7 +71,10 @@ public class FileUploadService {
         }
         
         File file = new File(UploadedFile.LOCATION + File.separator + uploadedFile.getTargetName());
-        file.delete();
+        
+        if(!file.delete()) {
+            return false;
+        }
         
         entityManager.remove(uploadedFile);
         
