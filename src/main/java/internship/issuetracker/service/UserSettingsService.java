@@ -76,12 +76,16 @@ public class UserSettingsService {
 
     public boolean changeUserThemePreference(String username, Long theme) {
         User targetUser = userService.getUserByUsername(username);
-
+        if (targetUser == null || theme > 2L){
+            return false;
+        }
+        else {
         UserSettings currentUserSettings = targetUser.getSettings();
         currentUserSettings.setTheme(theme);
 
         em.merge(currentUserSettings);
         return true;
+        }
     }
 
     public UserService getUserService() {
