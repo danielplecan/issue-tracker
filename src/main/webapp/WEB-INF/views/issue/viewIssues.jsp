@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="advancedFilterMargin col-lg-12 hidden">
+        <div class="advancedFilterMargin col-lg-12">
             <div class="col-lg-5 filterInput advancedFilterInput">
                 <span class="col-lg-12 advancedFilterInputTitle">Content</span>
                 <input class="form-control" id="searchFieldContent" placeholder="Content" type="text">          
@@ -193,12 +193,20 @@
         }
     });
 
+    $('.advancedFilterMargin').hide();
+    
+    var toggleFlag=true;
     $('.advancedSearchIcon').click(function() {
         var $this = $(this);
-        $this.toggleClass('glyphicon glyphicon-collapse-up');
-        $this.toggleClass('glyphicon glyphicon-collapse-down');
-        $('.advancedFilterMargin').toggleClass('hidden');
-        attachTooltips($this);
+        if(toggleFlag==true){
+            toggleFlag=false;
+            $this.toggleClass('glyphicon glyphicon-collapse-up');
+            $this.toggleClass('glyphicon glyphicon-collapse-down');
+            $('.advancedFilterMargin').toggle(400, function() {
+                toggleFlag=true;
+            });
+            attachTooltips($this);
+        }
     });
 
     attachTooltips($('.advancedSearchIcon'));

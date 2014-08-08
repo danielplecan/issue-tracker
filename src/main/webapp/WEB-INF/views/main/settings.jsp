@@ -21,7 +21,7 @@
         <ul id="themeSelect" class="nav nav-pills nav-stacked">
             <li data-val="0" id="op0"><a>Light(default)</a></li>
             <li data-val="1" id="op1"><a>Dark</a></li>
-            <li data-val="2" id="op2"><a>Cold</a></li> 
+            <li data-val="2" id="op2"><a>Pink</a></li> 
         </ul></br>
         <button type="button" class="btn btn-default" id="preview">Preview</button>
         <button type="button" class="btn btn-default" id="set">Set theme</button>

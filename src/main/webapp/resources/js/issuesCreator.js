@@ -162,7 +162,10 @@ var issuesCreator = function() {
             allIssuesDiv.empty();
             noResultMessage(totalResult <= 0 ? "No results were found" : totalResult + " in total");
             $.each(issues, function(index, item) {
-                allIssuesDiv.append(addIssue(item));
+                var currentIssue = addIssue(item);
+                currentIssue.hide();
+                allIssuesDiv.append(currentIssue);
+                currentIssue.slideDown(400);
             });
         }
     };
