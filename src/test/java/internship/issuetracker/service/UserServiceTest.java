@@ -1,5 +1,6 @@
 package internship.issuetracker.service;
 
+import internship.issuetracker.dto.EditUserDto;
 import internship.issuetracker.dto.UserDTO;
 import internship.issuetracker.entity.User;
 import org.junit.After;
@@ -248,4 +249,26 @@ public class UserServiceTest {
         
         assertArrayEquals(expecteds, actuals);
     }
+    /*
+    *irinel & andreea
+    *test of edit user details*/
+
+    public void testEditProfile(){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName("user7");
+        userDTO.setEmail("user7@email.com");
+        userDTO.setUsername("Username7");
+        userDTO.setPassword("1234567");
+
+        EditUserDto editUserDTO= new EditUserDto();
+        editUserDTO.setName("edited");
+        editUserDTO.setEmail("edited@gmail.com");
+        editUserDTO.setUsername("username-edited");
+        editUserDTO.setPassword("newpas");
+
+        User user = userService.updateUser(userDTO.getUserFromDTO(), editUserDTO.getUserFromDTO());
+
+        assertEquals(editUserDTO.getUserFromDTO(), user);
+    }
+
 }

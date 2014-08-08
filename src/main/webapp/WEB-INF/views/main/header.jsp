@@ -2,6 +2,7 @@
 <div class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
+            
             <div class="logo-header"><img src="/resources/img/small${sessionScope.theme}.png" alt="Issue Tracker" class="bugLogoIssueTracker" width="50" height="50"></div>
             <a class="navbar-brand" href="/">IssueTracker</a>
             <button data-target="#navbar-main" data-toggle="collapse" type="button" class="navbar-toggle">
